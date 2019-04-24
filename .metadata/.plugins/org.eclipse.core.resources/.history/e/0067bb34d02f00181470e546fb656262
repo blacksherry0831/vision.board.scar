@@ -1,0 +1,520 @@
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<errno.h>
+#include<sys/types.h>
+#include<sys/socket.h>
+#include<netinet/in.h>
+#include<unistd.h>
+#include <signal.h>
+#include <netinet/ip.h>
+
+#include <sys/time.h>    // for gettimeofday()
+
+
+#ifndef FALSE
+#define FALSE 0
+#endif
+#ifndef TRUE
+#define TRUE 1
+#endif
+
+#define TCP_PROTOCOL 0
+#define UDP_PROTOCOL 1
+#define IP_PROTOCOL 2
+
+void AXILitetoUser(int virtual_addr,int phy_addr,unsigned char *p_ucData,int Size);
+void UsertoAXILite(int virtual_addr,int phy_addr,unsigned char *p_ucData,int Size);
+int AXILitemmap(int Addr);
+void AXILiteunmmap(void);
+extern unsigned char *g_virtual_addr;
+#define			DDR3_ADDR       		(0x60000000)
+
+struct filename{
+		unsigned char data_file[32];
+		unsigned char len_file[32];
+		unsigned char index;
+	};
+
+static struct filename filename_config[]= {
+		{"tcp_data.txt", "tcp_len.txt", TCP_PROTOCOL},
+		{"udp_data.txt", "udp_len.txt", UDP_PROTOCOL},
+		{"ip_data.txt", "ip_len.txt", IP_PROTOCOL},
+};
+
+pthread_t pthread1,pthread2,pthread3; 
+volatile unsigned char process_alive = TRUE;
+unsigned int socket_struct_len = sizeof(struct sockaddr_in);
+
+#define FILESIZE 1<<20
+#define BUFLEN 2048
+unsigned char tcp_data[BUFLEN]={0};
+char udp_data[BUFLEN]={0};
+char ip_data[BUFLEN]={0};
+
+char target_addr[20] = {0};
+int target_port = 0;
+char server_addr[20] = {0};
+int server_port = 0;
+
+char send_data[BUFLEN]={0};
+	  
+unsigned int tcp_len=0;
+unsigned int udp_len=0;
+unsigned int ip_len=0;
+
+//★★★★★★★★★★★★★★传输变量定义★★★★★★★★★★★★★★★
+#define FRAME_SIZE (5)
+#define WIDTH 1920
+#define HEIGHT 1080
+#define Amax 5001
+#define Qmax 1000000
+unsigned char image_1_frame[FRAME_SIZE][1920*1080];
+unsigned char image_1_frame_cal[1][1920*1080];
+
+unsigned long image_1_frame_offset[FRAME_SIZE]={0};
+signed char image_1_frame_status[FRAME_SIZE]={0};
+unsigned int  image_current=0;
+//☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆
+
+union position{
+	unsigned long lpos;
+	unsigned char cpos[4];
+	}pos;
+/*-----------------------------------*/
+
+#define TIME_START()  do{struct timeval startTime,endTime;float Timeuse;gettimeofday(&startTime,NULL);
+
+#define TIME_END(X)		gettimeofday(&endTime,NULL);Timeuse = 1000000*(endTime.tv_sec - startTime.tv_sec) + (endTime.tv_usec - startTime.tv_usec);	printf("%s = %f us,%f ms\n",X,Timeuse,Timeuse/1000);}while(0)
+
+/*-----------------------------------*/
+/*存储数据到文件中,上限2M,超出上限则从头开始覆盖*/
+//void save_to_file(unsigned char index,char * data,unsigned int len)
+//{
+//		unsigned int residue_len=0;
+//
+//		FILE *dfp,*lfp;
+//
+//		dfp = fopen(filename_config[index].data_file,"r+");
+//
+//		lfp = fopen(filename_config[index].len_file,"rb+");
+//
+//		if((dfp == NULL)||(lfp == NULL))
+//		{
+//		 		perror("Error Number: ");
+//		 		return;
+//		}
+//		else
+//		{
+//				fread(pos.cpos,1,4,lfp);
+//				printf("file %s position start:%ld\n",filename_config[index].data_file,pos.lpos);
+//				fclose(lfp);
+//				fseek(dfp,pos.lpos,SEEK_SET);
+//				if(pos.lpos + len > FILESIZE)
+//				{
+//						residue_len = pos.lpos + len - FILESIZE;
+//						len -=  residue_len;
+//				}
+//				fwrite(data,1,len,dfp);
+//				pos.lpos = ftell(dfp);
+//
+//				if(residue_len)
+//				{
+//						fseek(dfp,0,SEEK_SET);
+//						printf("restart position is: %x\n",ftell(dfp));
+//						fwrite(&data[len],1,residue_len,dfp);
+//						pos.lpos = ftell(dfp);
+//						printf("recover position is: %x\n",ftell(dfp));
+//				}
+//
+//				lfp = fopen(filename_config[index].len_file,"wb+");
+//
+//				fwrite(pos.cpos,1,4,lfp);
+//				printf("file %s position end:%ld\n",filename_config[index].data_file,pos.lpos);
+//		}
+//		fclose(dfp);
+//		fclose(lfp);
+//}
+
+/*TCP客户端连接上服务器后的处理程序*/
+void tcp_process_conn_client(int sc)
+{
+    int size=write(sc,send_data,strlen(send_data));
+}
+/*TCP客户端初始化*/
+int tcp_cfg_client(void)
+{
+    int clientfd;
+    struct sockaddr_in *target = (struct sockaddr_in *)malloc(socket_struct_len);	
+    
+    /*设置服务器地址*/
+    target->sin_family = AF_INET;
+    target->sin_port = htons(target_port);
+    target->sin_addr.s_addr = inet_addr(target_addr);
+    /*建立一个流式套接字*/
+    clientfd = socket(AF_INET, SOCK_STREAM, 0);
+    if(clientfd<0){
+        printf("socket error\n");
+        return -1;
+    }
+    /*连接服务器*/
+    connect(clientfd,(struct sockaddr*)target,sizeof(*target));
+    /*处理过程*/
+    tcp_process_conn_client(clientfd);
+    /*关闭连接*/
+    close(clientfd);
+    return 0;
+}
+
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+
+void area_detect(unsigned char* Id,unsigned char* img_dst,int left,int top, int right ,int bottom)
+{
+	int i=0,j=0,k=0,l=0;	//游标清零
+	extern unsigned char T[1080][1920];
+	for(j=0;j<1920;j++)
+	{
+		for(i=0;i<1080;i++)
+		{
+			T[i][j]=0;
+//			T[i][j]=*(Id+j*1080+i);
+		}
+	}
+
+
+	//中间结果向量初始化
+	int Lmun[Amax];	//计数器
+	unsigned short q[2000000][2];//队列
+	for (i=0; i<2000000; i++)
+	{
+		q[i][0]=0;q[i][1]=0;
+	}
+	int HE[5001];	//均值
+	for (i=0; i<5000; i++)
+	{HE[i]=0;Lmun[i]=0;}
+	int Itmp=0,Itmpn=0;
+	int idx=0,idxn=0;	// 张量索引
+	int label=1;            //标记值初始化
+	int queue_head=0;       //队头
+	int queue_tail=0;       //队尾
+
+	int pix[2]={0,0};
+	int pixn[2]={0,0};
+	int neighbour[8][2]={{-1,-1},{-1,0},{-1,1},{0,-1},{0,1},{1,-1},{1,0},{1,1}};  //8邻域坐标偏移列表
+
+	for (i=top+1; i<bottom-1; i++)        // 防止越界
+	{
+		for (j=left+1; j<right-1; j++)     // 防止越界
+		{
+			idx=1080*(j)+i;	// 张量到向量索引
+			Itmp=(int)(*(Id+idx));
+			// 若当前像素为1且未标记，计数器++，则赋予其当前标记值，对应坐标入队
+			if (Itmp!=0 && T[i][j]==0)
+			{
+				if(label>5000){
+					Lmun[5000]=Lmun[5000]+1;
+					HE[5000]=HE[5000]+Itmp;
+				}else{
+					Lmun[label]=Lmun[label]+1;
+					HE[label]=HE[label]+Itmp;
+				}
+				T[i][j]=1;
+				q[queue_tail][0]=i;
+				q[queue_tail][1]=j;
+				queue_tail=queue_tail+1;
+				// 队列空则退出递归
+				while(queue_head!=queue_tail)
+				{
+					pix[0]=q[queue_head][0];pix[1]=q[queue_head][1];	// 取队首元素坐标
+					for (k=0; k<8; k++)	// 搜索8邻域
+					{
+						pixn[0]=pix[0]+neighbour[k][0];pixn[1]=pix[1]+neighbour[k][1]; 	// 计算邻域元素坐标
+						if (pixn[0]>=0 && pixn[0]<=1089 && pixn[1] >=0 && pixn[1]<=1919)	//越界保护
+						// 若当前邻域像素为1且未被标记，计数器++，则赋予其当前标记值，对应坐标入队
+						{
+							idxn=1080*(pixn[1])+pixn[0];	// 张量到向量索引
+							Itmpn=(int)(*(Id+idxn));
+							if (Itmpn!=0 && T[pixn[0]][pixn[1]]==0 )
+							{
+								if(label>5000){
+									Lmun[5000]=Lmun[5000]+1;
+									HE[5000]=HE[5000]+Itmpn;
+								}else{
+									Lmun[label]=Lmun[label]+1;
+									HE[label]=HE[label]+Itmpn;
+								}
+								T[pixn[0]][pixn[1]]=1;
+								q[queue_tail][0]=pixn[0];q[queue_tail][1]=pixn[1];
+								queue_tail=queue_tail+1;
+							}
+						}
+					}
+					queue_head=queue_head+1;    // 遍历所有邻域像素后，队头元素出队
+				}
+
+				label=label+1;	// 标记值+1
+				queue_head=0;	// 重置队头指针
+				queue_tail=0;	// 重置队尾队头
+
+			}
+		}
+	}
+
+
+
+}
+
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void cal_image_part(unsigned char* img_src,unsigned char* img_dst,unsigned int* cal,const int WIDTH,const int HEIGHT,int left,int top, int right ,int bottom)
+{
+
+	int coli=left;
+	int rowi=top;
+	int i=0;
+#if 0
+	for(i=0;i<1920*1080;i++){
+		*(img_dst+i)=img_src[cal[i]];
+	}
+
+#else
+	for(coli=left;coli<right;coli++){
+			for(rowi=top;rowi<bottom;rowi++){
+				unsigned int idx=coli*1080+rowi;
+				*(img_dst+idx)=img_src[cal[idx]];
+
+		}
+	}
+#endif
+
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+
+/*TCP服务器接受连接后的处理程序*/
+int tcp_process_conn_server(int sc)
+{
+	// 纠偏查找表
+	extern short Irh[1920*1080];
+	extern short Irw[1920*1080];
+	extern unsigned int Irhw[1920*1080];
+	extern unsigned char T[1080][1920];
+	const int LEN = read(sc,tcp_data,BUFLEN);
+
+	const int IDX0=image_current%FRAME_SIZE;
+	const unsigned long OFFSET0=image_1_frame_offset[IDX0];
+	const int _nLen=OFFSET0+LEN-1920*1080;
+	const int _cLen=1920*1080-OFFSET0;
+	unsigned char * DATA0=&image_1_frame[IDX0][OFFSET0];
+	long t=0,i=0;
+	if(LEN<=0) return LEN;
+
+	if(_nLen<0){
+		memcpy(DATA0,tcp_data,LEN);
+		image_1_frame_offset[IDX0]+=LEN;
+	}else{
+		//one frame and next
+		memcpy(DATA0,tcp_data,_cLen);
+		image_1_frame_offset[IDX0]+=_cLen;
+		image_1_frame_status[IDX0]=100;
+		printf("now one frame ok !\n");
+
+
+
+			unsigned char *Img_src=&image_1_frame[IDX0][0];
+//		    unsigned char *Img_dst=&image_1_frame_cal[0][0];
+			unsigned char *Img_dst=&T[0][0];
+		    //★★★★★★★★★★★★★★★★★★★★★★★★★ 核心算法 ★★★★★★★★★★★★★★★★★★★★★★★★★
+		    TIME_START();
+		    area_detect(Img_src,Img_dst,0,0, 1920 ,1080);
+//		    cal_image_part(Img_src,Img_dst,Irhw,1920,1080,0,0, 1920 ,1080);
+		   // cal_image_part(Img_src,Img_dst,Irhw,1920,1080,0,0, 1920 ,1080);
+			TIME_END("TIME COST");
+			//☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆核心算法☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆
+
+		    write(sc,Img_dst,1920*1080);
+
+
+		//next
+		int IDX1=(++image_current)%FRAME_SIZE;
+		image_1_frame_offset[IDX1]=0;
+		unsigned char * DATA1=&image_1_frame[IDX1][0];
+		memcpy(DATA1,&tcp_data[_cLen],_nLen);
+		image_1_frame_offset[IDX1]+=_nLen;
+		image_1_frame_status[IDX1]=-1;
+
+		printf("CH: %d,current data: %d\n",IDX1,image_1_frame_offset[IDX1]);
+
+		int i=0;
+		for(i=0;i<FRAME_SIZE;i++){
+			printf("CHANNEL: %d, STATUS: %d\n",i,image_1_frame_status[i]);
+		}
+	}
+
+
+	//printf("CH: %d,current data: %d\n",IDX0,image_1_frame_offset[IDX0]);
+return LEN;
+}
+unsigned long TIMECOUNT=0;
+void* tcp_process_data(void *data)
+{
+	int *_clientfd_p=(int*)data;
+	printf(">>>>>>>>>>>>>>>>>>>>>>>>Thread START: %d!\n",++TIMECOUNT);
+	while(TRUE){
+
+		int _Reslut=tcp_process_conn_server(*_clientfd_p);
+		if(_Reslut==0){
+			printf("Remote Socket is Close !");
+			break;
+		}
+
+	}
+
+
+	free(data);
+	printf("<<<<<<<<<<<<<<<<<<<<<<<<<<Thread END: %d!\n",--TIMECOUNT);
+	return (void*)0;
+}
+/*TCP服务器初始化*/
+void *tcp_cfg_server(void)
+{	  
+    struct sockaddr_in *server = (struct sockaddr_in *)malloc(socket_struct_len);
+    struct sockaddr_in *client = (struct sockaddr_in *)malloc(socket_struct_len);
+    int client_size = sizeof(*client);
+    int clientfd;
+    int sockfd;
+    int err;
+    int tmp = 1;
+    
+    /*设置服务器地址*/
+    server->sin_family = AF_INET;
+    server->sin_port = htons(8888);
+    server->sin_addr.s_addr = inet_addr("192.168.1.101");
+    /*建立一个流式套接字*/
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    /*一个端口释放后会等待两分钟之后才能再被使用，SO_REUSEADDR是让端口释放后立即就可以被再次使用*/
+    setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &tmp, sizeof(int));  
+    err = bind(sockfd, (struct sockaddr*)server, sizeof(*server));
+    /*监听端口*/
+    listen(sockfd, SOMAXCONN);/*侦听队列长度*/
+
+
+    while(process_alive){
+
+    		pthread_t _thread_ap_id;
+    		int* volatile _clientfd_ptr=malloc(1);
+    		*_clientfd_ptr = accept(sockfd, (struct sockaddr*)client, &client_size);
+						if (clientfd < 0 || err != 0){
+							printf("failed\n");
+							close(sockfd);
+							close(clientfd);
+							free(server);
+							free(client);
+							pthread_exit(NULL);
+						}
+			printf("Connected to %s:%u\n",inet_ntoa(client->sin_addr),ntohs(client->sin_port));
+
+			if(pthread_create(&_thread_ap_id,NULL,tcp_process_data,(void *)(_clientfd_ptr)) == -1){
+				 fprintf(stderr,"pthread_create error!\n");
+			}
+
+
+
+
+
+    }
+
+    close(sockfd);
+    if(clientfd)
+    close(clientfd);
+    free(server);
+    free(client);
+    pthread_exit(NULL);
+
+}
+
+void SignHandler(int iSignNo)
+{
+    process_alive = FALSE;
+}
+/*
+int main(int argc, char *argv[])
+{
+    int ret;
+    pid_t pid;
+    
+    if(argc != 4 && argc != 5)
+    {
+        printf("Usage[server]:%s 0 [ip] [port]\n", argv[0]);
+        printf("Usage[client]:%s 1 [ip] [port] [data]\n", argv[0]);
+        return 0;
+    }
+    
+    if(atoi(argv[1]) != 0 && atoi(argv[1]) != 1)
+    {
+        printf("argv[1] must be 0 or 1\n");
+        printf("Usage:%s [server:0 or client:1] [ip] [port]\n", argv[0]);
+        return 0;
+    }
+
+    signal(SIGKILL,SignHandler);
+
+    if(atoi(argv[1]) == 0 && argc == 4)
+    {
+        server_port = atoi(argv[3]);
+        if(strlen(argv[2]) < 20)
+	     memcpy(server_addr, argv[2], strlen(argv[2]));
+		
+        ret = pthread_create(&pthread1, NULL, tcp_cfg_server, NULL);
+        if(ret ==0)
+        {
+            pid = pthread_self();
+            printf("Creat thread %lu sucess!!\nwaiting connect......\n",pid);
+        }
+        else
+        {
+            printf("Creat thread failed!!\n");
+            exit(0);
+        }
+		
+        pthread_join(pthread1, NULL);
+    }
+
+    if(atoi(argv[1]) == 1 && argc == 5)
+    {
+        target_port = atoi(argv[3]);
+        if(strlen(argv[2]) < 20)
+            memcpy(target_addr, argv[2], strlen(argv[2]));
+        if(strlen(argv[4]) < BUFLEN)
+            memcpy(send_data, argv[4], strlen(argv[4]));
+		
+        ret = pthread_create(&pthread2, NULL, tcp_cfg_client, NULL);
+        if(ret ==0)
+        {
+            pid = pthread_self();
+            printf("Creat thread %lu sucess!!\nwaiting connect......\n",pid);
+        }
+        else
+        {
+            printf("Creat thread failed!!\n");
+            exit(0);
+        }
+		
+        pthread_join(pthread2, NULL);
+    }
+	
+    exit(0);
+}
+*/

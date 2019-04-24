@@ -1,0 +1,24 @@
+#ifndef INIT_DESTORY_H
+#define INIT_DESTORY_H
+
+#include "linux_header.h"
+#include "def.h"
+#include "axi.h"
+#include "tcp_server.h"
+#include "task_flow.h"
+#include "axi/axi_fpga_ctrl.h"
+
+#include "uCOS/mem_pool_fixed.h"
+
+
+
+
+void init();
+
+
+void destory();
+
+
+
+
+#endif

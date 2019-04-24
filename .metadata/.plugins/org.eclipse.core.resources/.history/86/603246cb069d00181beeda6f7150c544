@@ -1,0 +1,113 @@
+// 应用程序
+#include "linux_header.h"
+#include "def.h"
+#include "axi.h"
+#include "tcp_server.h"
+#include "task_flow.h"
+
+#include "axi/axi_fpga_ctrl.h"
+#include "init_destory.h"
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void test()
+{
+
+	const int BITWIDTH=sizeof(void*);
+	  PRINTF_DBG("bit Width is :%d !\n",BITWIDTH*8);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void test_memory()
+{
+		// >>>>>>>>>>>>>>>>>>>>>>>>>> 内存读写 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+int i;
+		unsigned char ucWrite[4096]={0},ucRead[4096]={0};
+
+		for (i=0;i<4096;i++)
+		{
+			ucWrite[i]=i;
+		}
+
+		//DDR3 Saddr1 Init
+		for (i=0;i<4096;i++)
+		{
+			AXILitemmap(DDR3_ADDR+i*4096);
+			AXILitetoUser((int)g_virtual_addr, DDR3_ADDR+i*4096,ucWrite,4096);
+			UsertoAXILite((int)g_virtual_addr, DDR3_ADDR+i*4096,ucRead,4096);
+			if(0 != memcmp(ucRead,ucWrite,1024))
+			{
+				PRINTF_DBG("Error!\n");
+			}
+			AXILiteunmmap();
+		}
+		i=0;
+		//<<<<<<<<<<<<<<<<<<<<<<<<<<<< 内存读写 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+//函数说明:系统工作主流程
+//输入:无
+//输出:无
+
+#if 1
+int main(void)
+{
+	test();
+
+	init();
+
+		pthread_t thread_task_tcp_flow=task_flow_ctrl_server();
+		pthread_t thread_task_fpga_cvt=init_fpga_cvt_server(NULL);
+		pthread_t thread_task_dma=init_dma_server(NULL);
+		pthread_t thread_task_memcpy=init_memcpy_server(NULL);
+
+	#if 0
+		pthread_t thread_task_tcp_trans_row=tcp_trans_row_data(NULL);
+	#else
+		pthread_t thread_task_tcp_trans_row=tcp_trans_row_data_2(NULL);
+	#endif
+
+		//pthread_t thread_task_mem_rcv=rcv_image_buff_axi_server(NULL);
+		pthread_t thread_task_tcp_rcv=tcp_image_buff_axi_server(NULL);
+
+		//pthread_t thread_task_tcp_telnet=tcp_telnet(NULL);
+
+	run_main();
+
+
+	destory();
+
+	pthread_join(thread_task_tcp_flow,NULL);
+	pthread_join(thread_task_tcp_trans_row,NULL);
+	pthread_join(thread_task_tcp_rcv,NULL);
+
+	pthread_join(thread_task_fpga_cvt,NULL);
+	pthread_join(thread_task_dma,NULL);
+	pthread_join(thread_task_memcpy,NULL);
+
+	return EXIT_SUCCESS;
+}
+
+#endif
+

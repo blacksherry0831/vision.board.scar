@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;FlowDetect/src/outside_process&apos; to &apos;outside_process.h&apos;" description="Rename resource &apos;outside_process&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/outside_process" name="outside_process.h" stamp="1523007706194" updateReferences="true"/>
+</session>

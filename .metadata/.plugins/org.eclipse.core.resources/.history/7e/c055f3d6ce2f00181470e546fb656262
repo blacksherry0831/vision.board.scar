@@ -1,0 +1,341 @@
+// 应用程序
+//标准字符函数包
+#include <string.h>
+//标准输入输出函数包
+#include <stdio.h>
+//标准系统函数包
+#include <stdlib.h>
+//UNIX标准函数包
+#include <unistd.h>
+//线程包
+#include <pthread.h>
+//串口包
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <termios.h>
+#include <errno.h>
+//网口包
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <errno.h>
+#include <time.h>
+/////////////////
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <sys/ioctl.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <errno.h>
+#include <linux/types.h>
+#include <linux/spi/spidev.h>
+#include <sys/mman.h>
+#include <time.h>
+#include <assert.h>
+/////////////////////////////////////////////////////
+//GP1地址声明4K范围
+/////////////////////////////////////////////////////
+#define			UART0_RSTADDR 			(0x010)//初始化
+#define			UART0_RATEADDR 			(0x012)//波特率
+#define			UART0_RDENADDR			(0x014)//读使能
+#define			UART0_RDATAADDR			(0x015)//取数据
+#define			UART0_WDATAADDR			(0x016)//写数据
+#define			UART0_STATUSADDR		(0x01F)//数据缓存状态
+#define			UART_SIZEADDR 			(0x010)//UART数据地址分区大小
+//uart0~7...
+
+
+/////////////////////////////////////////////////////
+//GP1地址声明4k范围END
+/////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////
+//GP0地址声明1G范围	(0x4-0x8)
+/////////////////////////////////////////////////////
+#define			DDR3_ADDR       		(0x60000000)
+//PL DDR3
+#define  MEM_DEV "/dev/mem"
+/////////////////////////////////////////////////////
+//GP0地址声明4-8范围END
+/////////////////////////////////////////////////////
+//函数声明
+//int fpga_timer_interrup(void);
+//void* print_thread1(void* arg);
+//void* print_thread2(void* arg);
+//void* print_thread3(void* arg);
+//void* print_thread4(void* arg);
+//void* print_thread5(void* arg);
+void AXILitetoUser(int virtual_addr,int phy_addr,unsigned char *p_ucData,int Size);
+void UsertoAXILite(int virtual_addr,int phy_addr,unsigned char *p_ucData,int Size);
+int AXILitemmap(int Addr);
+void AXILiteunmmap(void);
+void *tcp_cfg_server(void);
+
+volatile int  *g_uiFPGA       	= (int *)(0x80000000U);
+volatile int  *g_uiDDR3   		= (int *)(0x60000000U);//512M空间可用
+int            g_uiLocalTime     = 0U;
+unsigned int   g_uiFd            = -1;
+unsigned char *g_virtual_addr     = NULL;
+// 纠偏查找表
+short Irh[1920*1080]={0};
+short Irw[1920*1080]={0};
+unsigned char T[1080][1920];
+unsigned int Irhw[1920*1080]={0};
+int  WIDTH=1920,HEIGHT=1080,Amax=5001;
+
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+pthread_t init_tcp_server(void *_data)
+{
+	pthread_t _thread_tid;
+	if( pthread_create(&_thread_tid, NULL, tcp_cfg_server, _data) ){
+			printf(" Create print_thread1 thread error!\n");
+			exit(0);
+	}
+ return _thread_tid;
+}
+
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void init_irh_irw()
+{
+	 unsigned int sum=0;
+	// >>>>>>>>>>>>>>>>>>>>>>>>>> 文件系统 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+		FILE *fp;
+		//★★★★★★★★★★★★★★读行纠偏数组★★★★★★★★★★★★★★★
+		fp = fopen("/media/sdcard/Irh.txt","rb");
+		sum=0;
+		assert(fp!=0);
+		fseek(fp,0L,SEEK_SET);
+	    // 循环读取文件
+	    while (1)
+	    {
+	//        // 清空缓冲区
+	//        memset(Irh, 0, sizeof(Irh));
+	        // 定义函数返回值
+	        int rc = fread(Irh, sizeof(char), sizeof(Irh),fp);
+
+	        // 读取到文件的结束，退出循环
+	        if (rc <= 0)
+	            break;
+	        // 输出读取的结果到屏幕
+	        sum+=rc;
+	        printf("Irh is loaded %d !\n",sum);
+	    }
+	    // 关闭文件
+	    fclose(fp);
+	    //☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆
+		//★★★★★★★★★★★★★★读列纠偏数组★★★★★★★★★★★★★★★
+		fp = fopen("/media/sdcard/Irw.txt","rb");
+		sum=0;
+		assert(fp!=0);
+		fseek(fp,0L,SEEK_SET);
+	    // 循环读取文件
+	    while (1)
+	    {
+	//        // 清空缓冲区
+	//        memset(Irw, 0, sizeof(Irw));
+	        // 定义函数返回值
+	        int rc = fread(Irw, sizeof(char), sizeof(Irw),fp);
+	        // 读取到文件的结束，退出循环
+	        if (rc <= 0)
+	            break;
+	        // 输出读取的结果到屏幕
+	        sum+=rc;
+	        printf("Irw is loaded %d !\n",sum);
+	    }
+	    // 关闭文件
+	    fclose(fp);
+	    //☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆
+#if 1
+	    unsigned long const SIZE=1920*1080;
+	    int i;
+	    for (i=0;i<SIZE;i++){
+
+	    	Irhw[i]=1080*(Irh[i]-1)+Irw[i]-1;
+	    	assert(Irhw[i]>=0);
+	    	assert(Irhw[i]<1920*1080);
+
+	    }
+#endif
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void test()
+{
+
+	int BITWIDTH=sizeof(void*);
+	  printf("bit Width is :%d !\n",BITWIDTH*8);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void test_memory()
+{
+		// >>>>>>>>>>>>>>>>>>>>>>>>>> 内存读写 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+int i;
+		unsigned char ucWrite[4096]={0},ucRead[4096]={0};
+
+		for (i=0;i<4096;i++)
+		{
+			ucWrite[i]=0x5a;
+		}
+
+		//DDR3 Saddr1 Init
+		for (i=0;i<4096;i++)
+		{
+			AXILitemmap(DDR3_ADDR+i*4096);
+			AXILitetoUser((int)g_virtual_addr, DDR3_ADDR+i*4096,ucWrite,4096);
+			UsertoAXILite((int)g_virtual_addr, DDR3_ADDR+i*4096,ucRead,4096);
+			if(0 != memcmp(ucRead,ucWrite,1024))
+			{
+				printf("Error!\n");
+			}
+			AXILiteunmmap();
+		}
+		//<<<<<<<<<<<<<<<<<<<<<<<<<<<< 内存读写 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+//函数说明:系统工作主流程
+//输入:无
+//输出:无
+int main(void)
+{
+
+	test();
+
+	init_irh_irw();
+
+	pthread_t thread1_tid=init_tcp_server((void *)0);
+	pthread_join(thread1_tid,NULL);
+
+	do{
+		sleep(100);
+	}
+    while(0);
+
+    return 0;
+}
+
+
+
+
+//函数说明:地址拓展，10位地址拓展成12位地址
+//输入:无
+//输出:无
+int AXILitemmap(int Addr)
+{
+    g_uiFd = open(MEM_DEV, O_RDWR|O_SYNC);
+    if(g_uiFd < 0)
+    {
+        printf("open %s failed!\n",MEM_DEV);
+        return -1;
+    }
+
+    g_virtual_addr = mmap(NULL, 0x1000 , PROT_READ | PROT_WRITE, MAP_SHARED, g_uiFd, Addr);
+    if(g_virtual_addr == NULL)
+    {
+        printf("mmap failed!\n");
+        return -1;
+    }
+
+    return 0;
+}
+
+//函数说明:地址拓展，10位地址拓展成12位地址
+//输入:无
+//输出:无
+void AXILiteunmmap(void)
+{
+
+   if(NULL != g_virtual_addr){
+	   munmap(g_virtual_addr, 0x1000);
+	   g_virtual_addr = NULL;
+   }
+
+   if(g_uiFd >= 0)
+   {
+	   close(g_uiFd);
+   }
+
+   return ;
+}
+
+//函数说明:地址拓展，10位地址拓展成12位地址
+//输入:无
+//输出:无
+void AXILitetoUser(int virtual_addr,int phy_addr,unsigned char *p_ucData,int Size)
+{
+    if(Size > 0x10000)
+    {
+        printf("Size is out!\n");
+        return;
+    }
+	int i;
+   if((phy_addr >= 0x80000000)&&(phy_addr < 0x90000000))
+   {
+		*(unsigned int*)(virtual_addr) = 0xAAAA5555;
+		*(unsigned int*)(virtual_addr) = phy_addr;
+		*(unsigned int*)(virtual_addr) = *(unsigned int*)p_ucData;
+		*(unsigned int*)(virtual_addr) = 0x5555AAAA;
+   }
+   else if((phy_addr >= 0x40000000)&&(phy_addr < 0x80000000))
+   {
+	  for(i=0;i<Size/4;i++){
+		  *(unsigned int*)(virtual_addr+i*4) = *(unsigned int*)(p_ucData+i*4);
+	  }
+   }else{
+	   printf("Address not used!\n");
+   }
+
+   return;
+}
+
+//函数说明:地址拓展，10位地址拓展成12位地址
+//输入:无
+//输出:无
+void UsertoAXILite(int virtual_addr,int phy_addr,unsigned char *p_ucData,int Size)
+{
+    if(Size > 0x10000)
+    {
+        printf("Size is out!\n");
+        return;
+    }
+
+	int i;
+
+   if((phy_addr >= 0x80000000)&&(phy_addr < 0x90000000))
+   {
+	   *(unsigned int*)p_ucData = *(volatile unsigned int*)(virtual_addr);
+   }
+   else if((phy_addr >= 0x40000000)&&(phy_addr < 0x80000000))
+   {
+	  for(i=0;i<Size/4;i++){
+		  *(unsigned int*)(p_ucData+i*4) = *(volatile unsigned int*)(virtual_addr+i*4);
+	  }
+   }else{
+	   printf("Address not used!\n");
+   }
+   return;
+}
+

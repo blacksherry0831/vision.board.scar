@@ -1,0 +1,195 @@
+#ifndef TYPE_H
+#define TYPE_H
+
+#include "linux_header.h"
+#include "def.h"
+#include "base.h"
+#include "opencv2/core/types_c.h"
+
+#include "uCOS/mem_pool_fixed.h"
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+enum DEV {
+		DEV_IPC = 0x00,
+		DEV_PLC = 0x01,
+		DEV_PLC_LR = 0x11,
+		DEV_FPGA_ARM=0x02};
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+enum CMD_TYPE {
+	CT_QUERY='q',
+	CT_CTRL='c',
+	CT_RESP='r',
+	CT_IMG='I',
+	CT_HEART='h',
+};
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+enum CMD_TYPE_02 {
+
+		CT_FRAME='F',
+		CT_IMG_RECT='R',
+
+		CT_BEAT='b',
+
+		CT_START=0x00,
+		CT_STOP=0x01,
+
+		CT_OK=0x00,
+		CT_ERROR=0x01,
+
+		CT_LR_RUN_2=0x20,
+		CT_ROLLER_Q=0x10
+	};
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+enum WorkMode
+{
+	WM_SIZE_ORG=0x80,
+	WM_SIZE_CUT=0x40,
+	WM_ORG_IMG=0x20,
+	WM_DIFF_IMG=0x10
+
+};
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+typedef struct _IplImageU
+{
+	unsigned char nSize[ALIGN_SIZE_T];//this struct size
+	char prefix[ALIGN_SIZE_T];
+	unsigned char IpAddrChannel[ALIGN_SIZE_T];
+	unsigned char frame[ALIGN_SIZE_T];
+
+	unsigned char width[ALIGN_SIZE_T];
+	unsigned char height[ALIGN_SIZE_T];
+
+	unsigned char width_roi[ALIGN_SIZE_T];
+	unsigned char height_roi[ALIGN_SIZE_T];
+	unsigned char x_roi[ALIGN_SIZE_T];
+	unsigned char y_roi[ALIGN_SIZE_T];
+
+	unsigned char sensor_stat[ALIGN_SIZE_T];
+	unsigned char nChannels[ALIGN_SIZE_T];
+
+	IplImage  	Iplimg;
+} IplImageU;
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+typedef union _IplImageUI
+{
+	unsigned char buff[ALIGN_SIZE_T*32];
+	IplImageU iplImgU;
+}IplImageUI;
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+typedef struct {
+
+	unsigned char f_header[4];//"Yjkj"
+	unsigned char f_reserve[2];//length high
+	unsigned char f_cmd_idx[4];//
+	unsigned char f_dst_dev[2];
+	unsigned char f_src_dev[2];
+	unsigned char f_cmd[2];
+	unsigned char f_data_len[2];//length low
+}CMD_CTRL_HEADER;
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+typedef struct{
+	CMD_CTRL_HEADER f_header;
+	unsigned char* f_data;
+	unsigned int f_data_size;
+	unsigned char f_crc;
+}CMD_CTRL;
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+extern int socket_read_1_cmd(int _sockfd,CMD_CTRL*  _cmd_ptr);
+extern int socket_write_1_cmd(int _sockfd,CMD_CTRL*  _cmd_ptr);
+extern int socket_write_1_cmd_release(int _sockfd,CMD_CTRL*  _cmd_ptr);
+extern int socket_write_1_cmd_raw_release(int _sockfd,CMD_CTRL*  _cmd_ptr);
+extern int socket_write_1_cmd_raw_data(int _sockfd,CMD_CTRL*  _cmd_ptr);
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+extern CMD_CTRL* CreateCmdCtrl(int body_size);
+extern CMD_CTRL* CreateImageCtrl(int _ch,int _frame,int _width,int _height,int _nChs);
+extern int IsCmdCtrl(CMD_CTRL* cmd_t);
+
+CMD_CTRL* CreateImageStart(int _ch);
+CMD_CTRL* CreateImageStop(int _ch);
+
+extern void ReleaseCmdCtrl(CMD_CTRL** _cmd_ctrl);
+extern void FreeCmdBody(CMD_CTRL*  _cmd_ptr);
+extern void CreateCmdBody(CMD_CTRL* cmd_t,unsigned int body_size);
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+extern int isStartCmd(const CMD_CTRL* const _cmd_ctrl);
+extern int isDoneCmd(const CMD_CTRL* const _cmd_ctrl);
+int isHeartbeatCmd(const CMD_CTRL* const _cmd_ctrl);
+int IsImageFrame(CMD_CTRL* _cmd_ctrl);
+int IsImageRect(CMD_CTRL* _cmd_ctrl);
+/*-----------------------------------*/
+extern unsigned int GetCMDBodySize(CMD_CTRL_HEADER _cmd);
+extern void initRespCmd(CMD_CTRL* cmd_t,int _ok);
+extern int SendRespCmd(int _socketfd,int _ok);
+extern int SendHeartbeatCmd(int _socketfd);
+
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int GetStartCmdParam(const CMD_CTRL* const _cmd_ctrl);
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void SetSensorStatus(CMD_CTRL* _cmd,int _status,int _channel);
+
+/*-----------------------------------*/
+void init_cmd_buff_size(int nSemaphoreCount);
+/*-----------------------------------*/
+int initSemSignal();
+/*-----------------------------------*/
+
+/*-----------------------------------*/
+IplImage * GetIplImage(CMD_CTRL* cmd);
+/*-----------------------------------*/
+#endif

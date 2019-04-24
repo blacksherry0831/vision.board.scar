@@ -1,0 +1,58 @@
+#include "init_destory.h"
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void init()
+{
+	init_image_cfg();
+
+	signal(SIGINT,StopRun);
+
+	FPGA_CTRL_mmap();
+
+	get_queue_img_buff();
+
+	dmac_addr_mmap();
+
+	initSemSignal();
+
+	init_mem_pool();
+
+}
+
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void destory()
+{
+	sleep(3);
+
+	FPGA_CTRL_unmmap();
+
+	remove_queue_img_buff();
+
+	dmac_addr_unmap();
+
+	destorySemSignal();
+
+	destory_mem_pool();
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void run_main()
+{
+	do{
+
+			sleep(1);
+
+			sendImageHeartbeat();
+
+	}while(IsRun());
+}
