@@ -1,0 +1,2131 @@
+02:12:33 **** Build of configuration Debug for project FlowDetect ****
+make all 
+'Building file: ../src/uCOS/cpu.c'
+'Invoking: ARM Linux gcc compiler'
+arm-xilinx-linux-gnueabi-gcc -Wall -O0 -g3 -I"G:\TEST-PROJECT\video_diagnosis.sdk.ex\FlowDetect\src\uCOS" -c -fmessage-length=0 -MT"src/uCOS/cpu.o" -MMD -MP -MF"src/uCOS/cpu.d" -MT"src/uCOS/cpu.d" -o "src/uCOS/cpu.o" "../src/uCOS/cpu.c"
+'Finished building: ../src/uCOS/cpu.c'
+' '
+'Building file: ../src/uCOS/mem_pool_fixed.c'
+'Invoking: ARM Linux gcc compiler'
+arm-xilinx-linux-gnueabi-gcc -Wall -O0 -g3 -I"G:\TEST-PROJECT\video_diagnosis.sdk.ex\FlowDetect\src\uCOS" -c -fmessage-length=0 -MT"src/uCOS/mem_pool_fixed.o" -MMD -MP -MF"src/uCOS/mem_pool_fixed.d" -MT"src/uCOS/mem_pool_fixed.d" -o "src/uCOS/mem_pool_fixed.o" "../src/uCOS/mem_pool_fixed.c"
+../src/uCOS/mem_pool_fixed.c: In function 'init_mem_pool':
+../src/uCOS/mem_pool_fixed.c:78:4: warning: implicit declaration of function 'exit' [-Wimplicit-function-declaration]
+    exit(-1);
+    ^
+../src/uCOS/mem_pool_fixed.c:78:4: warning: incompatible implicit declaration of built-in function 'exit'
+../src/uCOS/mem_pool_fixed.c:82:3: warning: incompatible implicit declaration of built-in function 'exit'
+   exit(-1);
+   ^
+../src/uCOS/mem_pool_fixed.c:94:4: warning: incompatible implicit declaration of built-in function 'exit'
+    exit(-1);
+    ^
+../src/uCOS/mem_pool_fixed.c: In function 'mem_malloc':
+../src/uCOS/mem_pool_fixed.c:131:4: warning: implicit declaration of function 'sem_wait_infinite' [-Wimplicit-function-declaration]
+    sem_wait_infinite(&m_sem_2m_buff);
+    ^
+../src/uCOS/mem_pool_fixed.c:146:3: warning: incompatible implicit declaration of built-in function 'exit'
+   exit(-1);
+   ^
+../src/uCOS/mem_pool_fixed.c: In function 'mem_free':
+../src/uCOS/mem_pool_fixed.c:200:4: warning: incompatible implicit declaration of built-in function 'exit'
+    exit(-1);
+    ^
+../src/uCOS/mem_pool_fixed.c:210:3: warning: incompatible implicit declaration of built-in function 'exit'
+   exit(-1);
+   ^
+../src/uCOS/mem_pool_fixed.c: In function 'destory_mem_pool':
+../src/uCOS/mem_pool_fixed.c:238:6: warning: unused variable 'result_t' [-Wunused-variable]
+  int result_t=sem_destroy(&m_sem_2m_buff);
+      ^
+'Finished building: ../src/uCOS/mem_pool_fixed.c'
+' '
+'Building file: ../src/uCOS/os_mem.c'
+'Invoking: ARM Linux gcc compiler'
+arm-xilinx-linux-gnueabi-gcc -Wall -O0 -g3 -I"G:\TEST-PROJECT\video_diagnosis.sdk.ex\FlowDetect\src\uCOS" -c -fmessage-length=0 -MT"src/uCOS/os_mem.o" -MMD -MP -MF"src/uCOS/os_mem.d" -MT"src/uCOS/os_mem.d" -o "src/uCOS/os_mem.o" "../src/uCOS/os_mem.c"
+'Finished building: ../src/uCOS/os_mem.c'
+' '
+'Building file: ../src/storage/circular_queue.c'
+'Invoking: ARM Linux gcc compiler'
+arm-xilinx-linux-gnueabi-gcc -Wall -O0 -g3 -I"G:\TEST-PROJECT\video_diagnosis.sdk.ex\FlowDetect\src\uCOS" -c -fmessage-length=0 -MT"src/storage/circular_queue.o" -MMD -MP -MF"src/storage/circular_queue.d" -MT"src/storage/circular_queue.d" -o "src/storage/circular_queue.o" "../src/storage/circular_queue.c"
+'Finished building: ../src/storage/circular_queue.c'
+' '
+'Building file: ../src/storage/dma2mem.c'
+'Invoking: ARM Linux gcc compiler'
+arm-xilinx-linux-gnueabi-gcc -Wall -O0 -g3 -I"G:\TEST-PROJECT\video_diagnosis.sdk.ex\FlowDetect\src\uCOS" -c -fmessage-length=0 -MT"src/storage/dma2mem.o" -MMD -MP -MF"src/storage/dma2mem.d" -MT"src/storage/dma2mem.d" -o "src/storage/dma2mem.o" "../src/storage/dma2mem.c"
+../src/storage/dma2mem.c: In function 'memcpyDMA2Mem_send2MsgQ':
+../src/storage/dma2mem.c:239:7: warning: implicit declaration of function 'memcpyDMA2MemChEx' [-Wimplicit-function-declaration]
+       memcpyDMA2MemChEx(_img,_ch);
+       ^
+../src/storage/dma2mem.c: In function 'memcpy_work_server':
+../src/storage/dma2mem.c:264:2: warning: implicit declaration of function 'IsMemCpyRun' [-Wimplicit-function-declaration]
+  while(IsMemCpyRun()){
+  ^
+../src/storage/dma2mem.c:294:2: warning: implicit declaration of function 'ExitMemCpyThread' [-Wimplicit-function-declaration]
+  ExitMemCpyThread();
+  ^
+In file included from ../src/storage/../type.h:8:0,
+                 from ../src/storage/dma2mem.h:7,
+                 from ../src/storage/dma2mem.c:1:
+../src/storage/dma2mem.c: At top level:
+../src/storage/../opencv2/core/types_c.h:379:17: warning: 'cvFloor' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvFloor( double value )
+                 ^
+../src/storage/../opencv2/core/types_c.h:396:17: warning: 'cvCeil' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvCeil( double value )
+                 ^
+../src/storage/../opencv2/core/types_c.h:415:15: warning: 'cvIsNaN' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsNaN( double value )
+               ^
+../src/storage/../opencv2/core/types_c.h:424:15: warning: 'cvIsInf' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsInf( double value )
+               ^
+../src/storage/../opencv2/core/types_c.h:439:17: warning: 'cvRNG' defined but not used [-Wunused-function]
+ CV_INLINE CvRNG cvRNG( int64 seed CV_DEFAULT(-1))
+                 ^
+../src/storage/../opencv2/core/types_c.h:455:18: warning: 'cvRandReal' defined but not used [-Wunused-function]
+ CV_INLINE double cvRandReal( CvRNG* rng )
+                  ^
+../src/storage/../opencv2/core/types_c.h:769:17: warning: 'cvMat' defined but not used [-Wunused-function]
+ CV_INLINE CvMat cvMat( int rows, int cols, int type, void* data CV_DEFAULT(NULL))
+                 ^
+../src/storage/../opencv2/core/types_c.h:799:20: warning: 'cvmGet' defined but not used [-Wunused-function]
+ CV_INLINE  double  cvmGet( const CvMat* mat, int row, int col )
+                    ^
+../src/storage/../opencv2/core/types_c.h:817:18: warning: 'cvmSet' defined but not used [-Wunused-function]
+ CV_INLINE  void  cvmSet( CvMat* mat, int row, int col, double value )
+                  ^
+../src/storage/../opencv2/core/types_c.h:834:15: warning: 'cvIplDepth' defined but not used [-Wunused-function]
+ CV_INLINE int cvIplDepth( int type )
+               ^
+../src/storage/../opencv2/core/types_c.h:1009:20: warning: 'cvRectToROI' defined but not used [-Wunused-function]
+ CV_INLINE  IplROI  cvRectToROI( CvRect rect, int coi )
+                    ^
+../src/storage/../opencv2/core/types_c.h:1022:20: warning: 'cvROIToRect' defined but not used [-Wunused-function]
+ CV_INLINE  CvRect  cvROIToRect( IplROI roi )
+                    ^
+../src/storage/../opencv2/core/types_c.h:1043:28: warning: 'cvTermCriteria' defined but not used [-Wunused-function]
+ CV_INLINE  CvTermCriteria  cvTermCriteria( int type, int max_iter, double epsilon )
+                            ^
+../src/storage/../opencv2/core/types_c.h:1065:21: warning: 'cvPoint' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPoint( int x, int y )
+                     ^
+../src/storage/../opencv2/core/types_c.h:1095:26: warning: 'cvPointTo32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D32f  cvPointTo32f( CvPoint point )
+                          ^
+../src/storage/../opencv2/core/types_c.h:1101:21: warning: 'cvPointFrom32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPointFrom32f( CvPoint2D32f point )
+                     ^
+../src/storage/../opencv2/core/types_c.h:1120:26: warning: 'cvPoint3D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D32f  cvPoint3D32f( double x, double y, double z )
+                          ^
+../src/storage/../opencv2/core/types_c.h:1140:26: warning: 'cvPoint2D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D64f  cvPoint2D64f( double x, double y )
+                          ^
+../src/storage/../opencv2/core/types_c.h:1160:26: warning: 'cvPoint3D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D64f  cvPoint3D64f( double x, double y, double z )
+                          ^
+../src/storage/../opencv2/core/types_c.h:1181:20: warning: 'cvSize' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize  cvSize( int width, int height )
+                    ^
+../src/storage/../opencv2/core/types_c.h:1199:25: warning: 'cvSize2D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize2D32f  cvSize2D32f( double width, double height )
+                         ^
+../src/storage/../opencv2/core/types_c.h:1244:21: warning: 'cvSlice' defined but not used [-Wunused-function]
+ CV_INLINE  CvSlice  cvSlice( int start, int end )
+                     ^
+../src/storage/../opencv2/core/types_c.h:1265:22: warning: 'cvScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalar( double val0, double val1 CV_DEFAULT(0),
+                      ^
+../src/storage/../opencv2/core/types_c.h:1275:22: warning: 'cvRealScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvRealScalar( double val0 )
+                      ^
+../src/storage/../opencv2/core/types_c.h:1283:22: warning: 'cvScalarAll' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalarAll( double val0123 )
+                      ^
+../src/storage/../opencv2/core/types_c.h:1798:22: warning: 'cvAttrList' defined but not used [-Wunused-function]
+ CV_INLINE CvAttrList cvAttrList( const char** attr CV_DEFAULT(NULL),
+                      ^
+../src/storage/dma2mem.c: In function 'memcpyDMA2Mem_send2MsgQ':
+../src/storage/dma2mem.c:247:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+../src/storage/dma2mem.c: In function 'memcpy_work_server':
+../src/storage/dma2mem.c:296:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+'Finished building: ../src/storage/dma2mem.c'
+' '
+'Building file: ../src/linux_cfg/linux_cfg.c'
+'Invoking: ARM Linux gcc compiler'
+arm-xilinx-linux-gnueabi-gcc -Wall -O0 -g3 -I"G:\TEST-PROJECT\video_diagnosis.sdk.ex\FlowDetect\src\uCOS" -c -fmessage-length=0 -MT"src/linux_cfg/linux_cfg.o" -MMD -MP -MF"src/linux_cfg/linux_cfg.d" -MT"src/linux_cfg/linux_cfg.d" -o "src/linux_cfg/linux_cfg.o" "../src/linux_cfg/linux_cfg.c"
+In file included from d:\xilinx\sdk\2015.4\gnu\arm\nt\arm-xilinx-linux-gnueabi\libc\usr\include\stdio.h:27:0,
+                 from ../src/linux_cfg/../linux_header.h:5,
+                 from ../src/linux_cfg/linux_cfg.h:4,
+                 from ../src/linux_cfg/linux_cfg.c:4:
+d:\xilinx\sdk\2015.4\gnu\arm\nt\arm-xilinx-linux-gnueabi\libc\usr\include\features.h:148:3: warning: #warning "_BSD_SOURCE and _SVID_SOURCE are deprecated, use _DEFAULT_SOURCE" [-Wcpp]
+ # warning "_BSD_SOURCE and _SVID_SOURCE are deprecated, use _DEFAULT_SOURCE"
+   ^
+../src/linux_cfg/linux_cfg.c: In function 'set_cpu_mask':
+../src/linux_cfg/linux_cfg.c:26:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'pthread_t' [-Wformat=]
+         printf("sched_setaffinity[%d] error\n", pthread_self());
+         ^
+../src/linux_cfg/linux_cfg.c:27:9: warning: 'return' with a value, in function returning void
+         return -1;
+         ^
+'Finished building: ../src/linux_cfg/linux_cfg.c'
+' '
+'Building file: ../src/img_cfg/img_cfg.c'
+'Invoking: ARM Linux gcc compiler'
+arm-xilinx-linux-gnueabi-gcc -Wall -O0 -g3 -I"G:\TEST-PROJECT\video_diagnosis.sdk.ex\FlowDetect\src\uCOS" -c -fmessage-length=0 -MT"src/img_cfg/img_cfg.o" -MMD -MP -MF"src/img_cfg/img_cfg.d" -MT"src/img_cfg/img_cfg.d" -o "src/img_cfg/img_cfg.o" "../src/img_cfg/img_cfg.c"
+../src/img_cfg/img_cfg.c: In function 'CopyImage':
+../src/img_cfg/img_cfg.c:263:3: warning: implicit declaration of function 'InitImageRoiRR' [-Wimplicit-function-declaration]
+   InitImageRoiRR(img_dst,_channel,rect,rect_roi);
+   ^
+../src/img_cfg/img_cfg.c: In function 'SetRectCutCmd':
+../src/img_cfg/img_cfg.c:503:2: warning: implicit declaration of function 'GetIplImageUx' [-Wimplicit-function-declaration]
+  IplImageU* imgU=GetIplImageUx(cmd_t);
+  ^
+../src/img_cfg/img_cfg.c:503:18: warning: initialization makes pointer from integer without a cast
+  IplImageU* imgU=GetIplImageUx(cmd_t);
+                  ^
+../src/img_cfg/img_cfg.c:505:2: warning: implicit declaration of function 'UChar2Int' [-Wimplicit-function-declaration]
+  int channel=UChar2Int((char*)(imgU->IpAddrChannel),8);
+  ^
+In file included from ../src/img_cfg/../type.h:8:0,
+                 from ../src/img_cfg/img_cfg.h:5,
+                 from ../src/img_cfg/img_cfg.c:1:
+../src/img_cfg/img_cfg.c: At top level:
+../src/img_cfg/../opencv2/core/types_c.h:379:17: warning: 'cvFloor' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvFloor( double value )
+                 ^
+../src/img_cfg/../opencv2/core/types_c.h:396:17: warning: 'cvCeil' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvCeil( double value )
+                 ^
+../src/img_cfg/../opencv2/core/types_c.h:415:15: warning: 'cvIsNaN' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsNaN( double value )
+               ^
+../src/img_cfg/../opencv2/core/types_c.h:424:15: warning: 'cvIsInf' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsInf( double value )
+               ^
+../src/img_cfg/../opencv2/core/types_c.h:439:17: warning: 'cvRNG' defined but not used [-Wunused-function]
+ CV_INLINE CvRNG cvRNG( int64 seed CV_DEFAULT(-1))
+                 ^
+../src/img_cfg/../opencv2/core/types_c.h:455:18: warning: 'cvRandReal' defined but not used [-Wunused-function]
+ CV_INLINE double cvRandReal( CvRNG* rng )
+                  ^
+../src/img_cfg/../opencv2/core/types_c.h:769:17: warning: 'cvMat' defined but not used [-Wunused-function]
+ CV_INLINE CvMat cvMat( int rows, int cols, int type, void* data CV_DEFAULT(NULL))
+                 ^
+../src/img_cfg/../opencv2/core/types_c.h:799:20: warning: 'cvmGet' defined but not used [-Wunused-function]
+ CV_INLINE  double  cvmGet( const CvMat* mat, int row, int col )
+                    ^
+../src/img_cfg/../opencv2/core/types_c.h:817:18: warning: 'cvmSet' defined but not used [-Wunused-function]
+ CV_INLINE  void  cvmSet( CvMat* mat, int row, int col, double value )
+                  ^
+../src/img_cfg/../opencv2/core/types_c.h:834:15: warning: 'cvIplDepth' defined but not used [-Wunused-function]
+ CV_INLINE int cvIplDepth( int type )
+               ^
+../src/img_cfg/../opencv2/core/types_c.h:1009:20: warning: 'cvRectToROI' defined but not used [-Wunused-function]
+ CV_INLINE  IplROI  cvRectToROI( CvRect rect, int coi )
+                    ^
+../src/img_cfg/../opencv2/core/types_c.h:1022:20: warning: 'cvROIToRect' defined but not used [-Wunused-function]
+ CV_INLINE  CvRect  cvROIToRect( IplROI roi )
+                    ^
+../src/img_cfg/../opencv2/core/types_c.h:1043:28: warning: 'cvTermCriteria' defined but not used [-Wunused-function]
+ CV_INLINE  CvTermCriteria  cvTermCriteria( int type, int max_iter, double epsilon )
+                            ^
+../src/img_cfg/../opencv2/core/types_c.h:1065:21: warning: 'cvPoint' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPoint( int x, int y )
+                     ^
+../src/img_cfg/../opencv2/core/types_c.h:1095:26: warning: 'cvPointTo32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D32f  cvPointTo32f( CvPoint point )
+                          ^
+../src/img_cfg/../opencv2/core/types_c.h:1101:21: warning: 'cvPointFrom32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPointFrom32f( CvPoint2D32f point )
+                     ^
+../src/img_cfg/../opencv2/core/types_c.h:1120:26: warning: 'cvPoint3D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D32f  cvPoint3D32f( double x, double y, double z )
+                          ^
+../src/img_cfg/../opencv2/core/types_c.h:1140:26: warning: 'cvPoint2D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D64f  cvPoint2D64f( double x, double y )
+                          ^
+../src/img_cfg/../opencv2/core/types_c.h:1160:26: warning: 'cvPoint3D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D64f  cvPoint3D64f( double x, double y, double z )
+                          ^
+../src/img_cfg/../opencv2/core/types_c.h:1181:20: warning: 'cvSize' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize  cvSize( int width, int height )
+                    ^
+../src/img_cfg/../opencv2/core/types_c.h:1199:25: warning: 'cvSize2D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize2D32f  cvSize2D32f( double width, double height )
+                         ^
+../src/img_cfg/../opencv2/core/types_c.h:1244:21: warning: 'cvSlice' defined but not used [-Wunused-function]
+ CV_INLINE  CvSlice  cvSlice( int start, int end )
+                     ^
+../src/img_cfg/../opencv2/core/types_c.h:1265:22: warning: 'cvScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalar( double val0, double val1 CV_DEFAULT(0),
+                      ^
+../src/img_cfg/../opencv2/core/types_c.h:1275:22: warning: 'cvRealScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvRealScalar( double val0 )
+                      ^
+../src/img_cfg/../opencv2/core/types_c.h:1283:22: warning: 'cvScalarAll' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalarAll( double val0123 )
+                      ^
+../src/img_cfg/../opencv2/core/types_c.h:1798:22: warning: 'cvAttrList' defined but not used [-Wunused-function]
+ CV_INLINE CvAttrList cvAttrList( const char** attr CV_DEFAULT(NULL),
+                      ^
+'Finished building: ../src/img_cfg/img_cfg.c'
+' '
+'Building file: ../src/hw_module/dma.c'
+'Invoking: ARM Linux gcc compiler'
+arm-xilinx-linux-gnueabi-gcc -Wall -O0 -g3 -I"G:\TEST-PROJECT\video_diagnosis.sdk.ex\FlowDetect\src\uCOS" -c -fmessage-length=0 -MT"src/hw_module/dma.o" -MMD -MP -MF"src/hw_module/dma.d" -MT"src/hw_module/dma.d" -o "src/hw_module/dma.o" "../src/hw_module/dma.c"
+../src/hw_module/dma.c: In function 'dmac_trans':
+../src/hw_module/dma.c:481:6: warning: 'return' with a value, in function returning void
+      return TRUE;
+      ^
+../src/hw_module/dma.c:485:4: warning: 'return' with a value, in function returning void
+    return FALSE;
+    ^
+../src/hw_module/dma.c: In function 'memcpyDMA2MemCh':
+../src/hw_module/dma.c:513:5: warning: 'return' with a value, in function returning void
+     return TRUE;
+     ^
+../src/hw_module/dma.c:519:2: warning: 'return' with a value, in function returning void
+  return FALSE;
+  ^
+../src/hw_module/dma.c: In function 'memcpyDMA2MemChEx':
+../src/hw_module/dma.c:560:4: warning: implicit declaration of function 'CopyImage' [-Wimplicit-function-declaration]
+    CopyImage(src_addr,img,_ch);
+    ^
+../src/hw_module/dma.c: In function 'dma_work_server':
+../src/hw_module/dma.c:602:2: warning: implicit declaration of function 'IsDMARun' [-Wimplicit-function-declaration]
+  while(IsDMARun())
+  ^
+../src/hw_module/dma.c:642:2: warning: implicit declaration of function 'ExitDmaThread' [-Wimplicit-function-declaration]
+  ExitDmaThread();
+  ^
+../src/hw_module/dma.c:599:17: warning: unused variable 'time_ms' [-Wunused-variable]
+  const unsigned time_ms=30*1000;
+                 ^
+In file included from ../src/hw_module/../type.h:8:0,
+                 from ../src/hw_module/../base.h:5,
+                 from ../src/hw_module/dma.h:6,
+                 from ../src/hw_module/dma.c:1:
+../src/hw_module/dma.c: At top level:
+../src/hw_module/../opencv2/core/types_c.h:379:17: warning: 'cvFloor' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvFloor( double value )
+                 ^
+../src/hw_module/../opencv2/core/types_c.h:396:17: warning: 'cvCeil' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvCeil( double value )
+                 ^
+../src/hw_module/../opencv2/core/types_c.h:415:15: warning: 'cvIsNaN' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsNaN( double value )
+               ^
+../src/hw_module/../opencv2/core/types_c.h:424:15: warning: 'cvIsInf' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsInf( double value )
+               ^
+../src/hw_module/../opencv2/core/types_c.h:439:17: warning: 'cvRNG' defined but not used [-Wunused-function]
+ CV_INLINE CvRNG cvRNG( int64 seed CV_DEFAULT(-1))
+                 ^
+../src/hw_module/../opencv2/core/types_c.h:455:18: warning: 'cvRandReal' defined but not used [-Wunused-function]
+ CV_INLINE double cvRandReal( CvRNG* rng )
+                  ^
+../src/hw_module/../opencv2/core/types_c.h:769:17: warning: 'cvMat' defined but not used [-Wunused-function]
+ CV_INLINE CvMat cvMat( int rows, int cols, int type, void* data CV_DEFAULT(NULL))
+                 ^
+../src/hw_module/../opencv2/core/types_c.h:799:20: warning: 'cvmGet' defined but not used [-Wunused-function]
+ CV_INLINE  double  cvmGet( const CvMat* mat, int row, int col )
+                    ^
+../src/hw_module/../opencv2/core/types_c.h:817:18: warning: 'cvmSet' defined but not used [-Wunused-function]
+ CV_INLINE  void  cvmSet( CvMat* mat, int row, int col, double value )
+                  ^
+../src/hw_module/../opencv2/core/types_c.h:834:15: warning: 'cvIplDepth' defined but not used [-Wunused-function]
+ CV_INLINE int cvIplDepth( int type )
+               ^
+../src/hw_module/../opencv2/core/types_c.h:1009:20: warning: 'cvRectToROI' defined but not used [-Wunused-function]
+ CV_INLINE  IplROI  cvRectToROI( CvRect rect, int coi )
+                    ^
+../src/hw_module/../opencv2/core/types_c.h:1022:20: warning: 'cvROIToRect' defined but not used [-Wunused-function]
+ CV_INLINE  CvRect  cvROIToRect( IplROI roi )
+                    ^
+../src/hw_module/../opencv2/core/types_c.h:1043:28: warning: 'cvTermCriteria' defined but not used [-Wunused-function]
+ CV_INLINE  CvTermCriteria  cvTermCriteria( int type, int max_iter, double epsilon )
+                            ^
+../src/hw_module/../opencv2/core/types_c.h:1065:21: warning: 'cvPoint' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPoint( int x, int y )
+                     ^
+../src/hw_module/../opencv2/core/types_c.h:1095:26: warning: 'cvPointTo32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D32f  cvPointTo32f( CvPoint point )
+                          ^
+../src/hw_module/../opencv2/core/types_c.h:1101:21: warning: 'cvPointFrom32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPointFrom32f( CvPoint2D32f point )
+                     ^
+../src/hw_module/../opencv2/core/types_c.h:1120:26: warning: 'cvPoint3D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D32f  cvPoint3D32f( double x, double y, double z )
+                          ^
+../src/hw_module/../opencv2/core/types_c.h:1140:26: warning: 'cvPoint2D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D64f  cvPoint2D64f( double x, double y )
+                          ^
+../src/hw_module/../opencv2/core/types_c.h:1160:26: warning: 'cvPoint3D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D64f  cvPoint3D64f( double x, double y, double z )
+                          ^
+../src/hw_module/../opencv2/core/types_c.h:1181:20: warning: 'cvSize' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize  cvSize( int width, int height )
+                    ^
+../src/hw_module/../opencv2/core/types_c.h:1199:25: warning: 'cvSize2D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize2D32f  cvSize2D32f( double width, double height )
+                         ^
+../src/hw_module/../opencv2/core/types_c.h:1244:21: warning: 'cvSlice' defined but not used [-Wunused-function]
+ CV_INLINE  CvSlice  cvSlice( int start, int end )
+                     ^
+../src/hw_module/../opencv2/core/types_c.h:1265:22: warning: 'cvScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalar( double val0, double val1 CV_DEFAULT(0),
+                      ^
+../src/hw_module/../opencv2/core/types_c.h:1275:22: warning: 'cvRealScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvRealScalar( double val0 )
+                      ^
+../src/hw_module/../opencv2/core/types_c.h:1283:22: warning: 'cvScalarAll' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalarAll( double val0123 )
+                      ^
+../src/hw_module/../opencv2/core/types_c.h:1798:22: warning: 'cvAttrList' defined but not used [-Wunused-function]
+ CV_INLINE CvAttrList cvAttrList( const char** attr CV_DEFAULT(NULL),
+                      ^
+../src/hw_module/dma.c: In function 'GetFrameSize':
+../src/hw_module/dma.c:396:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+../src/hw_module/dma.c: In function 'dma_work_server':
+../src/hw_module/dma.c:643:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+'Finished building: ../src/hw_module/dma.c'
+' '
+'Building file: ../src/flow_ctrl/flow_sync.c'
+'Invoking: ARM Linux gcc compiler'
+arm-xilinx-linux-gnueabi-gcc -Wall -O0 -g3 -I"G:\TEST-PROJECT\video_diagnosis.sdk.ex\FlowDetect\src\uCOS" -c -fmessage-length=0 -MT"src/flow_ctrl/flow_sync.o" -MMD -MP -MF"src/flow_ctrl/flow_sync.d" -MT"src/flow_ctrl/flow_sync.d" -o "src/flow_ctrl/flow_sync.o" "../src/flow_ctrl/flow_sync.c"
+../src/flow_ctrl/flow_sync.c: In function 'SetFpgaCircleWorkMode':
+../src/flow_ctrl/flow_sync.c:509:2: warning: implicit declaration of function 'SetDmaFrameByWorkMode' [-Wimplicit-function-declaration]
+  SetDmaFrameByWorkMode(_wm);
+  ^
+In file included from ../src/flow_ctrl/../type.h:8:0,
+                 from ../src/flow_ctrl/flow_sync.h:6,
+                 from ../src/flow_ctrl/flow_sync.c:1:
+../src/flow_ctrl/flow_sync.c: At top level:
+../src/flow_ctrl/../opencv2/core/types_c.h:379:17: warning: 'cvFloor' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvFloor( double value )
+                 ^
+../src/flow_ctrl/../opencv2/core/types_c.h:396:17: warning: 'cvCeil' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvCeil( double value )
+                 ^
+../src/flow_ctrl/../opencv2/core/types_c.h:415:15: warning: 'cvIsNaN' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsNaN( double value )
+               ^
+../src/flow_ctrl/../opencv2/core/types_c.h:424:15: warning: 'cvIsInf' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsInf( double value )
+               ^
+../src/flow_ctrl/../opencv2/core/types_c.h:439:17: warning: 'cvRNG' defined but not used [-Wunused-function]
+ CV_INLINE CvRNG cvRNG( int64 seed CV_DEFAULT(-1))
+                 ^
+../src/flow_ctrl/../opencv2/core/types_c.h:455:18: warning: 'cvRandReal' defined but not used [-Wunused-function]
+ CV_INLINE double cvRandReal( CvRNG* rng )
+                  ^
+../src/flow_ctrl/../opencv2/core/types_c.h:769:17: warning: 'cvMat' defined but not used [-Wunused-function]
+ CV_INLINE CvMat cvMat( int rows, int cols, int type, void* data CV_DEFAULT(NULL))
+                 ^
+../src/flow_ctrl/../opencv2/core/types_c.h:799:20: warning: 'cvmGet' defined but not used [-Wunused-function]
+ CV_INLINE  double  cvmGet( const CvMat* mat, int row, int col )
+                    ^
+../src/flow_ctrl/../opencv2/core/types_c.h:817:18: warning: 'cvmSet' defined but not used [-Wunused-function]
+ CV_INLINE  void  cvmSet( CvMat* mat, int row, int col, double value )
+                  ^
+../src/flow_ctrl/../opencv2/core/types_c.h:834:15: warning: 'cvIplDepth' defined but not used [-Wunused-function]
+ CV_INLINE int cvIplDepth( int type )
+               ^
+../src/flow_ctrl/../opencv2/core/types_c.h:1009:20: warning: 'cvRectToROI' defined but not used [-Wunused-function]
+ CV_INLINE  IplROI  cvRectToROI( CvRect rect, int coi )
+                    ^
+../src/flow_ctrl/../opencv2/core/types_c.h:1022:20: warning: 'cvROIToRect' defined but not used [-Wunused-function]
+ CV_INLINE  CvRect  cvROIToRect( IplROI roi )
+                    ^
+../src/flow_ctrl/../opencv2/core/types_c.h:1043:28: warning: 'cvTermCriteria' defined but not used [-Wunused-function]
+ CV_INLINE  CvTermCriteria  cvTermCriteria( int type, int max_iter, double epsilon )
+                            ^
+../src/flow_ctrl/../opencv2/core/types_c.h:1065:21: warning: 'cvPoint' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPoint( int x, int y )
+                     ^
+../src/flow_ctrl/../opencv2/core/types_c.h:1095:26: warning: 'cvPointTo32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D32f  cvPointTo32f( CvPoint point )
+                          ^
+../src/flow_ctrl/../opencv2/core/types_c.h:1101:21: warning: 'cvPointFrom32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPointFrom32f( CvPoint2D32f point )
+                     ^
+../src/flow_ctrl/../opencv2/core/types_c.h:1120:26: warning: 'cvPoint3D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D32f  cvPoint3D32f( double x, double y, double z )
+                          ^
+../src/flow_ctrl/../opencv2/core/types_c.h:1140:26: warning: 'cvPoint2D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D64f  cvPoint2D64f( double x, double y )
+                          ^
+../src/flow_ctrl/../opencv2/core/types_c.h:1160:26: warning: 'cvPoint3D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D64f  cvPoint3D64f( double x, double y, double z )
+                          ^
+../src/flow_ctrl/../opencv2/core/types_c.h:1181:20: warning: 'cvSize' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize  cvSize( int width, int height )
+                    ^
+../src/flow_ctrl/../opencv2/core/types_c.h:1199:25: warning: 'cvSize2D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize2D32f  cvSize2D32f( double width, double height )
+                         ^
+../src/flow_ctrl/../opencv2/core/types_c.h:1244:21: warning: 'cvSlice' defined but not used [-Wunused-function]
+ CV_INLINE  CvSlice  cvSlice( int start, int end )
+                     ^
+../src/flow_ctrl/../opencv2/core/types_c.h:1265:22: warning: 'cvScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalar( double val0, double val1 CV_DEFAULT(0),
+                      ^
+../src/flow_ctrl/../opencv2/core/types_c.h:1275:22: warning: 'cvRealScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvRealScalar( double val0 )
+                      ^
+../src/flow_ctrl/../opencv2/core/types_c.h:1283:22: warning: 'cvScalarAll' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalarAll( double val0123 )
+                      ^
+../src/flow_ctrl/../opencv2/core/types_c.h:1798:22: warning: 'cvAttrList' defined but not used [-Wunused-function]
+ CV_INLINE CvAttrList cvAttrList( const char** attr CV_DEFAULT(NULL),
+                      ^
+'Finished building: ../src/flow_ctrl/flow_sync.c'
+' '
+'Building file: ../src/flash/cetc_flash.c'
+'Invoking: ARM Linux gcc compiler'
+arm-xilinx-linux-gnueabi-gcc -Wall -O0 -g3 -I"G:\TEST-PROJECT\video_diagnosis.sdk.ex\FlowDetect\src\uCOS" -c -fmessage-length=0 -MT"src/flash/cetc_flash.o" -MMD -MP -MF"src/flash/cetc_flash.d" -MT"src/flash/cetc_flash.d" -o "src/flash/cetc_flash.o" "../src/flash/cetc_flash.c"
+../src/flash/cetc_flash.c: In function 'flash_read':
+../src/flash/cetc_flash.c:261:1: warning: label 'err1' defined but not used [-Wunused-label]
+ err1:
+ ^
+../src/flash/cetc_flash.c:209:6: warning: unused variable 'outfd' [-Wunused-variable]
+  int outfd, err;
+      ^
+../src/flash/cetc_flash.c: In function 'flash_get_data':
+../src/flash/cetc_flash.c:327:45: warning: passing argument 4 of 'flash_read' from incompatible pointer type
+  err = flash_read(fd, offset, sizeof(data), &data);
+                                             ^
+../src/flash/cetc_flash.c:206:5: note: expected 'char *' but argument is of type 'u_int32_t *'
+ int flash_read(int fd, off_t offset, size_t len, char * data)
+     ^
+../src/flash/cetc_flash.c:336:9: warning: format '%ld' expects argument of type 'long int', but argument 2 has type 'u_int32_t' [-Wformat=]
+         printf("read  data  %ld (0x%lx),\n",data, data);
+         ^
+../src/flash/cetc_flash.c:336:9: warning: format '%lx' expects argument of type 'long unsigned int', but argument 3 has type 'u_int32_t' [-Wformat=]
+../src/flash/cetc_flash.c:318:10: warning: unused variable 'read_data' [-Wunused-variable]
+     char read_data[4] = {0};
+          ^
+../src/flash/cetc_flash.c: In function 'cetc_update_flash':
+../src/flash/cetc_flash.c:428:41: warning: passing argument 2 of 'flash_set_data' from incompatible pointer type
+     return flash_set_data(MAGIC_OFFSET, &data, sizeof(struct check));
+                                         ^
+../src/flash/cetc_flash.c:364:5: note: expected 'char *' but argument is of type 'struct check *'
+ int flash_set_data(off_t offset, char *data, u_int32_t len)
+     ^
+../src/flash/cetc_flash.c: At top level:
+../src/flash/cetc_flash.c:32:12: warning: 'getmeminfo' defined but not used [-Wunused-function]
+ static int getmeminfo(int fd, struct mtd_info_user *mtd)
+            ^
+../src/flash/cetc_flash.c:49:12: warning: 'getregions' defined but not used [-Wunused-function]
+ static int getregions(int fd, struct region_info_user *regions, int *n)
+            ^
+'Finished building: ../src/flash/cetc_flash.c'
+' '
+'Building file: ../src/axi/axi_api.c'
+'Invoking: ARM Linux gcc compiler'
+arm-xilinx-linux-gnueabi-gcc -Wall -O0 -g3 -I"G:\TEST-PROJECT\video_diagnosis.sdk.ex\FlowDetect\src\uCOS" -c -fmessage-length=0 -MT"src/axi/axi_api.o" -MMD -MP -MF"src/axi/axi_api.d" -MT"src/axi/axi_api.d" -o "src/axi/axi_api.o" "../src/axi/axi_api.c"
+In file included from ../src/axi/../type.h:8:0,
+                 from ../src/axi/axi_api.h:7,
+                 from ../src/axi/axi_api.c:1:
+../src/axi/../opencv2/core/types_c.h:379:17: warning: 'cvFloor' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvFloor( double value )
+                 ^
+../src/axi/../opencv2/core/types_c.h:396:17: warning: 'cvCeil' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvCeil( double value )
+                 ^
+../src/axi/../opencv2/core/types_c.h:415:15: warning: 'cvIsNaN' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsNaN( double value )
+               ^
+../src/axi/../opencv2/core/types_c.h:424:15: warning: 'cvIsInf' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsInf( double value )
+               ^
+../src/axi/../opencv2/core/types_c.h:439:17: warning: 'cvRNG' defined but not used [-Wunused-function]
+ CV_INLINE CvRNG cvRNG( int64 seed CV_DEFAULT(-1))
+                 ^
+../src/axi/../opencv2/core/types_c.h:455:18: warning: 'cvRandReal' defined but not used [-Wunused-function]
+ CV_INLINE double cvRandReal( CvRNG* rng )
+                  ^
+../src/axi/../opencv2/core/types_c.h:769:17: warning: 'cvMat' defined but not used [-Wunused-function]
+ CV_INLINE CvMat cvMat( int rows, int cols, int type, void* data CV_DEFAULT(NULL))
+                 ^
+../src/axi/../opencv2/core/types_c.h:799:20: warning: 'cvmGet' defined but not used [-Wunused-function]
+ CV_INLINE  double  cvmGet( const CvMat* mat, int row, int col )
+                    ^
+../src/axi/../opencv2/core/types_c.h:817:18: warning: 'cvmSet' defined but not used [-Wunused-function]
+ CV_INLINE  void  cvmSet( CvMat* mat, int row, int col, double value )
+                  ^
+../src/axi/../opencv2/core/types_c.h:834:15: warning: 'cvIplDepth' defined but not used [-Wunused-function]
+ CV_INLINE int cvIplDepth( int type )
+               ^
+../src/axi/../opencv2/core/types_c.h:1009:20: warning: 'cvRectToROI' defined but not used [-Wunused-function]
+ CV_INLINE  IplROI  cvRectToROI( CvRect rect, int coi )
+                    ^
+../src/axi/../opencv2/core/types_c.h:1022:20: warning: 'cvROIToRect' defined but not used [-Wunused-function]
+ CV_INLINE  CvRect  cvROIToRect( IplROI roi )
+                    ^
+../src/axi/../opencv2/core/types_c.h:1043:28: warning: 'cvTermCriteria' defined but not used [-Wunused-function]
+ CV_INLINE  CvTermCriteria  cvTermCriteria( int type, int max_iter, double epsilon )
+                            ^
+../src/axi/../opencv2/core/types_c.h:1065:21: warning: 'cvPoint' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPoint( int x, int y )
+                     ^
+../src/axi/../opencv2/core/types_c.h:1095:26: warning: 'cvPointTo32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D32f  cvPointTo32f( CvPoint point )
+                          ^
+../src/axi/../opencv2/core/types_c.h:1101:21: warning: 'cvPointFrom32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPointFrom32f( CvPoint2D32f point )
+                     ^
+../src/axi/../opencv2/core/types_c.h:1120:26: warning: 'cvPoint3D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D32f  cvPoint3D32f( double x, double y, double z )
+                          ^
+../src/axi/../opencv2/core/types_c.h:1140:26: warning: 'cvPoint2D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D64f  cvPoint2D64f( double x, double y )
+                          ^
+../src/axi/../opencv2/core/types_c.h:1160:26: warning: 'cvPoint3D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D64f  cvPoint3D64f( double x, double y, double z )
+                          ^
+../src/axi/../opencv2/core/types_c.h:1181:20: warning: 'cvSize' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize  cvSize( int width, int height )
+                    ^
+../src/axi/../opencv2/core/types_c.h:1199:25: warning: 'cvSize2D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize2D32f  cvSize2D32f( double width, double height )
+                         ^
+../src/axi/../opencv2/core/types_c.h:1244:21: warning: 'cvSlice' defined but not used [-Wunused-function]
+ CV_INLINE  CvSlice  cvSlice( int start, int end )
+                     ^
+../src/axi/../opencv2/core/types_c.h:1265:22: warning: 'cvScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalar( double val0, double val1 CV_DEFAULT(0),
+                      ^
+../src/axi/../opencv2/core/types_c.h:1275:22: warning: 'cvRealScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvRealScalar( double val0 )
+                      ^
+../src/axi/../opencv2/core/types_c.h:1283:22: warning: 'cvScalarAll' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalarAll( double val0123 )
+                      ^
+../src/axi/../opencv2/core/types_c.h:1798:22: warning: 'cvAttrList' defined but not used [-Wunused-function]
+ CV_INLINE CvAttrList cvAttrList( const char** attr CV_DEFAULT(NULL),
+                      ^
+'Finished building: ../src/axi/axi_api.c'
+' '
+'Building file: ../src/axi/axi_fpga_ctrl.c'
+'Invoking: ARM Linux gcc compiler'
+arm-xilinx-linux-gnueabi-gcc -Wall -O0 -g3 -I"G:\TEST-PROJECT\video_diagnosis.sdk.ex\FlowDetect\src\uCOS" -c -fmessage-length=0 -MT"src/axi/axi_fpga_ctrl.o" -MMD -MP -MF"src/axi/axi_fpga_ctrl.d" -MT"src/axi/axi_fpga_ctrl.d" -o "src/axi/axi_fpga_ctrl.o" "../src/axi/axi_fpga_ctrl.c"
+../src/axi/axi_fpga_ctrl.c: In function 'FPGA_CTRL_send':
+../src/axi/axi_fpga_ctrl.c:94:22: warning: passing argument 1 of 'AXILitetoUser' makes integer from pointer without a cast
+        AXILitetoUser(MAP_PL_PARA.virtual_addr+addr,
+                      ^
+In file included from ../src/axi/axi_fpga_ctrl.h:9:0,
+                 from ../src/axi/axi_fpga_ctrl.c:1:
+../src/axi/axi_api.h:22:13: note: expected 'int' but argument is of type 'unsigned char *'
+ extern void AXILitetoUser(int virtual_addr,int phy_addr,unsigned char *p_ucData,int Size);
+             ^
+../src/axi/axi_fpga_ctrl.c: In function 'FPGA_CTRL_read':
+../src/axi/axi_fpga_ctrl.c:121:20: warning: passing argument 1 of 'UsertoAXILite' makes integer from pointer without a cast
+      UsertoAXILite(MAP_PL_PARA.virtual_addr+addr,
+                    ^
+In file included from ../src/axi/axi_fpga_ctrl.h:9:0,
+                 from ../src/axi/axi_fpga_ctrl.c:1:
+../src/axi/axi_api.h:20:6: note: expected 'int' but argument is of type 'unsigned char *'
+ void UsertoAXILite(int virtual_addr,int phy_addr,unsigned char *p_ucData,int Size);
+      ^
+In file included from ../src/axi/../type.h:8:0,
+                 from ../src/axi/axi_fpga_ctrl.h:7,
+                 from ../src/axi/axi_fpga_ctrl.c:1:
+../src/axi/axi_fpga_ctrl.c: At top level:
+../src/axi/../opencv2/core/types_c.h:379:17: warning: 'cvFloor' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvFloor( double value )
+                 ^
+../src/axi/../opencv2/core/types_c.h:396:17: warning: 'cvCeil' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvCeil( double value )
+                 ^
+../src/axi/../opencv2/core/types_c.h:415:15: warning: 'cvIsNaN' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsNaN( double value )
+               ^
+../src/axi/../opencv2/core/types_c.h:424:15: warning: 'cvIsInf' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsInf( double value )
+               ^
+../src/axi/../opencv2/core/types_c.h:439:17: warning: 'cvRNG' defined but not used [-Wunused-function]
+ CV_INLINE CvRNG cvRNG( int64 seed CV_DEFAULT(-1))
+                 ^
+../src/axi/../opencv2/core/types_c.h:455:18: warning: 'cvRandReal' defined but not used [-Wunused-function]
+ CV_INLINE double cvRandReal( CvRNG* rng )
+                  ^
+../src/axi/../opencv2/core/types_c.h:769:17: warning: 'cvMat' defined but not used [-Wunused-function]
+ CV_INLINE CvMat cvMat( int rows, int cols, int type, void* data CV_DEFAULT(NULL))
+                 ^
+../src/axi/../opencv2/core/types_c.h:799:20: warning: 'cvmGet' defined but not used [-Wunused-function]
+ CV_INLINE  double  cvmGet( const CvMat* mat, int row, int col )
+                    ^
+../src/axi/../opencv2/core/types_c.h:817:18: warning: 'cvmSet' defined but not used [-Wunused-function]
+ CV_INLINE  void  cvmSet( CvMat* mat, int row, int col, double value )
+                  ^
+../src/axi/../opencv2/core/types_c.h:834:15: warning: 'cvIplDepth' defined but not used [-Wunused-function]
+ CV_INLINE int cvIplDepth( int type )
+               ^
+../src/axi/../opencv2/core/types_c.h:1009:20: warning: 'cvRectToROI' defined but not used [-Wunused-function]
+ CV_INLINE  IplROI  cvRectToROI( CvRect rect, int coi )
+                    ^
+../src/axi/../opencv2/core/types_c.h:1022:20: warning: 'cvROIToRect' defined but not used [-Wunused-function]
+ CV_INLINE  CvRect  cvROIToRect( IplROI roi )
+                    ^
+../src/axi/../opencv2/core/types_c.h:1043:28: warning: 'cvTermCriteria' defined but not used [-Wunused-function]
+ CV_INLINE  CvTermCriteria  cvTermCriteria( int type, int max_iter, double epsilon )
+                            ^
+../src/axi/../opencv2/core/types_c.h:1065:21: warning: 'cvPoint' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPoint( int x, int y )
+                     ^
+../src/axi/../opencv2/core/types_c.h:1095:26: warning: 'cvPointTo32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D32f  cvPointTo32f( CvPoint point )
+                          ^
+../src/axi/../opencv2/core/types_c.h:1101:21: warning: 'cvPointFrom32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPointFrom32f( CvPoint2D32f point )
+                     ^
+../src/axi/../opencv2/core/types_c.h:1120:26: warning: 'cvPoint3D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D32f  cvPoint3D32f( double x, double y, double z )
+                          ^
+../src/axi/../opencv2/core/types_c.h:1140:26: warning: 'cvPoint2D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D64f  cvPoint2D64f( double x, double y )
+                          ^
+../src/axi/../opencv2/core/types_c.h:1160:26: warning: 'cvPoint3D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D64f  cvPoint3D64f( double x, double y, double z )
+                          ^
+../src/axi/../opencv2/core/types_c.h:1181:20: warning: 'cvSize' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize  cvSize( int width, int height )
+                    ^
+../src/axi/../opencv2/core/types_c.h:1199:25: warning: 'cvSize2D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize2D32f  cvSize2D32f( double width, double height )
+                         ^
+../src/axi/../opencv2/core/types_c.h:1244:21: warning: 'cvSlice' defined but not used [-Wunused-function]
+ CV_INLINE  CvSlice  cvSlice( int start, int end )
+                     ^
+../src/axi/../opencv2/core/types_c.h:1265:22: warning: 'cvScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalar( double val0, double val1 CV_DEFAULT(0),
+                      ^
+../src/axi/../opencv2/core/types_c.h:1275:22: warning: 'cvRealScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvRealScalar( double val0 )
+                      ^
+../src/axi/../opencv2/core/types_c.h:1283:22: warning: 'cvScalarAll' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalarAll( double val0123 )
+                      ^
+../src/axi/../opencv2/core/types_c.h:1798:22: warning: 'cvAttrList' defined but not used [-Wunused-function]
+ CV_INLINE CvAttrList cvAttrList( const char** attr CV_DEFAULT(NULL),
+                      ^
+'Finished building: ../src/axi/axi_fpga_ctrl.c'
+' '
+'Building file: ../src/axi.c'
+'Invoking: ARM Linux gcc compiler'
+arm-xilinx-linux-gnueabi-gcc -Wall -O0 -g3 -I"G:\TEST-PROJECT\video_diagnosis.sdk.ex\FlowDetect\src\uCOS" -c -fmessage-length=0 -MT"src/axi.o" -MMD -MP -MF"src/axi.d" -MT"src/axi.d" -o "src/axi.o" "../src/axi.c"
+../src/axi.c: In function 'wait4FpgaStart':
+../src/axi.c:53:2: warning: implicit declaration of function 'Wait4StartFpgaCircle' [-Wimplicit-function-declaration]
+  if(Wait4StartFpgaCircle()==SUCCESS){
+  ^
+../src/axi.c:56:3: warning: implicit declaration of function 'ExitFpgaThread' [-Wimplicit-function-declaration]
+   ExitFpgaThread();
+   ^
+../src/axi.c: In function 'wait4Circle':
+../src/axi.c:73:8: warning: implicit declaration of function 'IsFpgaTaskFirstStart' [-Wimplicit-function-declaration]
+        if(TRUE==IsFpgaTaskFirstStart()){
+        ^
+../src/axi.c:79:8: warning: implicit declaration of function 'IsFpgaTaskSecondStart' [-Wimplicit-function-declaration]
+        if(TRUE==IsFpgaTaskSecondStart()){
+        ^
+../src/axi.c: In function 'stopThisCircle':
+../src/axi.c:260:3: warning: implicit declaration of function 'sendImageStop' [-Wimplicit-function-declaration]
+   sendImageStop();
+   ^
+../src/axi.c: In function 'startThisCircle':
+../src/axi.c:271:2: warning: implicit declaration of function 'sendImageStart' [-Wimplicit-function-declaration]
+  sendImageStart();
+  ^
+../src/axi.c: In function 'tcp_data_transfer_image':
+../src/axi.c:392:3: warning: implicit declaration of function 'IsTcpTransImageRun' [-Wimplicit-function-declaration]
+   while(IsTcpTransImageRun() && socket_status){
+   ^
+../src/axi.c:415:10: warning: implicit declaration of function 'msgTypeImage' [-Wimplicit-function-declaration]
+          }else  if(msg.message_type==msgTypeImage()){
+          ^
+In file included from ../src/type.h:8:0,
+                 from ../src/base.h:5,
+                 from ../src/axi_map.h:6,
+                 from ../src/axi.h:9,
+                 from ../src/axi.c:2:
+../src/axi.c: At top level:
+../src/opencv2/core/types_c.h:379:17: warning: 'cvFloor' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvFloor( double value )
+                 ^
+../src/opencv2/core/types_c.h:396:17: warning: 'cvCeil' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvCeil( double value )
+                 ^
+../src/opencv2/core/types_c.h:415:15: warning: 'cvIsNaN' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsNaN( double value )
+               ^
+../src/opencv2/core/types_c.h:424:15: warning: 'cvIsInf' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsInf( double value )
+               ^
+../src/opencv2/core/types_c.h:439:17: warning: 'cvRNG' defined but not used [-Wunused-function]
+ CV_INLINE CvRNG cvRNG( int64 seed CV_DEFAULT(-1))
+                 ^
+../src/opencv2/core/types_c.h:455:18: warning: 'cvRandReal' defined but not used [-Wunused-function]
+ CV_INLINE double cvRandReal( CvRNG* rng )
+                  ^
+../src/opencv2/core/types_c.h:769:17: warning: 'cvMat' defined but not used [-Wunused-function]
+ CV_INLINE CvMat cvMat( int rows, int cols, int type, void* data CV_DEFAULT(NULL))
+                 ^
+../src/opencv2/core/types_c.h:799:20: warning: 'cvmGet' defined but not used [-Wunused-function]
+ CV_INLINE  double  cvmGet( const CvMat* mat, int row, int col )
+                    ^
+../src/opencv2/core/types_c.h:817:18: warning: 'cvmSet' defined but not used [-Wunused-function]
+ CV_INLINE  void  cvmSet( CvMat* mat, int row, int col, double value )
+                  ^
+../src/opencv2/core/types_c.h:834:15: warning: 'cvIplDepth' defined but not used [-Wunused-function]
+ CV_INLINE int cvIplDepth( int type )
+               ^
+../src/opencv2/core/types_c.h:1009:20: warning: 'cvRectToROI' defined but not used [-Wunused-function]
+ CV_INLINE  IplROI  cvRectToROI( CvRect rect, int coi )
+                    ^
+../src/opencv2/core/types_c.h:1022:20: warning: 'cvROIToRect' defined but not used [-Wunused-function]
+ CV_INLINE  CvRect  cvROIToRect( IplROI roi )
+                    ^
+../src/opencv2/core/types_c.h:1043:28: warning: 'cvTermCriteria' defined but not used [-Wunused-function]
+ CV_INLINE  CvTermCriteria  cvTermCriteria( int type, int max_iter, double epsilon )
+                            ^
+../src/opencv2/core/types_c.h:1065:21: warning: 'cvPoint' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPoint( int x, int y )
+                     ^
+../src/opencv2/core/types_c.h:1095:26: warning: 'cvPointTo32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D32f  cvPointTo32f( CvPoint point )
+                          ^
+../src/opencv2/core/types_c.h:1101:21: warning: 'cvPointFrom32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPointFrom32f( CvPoint2D32f point )
+                     ^
+../src/opencv2/core/types_c.h:1120:26: warning: 'cvPoint3D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D32f  cvPoint3D32f( double x, double y, double z )
+                          ^
+../src/opencv2/core/types_c.h:1140:26: warning: 'cvPoint2D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D64f  cvPoint2D64f( double x, double y )
+                          ^
+../src/opencv2/core/types_c.h:1160:26: warning: 'cvPoint3D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D64f  cvPoint3D64f( double x, double y, double z )
+                          ^
+../src/opencv2/core/types_c.h:1181:20: warning: 'cvSize' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize  cvSize( int width, int height )
+                    ^
+../src/opencv2/core/types_c.h:1199:25: warning: 'cvSize2D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize2D32f  cvSize2D32f( double width, double height )
+                         ^
+../src/opencv2/core/types_c.h:1244:21: warning: 'cvSlice' defined but not used [-Wunused-function]
+ CV_INLINE  CvSlice  cvSlice( int start, int end )
+                     ^
+../src/opencv2/core/types_c.h:1265:22: warning: 'cvScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalar( double val0, double val1 CV_DEFAULT(0),
+                      ^
+../src/opencv2/core/types_c.h:1275:22: warning: 'cvRealScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvRealScalar( double val0 )
+                      ^
+../src/opencv2/core/types_c.h:1283:22: warning: 'cvScalarAll' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalarAll( double val0123 )
+                      ^
+../src/opencv2/core/types_c.h:1798:22: warning: 'cvAttrList' defined but not used [-Wunused-function]
+ CV_INLINE CvAttrList cvAttrList( const char** attr CV_DEFAULT(NULL),
+                      ^
+../src/axi.c: In function 'IsCircleRunning':
+../src/axi.c:117:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+../src/axi.c: In function 'fpga_cvt_server':
+../src/axi.c:311:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+../src/axi.c: In function 'tcp_data_transfer_image':
+../src/axi.c:430:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+'Finished building: ../src/axi.c'
+' '
+'Building file: ../src/axi_base.c'
+'Invoking: ARM Linux gcc compiler'
+arm-xilinx-linux-gnueabi-gcc -Wall -O0 -g3 -I"G:\TEST-PROJECT\video_diagnosis.sdk.ex\FlowDetect\src\uCOS" -c -fmessage-length=0 -MT"src/axi_base.o" -MMD -MP -MF"src/axi_base.d" -MT"src/axi_base.d" -o "src/axi_base.o" "../src/axi_base.c"
+../src/axi_base.c: In function 'SetSigma':
+../src/axi_base.c:185:2: warning: implicit declaration of function 'SaveParam2SDCard' [-Wimplicit-function-declaration]
+  SaveParam2SDCard(PATH_SDCARD_IMG_SIGMA_CFG,param,1);
+  ^
+../src/axi_base.c: At top level:
+../src/axi_base.c:220:6: warning: conflicting types for 'SaveParam2SDCard'
+ void SaveParam2SDCard(const char* const path,const int* _param,const int _size)
+      ^
+../src/axi_base.c:185:2: note: previous implicit declaration of 'SaveParam2SDCard' was here
+  SaveParam2SDCard(PATH_SDCARD_IMG_SIGMA_CFG,param,1);
+  ^
+In file included from ../src/type.h:8:0,
+                 from ../src/axi_base.h:7,
+                 from ../src/axi_base.c:1:
+../src/opencv2/core/types_c.h:379:17: warning: 'cvFloor' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvFloor( double value )
+                 ^
+../src/opencv2/core/types_c.h:396:17: warning: 'cvCeil' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvCeil( double value )
+                 ^
+../src/opencv2/core/types_c.h:415:15: warning: 'cvIsNaN' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsNaN( double value )
+               ^
+../src/opencv2/core/types_c.h:424:15: warning: 'cvIsInf' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsInf( double value )
+               ^
+../src/opencv2/core/types_c.h:439:17: warning: 'cvRNG' defined but not used [-Wunused-function]
+ CV_INLINE CvRNG cvRNG( int64 seed CV_DEFAULT(-1))
+                 ^
+../src/opencv2/core/types_c.h:455:18: warning: 'cvRandReal' defined but not used [-Wunused-function]
+ CV_INLINE double cvRandReal( CvRNG* rng )
+                  ^
+../src/opencv2/core/types_c.h:769:17: warning: 'cvMat' defined but not used [-Wunused-function]
+ CV_INLINE CvMat cvMat( int rows, int cols, int type, void* data CV_DEFAULT(NULL))
+                 ^
+../src/opencv2/core/types_c.h:799:20: warning: 'cvmGet' defined but not used [-Wunused-function]
+ CV_INLINE  double  cvmGet( const CvMat* mat, int row, int col )
+                    ^
+../src/opencv2/core/types_c.h:817:18: warning: 'cvmSet' defined but not used [-Wunused-function]
+ CV_INLINE  void  cvmSet( CvMat* mat, int row, int col, double value )
+                  ^
+../src/opencv2/core/types_c.h:834:15: warning: 'cvIplDepth' defined but not used [-Wunused-function]
+ CV_INLINE int cvIplDepth( int type )
+               ^
+../src/opencv2/core/types_c.h:1009:20: warning: 'cvRectToROI' defined but not used [-Wunused-function]
+ CV_INLINE  IplROI  cvRectToROI( CvRect rect, int coi )
+                    ^
+../src/opencv2/core/types_c.h:1022:20: warning: 'cvROIToRect' defined but not used [-Wunused-function]
+ CV_INLINE  CvRect  cvROIToRect( IplROI roi )
+                    ^
+../src/opencv2/core/types_c.h:1043:28: warning: 'cvTermCriteria' defined but not used [-Wunused-function]
+ CV_INLINE  CvTermCriteria  cvTermCriteria( int type, int max_iter, double epsilon )
+                            ^
+../src/opencv2/core/types_c.h:1065:21: warning: 'cvPoint' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPoint( int x, int y )
+                     ^
+../src/opencv2/core/types_c.h:1095:26: warning: 'cvPointTo32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D32f  cvPointTo32f( CvPoint point )
+                          ^
+../src/opencv2/core/types_c.h:1101:21: warning: 'cvPointFrom32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPointFrom32f( CvPoint2D32f point )
+                     ^
+../src/opencv2/core/types_c.h:1120:26: warning: 'cvPoint3D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D32f  cvPoint3D32f( double x, double y, double z )
+                          ^
+../src/opencv2/core/types_c.h:1140:26: warning: 'cvPoint2D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D64f  cvPoint2D64f( double x, double y )
+                          ^
+../src/opencv2/core/types_c.h:1160:26: warning: 'cvPoint3D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D64f  cvPoint3D64f( double x, double y, double z )
+                          ^
+../src/opencv2/core/types_c.h:1181:20: warning: 'cvSize' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize  cvSize( int width, int height )
+                    ^
+../src/opencv2/core/types_c.h:1199:25: warning: 'cvSize2D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize2D32f  cvSize2D32f( double width, double height )
+                         ^
+../src/opencv2/core/types_c.h:1244:21: warning: 'cvSlice' defined but not used [-Wunused-function]
+ CV_INLINE  CvSlice  cvSlice( int start, int end )
+                     ^
+../src/opencv2/core/types_c.h:1265:22: warning: 'cvScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalar( double val0, double val1 CV_DEFAULT(0),
+                      ^
+../src/opencv2/core/types_c.h:1275:22: warning: 'cvRealScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvRealScalar( double val0 )
+                      ^
+../src/opencv2/core/types_c.h:1283:22: warning: 'cvScalarAll' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalarAll( double val0123 )
+                      ^
+../src/opencv2/core/types_c.h:1798:22: warning: 'cvAttrList' defined but not used [-Wunused-function]
+ CV_INLINE CvAttrList cvAttrList( const char** attr CV_DEFAULT(NULL),
+                      ^
+'Finished building: ../src/axi_base.c'
+' '
+'Building file: ../src/axi_map.c'
+'Invoking: ARM Linux gcc compiler'
+arm-xilinx-linux-gnueabi-gcc -Wall -O0 -g3 -I"G:\TEST-PROJECT\video_diagnosis.sdk.ex\FlowDetect\src\uCOS" -c -fmessage-length=0 -MT"src/axi_map.o" -MMD -MP -MF"src/axi_map.d" -MT"src/axi_map.d" -o "src/axi_map.o" "../src/axi_map.c"
+../src/axi_map.c: In function 'getVirtualChBaseAddr':
+../src/axi_map.c:34:30: warning: initialization discards 'volatile' qualifier from pointer target type
+  unsigned char* ch_base_Addr=g_virtual_addr+_ch*CHANNEL_BLOCK_SIZE;
+                              ^
+../src/axi_map.c: In function 'getPhyChFrameAddr':
+../src/axi_map.c:63:2: warning: implicit declaration of function 'getPhyChBaseAddr' [-Wimplicit-function-declaration]
+  unsigned int phy_ch_base_addr=getPhyChBaseAddr(_ch);
+  ^
+../src/axi_map.c: In function 'memcpy_video_avg':
+../src/axi_map.c:156:21: warning: initialization discards 'volatile' qualifier from pointer target type
+  unsigned char *ptr=m_virtual_addr+_ch*CHANNEL_BLOCK_SIZE;
+                     ^
+../src/axi_map.c: In function 'memcpy_video_frame':
+../src/axi_map.c:175:25: warning: initialization discards 'volatile' qualifier from pointer target type
+   unsigned char *ptr_ch=m_virtual_addr+_Channel*CHANNEL_BLOCK_SIZE;
+                         ^
+../src/axi_map.c: In function 'video_unmap':
+../src/axi_map.c:189:10: warning: passing argument 1 of 'munmap' discards 'volatile' qualifier from pointer target type
+   munmap(m_virtual_addr, m_size);
+          ^
+In file included from ../src/linux_header.h:50:0,
+                 from ../src/axi_map.h:4,
+                 from ../src/axi_map.c:1:
+d:\xilinx\sdk\2015.4\gnu\arm\nt\arm-xilinx-linux-gnueabi\libc\usr\include\sys\mman.h:76:12: note: expected 'void *' but argument is of type 'volatile unsigned char *'
+ extern int munmap (void *__addr, size_t __len) __THROW;
+            ^
+../src/axi_map.c: In function 'memcpy_video':
+../src/axi_map.c:205:15: warning: passing argument 2 of 'memcpy' discards 'volatile' qualifier from pointer target type
+  memcpy(_data,m_virtual_addr,_size);
+               ^
+In file included from ../src/linux_header.h:8:0,
+                 from ../src/axi_map.h:4,
+                 from ../src/axi_map.c:1:
+d:\xilinx\sdk\2015.4\gnu\arm\nt\arm-xilinx-linux-gnueabi\libc\usr\include\string.h:46:14: note: expected 'const void * __restrict__' but argument is of type 'volatile unsigned char *'
+ extern void *memcpy (void *__restrict __dest, const void *__restrict __src,
+              ^
+../src/axi_map.c: In function 'write_tcp_direct':
+../src/axi_map.c:220:25: warning: passing argument 2 of 'writen' discards 'volatile' qualifier from pointer target type
+  return writen(socketfd,m_virtual_addr,_size);
+                         ^
+In file included from ../src/axi_map.h:6:0,
+                 from ../src/axi_map.c:1:
+../src/base.h:18:16: note: expected 'const void * const' but argument is of type 'volatile unsigned char *'
+ extern ssize_t writen(const int fd, const void* const buf, const size_t n);
+                ^
+../src/axi_map.c: In function 'AXILiteunmmap':
+../src/axi_map.c:259:12: warning: passing argument 1 of 'munmap' discards 'volatile' qualifier from pointer target type
+     munmap(g_virtual_addr, 0x1000);
+            ^
+In file included from ../src/linux_header.h:50:0,
+                 from ../src/axi_map.h:4,
+                 from ../src/axi_map.c:1:
+d:\xilinx\sdk\2015.4\gnu\arm\nt\arm-xilinx-linux-gnueabi\libc\usr\include\sys\mman.h:76:12: note: expected 'void *' but argument is of type 'volatile unsigned char *'
+ extern int munmap (void *__addr, size_t __len) __THROW;
+            ^
+In file included from ../src/type.h:8:0,
+                 from ../src/base.h:5,
+                 from ../src/axi_map.h:6,
+                 from ../src/axi_map.c:1:
+../src/axi_map.c: At top level:
+../src/opencv2/core/types_c.h:379:17: warning: 'cvFloor' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvFloor( double value )
+                 ^
+../src/opencv2/core/types_c.h:396:17: warning: 'cvCeil' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvCeil( double value )
+                 ^
+../src/opencv2/core/types_c.h:415:15: warning: 'cvIsNaN' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsNaN( double value )
+               ^
+../src/opencv2/core/types_c.h:424:15: warning: 'cvIsInf' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsInf( double value )
+               ^
+../src/opencv2/core/types_c.h:439:17: warning: 'cvRNG' defined but not used [-Wunused-function]
+ CV_INLINE CvRNG cvRNG( int64 seed CV_DEFAULT(-1))
+                 ^
+../src/opencv2/core/types_c.h:455:18: warning: 'cvRandReal' defined but not used [-Wunused-function]
+ CV_INLINE double cvRandReal( CvRNG* rng )
+                  ^
+../src/opencv2/core/types_c.h:769:17: warning: 'cvMat' defined but not used [-Wunused-function]
+ CV_INLINE CvMat cvMat( int rows, int cols, int type, void* data CV_DEFAULT(NULL))
+                 ^
+../src/opencv2/core/types_c.h:799:20: warning: 'cvmGet' defined but not used [-Wunused-function]
+ CV_INLINE  double  cvmGet( const CvMat* mat, int row, int col )
+                    ^
+../src/opencv2/core/types_c.h:817:18: warning: 'cvmSet' defined but not used [-Wunused-function]
+ CV_INLINE  void  cvmSet( CvMat* mat, int row, int col, double value )
+                  ^
+../src/opencv2/core/types_c.h:834:15: warning: 'cvIplDepth' defined but not used [-Wunused-function]
+ CV_INLINE int cvIplDepth( int type )
+               ^
+../src/opencv2/core/types_c.h:1009:20: warning: 'cvRectToROI' defined but not used [-Wunused-function]
+ CV_INLINE  IplROI  cvRectToROI( CvRect rect, int coi )
+                    ^
+../src/opencv2/core/types_c.h:1022:20: warning: 'cvROIToRect' defined but not used [-Wunused-function]
+ CV_INLINE  CvRect  cvROIToRect( IplROI roi )
+                    ^
+../src/opencv2/core/types_c.h:1043:28: warning: 'cvTermCriteria' defined but not used [-Wunused-function]
+ CV_INLINE  CvTermCriteria  cvTermCriteria( int type, int max_iter, double epsilon )
+                            ^
+../src/opencv2/core/types_c.h:1065:21: warning: 'cvPoint' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPoint( int x, int y )
+                     ^
+../src/opencv2/core/types_c.h:1095:26: warning: 'cvPointTo32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D32f  cvPointTo32f( CvPoint point )
+                          ^
+../src/opencv2/core/types_c.h:1101:21: warning: 'cvPointFrom32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPointFrom32f( CvPoint2D32f point )
+                     ^
+../src/opencv2/core/types_c.h:1120:26: warning: 'cvPoint3D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D32f  cvPoint3D32f( double x, double y, double z )
+                          ^
+../src/opencv2/core/types_c.h:1140:26: warning: 'cvPoint2D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D64f  cvPoint2D64f( double x, double y )
+                          ^
+../src/opencv2/core/types_c.h:1160:26: warning: 'cvPoint3D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D64f  cvPoint3D64f( double x, double y, double z )
+                          ^
+../src/opencv2/core/types_c.h:1181:20: warning: 'cvSize' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize  cvSize( int width, int height )
+                    ^
+../src/opencv2/core/types_c.h:1199:25: warning: 'cvSize2D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize2D32f  cvSize2D32f( double width, double height )
+                         ^
+../src/opencv2/core/types_c.h:1244:21: warning: 'cvSlice' defined but not used [-Wunused-function]
+ CV_INLINE  CvSlice  cvSlice( int start, int end )
+                     ^
+../src/opencv2/core/types_c.h:1265:22: warning: 'cvScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalar( double val0, double val1 CV_DEFAULT(0),
+                      ^
+../src/opencv2/core/types_c.h:1275:22: warning: 'cvRealScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvRealScalar( double val0 )
+                      ^
+../src/opencv2/core/types_c.h:1283:22: warning: 'cvScalarAll' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalarAll( double val0123 )
+                      ^
+../src/opencv2/core/types_c.h:1798:22: warning: 'cvAttrList' defined but not used [-Wunused-function]
+ CV_INLINE CvAttrList cvAttrList( const char** attr CV_DEFAULT(NULL),
+                      ^
+'Finished building: ../src/axi_map.c'
+' '
+'Building file: ../src/base.c'
+'Invoking: ARM Linux gcc compiler'
+arm-xilinx-linux-gnueabi-gcc -Wall -O0 -g3 -I"G:\TEST-PROJECT\video_diagnosis.sdk.ex\FlowDetect\src\uCOS" -c -fmessage-length=0 -MT"src/base.o" -MMD -MP -MF"src/base.d" -MT"src/base.d" -o "src/base.o" "../src/base.c"
+../src/base.c: In function 'AcceptSocketRequestInSelect':
+../src/base.c:257:2: warning: suggest parentheses around assignment used as truth value [-Wparentheses]
+  if(nready = select(maxfdp + 1, &fdR, NULL, NULL, &timeout)) {
+  ^
+../src/base.c: In function 'wait4MemFree':
+../src/base.c:358:2: warning: implicit declaration of function 'IsRun' [-Wimplicit-function-declaration]
+  while( IsRun()){
+  ^
+../src/base.c: In function 'Wait4Signal':
+../src/base.c:451:24: warning: unused variable 'abstime' [-Wunused-variable]
+        struct timespec abstime= getDelayTime(timeout_ms);
+                        ^
+In file included from ../src/type.h:8:0,
+                 from ../src/base.h:5,
+                 from ../src/base.c:1:
+../src/base.c: At top level:
+../src/opencv2/core/types_c.h:379:17: warning: 'cvFloor' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvFloor( double value )
+                 ^
+../src/opencv2/core/types_c.h:396:17: warning: 'cvCeil' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvCeil( double value )
+                 ^
+../src/opencv2/core/types_c.h:415:15: warning: 'cvIsNaN' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsNaN( double value )
+               ^
+../src/opencv2/core/types_c.h:424:15: warning: 'cvIsInf' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsInf( double value )
+               ^
+../src/opencv2/core/types_c.h:439:17: warning: 'cvRNG' defined but not used [-Wunused-function]
+ CV_INLINE CvRNG cvRNG( int64 seed CV_DEFAULT(-1))
+                 ^
+../src/opencv2/core/types_c.h:455:18: warning: 'cvRandReal' defined but not used [-Wunused-function]
+ CV_INLINE double cvRandReal( CvRNG* rng )
+                  ^
+../src/opencv2/core/types_c.h:769:17: warning: 'cvMat' defined but not used [-Wunused-function]
+ CV_INLINE CvMat cvMat( int rows, int cols, int type, void* data CV_DEFAULT(NULL))
+                 ^
+../src/opencv2/core/types_c.h:799:20: warning: 'cvmGet' defined but not used [-Wunused-function]
+ CV_INLINE  double  cvmGet( const CvMat* mat, int row, int col )
+                    ^
+../src/opencv2/core/types_c.h:817:18: warning: 'cvmSet' defined but not used [-Wunused-function]
+ CV_INLINE  void  cvmSet( CvMat* mat, int row, int col, double value )
+                  ^
+../src/opencv2/core/types_c.h:834:15: warning: 'cvIplDepth' defined but not used [-Wunused-function]
+ CV_INLINE int cvIplDepth( int type )
+               ^
+../src/opencv2/core/types_c.h:1009:20: warning: 'cvRectToROI' defined but not used [-Wunused-function]
+ CV_INLINE  IplROI  cvRectToROI( CvRect rect, int coi )
+                    ^
+../src/opencv2/core/types_c.h:1022:20: warning: 'cvROIToRect' defined but not used [-Wunused-function]
+ CV_INLINE  CvRect  cvROIToRect( IplROI roi )
+                    ^
+../src/opencv2/core/types_c.h:1043:28: warning: 'cvTermCriteria' defined but not used [-Wunused-function]
+ CV_INLINE  CvTermCriteria  cvTermCriteria( int type, int max_iter, double epsilon )
+                            ^
+../src/opencv2/core/types_c.h:1065:21: warning: 'cvPoint' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPoint( int x, int y )
+                     ^
+../src/opencv2/core/types_c.h:1095:26: warning: 'cvPointTo32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D32f  cvPointTo32f( CvPoint point )
+                          ^
+../src/opencv2/core/types_c.h:1101:21: warning: 'cvPointFrom32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPointFrom32f( CvPoint2D32f point )
+                     ^
+../src/opencv2/core/types_c.h:1120:26: warning: 'cvPoint3D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D32f  cvPoint3D32f( double x, double y, double z )
+                          ^
+../src/opencv2/core/types_c.h:1140:26: warning: 'cvPoint2D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D64f  cvPoint2D64f( double x, double y )
+                          ^
+../src/opencv2/core/types_c.h:1160:26: warning: 'cvPoint3D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D64f  cvPoint3D64f( double x, double y, double z )
+                          ^
+../src/opencv2/core/types_c.h:1181:20: warning: 'cvSize' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize  cvSize( int width, int height )
+                    ^
+../src/opencv2/core/types_c.h:1199:25: warning: 'cvSize2D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize2D32f  cvSize2D32f( double width, double height )
+                         ^
+../src/opencv2/core/types_c.h:1244:21: warning: 'cvSlice' defined but not used [-Wunused-function]
+ CV_INLINE  CvSlice  cvSlice( int start, int end )
+                     ^
+../src/opencv2/core/types_c.h:1265:22: warning: 'cvScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalar( double val0, double val1 CV_DEFAULT(0),
+                      ^
+../src/opencv2/core/types_c.h:1275:22: warning: 'cvRealScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvRealScalar( double val0 )
+                      ^
+../src/opencv2/core/types_c.h:1283:22: warning: 'cvScalarAll' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalarAll( double val0123 )
+                      ^
+../src/opencv2/core/types_c.h:1798:22: warning: 'cvAttrList' defined but not used [-Wunused-function]
+ CV_INLINE CvAttrList cvAttrList( const char** attr CV_DEFAULT(NULL),
+                      ^
+'Finished building: ../src/base.c'
+' '
+'Building file: ../src/helloworld.c'
+'Invoking: ARM Linux gcc compiler'
+arm-xilinx-linux-gnueabi-gcc -Wall -O0 -g3 -I"G:\TEST-PROJECT\video_diagnosis.sdk.ex\FlowDetect\src\uCOS" -c -fmessage-length=0 -MT"src/helloworld.o" -MMD -MP -MF"src/helloworld.d" -MT"src/helloworld.d" -o "src/helloworld.o" "../src/helloworld.c"
+In file included from ../src/type.h:8:0,
+                 from ../src/base.h:5,
+                 from ../src/axi_map.h:6,
+                 from ../src/axi.h:9,
+                 from ../src/helloworld.c:4:
+../src/opencv2/core/types_c.h:379:17: warning: 'cvFloor' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvFloor( double value )
+                 ^
+../src/opencv2/core/types_c.h:396:17: warning: 'cvCeil' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvCeil( double value )
+                 ^
+../src/opencv2/core/types_c.h:415:15: warning: 'cvIsNaN' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsNaN( double value )
+               ^
+../src/opencv2/core/types_c.h:424:15: warning: 'cvIsInf' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsInf( double value )
+               ^
+../src/opencv2/core/types_c.h:439:17: warning: 'cvRNG' defined but not used [-Wunused-function]
+ CV_INLINE CvRNG cvRNG( int64 seed CV_DEFAULT(-1))
+                 ^
+../src/opencv2/core/types_c.h:455:18: warning: 'cvRandReal' defined but not used [-Wunused-function]
+ CV_INLINE double cvRandReal( CvRNG* rng )
+                  ^
+../src/opencv2/core/types_c.h:769:17: warning: 'cvMat' defined but not used [-Wunused-function]
+ CV_INLINE CvMat cvMat( int rows, int cols, int type, void* data CV_DEFAULT(NULL))
+                 ^
+../src/opencv2/core/types_c.h:799:20: warning: 'cvmGet' defined but not used [-Wunused-function]
+ CV_INLINE  double  cvmGet( const CvMat* mat, int row, int col )
+                    ^
+../src/opencv2/core/types_c.h:817:18: warning: 'cvmSet' defined but not used [-Wunused-function]
+ CV_INLINE  void  cvmSet( CvMat* mat, int row, int col, double value )
+                  ^
+../src/opencv2/core/types_c.h:834:15: warning: 'cvIplDepth' defined but not used [-Wunused-function]
+ CV_INLINE int cvIplDepth( int type )
+               ^
+../src/opencv2/core/types_c.h:1009:20: warning: 'cvRectToROI' defined but not used [-Wunused-function]
+ CV_INLINE  IplROI  cvRectToROI( CvRect rect, int coi )
+                    ^
+../src/opencv2/core/types_c.h:1022:20: warning: 'cvROIToRect' defined but not used [-Wunused-function]
+ CV_INLINE  CvRect  cvROIToRect( IplROI roi )
+                    ^
+../src/opencv2/core/types_c.h:1043:28: warning: 'cvTermCriteria' defined but not used [-Wunused-function]
+ CV_INLINE  CvTermCriteria  cvTermCriteria( int type, int max_iter, double epsilon )
+                            ^
+../src/opencv2/core/types_c.h:1065:21: warning: 'cvPoint' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPoint( int x, int y )
+                     ^
+../src/opencv2/core/types_c.h:1095:26: warning: 'cvPointTo32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D32f  cvPointTo32f( CvPoint point )
+                          ^
+../src/opencv2/core/types_c.h:1101:21: warning: 'cvPointFrom32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPointFrom32f( CvPoint2D32f point )
+                     ^
+../src/opencv2/core/types_c.h:1120:26: warning: 'cvPoint3D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D32f  cvPoint3D32f( double x, double y, double z )
+                          ^
+../src/opencv2/core/types_c.h:1140:26: warning: 'cvPoint2D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D64f  cvPoint2D64f( double x, double y )
+                          ^
+../src/opencv2/core/types_c.h:1160:26: warning: 'cvPoint3D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D64f  cvPoint3D64f( double x, double y, double z )
+                          ^
+../src/opencv2/core/types_c.h:1181:20: warning: 'cvSize' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize  cvSize( int width, int height )
+                    ^
+../src/opencv2/core/types_c.h:1199:25: warning: 'cvSize2D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize2D32f  cvSize2D32f( double width, double height )
+                         ^
+../src/opencv2/core/types_c.h:1244:21: warning: 'cvSlice' defined but not used [-Wunused-function]
+ CV_INLINE  CvSlice  cvSlice( int start, int end )
+                     ^
+../src/opencv2/core/types_c.h:1265:22: warning: 'cvScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalar( double val0, double val1 CV_DEFAULT(0),
+                      ^
+../src/opencv2/core/types_c.h:1275:22: warning: 'cvRealScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvRealScalar( double val0 )
+                      ^
+../src/opencv2/core/types_c.h:1283:22: warning: 'cvScalarAll' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalarAll( double val0123 )
+                      ^
+../src/opencv2/core/types_c.h:1798:22: warning: 'cvAttrList' defined but not used [-Wunused-function]
+ CV_INLINE CvAttrList cvAttrList( const char** attr CV_DEFAULT(NULL),
+                      ^
+'Finished building: ../src/helloworld.c'
+' '
+'Building file: ../src/init_destory.c'
+'Invoking: ARM Linux gcc compiler'
+arm-xilinx-linux-gnueabi-gcc -Wall -O0 -g3 -I"G:\TEST-PROJECT\video_diagnosis.sdk.ex\FlowDetect\src\uCOS" -c -fmessage-length=0 -MT"src/init_destory.o" -MMD -MP -MF"src/init_destory.d" -MT"src/init_destory.d" -o "src/init_destory.o" "../src/init_destory.c"
+../src/init_destory.c: In function 'test':
+../src/init_destory.c:128:2: warning: implicit declaration of function 'test_life_cycle' [-Wimplicit-function-declaration]
+  test_life_cycle();
+  ^
+../src/init_destory.c: In function 'destory':
+../src/init_destory.c:187:2: warning: implicit declaration of function 'destorySemSignal' [-Wimplicit-function-declaration]
+  destorySemSignal();
+  ^
+../src/init_destory.c:189:2: warning: implicit declaration of function 'destory_mem_pool' [-Wimplicit-function-declaration]
+  destory_mem_pool();
+  ^
+../src/init_destory.c: In function 'main_ring':
+../src/init_destory.c:217:4: warning: implicit declaration of function 'tcp_trans_row_data_2' [-Wimplicit-function-declaration]
+    pthread_t thread_task_tcp_trans_row=tcp_trans_row_data_2(NULL);
+    ^
+../src/init_destory.c:229:5: warning: implicit declaration of function 'init_fpga_cvt_server' [-Wimplicit-function-declaration]
+     pthread_t thread_task_fpga_cvt=init_fpga_cvt_server(NULL);
+     ^
+../src/init_destory.c:231:5: warning: implicit declaration of function 'init_memcpy_server' [-Wimplicit-function-declaration]
+     pthread_t thread_task_memcpy=init_memcpy_server(NULL);
+     ^
+In file included from ../src/type.h:8:0,
+                 from ../src/base.h:5,
+                 from ../src/axi_map.h:6,
+                 from ../src/axi.h:9,
+                 from ../src/init_destory.h:6,
+                 from ../src/init_destory.c:1:
+../src/init_destory.c: At top level:
+../src/opencv2/core/types_c.h:379:17: warning: 'cvFloor' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvFloor( double value )
+                 ^
+../src/opencv2/core/types_c.h:396:17: warning: 'cvCeil' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvCeil( double value )
+                 ^
+../src/opencv2/core/types_c.h:415:15: warning: 'cvIsNaN' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsNaN( double value )
+               ^
+../src/opencv2/core/types_c.h:424:15: warning: 'cvIsInf' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsInf( double value )
+               ^
+../src/opencv2/core/types_c.h:439:17: warning: 'cvRNG' defined but not used [-Wunused-function]
+ CV_INLINE CvRNG cvRNG( int64 seed CV_DEFAULT(-1))
+                 ^
+../src/opencv2/core/types_c.h:455:18: warning: 'cvRandReal' defined but not used [-Wunused-function]
+ CV_INLINE double cvRandReal( CvRNG* rng )
+                  ^
+../src/opencv2/core/types_c.h:769:17: warning: 'cvMat' defined but not used [-Wunused-function]
+ CV_INLINE CvMat cvMat( int rows, int cols, int type, void* data CV_DEFAULT(NULL))
+                 ^
+../src/opencv2/core/types_c.h:799:20: warning: 'cvmGet' defined but not used [-Wunused-function]
+ CV_INLINE  double  cvmGet( const CvMat* mat, int row, int col )
+                    ^
+../src/opencv2/core/types_c.h:817:18: warning: 'cvmSet' defined but not used [-Wunused-function]
+ CV_INLINE  void  cvmSet( CvMat* mat, int row, int col, double value )
+                  ^
+../src/opencv2/core/types_c.h:834:15: warning: 'cvIplDepth' defined but not used [-Wunused-function]
+ CV_INLINE int cvIplDepth( int type )
+               ^
+../src/opencv2/core/types_c.h:1009:20: warning: 'cvRectToROI' defined but not used [-Wunused-function]
+ CV_INLINE  IplROI  cvRectToROI( CvRect rect, int coi )
+                    ^
+../src/opencv2/core/types_c.h:1022:20: warning: 'cvROIToRect' defined but not used [-Wunused-function]
+ CV_INLINE  CvRect  cvROIToRect( IplROI roi )
+                    ^
+../src/opencv2/core/types_c.h:1043:28: warning: 'cvTermCriteria' defined but not used [-Wunused-function]
+ CV_INLINE  CvTermCriteria  cvTermCriteria( int type, int max_iter, double epsilon )
+                            ^
+../src/opencv2/core/types_c.h:1065:21: warning: 'cvPoint' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPoint( int x, int y )
+                     ^
+../src/opencv2/core/types_c.h:1095:26: warning: 'cvPointTo32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D32f  cvPointTo32f( CvPoint point )
+                          ^
+../src/opencv2/core/types_c.h:1101:21: warning: 'cvPointFrom32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPointFrom32f( CvPoint2D32f point )
+                     ^
+../src/opencv2/core/types_c.h:1120:26: warning: 'cvPoint3D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D32f  cvPoint3D32f( double x, double y, double z )
+                          ^
+../src/opencv2/core/types_c.h:1140:26: warning: 'cvPoint2D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D64f  cvPoint2D64f( double x, double y )
+                          ^
+../src/opencv2/core/types_c.h:1160:26: warning: 'cvPoint3D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D64f  cvPoint3D64f( double x, double y, double z )
+                          ^
+../src/opencv2/core/types_c.h:1181:20: warning: 'cvSize' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize  cvSize( int width, int height )
+                    ^
+../src/opencv2/core/types_c.h:1199:25: warning: 'cvSize2D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize2D32f  cvSize2D32f( double width, double height )
+                         ^
+../src/opencv2/core/types_c.h:1244:21: warning: 'cvSlice' defined but not used [-Wunused-function]
+ CV_INLINE  CvSlice  cvSlice( int start, int end )
+                     ^
+../src/opencv2/core/types_c.h:1265:22: warning: 'cvScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalar( double val0, double val1 CV_DEFAULT(0),
+                      ^
+../src/opencv2/core/types_c.h:1275:22: warning: 'cvRealScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvRealScalar( double val0 )
+                      ^
+../src/opencv2/core/types_c.h:1283:22: warning: 'cvScalarAll' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalarAll( double val0123 )
+                      ^
+../src/opencv2/core/types_c.h:1798:22: warning: 'cvAttrList' defined but not used [-Wunused-function]
+ CV_INLINE CvAttrList cvAttrList( const char** attr CV_DEFAULT(NULL),
+                      ^
+'Finished building: ../src/init_destory.c'
+' '
+'Building file: ../src/life_cycle.c'
+'Invoking: ARM Linux gcc compiler'
+arm-xilinx-linux-gnueabi-gcc -Wall -O0 -g3 -I"G:\TEST-PROJECT\video_diagnosis.sdk.ex\FlowDetect\src\uCOS" -c -fmessage-length=0 -MT"src/life_cycle.o" -MMD -MP -MF"src/life_cycle.d" -MT"src/life_cycle.d" -o "src/life_cycle.o" "../src/life_cycle.c"
+'Finished building: ../src/life_cycle.c'
+' '
+'Building file: ../src/msg_queue.c'
+'Invoking: ARM Linux gcc compiler'
+arm-xilinx-linux-gnueabi-gcc -Wall -O0 -g3 -I"G:\TEST-PROJECT\video_diagnosis.sdk.ex\FlowDetect\src\uCOS" -c -fmessage-length=0 -MT"src/msg_queue.o" -MMD -MP -MF"src/msg_queue.d" -MT"src/msg_queue.d" -o "src/msg_queue.o" "../src/msg_queue.c"
+../src/msg_queue.c: In function 'open_queue':
+../src/msg_queue.c:47:7: warning: unused variable 'errsv' [-Wunused-variable]
+   int errsv = errno;
+       ^
+../src/msg_queue.c: In function 'recv_queue':
+../src/msg_queue.c:204:12: warning: unused variable 'priority_of_msg' [-Wunused-variable]
+  const int priority_of_msg=1;
+            ^
+../src/msg_queue.c: In function 'close_queue':
+../src/msg_queue.c:241:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+'Finished building: ../src/msg_queue.c'
+' '
+'Building file: ../src/msg_sysV_queue.c'
+'Invoking: ARM Linux gcc compiler'
+arm-xilinx-linux-gnueabi-gcc -Wall -O0 -g3 -I"G:\TEST-PROJECT\video_diagnosis.sdk.ex\FlowDetect\src\uCOS" -c -fmessage-length=0 -MT"src/msg_sysV_queue.o" -MMD -MP -MF"src/msg_sysV_queue.d" -MT"src/msg_sysV_queue.d" -o "src/msg_sysV_queue.o" "../src/msg_sysV_queue.c"
+'Finished building: ../src/msg_sysV_queue.c'
+' '
+'Building file: ../src/server_iptables.c'
+'Invoking: ARM Linux gcc compiler'
+arm-xilinx-linux-gnueabi-gcc -Wall -O0 -g3 -I"G:\TEST-PROJECT\video_diagnosis.sdk.ex\FlowDetect\src\uCOS" -c -fmessage-length=0 -MT"src/server_iptables.o" -MMD -MP -MF"src/server_iptables.d" -MT"src/server_iptables.d" -o "src/server_iptables.o" "../src/server_iptables.c"
+In file included from ../src/type.h:8:0,
+                 from ../src/base.h:5,
+                 from ../src/axi_map.h:6,
+                 from ../src/axi.h:9,
+                 from ../src/server_iptables.c:4:
+../src/opencv2/core/types_c.h:379:17: warning: 'cvFloor' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvFloor( double value )
+                 ^
+../src/opencv2/core/types_c.h:396:17: warning: 'cvCeil' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvCeil( double value )
+                 ^
+../src/opencv2/core/types_c.h:415:15: warning: 'cvIsNaN' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsNaN( double value )
+               ^
+../src/opencv2/core/types_c.h:424:15: warning: 'cvIsInf' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsInf( double value )
+               ^
+../src/opencv2/core/types_c.h:439:17: warning: 'cvRNG' defined but not used [-Wunused-function]
+ CV_INLINE CvRNG cvRNG( int64 seed CV_DEFAULT(-1))
+                 ^
+../src/opencv2/core/types_c.h:455:18: warning: 'cvRandReal' defined but not used [-Wunused-function]
+ CV_INLINE double cvRandReal( CvRNG* rng )
+                  ^
+../src/opencv2/core/types_c.h:769:17: warning: 'cvMat' defined but not used [-Wunused-function]
+ CV_INLINE CvMat cvMat( int rows, int cols, int type, void* data CV_DEFAULT(NULL))
+                 ^
+../src/opencv2/core/types_c.h:799:20: warning: 'cvmGet' defined but not used [-Wunused-function]
+ CV_INLINE  double  cvmGet( const CvMat* mat, int row, int col )
+                    ^
+../src/opencv2/core/types_c.h:817:18: warning: 'cvmSet' defined but not used [-Wunused-function]
+ CV_INLINE  void  cvmSet( CvMat* mat, int row, int col, double value )
+                  ^
+../src/opencv2/core/types_c.h:834:15: warning: 'cvIplDepth' defined but not used [-Wunused-function]
+ CV_INLINE int cvIplDepth( int type )
+               ^
+../src/opencv2/core/types_c.h:1009:20: warning: 'cvRectToROI' defined but not used [-Wunused-function]
+ CV_INLINE  IplROI  cvRectToROI( CvRect rect, int coi )
+                    ^
+../src/opencv2/core/types_c.h:1022:20: warning: 'cvROIToRect' defined but not used [-Wunused-function]
+ CV_INLINE  CvRect  cvROIToRect( IplROI roi )
+                    ^
+../src/opencv2/core/types_c.h:1043:28: warning: 'cvTermCriteria' defined but not used [-Wunused-function]
+ CV_INLINE  CvTermCriteria  cvTermCriteria( int type, int max_iter, double epsilon )
+                            ^
+../src/opencv2/core/types_c.h:1065:21: warning: 'cvPoint' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPoint( int x, int y )
+                     ^
+../src/opencv2/core/types_c.h:1095:26: warning: 'cvPointTo32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D32f  cvPointTo32f( CvPoint point )
+                          ^
+../src/opencv2/core/types_c.h:1101:21: warning: 'cvPointFrom32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPointFrom32f( CvPoint2D32f point )
+                     ^
+../src/opencv2/core/types_c.h:1120:26: warning: 'cvPoint3D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D32f  cvPoint3D32f( double x, double y, double z )
+                          ^
+../src/opencv2/core/types_c.h:1140:26: warning: 'cvPoint2D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D64f  cvPoint2D64f( double x, double y )
+                          ^
+../src/opencv2/core/types_c.h:1160:26: warning: 'cvPoint3D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D64f  cvPoint3D64f( double x, double y, double z )
+                          ^
+../src/opencv2/core/types_c.h:1181:20: warning: 'cvSize' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize  cvSize( int width, int height )
+                    ^
+../src/opencv2/core/types_c.h:1199:25: warning: 'cvSize2D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize2D32f  cvSize2D32f( double width, double height )
+                         ^
+../src/opencv2/core/types_c.h:1244:21: warning: 'cvSlice' defined but not used [-Wunused-function]
+ CV_INLINE  CvSlice  cvSlice( int start, int end )
+                     ^
+../src/opencv2/core/types_c.h:1265:22: warning: 'cvScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalar( double val0, double val1 CV_DEFAULT(0),
+                      ^
+../src/opencv2/core/types_c.h:1275:22: warning: 'cvRealScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvRealScalar( double val0 )
+                      ^
+../src/opencv2/core/types_c.h:1283:22: warning: 'cvScalarAll' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalarAll( double val0123 )
+                      ^
+../src/opencv2/core/types_c.h:1798:22: warning: 'cvAttrList' defined but not used [-Wunused-function]
+ CV_INLINE CvAttrList cvAttrList( const char** attr CV_DEFAULT(NULL),
+                      ^
+'Finished building: ../src/server_iptables.c'
+' '
+'Building file: ../src/task_flow.c'
+'Invoking: ARM Linux gcc compiler'
+arm-xilinx-linux-gnueabi-gcc -Wall -O0 -g3 -I"G:\TEST-PROJECT\video_diagnosis.sdk.ex\FlowDetect\src\uCOS" -c -fmessage-length=0 -MT"src/task_flow.o" -MMD -MP -MF"src/task_flow.d" -MT"src/task_flow.d" -o "src/task_flow.o" "../src/task_flow.c"
+../src/task_flow.c: In function 'init_server_addr':
+../src/task_flow.c:11:6: warning: unused variable 'size' [-Wunused-variable]
+  int size = sizeof(struct sockaddr_in);
+      ^
+../src/task_flow.c: In function 'Get8ChannelAverage':
+../src/task_flow.c:119:6: warning: unused variable 'SIZE' [-Wunused-variable]
+  int SIZE=0;
+      ^
+../src/task_flow.c: In function 'task_flow_ctrl_server_client':
+../src/task_flow.c:177:11: warning: implicit declaration of function 'setFpgaCircleCmd' [-Wimplicit-function-declaration]
+           setFpgaCircleCmd(cmd_t);
+           ^
+../src/task_flow.c:204:10: warning: implicit declaration of function 'IsImageChangeSigma' [-Wimplicit-function-declaration]
+          }else if(IsImageChangeSigma(cmd_t)){
+          ^
+In file included from ../src/type.h:8:0,
+                 from ../src/task_flow.h:6,
+                 from ../src/task_flow.c:1:
+../src/task_flow.c: At top level:
+../src/opencv2/core/types_c.h:379:17: warning: 'cvFloor' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvFloor( double value )
+                 ^
+../src/opencv2/core/types_c.h:396:17: warning: 'cvCeil' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvCeil( double value )
+                 ^
+../src/opencv2/core/types_c.h:415:15: warning: 'cvIsNaN' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsNaN( double value )
+               ^
+../src/opencv2/core/types_c.h:424:15: warning: 'cvIsInf' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsInf( double value )
+               ^
+../src/opencv2/core/types_c.h:439:17: warning: 'cvRNG' defined but not used [-Wunused-function]
+ CV_INLINE CvRNG cvRNG( int64 seed CV_DEFAULT(-1))
+                 ^
+../src/opencv2/core/types_c.h:455:18: warning: 'cvRandReal' defined but not used [-Wunused-function]
+ CV_INLINE double cvRandReal( CvRNG* rng )
+                  ^
+../src/opencv2/core/types_c.h:769:17: warning: 'cvMat' defined but not used [-Wunused-function]
+ CV_INLINE CvMat cvMat( int rows, int cols, int type, void* data CV_DEFAULT(NULL))
+                 ^
+../src/opencv2/core/types_c.h:799:20: warning: 'cvmGet' defined but not used [-Wunused-function]
+ CV_INLINE  double  cvmGet( const CvMat* mat, int row, int col )
+                    ^
+../src/opencv2/core/types_c.h:817:18: warning: 'cvmSet' defined but not used [-Wunused-function]
+ CV_INLINE  void  cvmSet( CvMat* mat, int row, int col, double value )
+                  ^
+../src/opencv2/core/types_c.h:834:15: warning: 'cvIplDepth' defined but not used [-Wunused-function]
+ CV_INLINE int cvIplDepth( int type )
+               ^
+../src/opencv2/core/types_c.h:1009:20: warning: 'cvRectToROI' defined but not used [-Wunused-function]
+ CV_INLINE  IplROI  cvRectToROI( CvRect rect, int coi )
+                    ^
+../src/opencv2/core/types_c.h:1022:20: warning: 'cvROIToRect' defined but not used [-Wunused-function]
+ CV_INLINE  CvRect  cvROIToRect( IplROI roi )
+                    ^
+../src/opencv2/core/types_c.h:1043:28: warning: 'cvTermCriteria' defined but not used [-Wunused-function]
+ CV_INLINE  CvTermCriteria  cvTermCriteria( int type, int max_iter, double epsilon )
+                            ^
+../src/opencv2/core/types_c.h:1065:21: warning: 'cvPoint' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPoint( int x, int y )
+                     ^
+../src/opencv2/core/types_c.h:1095:26: warning: 'cvPointTo32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D32f  cvPointTo32f( CvPoint point )
+                          ^
+../src/opencv2/core/types_c.h:1101:21: warning: 'cvPointFrom32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPointFrom32f( CvPoint2D32f point )
+                     ^
+../src/opencv2/core/types_c.h:1120:26: warning: 'cvPoint3D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D32f  cvPoint3D32f( double x, double y, double z )
+                          ^
+../src/opencv2/core/types_c.h:1140:26: warning: 'cvPoint2D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D64f  cvPoint2D64f( double x, double y )
+                          ^
+../src/opencv2/core/types_c.h:1160:26: warning: 'cvPoint3D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D64f  cvPoint3D64f( double x, double y, double z )
+                          ^
+../src/opencv2/core/types_c.h:1181:20: warning: 'cvSize' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize  cvSize( int width, int height )
+                    ^
+../src/opencv2/core/types_c.h:1199:25: warning: 'cvSize2D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize2D32f  cvSize2D32f( double width, double height )
+                         ^
+../src/opencv2/core/types_c.h:1244:21: warning: 'cvSlice' defined but not used [-Wunused-function]
+ CV_INLINE  CvSlice  cvSlice( int start, int end )
+                     ^
+../src/opencv2/core/types_c.h:1265:22: warning: 'cvScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalar( double val0, double val1 CV_DEFAULT(0),
+                      ^
+../src/opencv2/core/types_c.h:1275:22: warning: 'cvRealScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvRealScalar( double val0 )
+                      ^
+../src/opencv2/core/types_c.h:1283:22: warning: 'cvScalarAll' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalarAll( double val0123 )
+                      ^
+../src/opencv2/core/types_c.h:1798:22: warning: 'cvAttrList' defined but not used [-Wunused-function]
+ CV_INLINE CvAttrList cvAttrList( const char** attr CV_DEFAULT(NULL),
+                      ^
+../src/task_flow.c: In function 'task_flow_server':
+../src/task_flow.c:95:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+'Finished building: ../src/task_flow.c'
+' '
+'Building file: ../src/tcp_server.c'
+'Invoking: ARM Linux gcc compiler'
+arm-xilinx-linux-gnueabi-gcc -Wall -O0 -g3 -I"G:\TEST-PROJECT\video_diagnosis.sdk.ex\FlowDetect\src\uCOS" -c -fmessage-length=0 -MT"src/tcp_server.o" -MMD -MP -MF"src/tcp_server.d" -MT"src/tcp_server.d" -o "src/tcp_server.o" "../src/tcp_server.c"
+../src/tcp_server.c: In function 'tcp_server':
+../src/tcp_server.c:127:61: warning: passing argument 3 of 'accept' discards 'const' qualifier from pointer target type
+   *_clientfd_ptr = accept(sockfd, (struct sockaddr*)client, &client_size);
+                                                             ^
+In file included from d:\xilinx\sdk\2015.4\gnu\arm\nt\arm-xilinx-linux-gnueabi\libc\usr\include\netinet\in.h:23:0,
+                 from d:\xilinx\sdk\2015.4\gnu\arm\nt\arm-xilinx-linux-gnueabi\libc\usr\include\arpa\inet.h:22,
+                 from ../src/linux_header.h:35,
+                 from ../src/tcp_server.h:4,
+                 from ../src/tcp_server.c:1:
+d:\xilinx\sdk\2015.4\gnu\arm\nt\arm-xilinx-linux-gnueabi\libc\usr\include\sys\socket.h:244:12: note: expected 'socklen_t * __restrict__' but argument is of type 'const unsigned int *'
+ extern int accept (int __fd, __SOCKADDR_ARG __addr,
+            ^
+../src/tcp_server.c:154:15: warning: passing argument 1 of 'mem_free_clr' from incompatible pointer type
+  mem_free_clr(&server);
+               ^
+In file included from ../src/type.h:10:0,
+                 from ../src/base.h:5,
+                 from ../src/tcp_server.h:6,
+                 from ../src/tcp_server.c:1:
+../src/uCOS/mem_pool_fixed.h:18:7: note: expected 'void **' but argument is of type 'struct sockaddr_in **'
+ void  mem_free_clr(void** _mem_ptr);
+       ^
+../src/tcp_server.c:155:18: warning: passing argument 1 of 'mem_free_clr' from incompatible pointer type
+     mem_free_clr(&client);
+                  ^
+In file included from ../src/type.h:10:0,
+                 from ../src/base.h:5,
+                 from ../src/tcp_server.h:6,
+                 from ../src/tcp_server.c:1:
+../src/uCOS/mem_pool_fixed.h:18:7: note: expected 'void **' but argument is of type 'struct sockaddr_in **'
+ void  mem_free_clr(void** _mem_ptr);
+       ^
+../src/tcp_server.c:158:5: warning: implicit declaration of function 'ExitTcpServer' [-Wimplicit-function-declaration]
+     ExitTcpServer(sockfd,server_port);
+     ^
+../src/tcp_server.c: In function 'cal_image_part':
+../src/tcp_server.c:177:6: warning: unused variable 'i' [-Wunused-variable]
+  int i=0;
+      ^
+../src/tcp_server.c: In function 'tcp_client_trans_row_data':
+../src/tcp_server.c:233:18: warning: passing argument 1 of 'mem_free_clr' from incompatible pointer type
+     mem_free_clr(&BUFF);
+                  ^
+In file included from ../src/type.h:10:0,
+                 from ../src/base.h:5,
+                 from ../src/tcp_server.h:6,
+                 from ../src/tcp_server.c:1:
+../src/uCOS/mem_pool_fixed.h:18:7: note: expected 'void **' but argument is of type 'unsigned char **'
+ void  mem_free_clr(void** _mem_ptr);
+       ^
+../src/tcp_server.c: In function 'tcp_trans_row_image_2':
+../src/tcp_server.c:261:2: warning: implicit declaration of function 'StartFpgaCircle' [-Wimplicit-function-declaration]
+  StartFpgaCircle(WM_SIZE_FULL|WM_DIFF_IMG);
+  ^
+../src/tcp_server.c: In function 'tcp_trans_row_image':
+../src/tcp_server.c:335:3: warning: implicit declaration of function 'outside_first' [-Wimplicit-function-declaration]
+   outside_first(FPGA_WORK_MODE_DATA_ZERO);
+   ^
+In file included from ../src/type.h:8:0,
+                 from ../src/base.h:5,
+                 from ../src/tcp_server.h:6,
+                 from ../src/tcp_server.c:1:
+../src/tcp_server.c: At top level:
+../src/opencv2/core/types_c.h:379:17: warning: 'cvFloor' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvFloor( double value )
+                 ^
+../src/opencv2/core/types_c.h:396:17: warning: 'cvCeil' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvCeil( double value )
+                 ^
+../src/opencv2/core/types_c.h:415:15: warning: 'cvIsNaN' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsNaN( double value )
+               ^
+../src/opencv2/core/types_c.h:424:15: warning: 'cvIsInf' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsInf( double value )
+               ^
+../src/opencv2/core/types_c.h:439:17: warning: 'cvRNG' defined but not used [-Wunused-function]
+ CV_INLINE CvRNG cvRNG( int64 seed CV_DEFAULT(-1))
+                 ^
+../src/opencv2/core/types_c.h:455:18: warning: 'cvRandReal' defined but not used [-Wunused-function]
+ CV_INLINE double cvRandReal( CvRNG* rng )
+                  ^
+../src/opencv2/core/types_c.h:769:17: warning: 'cvMat' defined but not used [-Wunused-function]
+ CV_INLINE CvMat cvMat( int rows, int cols, int type, void* data CV_DEFAULT(NULL))
+                 ^
+../src/opencv2/core/types_c.h:799:20: warning: 'cvmGet' defined but not used [-Wunused-function]
+ CV_INLINE  double  cvmGet( const CvMat* mat, int row, int col )
+                    ^
+../src/opencv2/core/types_c.h:817:18: warning: 'cvmSet' defined but not used [-Wunused-function]
+ CV_INLINE  void  cvmSet( CvMat* mat, int row, int col, double value )
+                  ^
+../src/opencv2/core/types_c.h:834:15: warning: 'cvIplDepth' defined but not used [-Wunused-function]
+ CV_INLINE int cvIplDepth( int type )
+               ^
+../src/opencv2/core/types_c.h:1009:20: warning: 'cvRectToROI' defined but not used [-Wunused-function]
+ CV_INLINE  IplROI  cvRectToROI( CvRect rect, int coi )
+                    ^
+../src/opencv2/core/types_c.h:1022:20: warning: 'cvROIToRect' defined but not used [-Wunused-function]
+ CV_INLINE  CvRect  cvROIToRect( IplROI roi )
+                    ^
+../src/opencv2/core/types_c.h:1043:28: warning: 'cvTermCriteria' defined but not used [-Wunused-function]
+ CV_INLINE  CvTermCriteria  cvTermCriteria( int type, int max_iter, double epsilon )
+                            ^
+../src/opencv2/core/types_c.h:1065:21: warning: 'cvPoint' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPoint( int x, int y )
+                     ^
+../src/opencv2/core/types_c.h:1095:26: warning: 'cvPointTo32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D32f  cvPointTo32f( CvPoint point )
+                          ^
+../src/opencv2/core/types_c.h:1101:21: warning: 'cvPointFrom32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPointFrom32f( CvPoint2D32f point )
+                     ^
+../src/opencv2/core/types_c.h:1120:26: warning: 'cvPoint3D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D32f  cvPoint3D32f( double x, double y, double z )
+                          ^
+../src/opencv2/core/types_c.h:1140:26: warning: 'cvPoint2D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D64f  cvPoint2D64f( double x, double y )
+                          ^
+../src/opencv2/core/types_c.h:1160:26: warning: 'cvPoint3D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D64f  cvPoint3D64f( double x, double y, double z )
+                          ^
+../src/opencv2/core/types_c.h:1181:20: warning: 'cvSize' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize  cvSize( int width, int height )
+                    ^
+../src/opencv2/core/types_c.h:1199:25: warning: 'cvSize2D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize2D32f  cvSize2D32f( double width, double height )
+                         ^
+../src/opencv2/core/types_c.h:1244:21: warning: 'cvSlice' defined but not used [-Wunused-function]
+ CV_INLINE  CvSlice  cvSlice( int start, int end )
+                     ^
+../src/opencv2/core/types_c.h:1265:22: warning: 'cvScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalar( double val0, double val1 CV_DEFAULT(0),
+                      ^
+../src/opencv2/core/types_c.h:1275:22: warning: 'cvRealScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvRealScalar( double val0 )
+                      ^
+../src/opencv2/core/types_c.h:1283:22: warning: 'cvScalarAll' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalarAll( double val0123 )
+                      ^
+../src/opencv2/core/types_c.h:1798:22: warning: 'cvAttrList' defined but not used [-Wunused-function]
+ CV_INLINE CvAttrList cvAttrList( const char** attr CV_DEFAULT(NULL),
+                      ^
+../src/tcp_server.c:26:24: warning: 'filename_config' defined but not used [-Wunused-variable]
+ static struct filename filename_config[]= {
+                        ^
+../src/tcp_server.c:245:12: warning: 'g1' defined but not used [-Wunused-variable]
+ static int g1 = 0, g2 = 0, g3 = 0;
+            ^
+../src/tcp_server.c:245:20: warning: 'g2' defined but not used [-Wunused-variable]
+ static int g1 = 0, g2 = 0, g3 = 0;
+                    ^
+../src/tcp_server.c:245:28: warning: 'g3' defined but not used [-Wunused-variable]
+ static int g1 = 0, g2 = 0, g3 = 0;
+                            ^
+../src/tcp_server.c: In function 'tcp_server':
+../src/tcp_server.c:159:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+'Finished building: ../src/tcp_server.c'
+' '
+'Building file: ../src/telnet_my.c'
+'Invoking: ARM Linux gcc compiler'
+arm-xilinx-linux-gnueabi-gcc -Wall -O0 -g3 -I"G:\TEST-PROJECT\video_diagnosis.sdk.ex\FlowDetect\src\uCOS" -c -fmessage-length=0 -MT"src/telnet_my.o" -MMD -MP -MF"src/telnet_my.d" -MT"src/telnet_my.d" -o "src/telnet_my.o" "../src/telnet_my.c"
+../src/telnet_my.c: In function 'telnetd_start':
+../src/telnet_my.c:21:9: warning: unused variable 'i' [-Wunused-variable]
+     int i,ret;
+         ^
+../src/telnet_my.c: In function 'telnetd':
+../src/telnet_my.c:87:80: warning: pointer targets in passing argument 3 of 'accept' differ in signedness [-Wpointer-sign]
+         if((client_sockfd=accept(server_sockfd,(struct sockaddr *)&remote_addr,&sin_size))<0)
+                                                                                ^
+In file included from d:\xilinx\sdk\2015.4\gnu\arm\nt\arm-xilinx-linux-gnueabi\libc\usr\include\netinet\in.h:23:0,
+                 from d:\xilinx\sdk\2015.4\gnu\arm\nt\arm-xilinx-linux-gnueabi\libc\usr\include\arpa\inet.h:22,
+                 from ../src/linux_header.h:35,
+                 from ../src/telnet_my.h:3,
+                 from ../src/telnet_my.c:1:
+d:\xilinx\sdk\2015.4\gnu\arm\nt\arm-xilinx-linux-gnueabi\libc\usr\include\sys\socket.h:244:12: note: expected 'socklen_t * __restrict__' but argument is of type 'int *'
+ extern int accept (int __fd, __SOCKADDR_ARG __addr,
+            ^
+../src/telnet_my.c:107:13: warning: unused variable 'i' [-Wunused-variable]
+         int i,ret;
+             ^
+../src/telnet_my.c:54:9: warning: unused variable 'len' [-Wunused-variable]
+     int len;
+         ^
+../src/telnet_my.c:51:9: warning: unused variable 'status' [-Wunused-variable]
+     int status;
+         ^
+../src/telnet_my.c:50:11: warning: unused variable 'fpid' [-Wunused-variable]
+     pid_t fpid;
+           ^
+../src/telnet_my.c: In function 'cmd_analyze':
+../src/telnet_my.c:172:16: warning: pointer targets in assignment differ in signedness [-Wpointer-sign]
+     while((ptr = strstr(cmd, "\r")) != 0 ) {
+                ^
+../src/telnet_my.c:179:16: warning: pointer targets in assignment differ in signedness [-Wpointer-sign]
+     while((ptr = strstr(cmd, "\n")) != 0 ) {
+                ^
+../src/telnet_my.c:168:20: warning: unused variable 'ptr_tmp' [-Wunused-variable]
+     unsigned char *ptr_tmp;
+                    ^
+../src/telnet_my.c: In function 'cmd_process':
+../src/telnet_my.c:210:10: warning: unused variable 'stat' [-Wunused-variable]
+      int stat=sensor_state();
+          ^
+../src/telnet_my.c: In function 'task_process':
+../src/telnet_my.c:226:13: warning: unused variable 'tmp' [-Wunused-variable]
+     int i=0,tmp = 0;
+             ^
+../src/telnet_my.c:226:9: warning: unused variable 'i' [-Wunused-variable]
+     int i=0,tmp = 0;
+         ^
+In file included from ../src/type.h:8:0,
+                 from ../src/base.h:5,
+                 from ../src/tcp_server.h:6,
+                 from ../src/telnet_my.h:4,
+                 from ../src/telnet_my.c:1:
+../src/telnet_my.c: At top level:
+../src/opencv2/core/types_c.h:379:17: warning: 'cvFloor' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvFloor( double value )
+                 ^
+../src/opencv2/core/types_c.h:396:17: warning: 'cvCeil' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvCeil( double value )
+                 ^
+../src/opencv2/core/types_c.h:415:15: warning: 'cvIsNaN' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsNaN( double value )
+               ^
+../src/opencv2/core/types_c.h:424:15: warning: 'cvIsInf' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsInf( double value )
+               ^
+../src/opencv2/core/types_c.h:439:17: warning: 'cvRNG' defined but not used [-Wunused-function]
+ CV_INLINE CvRNG cvRNG( int64 seed CV_DEFAULT(-1))
+                 ^
+../src/opencv2/core/types_c.h:455:18: warning: 'cvRandReal' defined but not used [-Wunused-function]
+ CV_INLINE double cvRandReal( CvRNG* rng )
+                  ^
+../src/opencv2/core/types_c.h:769:17: warning: 'cvMat' defined but not used [-Wunused-function]
+ CV_INLINE CvMat cvMat( int rows, int cols, int type, void* data CV_DEFAULT(NULL))
+                 ^
+../src/opencv2/core/types_c.h:799:20: warning: 'cvmGet' defined but not used [-Wunused-function]
+ CV_INLINE  double  cvmGet( const CvMat* mat, int row, int col )
+                    ^
+../src/opencv2/core/types_c.h:817:18: warning: 'cvmSet' defined but not used [-Wunused-function]
+ CV_INLINE  void  cvmSet( CvMat* mat, int row, int col, double value )
+                  ^
+../src/opencv2/core/types_c.h:834:15: warning: 'cvIplDepth' defined but not used [-Wunused-function]
+ CV_INLINE int cvIplDepth( int type )
+               ^
+../src/opencv2/core/types_c.h:1009:20: warning: 'cvRectToROI' defined but not used [-Wunused-function]
+ CV_INLINE  IplROI  cvRectToROI( CvRect rect, int coi )
+                    ^
+../src/opencv2/core/types_c.h:1022:20: warning: 'cvROIToRect' defined but not used [-Wunused-function]
+ CV_INLINE  CvRect  cvROIToRect( IplROI roi )
+                    ^
+../src/opencv2/core/types_c.h:1043:28: warning: 'cvTermCriteria' defined but not used [-Wunused-function]
+ CV_INLINE  CvTermCriteria  cvTermCriteria( int type, int max_iter, double epsilon )
+                            ^
+../src/opencv2/core/types_c.h:1065:21: warning: 'cvPoint' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPoint( int x, int y )
+                     ^
+../src/opencv2/core/types_c.h:1095:26: warning: 'cvPointTo32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D32f  cvPointTo32f( CvPoint point )
+                          ^
+../src/opencv2/core/types_c.h:1101:21: warning: 'cvPointFrom32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPointFrom32f( CvPoint2D32f point )
+                     ^
+../src/opencv2/core/types_c.h:1120:26: warning: 'cvPoint3D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D32f  cvPoint3D32f( double x, double y, double z )
+                          ^
+../src/opencv2/core/types_c.h:1140:26: warning: 'cvPoint2D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D64f  cvPoint2D64f( double x, double y )
+                          ^
+../src/opencv2/core/types_c.h:1160:26: warning: 'cvPoint3D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D64f  cvPoint3D64f( double x, double y, double z )
+                          ^
+../src/opencv2/core/types_c.h:1181:20: warning: 'cvSize' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize  cvSize( int width, int height )
+                    ^
+../src/opencv2/core/types_c.h:1199:25: warning: 'cvSize2D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize2D32f  cvSize2D32f( double width, double height )
+                         ^
+../src/opencv2/core/types_c.h:1244:21: warning: 'cvSlice' defined but not used [-Wunused-function]
+ CV_INLINE  CvSlice  cvSlice( int start, int end )
+                     ^
+../src/opencv2/core/types_c.h:1265:22: warning: 'cvScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalar( double val0, double val1 CV_DEFAULT(0),
+                      ^
+../src/opencv2/core/types_c.h:1275:22: warning: 'cvRealScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvRealScalar( double val0 )
+                      ^
+../src/opencv2/core/types_c.h:1283:22: warning: 'cvScalarAll' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalarAll( double val0123 )
+                      ^
+../src/opencv2/core/types_c.h:1798:22: warning: 'cvAttrList' defined but not used [-Wunused-function]
+ CV_INLINE CvAttrList cvAttrList( const char** attr CV_DEFAULT(NULL),
+                      ^
+../src/telnet_my.c: In function 'telnetd_start':
+../src/telnet_my.c:43:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+../src/telnet_my.c: In function 'telnetd_pthread':
+../src/telnet_my.c:125:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+'Finished building: ../src/telnet_my.c'
+' '
+'Building file: ../src/thread_fpga_cvt.c'
+'Invoking: ARM Linux gcc compiler'
+arm-xilinx-linux-gnueabi-gcc -Wall -O0 -g3 -I"G:\TEST-PROJECT\video_diagnosis.sdk.ex\FlowDetect\src\uCOS" -c -fmessage-length=0 -MT"src/thread_fpga_cvt.o" -MMD -MP -MF"src/thread_fpga_cvt.d" -MT"src/thread_fpga_cvt.d" -o "src/thread_fpga_cvt.o" "../src/thread_fpga_cvt.c"
+In file included from ../src/type.h:8:0,
+                 from ../src/base.h:5,
+                 from ../src/axi_map.h:6,
+                 from ../src/axi.h:9,
+                 from ../src/thread_fpga_cvt.h:4,
+                 from ../src/thread_fpga_cvt.c:2:
+../src/opencv2/core/types_c.h:379:17: warning: 'cvFloor' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvFloor( double value )
+                 ^
+../src/opencv2/core/types_c.h:396:17: warning: 'cvCeil' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvCeil( double value )
+                 ^
+../src/opencv2/core/types_c.h:415:15: warning: 'cvIsNaN' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsNaN( double value )
+               ^
+../src/opencv2/core/types_c.h:424:15: warning: 'cvIsInf' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsInf( double value )
+               ^
+../src/opencv2/core/types_c.h:439:17: warning: 'cvRNG' defined but not used [-Wunused-function]
+ CV_INLINE CvRNG cvRNG( int64 seed CV_DEFAULT(-1))
+                 ^
+../src/opencv2/core/types_c.h:455:18: warning: 'cvRandReal' defined but not used [-Wunused-function]
+ CV_INLINE double cvRandReal( CvRNG* rng )
+                  ^
+../src/opencv2/core/types_c.h:769:17: warning: 'cvMat' defined but not used [-Wunused-function]
+ CV_INLINE CvMat cvMat( int rows, int cols, int type, void* data CV_DEFAULT(NULL))
+                 ^
+../src/opencv2/core/types_c.h:799:20: warning: 'cvmGet' defined but not used [-Wunused-function]
+ CV_INLINE  double  cvmGet( const CvMat* mat, int row, int col )
+                    ^
+../src/opencv2/core/types_c.h:817:18: warning: 'cvmSet' defined but not used [-Wunused-function]
+ CV_INLINE  void  cvmSet( CvMat* mat, int row, int col, double value )
+                  ^
+../src/opencv2/core/types_c.h:834:15: warning: 'cvIplDepth' defined but not used [-Wunused-function]
+ CV_INLINE int cvIplDepth( int type )
+               ^
+../src/opencv2/core/types_c.h:1009:20: warning: 'cvRectToROI' defined but not used [-Wunused-function]
+ CV_INLINE  IplROI  cvRectToROI( CvRect rect, int coi )
+                    ^
+../src/opencv2/core/types_c.h:1022:20: warning: 'cvROIToRect' defined but not used [-Wunused-function]
+ CV_INLINE  CvRect  cvROIToRect( IplROI roi )
+                    ^
+../src/opencv2/core/types_c.h:1043:28: warning: 'cvTermCriteria' defined but not used [-Wunused-function]
+ CV_INLINE  CvTermCriteria  cvTermCriteria( int type, int max_iter, double epsilon )
+                            ^
+../src/opencv2/core/types_c.h:1065:21: warning: 'cvPoint' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPoint( int x, int y )
+                     ^
+../src/opencv2/core/types_c.h:1095:26: warning: 'cvPointTo32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D32f  cvPointTo32f( CvPoint point )
+                          ^
+../src/opencv2/core/types_c.h:1101:21: warning: 'cvPointFrom32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPointFrom32f( CvPoint2D32f point )
+                     ^
+../src/opencv2/core/types_c.h:1120:26: warning: 'cvPoint3D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D32f  cvPoint3D32f( double x, double y, double z )
+                          ^
+../src/opencv2/core/types_c.h:1140:26: warning: 'cvPoint2D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D64f  cvPoint2D64f( double x, double y )
+                          ^
+../src/opencv2/core/types_c.h:1160:26: warning: 'cvPoint3D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D64f  cvPoint3D64f( double x, double y, double z )
+                          ^
+../src/opencv2/core/types_c.h:1181:20: warning: 'cvSize' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize  cvSize( int width, int height )
+                    ^
+../src/opencv2/core/types_c.h:1199:25: warning: 'cvSize2D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize2D32f  cvSize2D32f( double width, double height )
+                         ^
+../src/opencv2/core/types_c.h:1244:21: warning: 'cvSlice' defined but not used [-Wunused-function]
+ CV_INLINE  CvSlice  cvSlice( int start, int end )
+                     ^
+../src/opencv2/core/types_c.h:1265:22: warning: 'cvScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalar( double val0, double val1 CV_DEFAULT(0),
+                      ^
+../src/opencv2/core/types_c.h:1275:22: warning: 'cvRealScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvRealScalar( double val0 )
+                      ^
+../src/opencv2/core/types_c.h:1283:22: warning: 'cvScalarAll' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalarAll( double val0123 )
+                      ^
+../src/opencv2/core/types_c.h:1798:22: warning: 'cvAttrList' defined but not used [-Wunused-function]
+ CV_INLINE CvAttrList cvAttrList( const char** attr CV_DEFAULT(NULL),
+                      ^
+'Finished building: ../src/thread_fpga_cvt.c'
+' '
+'Building file: ../src/timer.c'
+'Invoking: ARM Linux gcc compiler'
+arm-xilinx-linux-gnueabi-gcc -Wall -O0 -g3 -I"G:\TEST-PROJECT\video_diagnosis.sdk.ex\FlowDetect\src\uCOS" -c -fmessage-length=0 -MT"src/timer.o" -MMD -MP -MF"src/timer.d" -MT"src/timer.d" -o "src/timer.o" "../src/timer.c"
+'Finished building: ../src/timer.c'
+' '
+'Building file: ../src/type.c'
+'Invoking: ARM Linux gcc compiler'
+arm-xilinx-linux-gnueabi-gcc -Wall -O0 -g3 -I"G:\TEST-PROJECT\video_diagnosis.sdk.ex\FlowDetect\src\uCOS" -c -fmessage-length=0 -MT"src/type.o" -MMD -MP -MF"src/type.d" -MT"src/type.d" -o "src/type.o" "../src/type.c"
+../src/type.c: In function 'InitImageRoiRR':
+../src/type.c:570:2: warning: implicit declaration of function 'IsEffectiveRect' [-Wimplicit-function-declaration]
+  if(IsEffectiveRect(&_rect_roi)){
+  ^
+../src/type.c: In function 'CreateImageHeartbeat':
+../src/type.c:694:2: warning: implicit declaration of function 'SetCmdParam' [-Wimplicit-function-declaration]
+  SetCmdParam(cmd_t,_need_resp);
+  ^
+../src/type.c: In function 'ReleaseCmdCtrl':
+../src/type.c:772:17: warning: passing argument 1 of 'mem_free_clr' from incompatible pointer type
+    mem_free_clr(_cmd_ctrl);
+                 ^
+In file included from ../src/type.h:10:0,
+                 from ../src/type.c:1:
+../src/uCOS/mem_pool_fixed.h:18:7: note: expected 'void **' but argument is of type 'struct CMD_CTRL **'
+ void  mem_free_clr(void** _mem_ptr);
+       ^
+In file included from ../src/type.h:8:0,
+                 from ../src/type.c:1:
+../src/type.c: At top level:
+../src/opencv2/core/types_c.h:379:17: warning: 'cvFloor' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvFloor( double value )
+                 ^
+../src/opencv2/core/types_c.h:396:17: warning: 'cvCeil' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvCeil( double value )
+                 ^
+../src/opencv2/core/types_c.h:415:15: warning: 'cvIsNaN' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsNaN( double value )
+               ^
+../src/opencv2/core/types_c.h:424:15: warning: 'cvIsInf' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsInf( double value )
+               ^
+../src/opencv2/core/types_c.h:439:17: warning: 'cvRNG' defined but not used [-Wunused-function]
+ CV_INLINE CvRNG cvRNG( int64 seed CV_DEFAULT(-1))
+                 ^
+../src/opencv2/core/types_c.h:455:18: warning: 'cvRandReal' defined but not used [-Wunused-function]
+ CV_INLINE double cvRandReal( CvRNG* rng )
+                  ^
+../src/opencv2/core/types_c.h:769:17: warning: 'cvMat' defined but not used [-Wunused-function]
+ CV_INLINE CvMat cvMat( int rows, int cols, int type, void* data CV_DEFAULT(NULL))
+                 ^
+../src/opencv2/core/types_c.h:799:20: warning: 'cvmGet' defined but not used [-Wunused-function]
+ CV_INLINE  double  cvmGet( const CvMat* mat, int row, int col )
+                    ^
+../src/opencv2/core/types_c.h:817:18: warning: 'cvmSet' defined but not used [-Wunused-function]
+ CV_INLINE  void  cvmSet( CvMat* mat, int row, int col, double value )
+                  ^
+../src/opencv2/core/types_c.h:834:15: warning: 'cvIplDepth' defined but not used [-Wunused-function]
+ CV_INLINE int cvIplDepth( int type )
+               ^
+../src/opencv2/core/types_c.h:1009:20: warning: 'cvRectToROI' defined but not used [-Wunused-function]
+ CV_INLINE  IplROI  cvRectToROI( CvRect rect, int coi )
+                    ^
+../src/opencv2/core/types_c.h:1022:20: warning: 'cvROIToRect' defined but not used [-Wunused-function]
+ CV_INLINE  CvRect  cvROIToRect( IplROI roi )
+                    ^
+../src/opencv2/core/types_c.h:1043:28: warning: 'cvTermCriteria' defined but not used [-Wunused-function]
+ CV_INLINE  CvTermCriteria  cvTermCriteria( int type, int max_iter, double epsilon )
+                            ^
+../src/opencv2/core/types_c.h:1065:21: warning: 'cvPoint' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPoint( int x, int y )
+                     ^
+../src/opencv2/core/types_c.h:1095:26: warning: 'cvPointTo32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D32f  cvPointTo32f( CvPoint point )
+                          ^
+../src/opencv2/core/types_c.h:1101:21: warning: 'cvPointFrom32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPointFrom32f( CvPoint2D32f point )
+                     ^
+../src/opencv2/core/types_c.h:1120:26: warning: 'cvPoint3D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D32f  cvPoint3D32f( double x, double y, double z )
+                          ^
+../src/opencv2/core/types_c.h:1140:26: warning: 'cvPoint2D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D64f  cvPoint2D64f( double x, double y )
+                          ^
+../src/opencv2/core/types_c.h:1160:26: warning: 'cvPoint3D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D64f  cvPoint3D64f( double x, double y, double z )
+                          ^
+../src/opencv2/core/types_c.h:1181:20: warning: 'cvSize' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize  cvSize( int width, int height )
+                    ^
+../src/opencv2/core/types_c.h:1199:25: warning: 'cvSize2D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize2D32f  cvSize2D32f( double width, double height )
+                         ^
+../src/opencv2/core/types_c.h:1244:21: warning: 'cvSlice' defined but not used [-Wunused-function]
+ CV_INLINE  CvSlice  cvSlice( int start, int end )
+                     ^
+../src/opencv2/core/types_c.h:1265:22: warning: 'cvScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalar( double val0, double val1 CV_DEFAULT(0),
+                      ^
+../src/opencv2/core/types_c.h:1275:22: warning: 'cvRealScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvRealScalar( double val0 )
+                      ^
+../src/opencv2/core/types_c.h:1283:22: warning: 'cvScalarAll' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalarAll( double val0123 )
+                      ^
+../src/opencv2/core/types_c.h:1798:22: warning: 'cvAttrList' defined but not used [-Wunused-function]
+ CV_INLINE CvAttrList cvAttrList( const char** attr CV_DEFAULT(NULL),
+                      ^
+'Finished building: ../src/type.c'
+' '
+'Building target: FlowDetect.elf'
+'Invoking: ARM Linux gcc linker'
+arm-xilinx-linux-gnueabi-gcc  -o "FlowDetect.elf"  ./src/uCOS/cpu.o ./src/uCOS/mem_pool_fixed.o ./src/uCOS/os_mem.o  ./src/storage/circular_queue.o ./src/storage/dma2mem.o  ./src/linux_cfg/linux_cfg.o  ./src/img_cfg/img_cfg.o  ./src/hw_module/dma.o  ./src/flow_ctrl/flow_sync.o  ./src/flash/cetc_flash.o  ./src/axi/axi_api.o ./src/axi/axi_fpga_ctrl.o  ./src/axi.o ./src/axi_base.o ./src/axi_map.o ./src/base.o ./src/helloworld.o ./src/init_destory.o ./src/life_cycle.o ./src/msg_queue.o ./src/msg_sysV_queue.o ./src/server_iptables.o ./src/task_flow.o ./src/tcp_server.o ./src/telnet_my.o ./src/thread_fpga_cvt.o ./src/timer.o ./src/type.o   -lpthread -lrt -lm
+'Finished building target: FlowDetect.elf'
+' '
+'Invoking: ARM Linux Print Size'
+arm-xilinx-linux-gnueabi-size FlowDetect.elf  |tee "FlowDetect.elf.size"
+   text	   data	    bss	    dec	    hex	filename
+ 144061	  35816	33851448	34031325	20746dd	FlowDetect.elf
+'Finished building: FlowDetect.elf.size'
+' '
+
+02:13:46 Build Finished (took 1m:12s.964ms)
+
