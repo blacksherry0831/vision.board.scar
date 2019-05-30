@@ -2,6 +2,8 @@
 
 void * tcp_send_data(void *arg);
 
+
+
 const unsigned int socket_struct_len = sizeof(struct sockaddr_in);
 /*-----------------------------------*/
 /**
@@ -43,12 +45,12 @@ unsigned int tcp_len=0;
 unsigned int udp_len=0;
 unsigned int ip_len=0;
 
-//★★★★★★★★★★★★★★传输变量定义★★★★★★★★★★★★★★★
+//***********传输变量定义**********************
 
 #define Amax 2001
 #define Qmax 10000
 
-//☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆
+//*****************************************
 
 union position{
 	unsigned long lpos;
@@ -250,6 +252,7 @@ static int g1 = 0, g2 = 0, g3 = 0;
  *
  */
 /*-----------------------------------*/
+
 void* tcp_trans_row_image_2(void *_data)
 {
 
@@ -296,82 +299,6 @@ void* tcp_trans_row_image_2(void *_data)
 		PRINTF_DBG("pthread>>tcp data transfer thread is close\n");
 		pthread_exit(NULL);
 }
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-pthread_t tcp_trans_row_data_2(void *_data)
-{
-	pthread_t _thread_tid;
-
-	TCP_SERVER* tcp_server_data=mem_malloc(sizeof(TCP_SERVER));
-		 	 	 	 tcp_server_data->port=TCP_PORT_VIDEO_RAW;
-		 	 	 	 tcp_server_data->pfunClient=tcp_trans_row_image_2;
-
-		if( pthread_create(&_thread_tid, NULL, tcp_server, tcp_server_data) ){
-				PRINTF_DBG(" Create print_thread1 thread error!\n");
-				exit(0);
-		}
-
-
-	return _thread_tid;
-}
-
-
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-void* tcp_trans_row_image(void *_data)
-{
-	int *_clientfd_p=(int*)_data;
-
-	int clientfd=*_clientfd_p;
-
-		init_fpga();
-		    
-		outside_first(FPGA_WORK_MODE_DATA_ZERO);
-
-		while(IsRun()){
-
-			outside_second();
-
-			int _Reslut=tcp_client_trans_row_data(clientfd);
-
-			if(_Reslut==0){
-				PRINTF_DBG("Remote Socket is Close !");
-				break;
-			}
-
-		}
-
-		mem_free_clr(&_data);
-		return (void*)0;
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-pthread_t tcp_trans_row_data(void *_data)
-{
-	pthread_t _thread_tid;
-
-	TCP_SERVER* tcp_server_data=mem_malloc(sizeof(TCP_SERVER));
-		 	 	 	 tcp_server_data->port=TCP_PORT_VIDEO_RAW;
-		 	 	 	 tcp_server_data->pfunClient=tcp_trans_row_image;
-
-		if( pthread_create(&_thread_tid, NULL, tcp_server, tcp_server_data) ){
-				PRINTF_DBG(" Create print_thread1 thread error!\n");
-				exit(0);
-		}
-
-
-	return _thread_tid;
-}
-
 /*-----------------------------------*/
 /**
  *

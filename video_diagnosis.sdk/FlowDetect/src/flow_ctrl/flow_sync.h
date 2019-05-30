@@ -47,6 +47,7 @@ unsigned int GetFrameCircleSeq();
 /*-----------------------------------*/
 int getFrameIdx();
 int initFrameIdx();
+void IncFrameIdx();
 /*-----------------------------------*/
 void SetFrameIdxMax(unsigned int _max);
 unsigned int GetFrameIdxMax();

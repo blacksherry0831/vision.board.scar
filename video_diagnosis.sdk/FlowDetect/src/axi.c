@@ -162,7 +162,7 @@ void CvtFrame(unsigned int _base_idx,unsigned int current_idx)
 			outside_second_sync(current_idx);
 	}else{
 			sleepMS(100);
-			getFrameIdx();
+			IncFrameIdx();
 	}
 
 }

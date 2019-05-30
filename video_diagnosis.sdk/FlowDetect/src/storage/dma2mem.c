@@ -268,8 +268,10 @@ void *memcpy_work_server(void* _pdata)
 							if(pthread_mutex_lock(&DMA_mutex_trans0)==SUCCESS){
 
 										TIME_START();
+												IncFrameIdx();
+												const unsigned int IMG_FRAME_IDX=getFrameIdx();
 												int sensor_stat=GetSensorStat();
-												MallocImageBuff(image,getFrameIdx(),8);
+												MallocImageBuff(image,IMG_FRAME_IDX,8);
 												for(Chn_num=0;Chn_num<8;Chn_num++){
 													 /*****************************/
 																CMD_CTRL* cmd_ctrl_pt=image[Chn_num];

@@ -211,11 +211,7 @@ int main_ring()
 #endif
 
 			pthread_t thread_task_tcp_rcv=tcp_image_buff_axi_server(NULL);
-#if 0
-			pthread_t thread_task_tcp_trans_row=tcp_trans_row_data(NULL);
-#else
-			pthread_t thread_task_tcp_trans_row=tcp_trans_row_data_2(NULL);
-#endif
+
 
 #if 0
 			pthread_t thread_task_mem_rcv=rcv_image_buff_axi_server(NULL);
@@ -240,7 +236,7 @@ int main_ring()
 			destory();
 
 			pthread_join(thread_task_tcp_flow,NULL);
-			pthread_join(thread_task_tcp_trans_row,NULL);
+
 			pthread_join(thread_task_tcp_rcv,NULL);
 
 			pthread_join(thread_task_fpga_cvt,NULL);
