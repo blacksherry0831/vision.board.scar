@@ -247,26 +247,21 @@ void CopyImage(void* const buff_src,CMD_CTRL* img_dst,int _channel)
 {
 	const CvRect rect=  GetRect(_channel);
 	const CvRect rect_roi=  GetRectCut(_channel);
-	const enum ProjectRun pr_t=GetProjectRun();
+
 	int image_width_current;
 	int image_height_current;
 	const IplImage* const img_ptr=GetIplImage(img_dst);
 
+#if _DEBUG
 	if(IsCmdCtrl(img_dst)==FALSE){
 		PRINTF_DBG("copy buff_src 2 image: image ctrl is not a valid buff ");
 		assert(IsCmdCtrl(img_dst));
 	}
+#endif
 
-	if(pr_t==outside08){
 		image_width_current=image_width();
 		image_height_current=image_height();
 		InitImageRoiRR(img_dst,_channel,rect,rect_roi);
-	}else if(pr_t==inside08){
-		image_width_current=image_width();
-		image_height_current=image_height();
-	}else{
-
-	}
 
 
 	const unsigned char *buff_src_p=(unsigned char *)buff_src;
