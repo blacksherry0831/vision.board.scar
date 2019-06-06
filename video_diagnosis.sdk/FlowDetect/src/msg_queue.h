@@ -3,6 +3,7 @@
 
 #include "linux_header.h"
 #include "def.h"
+#include "printf_log.h"
 
 struct my_msg_st {
     long int my_msg_type;

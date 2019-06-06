@@ -139,6 +139,7 @@ struct cmd_param process_argc_argv(int argc, char * argv[])
 	           {"framebuffer", required_argument, NULL, 'f'},
 	           {"in",  no_argument,       NULL, 'i'},
 	           {"out",  no_argument,       NULL, 'o'},
+	           {"debugOutput",  no_argument,       NULL, 'D'},
 	           {"frameNumMax", required_argument,       NULL, 'M'},
 	           {"frameNumMin", required_argument,       NULL, 'N'},
 	           {0, 0, 0, 0}
@@ -178,6 +179,9 @@ struct cmd_param process_argc_argv(int argc, char * argv[])
 	    		            	   	   	   	   		   	   	   cmdParam.height_param=atoi(optarg);
 	    		            	  					}
 	    		            	  					break;
+	    		               case 'D':
+	    		            	   	   	   	   	   setPrintConsole(1);
+	    		            	   	   	   	   	   break;
 	    		               case 'N'://min
 	    		            	   	   	   	   	   	if (optarg){
 	    		            	  	            	   	   	   cmdParam.frame_idx_min=atoi(optarg);

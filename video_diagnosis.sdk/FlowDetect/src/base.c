@@ -4,15 +4,6 @@
  *
  */
 /*-----------------------------------*/
-void printf_error()
-{
-	DEBUG_PRINT("error: %s(errno: %d)\n",strerror(errno),errno);
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
 ssize_t readn(const int fd, void* const buf, const size_t n)
 {
 	size_t nleft = n;   // left的意思是“剩下”, 而非“左边”

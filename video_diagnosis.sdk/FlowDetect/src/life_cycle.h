@@ -7,6 +7,7 @@
 
 #include "timer.h"
 #include "def.h"
+#include "printf_log.h"
 
 int
 create_server_timers();

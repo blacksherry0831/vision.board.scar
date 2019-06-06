@@ -3,7 +3,7 @@
 #include "linux_header.h"
 #include "def.h"
 #include "type.h"
-
+#include "printf_log.h"
 /*-----------------------------------*/
 /**
  *
@@ -29,12 +29,7 @@ int GetChar2Int(unsigned char* _data,int _size);
  */
 /*-----------------------------------*/
 int NativesAcceptClient(int s, int timeout);
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-void printf_error();
+
 /*-----------------------------------*/
 /**
  *
