@@ -9,6 +9,41 @@ void InitImageRoiRR(CMD_CTRL* cmd_t,int _ch,CvRect _rect_org,CvRect _rect_roi);
  *
  */
 /*-----------------------------------*/
+int SetCmdParam(const CMD_CTRL* const _cmd_ctrl,int _param)
+{
+
+	assert(_param>=0);
+	assert(_cmd_ctrl->f_data_size>=2);
+
+	_cmd_ctrl->f_data[0] = _param % 256;//low
+	_cmd_ctrl->f_data[1] = _param / 256;//height
+
+	return _param;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int IsCmdCtrlCmd(const CMD_CTRL* _cmd_ctrl,const unsigned char _cmd00,const unsigned char _cmd01)
+{
+	const CMD_CTRL_HEADER* _cmd=&(_cmd_ctrl->f_header);
+
+	if( 	_cmd->f_cmd[0]==_cmd00 &&
+			_cmd->f_cmd[1]==_cmd01){
+
+		return TRUE;
+	}else{
+		return FALSE;
+	}
+
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 void readnCMD_CTRL()
 {
 	
@@ -22,7 +57,7 @@ int GetSensorStatus(CMD_CTRL* _cmd)
 {
 	IplImageU *image=(IplImageU *)_cmd->f_data;
 
-	return GetChar2Int(image->sensor_stat,sizeof(int));
+	return SetChar2Int(image->sensor_stat,sizeof(int));
 }
 /*-----------------------------------*/
 /**
@@ -80,7 +115,17 @@ unsigned int GetCMDBodySize(CMD_CTRL_HEADER _cmd)
  *
  */
 /*-----------------------------------*/
-IplImage * GetIplImage(CMD_CTRL* cmd)
+char * GetIplImageImageData(const CMD_CTRL* const  _cmd)
+{
+	char* data_t=(char *)( & (_cmd->f_data[sizeof(IplImageUI)] ) );
+	return data_t;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+IplImage * GetIplImage(const CMD_CTRL* cmd)
 {
 		 return & (((IplImageU*)( cmd->f_data))->Iplimg);
 }
@@ -89,7 +134,7 @@ IplImage * GetIplImage(CMD_CTRL* cmd)
  *
  */
 /*-----------------------------------*/
-IplImageU* GetIplImageUx(CMD_CTRL* cmd_t)
+IplImageU* GetIplImageUx(const CMD_CTRL* cmd_t)
 {
 	 return (IplImageU *)(cmd_t->f_data);
 }
@@ -100,13 +145,7 @@ IplImageU* GetIplImageUx(CMD_CTRL* cmd_t)
 /*-----------------------------------*/
 int isDoneCmd(const CMD_CTRL* const _cmd_ctrl)
 {
-	CMD_CTRL_HEADER _cmd=_cmd_ctrl->f_header;
-	if( _cmd.f_cmd[0]=='c'){
-			if(_cmd.f_cmd[1]==0x01){
-				return TRUE;
-			}
-	}
-		return FALSE;
+	return IsCmdCtrlCmd(_cmd_ctrl,'c',0x01);
 }
 /*-----------------------------------*/
 /**
@@ -208,17 +247,9 @@ void SetCmdFrameSeq(CMD_CTRL*  _cmd_ctrl,unsigned int _cmd_idx)
  *
  */
 /*-----------------------------------*/
-int isHeartbeatCmd(CMD_CTRL* _cmd_ctrl)
+int isHeartbeatCmd(const CMD_CTRL* _cmd_ctrl)
 {
-	CMD_CTRL_HEADER* _cmd=&(_cmd_ctrl->f_header);
-
-		if( _cmd->f_cmd[0]==CT_HEART){
-			if(_cmd->f_cmd[1]==CT_BEAT){
-				return TRUE;
-			}
-		}
-
-	return FALSE;
+	return IsCmdCtrlCmd(_cmd_ctrl,CT_HEART,CT_BEAT);
 }
 /*-----------------------------------*/
 /**
@@ -250,91 +281,54 @@ void SetHeartbeatCmd(CMD_CTRL* cmd,int _need_resp)
  *
  */
 /*-----------------------------------*/
-int IsImageFrame(CMD_CTRL* _cmd_ctrl)
+int IsImageFrame(const CMD_CTRL* _cmd_ctrl)
 {
-	CMD_CTRL_HEADER* _cmd=&(_cmd_ctrl->f_header);
-
-	if( 	_cmd->f_cmd[0]==CT_IMG &&
-			_cmd->f_cmd[1]==CT_IMG_FRAME){
-
-		return TRUE;
-	}else{
-		return FALSE;
-	}
-
-
+	return IsCmdCtrlCmd(_cmd_ctrl,CT_IMG,CT_IMG_FRAME);
 }
 /*-----------------------------------*/
 /**
  *
  */
 /*-----------------------------------*/
-int IsImageRect(CMD_CTRL* _cmd_ctrl)
+int IsImageMaskChange(const CMD_CTRL* _cmd_ctrl)
 {
-	CMD_CTRL_HEADER* _cmd=&(_cmd_ctrl->f_header);
-
-	if( 	_cmd->f_cmd[0]==CT_IMG &&
-			_cmd->f_cmd[1]==CT_IMG_RECT){
-
-		return TRUE;
-	}else{
-		return FALSE;
-	}
-
+	return IsCmdCtrlCmd(_cmd_ctrl,CT_IMG,CT_IMG_MASK_CHANGE);
 }
 /*-----------------------------------*/
 /**
  *
  */
 /*-----------------------------------*/
-int IsImageChangeWorkMode(CMD_CTRL* _cmd_ctrl)
+int IsImageRect(const CMD_CTRL* _cmd_ctrl)
 {
-	CMD_CTRL_HEADER* _cmd=&(_cmd_ctrl->f_header);
-
-	if( 	_cmd->f_cmd[0]==CT_IMG &&
-			_cmd->f_cmd[1]==CT_IMG_MODE_CHANGE){
-
-		return TRUE;
-	}else{
-		return FALSE;
-	}
-
+	return IsCmdCtrlCmd(_cmd_ctrl,CT_IMG,CT_IMG_RECT);
 }
 /*-----------------------------------*/
 /**
  *
  */
 /*-----------------------------------*/
-int IsImageChangeSigma(CMD_CTRL* _cmd_ctrl)
+int IsImageChangeWorkMode(const CMD_CTRL* _cmd_ctrl)
 {
-	CMD_CTRL_HEADER* _cmd=&(_cmd_ctrl->f_header);
-
-	if( 	_cmd->f_cmd[0]==CT_IMG &&
-			_cmd->f_cmd[1]==CT_IMG_SIGMA_CHANGE){
-
-		return TRUE;
-	}else{
-		return FALSE;
-	}
-
+	return IsCmdCtrlCmd(_cmd_ctrl,CT_IMG,CT_IMG_MODE_CHANGE);
 }
 /*-----------------------------------*/
 /**
  *
  */
 /*-----------------------------------*/
-int IsImageQuerySigma(CMD_CTRL* _cmd_ctrl)
+int IsImageChangeSigma(const CMD_CTRL* _cmd_ctrl)
 {
-	CMD_CTRL_HEADER* _cmd=&(_cmd_ctrl->f_header);
-
-	if( 	_cmd->f_cmd[0]==CT_QUERY &&
-			_cmd->f_cmd[1]==CT_IMG_SIGMA_CHANGE){
-
-		return TRUE;
-	}else{
-		return FALSE;
-	}
-
+	return IsCmdCtrlCmd(_cmd_ctrl,CT_IMG,CT_IMG_SIGMA_CHANGE);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int IsImageQuerySigma(const CMD_CTRL* _cmd_ctrl)
+{
+	return IsCmdCtrlCmd(_cmd_ctrl,CT_QUERY,CT_IMG_SIGMA_CHANGE);
 }
 /*-----------------------------------*/
 /**
@@ -502,9 +496,38 @@ void FreeCmdBody(CMD_CTRL*  _cmd_ptr)
  *
  */
 /*-----------------------------------*/
+
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void initIplimageHeader(IplImage * _img,
+		char* _data,
+		const int _width,
+		const int _height,
+		const int _nchannels)
+{
+	const unsigned int SIZE=_width*_height*_nchannels;
+
+	if(_img!=NULL){
+			_img->imageData=_data;
+			_img->width=_width;
+			_img->height=_height;
+			_img->imageSize=SIZE;
+			_img->nChannels=_nchannels;
+	}else{
+			PRINTF_DBG("no memory");
+	}
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 void InitImageCfg(CMD_CTRL* cmd_t,int _ch,int _frame,int _width,int _height)
 {
-	const unsigned int SIZE=_width*_height;
 
 	SetImageCmd(cmd_t,CT_IMG_FRAME);
 
@@ -535,14 +558,9 @@ void InitImageCfg(CMD_CTRL* cmd_t,int _ch,int _frame,int _width,int _height)
 		PRINTF_DBG("no memory");
 	}
 
-	if(Iplimg!=NULL){
-			Iplimg->imageData=(char *)&cmd_t->f_data[sizeof(IplImageUI)];
-			Iplimg->width=_width;
-			Iplimg->height=_height;
-			Iplimg->imageSize=SIZE;
-	}else{
-		PRINTF_DBG("no memory");
-	}
+	char* data_t=GetIplImageImageData(cmd_t);
+
+	initIplimageHeader(Iplimg,data_t,_width,_height,1);
 
 }
 /*-----------------------------------*/
@@ -769,7 +787,7 @@ void ReleaseCmdCtrl(CMD_CTRL** _cmd_ctrl)
 {
 	if(*_cmd_ctrl){
 			FreeCmdBody(*_cmd_ctrl);
-			mem_free_clr(_cmd_ctrl);
+			mem_free_clr((void**)_cmd_ctrl);
 
 	}
 }
@@ -784,22 +802,6 @@ void initRespCmd(CMD_CTRL* cmd,int _ok)
 
 	cmd->f_header.f_cmd[0]=CT_RESP;
 	cmd->f_header.f_cmd[1]=_ok;
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-int SetCmdParam(const CMD_CTRL* const _cmd_ctrl,int _param)
-{
-
-	assert(_param>=0);
-	assert(_cmd_ctrl->f_data_size>=2);
-
-	_cmd_ctrl->f_data[0] = _param % 256;//low
-	_cmd_ctrl->f_data[1] = _param / 256;//height
-
-	return _param;
 }
 /*-----------------------------------*/
 /**

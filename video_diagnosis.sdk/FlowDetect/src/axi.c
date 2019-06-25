@@ -259,7 +259,6 @@ void stopThisCircle()
 {
 		sendImageStop();
 		StopFpgaCircleRunning();
-
 }
 /*-----------------------------------*/
 /**
@@ -270,6 +269,8 @@ void startThisCircle()
 {
 	sendImageStart();
 	PRINTF_DBG("FPGA>>Start FPGA Circle \n");
+	sendImageMask();
+	PRINTF_DBG("FPGA>>Send Mask Image \n");
 }
 /*-----------------------------------*/
 /**

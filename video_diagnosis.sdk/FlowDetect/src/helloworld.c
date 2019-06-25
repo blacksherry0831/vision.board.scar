@@ -77,8 +77,7 @@ void printf_cmd_param(int optind,char* _optarg,int cmd)
 
 	printf("optind: %d\n", optind);
 
-	   switch (cmd)
-		        {
+	   switch (cmd){
 		               case 'i':
 		            	   	   	   strcpy(buffer,"in");
 		                       	   	   	   break;
@@ -106,6 +105,7 @@ void printf_cmd_param(int optind,char* _optarg,int cmd)
 		               }
 
 	   printf_1_cmd_param(_optarg,cmd,buffer);
+
 }
 /*-----------------------------------*/
 /**
@@ -227,9 +227,9 @@ int main(int argc, char * argv[])
 
 	 const struct cmd_param cmdParam=process_argc_argv(argc,argv);
 
-	 init_cmd_param(cmdParam);
+	 	 	 init_cmd_param(cmdParam);
 
-	    main_ring();
+	 	 	 main_ring();
 
 	    printf("Exit Main \n");
 

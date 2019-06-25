@@ -656,6 +656,32 @@ void sendImageStop()
  *
  */
 /*-----------------------------------*/
+void sendImageMask()
+{
+
+	int chi=0;
+		for(chi=0;chi<8;chi++){
+			if(GetGlobalChannelMask(chi)){
+			    	CMD_CTRL* cmd_t=CreateImageCtrlLocal(chi,0,0);
+
+			    	SetImageCmd(cmd_t,CT_IMG_MASK_CHANGE);
+
+			    	if(ReadImgMaskMatrix(cmd_t)){
+				    	snd_queue_img_buff(cmd_t);
+			    	}else{
+			    		ReleaseCmdCtrl(&cmd_t);
+			    	}
+
+
+			}
+		}
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 void send_image_2_queue(int _frameIdx,int MAP_WHAT)
 {
 	unsigned char Chn_num=0;

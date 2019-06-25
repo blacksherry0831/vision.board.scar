@@ -54,8 +54,7 @@ CvRect mChannelRectOrg[]={
 		{0,0,0,0}
 };
 /*-----------------------------------*/
-//unsigned char mImageMask[8][1080]={{0}};
-int mImageMask[8][1080]={{-1},{-1},{-1},{-1},{-1},{-1},{-1},{-1}};
+
 /*-----------------------------------*/
 
 /*-----------------------------------*/
@@ -63,12 +62,7 @@ int mImageMask[8][1080]={{-1},{-1},{-1},{-1},{-1},{-1},{-1},{-1}};
  *
  */
 /*-----------------------------------*/
-int IsImgMask(int _ch,int _row)
-{
 
-	return mImageMask[_ch][_row];
-
-}
 /*-----------------------------------*/
 /**
  *
@@ -138,14 +132,11 @@ void initRectCut()
  *
  */
 /*-----------------------------------*/
-#if 0
-void  ClearRectCut()
+CMD_CTRL* CreateImageCtrlLocal(int _ch,int _frame, int _seq)
 {
-
-	memset(CHANNEL_RECT_CUT,0,sizeof(CHANNEL_RECT_CUT));
-
+	 CvRect rect_t=  GetRect(_ch);
+	 return	CreateImageCtrl(_ch,_frame,rect_t.width,rect_t.height,1,_seq);
 }
-#endif
 /*-----------------------------------*/
 /**
  *
@@ -155,21 +146,25 @@ void  MallocImageBuff(CMD_CTRL** _buff,const int _frame,const int _Chs)
 {
 	int chi=0;
 	const int seq_t=GetFrameCircleSeq();
+
 	for(chi=0;chi<_Chs;chi++){
 
 		if(GetGlobalChannelMask(chi)){
-
-			 	 CvRect rect_t=  GetRect(chi);
-			 	 _buff[chi]=CreateImageCtrl(chi,_frame,rect_t.width,rect_t.height,1,seq_t);
+		 	  _buff[chi]=CreateImageCtrlLocal(chi,_frame,seq_t);
 		}
 	}
+
 }
 /*-----------------------------------*/
 /**
  *
  */
 /*-----------------------------------*/
-void copyimage_cut(const unsigned char* _src,unsigned int _src_w,unsigned int _src_h,unsigned char* _dst,CvRect rect)
+void copyimage_cut(const unsigned char* _src,
+		unsigned int _src_w,
+		unsigned int _src_h,
+		unsigned char* _dst,
+		CvRect rect)
 {
 
 	int hi=0;
@@ -215,29 +210,7 @@ void copyimage_cut_m2(const unsigned char* _src,unsigned int _src_w,unsigned int
  *
  */
 /*-----------------------------------*/
-void EraseMaskImage(CMD_CTRL* _img,int _channel)
-{
 
-	const IplImage* const img_ptr=GetIplImage(_img);
-	const  int WIDTH=img_ptr->width;
-	const  int HEIGHT=img_ptr->height;
-
-	int ri=0;
-
-	for(ri=0;ri<HEIGHT;ri++){
-
-			uchar* pixel_data = (uchar*)(img_ptr->imageData + ri*img_ptr->widthStep);
-
-			if(1==IsImgMask(_channel,ri)){
-					int wi=0;
-					for(wi=0;wi<WIDTH;wi++){
-						pixel_data[wi]=0;
-					}
-			}
-
-	}
-
-}
 /*-----------------------------------*/
 /**
  *
@@ -457,21 +430,6 @@ void init_image_cfg(const int _width,const int _height)
  *
  */
 /*-----------------------------------*/
-int IsEffectiveRect(const CvRect*  _rect)
-{
-	if(		(_rect->x>=0)&&
-			(_rect->y>=0)&&
-			(_rect->width>0)&&
-			(_rect->height>0)	){
-		return TRUE;
-	}
-	return FALSE;
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
 void SetRectCut(int _ch,CvRect _rect)
 {
 
@@ -497,7 +455,7 @@ void SetRectCutCmd(CMD_CTRL*  cmd_t)
 
 	IplImageU* imgU=GetIplImageUx(cmd_t);
 
-	int channel=UChar2Int((char*)(imgU->IpAddrChannel),8);
+	int channel=UChar2Int(imgU->IpAddrChannel,8);
 
 	int x=UChar2Int(imgU->x_roi,8);
 	int y=UChar2Int(imgU->y_roi,8);
@@ -509,6 +467,157 @@ void SetRectCutCmd(CMD_CTRL*  cmd_t)
 	CvRect rect_t=cvRect(x,y,width,height);
 
 	SetRectCut(channel,rect_t);
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void encodeWithState(const char* filename, const unsigned char* image, unsigned width, unsigned height) {
+  unsigned error;
+  unsigned char* png;
+  size_t pngsize;
+  LodePNGState state;
+
+  lodepng_state_init(&state);
+  /*optionally customize the state*/
+
+  state.info_raw.colortype=LCT_GREY;
+
+  error = lodepng_encode(&png, &pngsize, image, width, height, &state);
+  if(!error) lodepng_save_file(png, pngsize, filename);
+
+  /*if there's an error, display it*/
+  if(error) printf("error %u: %s\n", error, lodepng_error_text(error));
+
+  lodepng_state_cleanup(&state);
+  free(png);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int decodeWithState(const char* filename,char* dst,int _width,int _height,int _nChannels)
+{
+  unsigned error;
+  unsigned char* image;
+  unsigned width, height;
+  unsigned char* png;
+  size_t pngsize;
+  LodePNGState state;
+  int result_t=0;
+  lodepng_state_init(&state);
+  /*optionally customize the state*/
+  state.info_raw.colortype=LCT_GREY;
+
+  lodepng_load_file(&png, &pngsize, filename);
+  error = lodepng_decode(&image, &width, &height, &state, png, pngsize);
+  if(error) printf("error %u: %s\n", error, lodepng_error_text(error));
+
+  free(png);
+
+  /*use image here*/
+  /*state contains extra information about the PNG such as text chunks, ...*/
+  assert(width==_width);
+  assert(height==_height);
+  unsigned int Size=width*height*_nChannels;
+  if(error==0){
+
+	  memcpy(dst,image,Size);
+	  result_t=1;
+  }
+
+  /*free  image here*/
+  lodepng_state_cleanup(&state);
+  free(image);
+
+  return  result_t;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void SetMaskImageFileName(char* _filename,int _w,int _h,int _ch)
+{
+	sprintf(_filename,"%sw.%d.h.%d.ch.%d.mask.png",PATH_SDCARD,_w,_h,_ch);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int IsImgMaskValid(const CMD_CTRL* const  _cmd)
+{
+	const int UCHAR_SIZE=8;
+
+	const IplImageU * imgU=GetIplImageUx(_cmd);
+
+	const int width=UChar2Int(imgU->width,UCHAR_SIZE);
+	const int height=UChar2Int(imgU->height,UCHAR_SIZE);
+
+	return (width+height)>16;
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void SaveImgMaskMatrix(const CMD_CTRL* const  _cmd)
+{
+	const int UCHAR_SIZE=8;
+
+	const IplImageU * imgU=GetIplImageUx(_cmd);
+	const IplImage* img=GetIplImage(_cmd);
+
+	char* data_t=GetIplImageImageData(_cmd);
+
+	const int channel=UChar2Int(imgU->IpAddrChannel,UCHAR_SIZE);
+
+	const int width=UChar2Int(imgU->width,UCHAR_SIZE);
+	const int height=UChar2Int(imgU->height,UCHAR_SIZE);
+
+	char filename_t[1024];
+
+	SetMaskImageFileName(filename_t,width,height,channel);
+
+	encodeWithState(filename_t,data_t,width,height);
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int ReadImgMaskMatrix(const CMD_CTRL* _cmd)
+{
+		const int UCHAR_SIZE=8;
+
+		const IplImageU * imgU=GetIplImageUx(_cmd);
+		const IplImage* img=GetIplImage(_cmd);
+
+		char* data_t=GetIplImageImageData(_cmd);
+
+		const int channel=UChar2Int(imgU->IpAddrChannel,UCHAR_SIZE);
+		const int width=UChar2Int(imgU->width,UCHAR_SIZE);
+		const int height=UChar2Int(imgU->height,UCHAR_SIZE);
+		const int nChannels=UChar2Int(imgU->nChannels,UCHAR_SIZE);
+
+		char filename_t[1024];
+
+		SetMaskImageFileName(filename_t,width,height,channel);
+
+
+		if(SUCCESS==is_file_exist(filename_t)){
+				return decodeWithState(filename_t,data_t,width,height,nChannels);
+		}else{
+				return FALSE;
+		}
+
+
 
 }
 /*-----------------------------------*/
@@ -591,84 +700,3 @@ void SaveImgMask2SDCard(const char* const path,const int* _param,const int _size
  *
  */
 /*-----------------------------------*/
-void ReadImgMask4SDCard(const char* const path,const int _size,const int _ch)
-{
-			char buff[1024]={0};
-			int data_t[10]={0};
-			int i=0;
-			int coli=0;
-			FILE *fp = fopen(path,"r");
-
-				if (NULL == fp){
-					return ;
-				}
-
-				for(i=0;i<_size;i++){
-
-						memset(buff,0,sizeof(buff));
-						char* char_get=fgets(buff,sizeof(buff),fp);
-
-									if(NULL!=char_get){
-												char*token=strtok(buff,",");
-
-												 coli=0;
-												 while(token!=NULL){
-													 assert(coli<10);
-													 data_t[coli++]= atoi(token);
-													 token=strtok(NULL,",");
-												 }
-												 const int rowi=data_t[0];
-												 const int value_t=data_t[1];
-												 PRINTF_DBG("ch: %d,(%d,%d)\n",_ch,rowi,value_t);
-												 mImageMask[_ch][rowi]=value_t;
-									}else{
-										break;
-									}
-
-				}
-
-		 fclose(fp);
-
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-int init_image_mask()
-{
-	char buffer[1024]={0};
-
-	const char file_name_prefix[]=IMG_MASK_CH_08;
-
-	int chi=0;
-
-	for(chi=0;chi<CHANNELS;chi++){
-
-				if(GetGlobalChannelMask(chi)){
-						sprintf(buffer,"%s%s%d%s",path_sdcard,file_name_prefix,chi,file_type_txt);
-
-								const int Height=mChannelRectOrg[chi].height;
-
-								if(is_file_exist(buffer)==SUCCESS){
-
-									ReadImgMask4SDCard(buffer,Height,chi);
-
-								}else{
-
-									SaveImgMask2SDCard(buffer,&(mImageMask[chi][0]),Height);
-								}
-
-
-				}
-
-	}
-
-	return 1;
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-

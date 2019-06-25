@@ -4,8 +4,7 @@
 #include "linux_header.h"
 #include "def.h"
 #include "base.h"
-/*-----------------------------------*/
-#include "opencv2/core/types_c.h"
+#include "opencv_base.h"
 /*-----------------------------------*/
 #include "uCOS/mem_pool_fixed.h"
 /*-----------------------------------*/
@@ -92,6 +91,7 @@ enum CMD_TYPE_02_I{
 		CT_IMG_RECT='R',
 		CT_IMG_MODE_CHANGE='M',
 		CT_IMG_SIGMA_CHANGE='S',
+		CT_IMG_MASK_CHANGE='K',
 
 };
 /*-----------------------------------*/
@@ -226,10 +226,12 @@ extern void CreateCmdBody(CMD_CTRL* cmd_t,unsigned int body_size);
 /*-----------------------------------*/
 extern int isStartCmd(const CMD_CTRL* const _cmd_ctrl);
 extern int isDoneCmd(const CMD_CTRL* const _cmd_ctrl);
-int isHeartbeatCmd(CMD_CTRL*  _cmd_ctrl);
-int IsImageFrame(CMD_CTRL* _cmd_ctrl);
-int IsImageRect(CMD_CTRL* _cmd_ctrl);
-int IsImageChangeWorkMode(CMD_CTRL* _cmd_ctrl);
+/*-----------------------------------*/
+int isHeartbeatCmd(const CMD_CTRL*  _cmd_ctrl);
+int IsImageFrame(const CMD_CTRL* _cmd_ctrl);
+int IsImageRect(const CMD_CTRL* _cmd_ctrl);
+int IsImageMaskChange(const CMD_CTRL* _cmd_ctrl);
+int IsImageChangeWorkMode(const CMD_CTRL* _cmd_ctrl);
 /*-----------------------------------*/
 int GetCmdCmd01(const CMD_CTRL* const _cmd_ctrl);
 int GetCmdParam(const CMD_CTRL* const _cmd_ctrl);
@@ -238,7 +240,6 @@ extern unsigned int GetCMDBodySize(CMD_CTRL_HEADER _cmd);
 extern void initRespCmd(CMD_CTRL* cmd_t,int _ok);
 extern int SendRespCmd(int _socketfd,int _ok,int _body);
 extern int SendHeartbeatCmd(int _socketfd,int _need_resp,int _seq);
-
 /*-----------------------------------*/
 /**
  *
@@ -247,17 +248,16 @@ extern int SendHeartbeatCmd(int _socketfd,int _need_resp,int _seq);
 int GetStartCmdParam(const CMD_CTRL* const _cmd_ctrl);
 unsigned int GetCmdFrameSeq(const CMD_CTRL* const _cmd_ctrl);
 /*-----------------------------------*/
-
-/*-----------------------------------*/
 void SetSensorStatus(CMD_CTRL* _cmd,int _status,int _channel);
-
 /*-----------------------------------*/
 void init_cmd_buff_size(int nSemaphoreCount);
 /*-----------------------------------*/
 int initSemSignal();
 /*-----------------------------------*/
-int IsImageQuerySigma(CMD_CTRL* _cmd_ctrl);
+int IsImageQuerySigma(const CMD_CTRL* _cmd_ctrl);
+int IsImageChangeSigma(const CMD_CTRL* _cmd_ctrl);
 /*-----------------------------------*/
-IplImage * GetIplImage(CMD_CTRL* cmd);
+IplImage * GetIplImage(const CMD_CTRL* cmd);
+IplImageU* GetIplImageUx(const CMD_CTRL* cmd_t);
 /*-----------------------------------*/
 #endif

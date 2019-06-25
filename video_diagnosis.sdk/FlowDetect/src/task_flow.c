@@ -195,6 +195,14 @@ void* task_flow_ctrl_server_client(void *_data)
 											SetRectCutCmd(cmd_t);
 											cmd_resp_status=CT_OK;
 
+									}else if(IsImageMaskChange(cmd_t)){
+
+										if(IsImgMaskValid(cmd_t)){
+											SaveImgMaskMatrix(cmd_t);
+										}
+										cmd_resp_status=CT_OK;
+										sendImageMask();
+
 									}else if(IsImageChangeWorkMode(cmd_t)){
 
 										const int StartParam=GetCmdParam(cmd_t);

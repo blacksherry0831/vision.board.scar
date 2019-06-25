@@ -209,38 +209,6 @@ extern int dmac_transfer_init_copy(unsigned char *dst_virtaddr, unsigned int src
  *
  */
 /*-----------------------------------*/
-int tcp_client_trans_row_data(int sc)
-{
-	int write_num=0;
-    unsigned char Chn_num=0;
-
-    unsigned char* BUFF=mem_malloc(image_size_frame());
-
-
-
-                for(Chn_num=0;Chn_num<8;Chn_num++){
-
-                	TIME_START();
-                	dmac_trans(Chn_num,0);
-                	TIME_END("DMA");
-
-                	memcpyDMA2MemCh(BUFF,image_size_frame(),Chn_num);
-                	write_num=writen(sc,BUFF,image_size_frame());
-                }
-
-
-
-
-
-    mem_free_clr(&BUFF);
-   	return  write_num==image_size_frame();
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-
 extern unsigned int g_pl_ddr_pyhaddr;
 unsigned long TIMECOUNT=0;
 

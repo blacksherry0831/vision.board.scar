@@ -139,20 +139,7 @@ ssize_t writen(const int fd, const void* const  buf, const size_t n)
  *
  */
 /*-----------------------------------*/
-int GetChar2Int(unsigned char* _data,int _size)
-{
-	int value_t= 	_data[0]+
-					_data[1]*255+
-					_data[2]*255*255+
-					_data[3]*255*255*255;
-	return value_t;
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-void SetInt2Char(int _value,unsigned char* _data,int _size)
+void SetInt2Char(const int _value,unsigned char* _data,int _size)
 {
 	_data[0]= _value%256;
 	_data[1]= _value/256%256;
@@ -164,7 +151,7 @@ void SetInt2Char(int _value,unsigned char* _data,int _size)
  *
  */
 /*-----------------------------------*/
-int SetChar2Int(unsigned char* _data,int _size)
+int SetChar2Int(const unsigned char* _data,int _size)
 {
 	int value_t=0;
 
@@ -181,7 +168,7 @@ int SetChar2Int(unsigned char* _data,int _size)
  *
  */
 /*-----------------------------------*/
-int UChar2Int(unsigned char* _data,int _size)
+int UChar2Int(const unsigned char* _data,int _size)
 {
 
 	return SetChar2Int(_data,_size);
@@ -574,4 +561,5 @@ int is_file_exist(const char * file_path)
  *
  */
 /*-----------------------------------*/
+
 

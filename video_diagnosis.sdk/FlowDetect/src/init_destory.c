@@ -137,10 +137,6 @@ void init_param()
 	SetSigma4SDCard();
 	init_image_cfg(-1,-1);
 
-#if 1
-	init_image_mask();
-#endif
-
 	if(GetProjectRun()==inside08){
 
 		svm_enable(0);
