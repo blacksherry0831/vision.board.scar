@@ -256,7 +256,7 @@ int isHeartbeatCmd(const CMD_CTRL* _cmd_ctrl)
  *
  */
 /*-----------------------------------*/
-int SetImageCmd(CMD_CTRL* _cmd_ctrl,unsigned char _flag)
+int SetImageCmd(CMD_CTRL* _cmd_ctrl,const unsigned char _flag)
 {
 	CMD_CTRL_HEADER* _cmd=&(_cmd_ctrl->f_header);
 
@@ -526,7 +526,7 @@ void initIplimageHeader(IplImage * _img,
  *
  */
 /*-----------------------------------*/
-void InitImageCfg(CMD_CTRL* cmd_t,int _ch,int _frame,int _width,int _height)
+void InitImageCfg(CMD_CTRL* cmd_t,const int _ch,int _frame,int _width,int _height)
 {
 
 	SetImageCmd(cmd_t,CT_IMG_FRAME);
@@ -651,7 +651,7 @@ void CreateCmdBody(CMD_CTRL* cmd_t,unsigned int body_size)
  *
  */
 /*-----------------------------------*/
-CMD_CTRL* CreateImageCtrl(int _ch,int _frame,int _width,int _height,int _nChs, int _seq)
+CMD_CTRL* CreateImageCtrl(const int _ch,int _frame,int _width,int _height,int _nChs, int _seq)
 {
 	assert(_nChs!=0);
 	assert(_width!=0);
@@ -682,7 +682,7 @@ CMD_CTRL* CreateImageCtrl(int _ch,int _frame,int _width,int _height,int _nChs, i
  *
  */
 /*-----------------------------------*/
-CMD_CTRL* CreateImageStart(int _ch,unsigned int _seq)
+CMD_CTRL* CreateImageStart(const int _ch,unsigned int _seq)
 {
 
 	CMD_CTRL*  cmd_t=CreateImageCtrl(_ch,FRAME_IDX_TYPE_START,ALIGN_BYTE,1,1,_seq);//4 byte align

@@ -2,7 +2,7 @@
 
 #define BLK_SIZE_2M (2097152)
 
-#define BLK_NUM_2M  (16)
+#define BLK_NUM_2M  (32)
 
 #define BLK_1K_SIZE (1024)
 

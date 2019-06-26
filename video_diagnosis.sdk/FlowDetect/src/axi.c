@@ -269,6 +269,7 @@ void startThisCircle()
 {
 	sendImageStart();
 	PRINTF_DBG("FPGA>>Start FPGA Circle \n");
+	sleepMS(100);
 	sendImageMask();
 	PRINTF_DBG("FPGA>>Send Mask Image \n");
 }
