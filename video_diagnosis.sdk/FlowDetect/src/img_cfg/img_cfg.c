@@ -54,16 +54,6 @@ CvRect mChannelRectOrg[]={
 		{0,0,0,0}
 };
 /*-----------------------------------*/
-
-/*-----------------------------------*/
-
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-
-/*-----------------------------------*/
 /**
  *
  */
@@ -72,26 +62,11 @@ CvRect GetRect(int chi)
 {
 	 CvRect rect_t;
 
-
-	 enum ProjectRun pr_t=GetProjectRun();
-
-	 	if(pr_t==outside08){
 	 		 if((GetFpgaCircleWorkMode()&WM_SIZE_FULL)==WM_SIZE_FULL){
 	 			 rect_t=mChannelRectOrg[chi];
 	 		 }else if((GetFpgaCircleWorkMode()&WM_SIZE_CUT)==WM_SIZE_CUT){
 	 			 rect_t=CHANNEL_RECT_CUT[chi];
 	 		 }
-	 	}else if(pr_t==inside08){
-
-	 		 if((GetFpgaCircleWorkMode()&WM_SIZE_FULL)==WM_SIZE_FULL){
-	 			 rect_t=mChannelRectOrg[chi];
-	 		 }else if((GetFpgaCircleWorkMode()&WM_SIZE_CUT)==WM_SIZE_CUT){
-	 			 rect_t=CHANNEL_RECT_CUT[chi];
-	 		 }
-
-	 	}else{
-
-	 	}
 
 	 return rect_t;
 }
@@ -300,17 +275,9 @@ void adjRect44Ex(CvRect* rect)
 
 	adjRect44(rect);
 
-	enum  ProjectRun pr_t=GetProjectRun();
-
-		if(pr_t==outside08){
 			image_width_current=image_width();
 			image_height_current=image_height();
-		}else if(pr_t==inside08){
-			image_width_current=image_width();
-			image_height_current=image_height();
-		}else{
 
-		}
 
 	if(rect->width>image_width_current)  rect->width=image_width_current;
 	if(rect->height>image_height_current) rect->height=image_height_current;

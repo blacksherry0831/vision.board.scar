@@ -2,14 +2,14 @@
 #define IMG_CFG_H
 /*-----------------------------------*/
 #include "../linux_header.h"
-#include "../type.h"
+#include "modules_ex/type.h"
 /*-----------------------------------*/
-#include "../flow_ctrl/flow_sync.h"
-#include "../type.h"
+
+#include "modules_ex/type.h"
 /*-----------------------------------*/
-#include "../opencv2/core/types_c.h"
+#include <modules/opencv2/core/types_c.h>
 /*-----------------------------------*/
-#include "../lodepng.h"
+#include <modules/lodepng/lodepng.h>
 /*-----------------------------------*/
 extern const size_t IMAGE_SIZE_FRAME;
 extern const size_t IMAGE_SIZE_AVG;
@@ -31,9 +31,7 @@ void init_image_area(const int _width,const int _height);
 int image_width();
 int image_height();
 int image_size_frame();
-void EraseMaskImage(CMD_CTRL* _img,int _channel);
 /*-----------------------------------*/
 int init_image_mask();
-int IsEffectiveRect(const CvRect*  _rect);
 /*-----------------------------------*/
 #endif

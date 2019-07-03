@@ -1,13 +1,7 @@
-// 应用程序
+/*-------------应用程序-----------------*/
 #include "linux_header.h"
-#include "def.h"
-#include "axi.h"
-#include "tcp_server.h"
-#include "task_flow.h"
-
-#include "axi/axi_fpga_ctrl.h"
+/*-----------------------------------*/
 #include "init_destory.h"
-
 /*-----------------------------------*/
 /**
  *
@@ -20,38 +14,6 @@ extern int optind;
 extern int opterr;
 
 extern int optopt;
-
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-void test_memory()
-{
-		// >>>>>>>>>>>>>>>>>>>>>>>>>> 内存读写 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-		int i;
-		unsigned char ucWrite[4096]={0},ucRead[4096]={0};
-
-		for (i=0;i<4096;i++)
-		{
-			ucWrite[i]=i;
-		}
-
-		//DDR3 Saddr1 Init
-		for (i=0;i<4096;i++)
-		{
-			AXILitemmap(DDR3_ADDR+i*4096);
-			AXILitetoUser((int)g_virtual_addr, DDR3_ADDR+i*4096,ucWrite,4096);
-			UsertoAXILite((int)g_virtual_addr, DDR3_ADDR+i*4096,ucRead,4096);
-			if(0 != memcmp(ucRead,ucWrite,1024))
-			{
-				PRINTF_DBG("Error!\n");
-			}
-			AXILiteunmmap();
-		}
-		i=0;
-		//<<<<<<<<<<<<<<<<<<<<<<<<<<<< 内存读写 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-}
 /*-----------------------------------*/
 /**
  *
@@ -130,7 +92,7 @@ struct cmd_param process_argc_argv(int argc, char * argv[])
 	    struct cmd_param cmdParam;
 	    cmdParam.in_out='n';
 
-	    char* short_options="w:h:c:f:ioM:N:";
+	    char* short_options="w:h:c:f:ioDM:N:";
 
 	    static struct option long_options[] = {
 	           {"width", required_argument, NULL, 'w'},

@@ -3,14 +3,15 @@
 
 #include "linux_header.h"
 #include "def.h"
-#include "axi.h"
-#include "tcp_server.h"
-#include "task_flow.h"
-#include "axi/axi_fpga_ctrl.h"
 
-#include "uCOS/mem_pool_fixed.h"
+#include "cfg.h"
+#include "status.h"
 
-#include "life_cycle.h"
+#include "task/task_sync.h"
+
+#include "modules/uCOS/mem_pool_fixed.h"
+
+#include "modules_58/life_cycle.h"
 
 
 void init();

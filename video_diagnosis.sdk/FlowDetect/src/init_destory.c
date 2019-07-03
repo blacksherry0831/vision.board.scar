@@ -139,7 +139,7 @@ void init_param()
 
 	if(GetProjectRun()==inside08){
 
-		svm_enable(0);
+		fpga_img_svm_enable(0);
 	}
 
 }
@@ -206,7 +206,7 @@ int main_ring()
 			test();
 #endif
 
-			pthread_t thread_task_tcp_rcv=tcp_image_buff_axi_server(NULL);
+			pthread_t thread_task_tcp_rcv=tcp_image_buff_trans_server(NULL);
 
 
 #if 0
@@ -218,6 +218,8 @@ int main_ring()
 			sleep(1);//let tcp data trans thread start first
 
 				pthread_t thread_task_tcp_flow=task_flow_ctrl_server();
+
+
 				pthread_t thread_task_fpga_cvt=init_fpga_cvt_server(NULL);
 				pthread_t thread_task_dma=init_dma_server(NULL);
 				pthread_t thread_task_memcpy=init_memcpy_server(NULL);
