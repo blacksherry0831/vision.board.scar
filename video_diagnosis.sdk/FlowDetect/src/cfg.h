@@ -11,11 +11,13 @@ struct cmd_param
   char in_out;
   int  width_param;
   int height_param;
-  int frame;
-  int channel;
+  int space_frame;
+  int sensor;
   int frame_idx_max;
   int frame_idx_min;
 };
+/*-----------------------------------*/
+unsigned int GetGlobalSensorMask(const int _ch);
 /*-----------------------------------*/
 void SetSigma(int _sigma);
 int  GetSigma();

@@ -1,15 +1,32 @@
 #ifndef IMG_CFG_H
 #define IMG_CFG_H
 /*-----------------------------------*/
-#include "../linux_header.h"
-#include "modules_ex/type.h"
+#include "linux_header.h"
+#include "cfg.h"
 /*-----------------------------------*/
-
 #include "modules_ex/type.h"
 /*-----------------------------------*/
 #include <modules/opencv2/core/types_c.h>
 /*-----------------------------------*/
 #include <modules/lodepng/lodepng.h>
+/*-----------------------------------*/
+#include "modules/cJSON/cJSON.h"
+/*-----------------------------------*/
+#include "module_zynq7000_hi3516/def_hw_zynq7000_hi3516.h"
+/*-----------------------------------*/
+struct ViewInfo{
+
+	int SpaceCh;/**<*/
+	int SpaceFrame;/**<*/
+	int SpaceUsed;/**<space reserve*/
+
+	int ViewCh;/**video  channel<*/
+	int ViewOutput;/**< output this video */
+	int nChannels;/**<*/
+	CvRect CutSize;/**<*/
+	CvRect OrgSize;/**<*/
+	char colorModel[64];/**<*/
+};
 /*-----------------------------------*/
 extern const size_t IMAGE_SIZE_FRAME;
 extern const size_t IMAGE_SIZE_AVG;
@@ -27,11 +44,17 @@ void SaveImgMaskMatrix(const CMD_CTRL* const  _cmd);
 /*-----------------------------------*/
 void init_image_cfg(const int _width,const int _height);
 /*-----------------------------------*/
-void init_image_area(const int _width,const int _height);
-int image_width();
-int image_height();
-int image_size_frame();
+unsigned int image_frame_dma_offset(const int _space_ch,const int _space_frame);
 /*-----------------------------------*/
-int init_image_mask();
+int image_width(int _space_ch,int _space_frame);
+int image_height(int _space_ch,int _space_frame);
+int image_frame_size(int _space_ch,int _space_frame);
+/*-----------------------------------*/
+void 	set_img_cut_rect(const CvRect _cut,const int _ViewCh);
+/*-----------------------------------*/
+CvRect 	GetRectSpaceChannelFrame(const int _si,const int _fi);
+/*-----------------------------------*/
+void saveImgCfgJsonDefault();
+void LoadImgCfgJson();
 /*-----------------------------------*/
 #endif

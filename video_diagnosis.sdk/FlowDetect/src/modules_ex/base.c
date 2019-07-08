@@ -168,6 +168,23 @@ int SetChar2Int(const unsigned char* _data,int _size)
  *
  */
 /*-----------------------------------*/
+int _4UChar2Int(const unsigned char* _data)
+{
+	int value_t=0;
+
+		value_t=_data[0]+
+				_data[1]*256+
+				_data[2]*256*256+
+				_data[3]*256*256*256;
+
+		return value_t;
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 int UChar2Int(const unsigned char* _data,int _size)
 {
 
@@ -545,15 +562,63 @@ int sem_wait_infinite(sem_t  *__sem)
  *
  */
 /*-----------------------------------*/
-int is_file_exist(const char * file_path)
+int fs_is_file_exist(const char * file_path)
 {
 	if(file_path==0)
-		return -1;
+			return ERROR;
 
-	if(access(file_path,F_OK)==0)
-		return 0;
+		if(access(file_path,F_OK)==0)
+			return SUCCESS;
 
-	return -1;
+		return ERROR;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void fs_store_txt(const char *filepath, const char *data)
+{
+	FILE *fp = fopen(filepath, "wt");
+	    if (fp != NULL)
+	    {
+	        fputs(data, fp);
+	        fclose(fp);
+	    }
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int  fs_load_txt(const char *filepath,char* const buffer)
+{
+	  const  int string_size=fs_file_size(filepath);
+
+	  int  read_size=0;
+
+	  FILE *handler = fopen(filepath, "r");
+
+	   if (handler)
+	   {
+	       // Read it all in one operation
+	       read_size = fread(buffer, sizeof(char), string_size, handler);
+
+	       // fread doesn't set it so put a \0 in the last position
+	       // and buffer is now officially a string
+	       buffer[string_size] = '\0';
+
+	       if (string_size != read_size)
+	       {
+	    	   // Something went wrong, throw away the memory and set
+	           return ERROR;
+	       }
+
+	       // Always remember to close the file.
+	       fclose(handler);
+	    }
+
+	   return SUCCESS;
 
 }
 /*-----------------------------------*/
@@ -561,5 +626,25 @@ int is_file_exist(const char * file_path)
  *
  */
 /*-----------------------------------*/
+int fs_file_size(const char *filepath)
+{
+	   int file_size=0;
+	   FILE *handler = fopen(filepath, "r");
 
+	   if (handler)
+	   {
+	       // Seek the last byte of the file
+	       fseek(handler, 0, SEEK_END);
+	       // Offset from the first to the last byte, or in other words, filesize
+	       file_size = ftell(handler);
 
+	       // Always remember to close the file.
+	       fclose(handler);
+	    }
+	   return file_size;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/

@@ -221,6 +221,18 @@ int GetStartCmdParam(const CMD_CTRL* const _cmd_ctrl)
  *
  */
 /*-----------------------------------*/
+int GetCmdImgViewChannel(const CMD_CTRL* const _cmd_ctrl)
+{
+	IplImageU* imgU=GetIplImageUx(_cmd_ctrl);
+
+	return	_4UChar2Int(imgU->IpAddrChannel);
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 unsigned int GetCmdFrameSeq(const CMD_CTRL* const _cmd_ctrl)
 {
 	const unsigned int seq_t=_cmd_ctrl->f_header.f_cmd_idx[0]
@@ -620,9 +632,7 @@ void CreateCmdBody(CMD_CTRL* cmd_t,unsigned int body_size)
 
 	if(cmd_t->f_data!=NULL){
 
-#if 0
-		bzero(cmd_t->f_data,body_size);
-#endif
+
 		cmd_t->f_data_size=body_size;
 
 		const int low_0=cmd_t->f_data_size%256;
@@ -644,18 +654,12 @@ void CreateCmdBody(CMD_CTRL* cmd_t,unsigned int body_size)
  *
  */
 /*-----------------------------------*/
-
-
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
 CMD_CTRL* CreateImageCtrl(const int _ch,int _frame,int _width,int _height,int _nChs, int _seq)
 {
 	assert(_nChs!=0);
 	assert(_width!=0);
 	assert(_height!=0);
+
 	const unsigned int SIZE=_width*_height*_nChs;
 	const unsigned int body_size=sizeof(IplImageUI)+SIZE;
 
@@ -682,10 +686,23 @@ CMD_CTRL* CreateImageCtrl(const int _ch,int _frame,int _width,int _height,int _n
  *
  */
 /*-----------------------------------*/
+CMD_CTRL* CreateImageMask(const int _ch,const int _w,const int _h,unsigned int _seq)
+{
+	const int nChs=1;
+	CMD_CTRL*  cmd_t=CreateImageCtrl(_ch,FRAME_IDX_TYPE_START,_w,_h,nChs,_seq);//4 byte align
+	SetImageCmd(cmd_t,CT_IMG_MASK_CHANGE);
+	return cmd_t;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 CMD_CTRL* CreateImageStart(const int _ch,unsigned int _seq)
 {
-
-	CMD_CTRL*  cmd_t=CreateImageCtrl(_ch,FRAME_IDX_TYPE_START,ALIGN_BYTE,1,1,_seq);//4 byte align
+	const int nChs=1;
+	const int wh=4;
+	CMD_CTRL*  cmd_t=CreateImageCtrl(_ch,FRAME_IDX_TYPE_START,wh,wh,nChs,_seq);//4 byte align
 	SetImageCmd(cmd_t,CT_START);
 	return cmd_t;
 }
@@ -696,7 +713,9 @@ CMD_CTRL* CreateImageStart(const int _ch,unsigned int _seq)
 /*-----------------------------------*/
 CMD_CTRL* CreateImageStop(int _ch,unsigned int _seq)
 {
-	CMD_CTRL*  cmd_t=CreateImageCtrl(_ch,FRAME_IDX_TYPE_STOP,ALIGN_BYTE,1,1,_seq);//4 byte align
+	const int nChs=1;
+	const int wh=4;
+	CMD_CTRL*  cmd_t=CreateImageCtrl(_ch,FRAME_IDX_TYPE_STOP,wh,wh,nChs,_seq);//4 byte align
 	SetImageCmd(cmd_t,CT_STOP);
 	return cmd_t;
 }

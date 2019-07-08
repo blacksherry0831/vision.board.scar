@@ -45,7 +45,7 @@ pthread_t init_dma_server(void *_data);
 /*-----------------------------------*/
 pthread_mutex_t DMA_mutex_trans0;
 /*-----------------------------------*/
-int memcpyDMA2MemChEx(CMD_CTRL* img,unsigned int _ch);
+
 /*-----------------------------------*/
 void SetCurrentDmaFrame(int _frame);
 int  getCurrentDmaFrame();

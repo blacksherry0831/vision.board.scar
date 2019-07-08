@@ -1,6 +1,10 @@
 #include "cfg.h"
 /*-----------------------------------*/
-int G_Sigma=6;
+static int G_Sigma=6;
+
+static volatile unsigned int G_SENSOR=0xff;
+
+
 /*-----------------------------------*/
 /**
  *
@@ -52,7 +56,7 @@ void SaveParam2SDCard(const char* const path,const int* _param,const int _size)
 void SetSigma4SDCard()
 {
 	int param[1]={0};
-	if(is_file_exist(PATH_SDCARD_IMG_SIGMA_CFG)==SUCCESS){
+	if(fs_is_file_exist(PATH_SDCARD_IMG_SIGMA_CFG)==SUCCESS){
 		ReadParam4SDCard(PATH_SDCARD_IMG_SIGMA_CFG,param, 1);
 		SetSigma(param[0]);
 	}
@@ -110,6 +114,39 @@ void SetoutsideSigma(int _sigma)
 void SetinsideSigma(int _sigma)
 {
 	SetSigma(_sigma);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void SetGlobalSensor(unsigned int _channel)
+{
+	G_SENSOR=_channel;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+unsigned int GetGlobalSensor()
+{
+	return G_SENSOR;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+unsigned int GetGlobalSensorMask(const int _ch)
+{
+
+			if(G_SENSOR & (0x01<<_ch)){
+				return TRUE;
+			}else{
+				return FALSE;
+			}
+
 }
 /*-----------------------------------*/
 /**

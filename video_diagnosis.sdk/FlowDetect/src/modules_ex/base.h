@@ -77,6 +77,10 @@ int sem_wait_infinite(sem_t  *__sem);
 /*-----------------------------------*/
 void setCurrentThreadHighPriority(int value);
 /*-----------------------------------*/
-int is_file_exist(const char * file_path);
+int 	fs_is_file_exist(const char * file_path);
+int  	fs_load_txt(const char *filepath,char* const buffer);
+void 	fs_store_txt(const char *filepath, const char *data);
+int 	fs_file_size(const char *filepath);
+int 	fs_file_size(const char *filepath);
 /*-----------------------------------*/
 #endif

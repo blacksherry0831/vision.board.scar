@@ -1,6 +1,6 @@
 #include "dma_hw.h"
 /*-----------------------------------*/
-volatile unsigned char  m_current_dmac_ch=0xFF;
+
 volatile unsigned char  m_current_dmac_frame=0;
 /*-----------------------------------*/
 unsigned char *g_dma_virtual_baseaddr = NULL;
@@ -246,33 +246,6 @@ unsigned int getPhyChBaseAddr(int _ch)
 {
 	unsigned int Img_base_Addr=PL_DDR3_ADDR_BASE+_ch*CHANNEL_BLOCK_SIZE;
 	return Img_base_Addr;
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-void SetCurrentDmaCh(int _ch)
-{
-	m_current_dmac_ch=_ch;
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-void SetCurrentDmaFrame(int _frame)
-{
-	m_current_dmac_frame=_frame;
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-int getCurrentDmaFrame()
-{
-	return m_current_dmac_frame;
 }
 /*-----------------------------------*/
 /**

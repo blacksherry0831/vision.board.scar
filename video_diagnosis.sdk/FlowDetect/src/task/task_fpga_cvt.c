@@ -158,18 +158,7 @@ void outside_inside_second_ex()
 {
 	FPGA_CvtDone=FALSE;
 
-	if(GetProjectRun()==outside08){
-
-				outside_second();
-
-	}else if(GetProjectRun()==outside08){
-
-				outside_second();
-
-	}else{
-
-
-	}
+	outside_second();
 
 }
 /*-----------------------------------*/

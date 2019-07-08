@@ -14,6 +14,14 @@
 #define SUCCESS		(0)
 #endif
 
+#ifndef ERROR
+#define ERROR		(-1)
+#endif
+
+#ifndef FAILURE
+#define FAILURE		(-1)
+#endif
+
 /////////////////////////////////////////////////////
 #define TIME_START()  do{struct timeval startTime,endTime;float Timeuse;gettimeofday(&startTime,NULL);
 

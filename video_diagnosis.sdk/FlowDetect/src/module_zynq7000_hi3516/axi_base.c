@@ -67,7 +67,7 @@ int sensor_state_1()
 
 			for(_ch=0;_ch<8;_ch++){
 
-							if(GetGlobalChannelMask(_ch)){
+							if(GetGlobalSensorMask(_ch)){
 
 										if(STAT & (0x01<<_ch)){
 
@@ -95,7 +95,7 @@ int sensor_state_1()
 /*-----------------------------------*/
 int sensor_state()
 {
-	if(GetGlobalChannel()==0xff){
+	if(GetGlobalSensor()==0xff){
 		return sensor_state_8();
 	}else{
 		return sensor_state_1();
@@ -255,7 +255,7 @@ void sendImageStart()
 
 	int chi=0;
 	for(chi=0;chi<8;chi++){
-		if(GetGlobalChannelMask(chi)){
+		if(GetGlobalSensorMask(chi)){
 			snd_queue_img_buff(CreateImageStart(chi,seq_t));
 		}
 	}
@@ -271,7 +271,7 @@ void sendImageStop()
 	const unsigned int seq_t=GetFrameCircleSeq();
 	int chi=0;
 		for(chi=0;chi<8;chi++){
-			if(GetGlobalChannelMask(chi)){
+			if(GetGlobalSensorMask(chi)){
 				snd_queue_img_buff(CreateImageStop(chi,seq_t));
 			}
 		}
@@ -284,23 +284,31 @@ void sendImageStop()
 /*-----------------------------------*/
 void sendImageMask()
 {
+			int schi=0;
+			int sfri=0;
 
-	int chi=0;
-		for(chi=0;chi<8;chi++){
-			if(GetGlobalChannelMask(chi)){
-			    	CMD_CTRL* cmd_t=CreateImageCtrlLocal(chi,0,0);
+				for(schi=0; schi <SPACE_CHANNEL_NUM;schi++){
+					for(sfri=0;sfri<SPACE_FRAME_NUM;sfri++){
 
-			    	SetImageCmd(cmd_t,CT_IMG_MASK_CHANGE);
+							if(is_space_frame_output(schi,sfri)){
 
-			    	if(ReadImgMaskMatrix(cmd_t)){
-				    	snd_queue_img_buff(cmd_t);
-			    	}else{
-			    		ReleaseCmdCtrl(&cmd_t);
-			    	}
+											const int View_channel=image_view_channel(schi,sfri);
 
+											assert(View_channel>=0);
 
-			}
-		}
+											CvRect rect=GetRectSpaceChannelFrame(schi,sfri);
+
+											CMD_CTRL* cmd_t=CreateImageMask(View_channel,rect.width,rect.height,0);
+
+											if(ReadImgMaskMatrix(cmd_t)){
+												snd_queue_img_buff(cmd_t);
+											}else{
+												ReleaseCmdCtrl(&cmd_t);
+											}
+
+							}
+					}
+				}
 
 }
 /*-----------------------------------*/

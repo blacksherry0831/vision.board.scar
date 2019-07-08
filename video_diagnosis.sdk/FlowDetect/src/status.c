@@ -45,3 +45,21 @@ enum ProjectRun GetProjectRun()
  *
  */
 /*-----------------------------------*/
+char * GetProjectRunStr()
+{
+
+	if(GetProjectRun()==inside08){
+		return	"inside";
+	}else if(GetProjectRun()==outside08){
+		return	"outside";
+	}else{
+		return 	"undefined";
+	}
+
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/

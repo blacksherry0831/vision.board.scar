@@ -21,11 +21,9 @@ void *dma_work_server(void* _pdata)
 
 																	TIME_START();
 
-																			for(chi=0;chi<8;chi++){
-																				dmac_trans_ex(chi,getCurrentDmaFrame());
-																			}
+																		dmac_trans_all_frame();
 
-																			PRINTF_DBG("DMA:%d___",DMA_COUNT++);
+																		PRINTF_DBG("DMA:%d___",DMA_COUNT++);
 
 																	TIME_END("2> DMA cpy cost time");
 

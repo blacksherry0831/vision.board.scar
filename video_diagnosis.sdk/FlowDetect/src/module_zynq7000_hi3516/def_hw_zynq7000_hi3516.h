@@ -26,6 +26,9 @@
 /*-----------------------------------*/
 #define			DDR3_ADDR		(0x60000000)
 /*-----------------------------------*/
+#define SPACE_CHANNEL_NUM	(8)
+#define SPACE_FRAME_NUM		(64)
+/*-----------------------------------*/
 #define ADDR_OUTSIDE_RESET       (0x100*4)
 #define ADDR_OUTSIDE_DATA_MODE   (0x101*4)
 #define ADDR_OUTSIDE_START_EN    (0x102*4)
@@ -97,15 +100,11 @@
 
 #endif
 /*-----------------------------------*/
-/**
- *
- */
+#define PATH_SDCARD   ("/media/sdcard/")
 /*-----------------------------------*/
 #define  MEM_DEV	 "/dev/mem"
 /*-----------------------------------*/
-/**
- *
- */
+#define  SENSOR_MAX_NUM		(8)
 /*-----------------------------------*/
 
 #endif

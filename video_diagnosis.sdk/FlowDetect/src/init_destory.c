@@ -135,7 +135,8 @@ void test()
 void init_param()
 {
 	SetSigma4SDCard();
-	init_image_cfg(-1,-1);
+
+	LoadImgCfgJson();
 
 	if(GetProjectRun()==inside08){
 
@@ -207,13 +208,6 @@ int main_ring()
 #endif
 
 			pthread_t thread_task_tcp_rcv=tcp_image_buff_trans_server(NULL);
-
-
-#if 0
-			pthread_t thread_task_mem_rcv=rcv_image_buff_axi_server(NULL);
-
-			pthread_t thread_task_tcp_telnet=tcp_telnet(NULL);
-#endif
 
 			sleep(1);//let tcp data trans thread start first
 

@@ -20,7 +20,7 @@
 /*-----------------------------------*/
 int 	dmac_trans(unsigned char _ch,int _frame);
 /*-----------------------------------*/
-int 	memcpyDMA2MemChEx(CMD_CTRL* img,unsigned int _ch);
+int 	memcpyDMA2MemChEx(CMD_CTRL* img,const  int _space_ch,const int _space_fr);
 /*-----------------------------------*/
 int 	Wait4DmaTransDone(long timeout_ms);
 /*-----------------------------------*/

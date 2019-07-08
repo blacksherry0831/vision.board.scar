@@ -3,10 +3,14 @@
 /*-----------------------------------*/
 #include "linux_header.h"
 /*-----------------------------------*/
-enum ProjectRun{inside08,outside08};
+enum ProjectRun{
+	inside08,
+	outside08};
 /*-----------------------------------*/
 int GetSensorStat_T();
 /*-----------------------------------*/
 int SetSensorStat_T(const int _s);
+/*-----------------------------------*/
+char * GetProjectRunStr();
 /*-----------------------------------*/
 #endif

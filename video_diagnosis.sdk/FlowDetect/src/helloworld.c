@@ -92,12 +92,12 @@ struct cmd_param process_argc_argv(int argc, char * argv[])
 	    struct cmd_param cmdParam;
 	    cmdParam.in_out='n';
 
-	    char* short_options="w:h:c:f:ioDM:N:";
+	    char* short_options="w:h:s:f:ioDM:N:";
 
 	    static struct option long_options[] = {
 	           {"width", required_argument, NULL, 'w'},
 	           {"height", required_argument, NULL, 'h'},
-	           {"channel", required_argument, NULL, 'c'},
+	           {"sensor", required_argument, NULL, 's'},
 	           {"framebuffer", required_argument, NULL, 'f'},
 	           {"in",  no_argument,       NULL, 'i'},
 	           {"out",  no_argument,       NULL, 'o'},
@@ -122,12 +122,12 @@ struct cmd_param process_argc_argv(int argc, char * argv[])
 	    													   break;
 	    		               case 'f':
 	    		            	   	   	   	   	   if (optarg){
-	    		            	   	   	   	   		   	   	   cmdParam.frame=atoi(optarg);
+	    		            	   	   	   	   		   	   	   cmdParam.space_frame=atoi(optarg);
 	    										   }
 	    										   break;
-	    		               case 'c':
+	    		               case 's':
 	    		            	   	   	   	   	    if (optarg){
-	    		            	   	   	   	   	    			cmdParam.channel=atoi(optarg);
+	    		            	   	   	   	   	    			cmdParam.sensor=atoi(optarg);
 	    		            	   	   	   	   	    }
 	    		            	   	            	break;
 
@@ -171,12 +171,16 @@ struct cmd_param process_argc_argv(int argc, char * argv[])
 /*-----------------------------------*/
 void init_cmd_param(const struct cmd_param _cmd_param)
 {
+	 setProjectMode(_cmd_param);
+
 	 SetFrameIdxMin(_cmd_param.frame_idx_min);
 	 SetFrameIdxMax(_cmd_param.frame_idx_max);
-	 SetGlobalChannel(_cmd_param.channel);
-	 SetCurrentDmaFrame(_cmd_param.frame);
-	 init_image_area(_cmd_param.width_param,_cmd_param.height_param);
-	 setProjectMode(_cmd_param);
+
+	 SetGlobalSensor(_cmd_param.sensor);
+
+	 initViewInfo_basic(_cmd_param.width_param,
+			 _cmd_param.height_param,
+			 _cmd_param.space_frame);
 }
 /*-----------------------------------*/
 /**
@@ -185,7 +189,6 @@ void init_cmd_param(const struct cmd_param _cmd_param)
 /*-----------------------------------*/
 int main(int argc, char * argv[])
 {
-
 
 	 const struct cmd_param cmdParam=process_argc_argv(argc,argv);
 

@@ -14,7 +14,7 @@ volatile int G_Thread_MEMCPY_Running=TRUE;
 /*-----------------------------------*/
 volatile int G_Thread_TCP_TRANS_IMG_Running=FALSE;
 /*-----------------------------------*/
-volatile unsigned int G_CHANNEL=0xff;
+
 volatile int m_buffer_size=0;
 /*-----------------------------------*/
 sem_t m_sem_fpga_frame_done;
@@ -496,24 +496,6 @@ int SetFpgaCircleWorkMode(int _wm)
  *
  */
 /*-----------------------------------*/
-void SetGlobalChannel(unsigned int _channel)
-{
-	G_CHANNEL=_channel;
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-unsigned int GetGlobalChannel()
-{
-	return G_CHANNEL;
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
 void SetFrameIdxMin(unsigned int _max)
 {
 	FRAME_IDX_MIN=_max;
@@ -589,21 +571,6 @@ void SetFrameCircleSeq(unsigned int _seq)
 unsigned int GetFrameCircleSeq()
 {
 	return FRAME_CIRCLE_SEQ;
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-unsigned int GetGlobalChannelMask(int _ch)
-{
-
-			if(G_CHANNEL & (0x01<<_ch)){
-				return TRUE;
-			}else{
-				return FALSE;
-			}
-
 }
 /*-----------------------------------*/
 /**

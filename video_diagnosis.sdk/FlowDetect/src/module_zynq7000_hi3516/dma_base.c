@@ -7,11 +7,9 @@ static MAP_OBJ  DMA_TRANS={0};
  *
  */
 /*-----------------------------------*/
-unsigned char* GetVirtualAddrDMA(int _ch)
+unsigned char* getDmaVirtualAddr_space_ch_fr(int _space_ch,int _space_frame)
 {
-	unsigned char *src_addr=NULL;
-
-			src_addr=get_ps_ddr_virtual_baseaddr()+_ch*image_size_frame();
+	unsigned char *src_addr=get_ps_ddr_virtual_baseaddr()+image_frame_dma_offset(_space_ch,_space_frame);
 
 	return src_addr;
 }
@@ -20,65 +18,41 @@ unsigned char* GetVirtualAddrDMA(int _ch)
  *
  */
 /*-----------------------------------*/
-unsigned int getPhyFrameBaseAddr(int _ch,int _frame)
+int getFpgaSrcAddr_space_ch_fr(const int _space_ch,const int _space_frame)
 {
-	unsigned int  PhyChBaseAddr=getPhyChBaseAddr(_ch);
-	unsigned int  PhyChFrameAddr=0;
-
-	if(_frame>=0&&_frame<=7){
-
-			PhyChFrameAddr=PhyChBaseAddr+IMAGE_SIZE_AVG+_frame*image_size_frame();
-
-	}else if(_frame==-1){
-				PhyChFrameAddr=PhyChBaseAddr;
-	}else{
-			assert(0);
-	}
-
-	return PhyChFrameAddr;
+		const unsigned int  PhyChBaseAddr=getPhyChBaseAddr(_space_ch);
+		const unsigned int  PhyChFrameOffsetAddr=image_frame_fpga_ps_offset(_space_ch,_space_frame);
+		const unsigned int 	PhySpaceFrameAddr=PhyChBaseAddr+PhyChFrameOffsetAddr;
+		return PhySpaceFrameAddr;
 }
 /*-----------------------------------*/
 /**
  *
  */
 /*-----------------------------------*/
-int video_map_dmac_ch(unsigned char _ch,int _frame,unsigned int *_phyaddr)
+unsigned int getDmaPhysicsAddr_space_ch_fr(const int _space_ch,const int _space_frame)
 {
-	unsigned int  PhyChFrameAddr=getPhyFrameBaseAddr(_ch,_frame);
-	unsigned int  MAP_SIZE=GetFrameSize(_frame);
+	assert(_space_frame>=0);
 
-	*_phyaddr=PhyChFrameAddr;
+	unsigned int ps_phy_addr_dma = PS_DDR_PHYADDR_FOR_DMA +image_frame_dma_offset(_space_ch,_space_frame);//dma addr
 
-	SetCurrentDmaCh(_ch);
-
-	return MAP_SIZE;
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-unsigned int getDmaDstAddr(unsigned char _ch,int _frame)
-{
-	assert(_frame>=0);
-
-	const unsigned int  MAP_SIZE=GetFrameSize(_frame);
-	unsigned int ps_phy_addr_dma = PS_DDR_PHYADDR_FOR_DMA + _ch*MAP_SIZE;//dma addr
 	return ps_phy_addr_dma;
+
 }
 /*-----------------------------------*/
 /**
  *
  */
 /*-----------------------------------*/
-int dmac_trans(unsigned char _ch,int _frame)
+int dmac_trans_2(int _space_ch,int _space_frame)
 {
 	 if(pthread_mutex_lock(&DMA_TRANS.lock)==SUCCESS){
 
-		 		unsigned int ps_phy_addr_dma=getDmaDstAddr(_ch,_frame);
-				unsigned int phy_addr_img=0;
-				int Size2tran=video_map_dmac_ch(_ch,_frame,&phy_addr_img);//image phy addr
-				dmac_config_and_transfer(ps_phy_addr_dma,phy_addr_img, Size2tran);
+				unsigned int phy_addr_img=getFpgaSrcAddr_space_ch_fr(_space_ch,_space_frame);
+
+				const int dma_size_t=image_frame_size(_space_ch,_space_frame);
+				const unsigned int ps_phy_addr_dma=getDmaPhysicsAddr_space_ch_fr( _space_ch,_space_frame);
+				dmac_config_and_transfer(ps_phy_addr_dma,phy_addr_img, dma_size_t);
 
 				if(pthread_mutex_unlock(&DMA_TRANS.lock)==SUCCESS){
 					return TRUE;
@@ -92,7 +66,7 @@ int dmac_trans(unsigned char _ch,int _frame)
  *
  */
 /*-----------------------------------*/
-int memcpyDMA2MemChEx(CMD_CTRL* img,unsigned int _ch)
+int memcpyDMA2MemChEx(CMD_CTRL* img,const  int _space_ch,const int _space_fr)
 {
 	int result_t=FALSE;
 #if 1
@@ -103,9 +77,9 @@ int memcpyDMA2MemChEx(CMD_CTRL* img,unsigned int _ch)
 
 	 if(pthread_mutex_lock(&DMA_TRANS.lock)==SUCCESS){
 
-			unsigned char *src_addr=GetVirtualAddrDMA(_ch);
+			unsigned char *src_addr=getDmaVirtualAddr_space_ch_fr(_space_ch,_space_fr);
 
-			CopyImage(src_addr,img,_ch);
+			CopyImage(src_addr,img,_space_ch,_space_fr);
 
 			if(pthread_mutex_unlock(&DMA_TRANS.lock)==SUCCESS){
 
@@ -115,7 +89,7 @@ int memcpyDMA2MemChEx(CMD_CTRL* img,unsigned int _ch)
 	 }
 
 #if 1
-	 PRINTF_DBG("Channel:[%d] ",_ch);
+	 PRINTF_DBG("Channel:[%d] ",_space_ch);
 
 	TIME_END("memcpy a channel:");
 

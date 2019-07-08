@@ -50,23 +50,22 @@ int SetDmaFrameByWorkMode(int _wm)
 {
 
 			if(GetProjectRun()==outside08){
-
-					SetCurrentDmaFrame(0);
-
+							image_enable_output_frame_only_1();
 			}else if(GetProjectRun()==inside08){
 
-			if(WM_ORG_IMG==(GetFpgaCircleWorkMode()&WM_ORG_IMG)){
-					SetCurrentDmaFrame(0);
-			}else if(WM_DIFF_IMG==(GetFpgaCircleWorkMode()&WM_DIFF_IMG)){
-					SetCurrentDmaFrame(1);
+						if(WM_ORG_IMG==(GetFpgaCircleWorkMode()&WM_ORG_IMG)){
+							image_enable_output_frame_only_1();
+						}else if(WM_DIFF_IMG==(GetFpgaCircleWorkMode()&WM_DIFF_IMG)){
+							image_enable_output_frame_only_2();
+						}else{
+
+						}
+
 			}else{
+
 
 			}
 
-	}else{
-
-
-	}
 	return 0;
 }
 /*-----------------------------------*/
@@ -85,70 +84,32 @@ int Wait4DmaTransDone1(long timeout_ms)
  *
  */
 /*-----------------------------------*/
-unsigned int GetFrameSizeOut08(int _frame)
+void dmac_trans_space_ch_fr(int _space_ch,int _space_fr)
 {
 
-	unsigned int  MAP_SIZE=0;
-		if(_frame>=0&&_frame<=7){
+	dmac_trans_2(_space_ch,_space_fr);
 
-				MAP_SIZE=image_size_frame();
-		}else	if(_frame==-1){
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void dmac_trans_all_frame()
+{
 
-				MAP_SIZE=IMAGE_SIZE_AVG;
-		}else{
-			assert(0);
+		int schi=0;
+		int sfri=0;
+
+		for(schi=0; schi <SPACE_CHANNEL_NUM;schi++){
+			for(sfri=0;sfri<SPACE_FRAME_NUM;sfri++){
+					if(is_space_frame_output(schi,sfri)){
+
+						dmac_trans_space_ch_fr(schi,sfri);
+
+					}
+			}
 		}
-	return MAP_SIZE;
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-unsigned int GetFrameSizeIn08(int _frame)
-{
-
-	unsigned int  MAP_SIZE=0;
-		if(_frame>=0&&_frame<=7){
-
-				MAP_SIZE=image_size_frame();
-		}else	if(_frame==-1){
-
-				MAP_SIZE=IMAGE_SIZE_AVG;
-		}else{
-			assert(0);
-		}
-	return MAP_SIZE;
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-unsigned int GetFrameSize(int _frame)
-{
-	enum ProjectRun pr_t=GetProjectRun();
-
-	if(pr_t==outside08){
-		return GetFrameSizeOut08(_frame);
-	}else if(pr_t==inside08){
-		return GetFrameSizeIn08(_frame);
-	}else{
-
-	}
-
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-void dmac_trans_ex(unsigned char _ch,int _frame)
-{
-
-	if(GetGlobalChannelMask(_ch)){
-			dmac_trans(_ch,_frame);
-	}
 
 }
 /*-----------------------------------*/

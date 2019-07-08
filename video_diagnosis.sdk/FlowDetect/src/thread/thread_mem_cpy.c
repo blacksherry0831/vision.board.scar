@@ -38,13 +38,13 @@ int Wait4MemCpyDone(long timeout_ms)
  *
  */
 /*-----------------------------------*/
-int memcpyDMA2Mem_send2MsgQ(CMD_CTRL* _img,unsigned int _ch)
+int memcpyDMA2Mem_send2MsgQ(CMD_CTRL* _img,const  int _space_ch,const int _space_fr)
 {
 
-		if(GetGlobalChannelMask(_ch)){
+		if(is_space_frame_output(_space_ch,_space_fr)){
 
 			if(_img!=NULL){
-				  memcpyDMA2MemChEx(_img,_ch);
+				  memcpyDMA2MemChEx(_img,_space_ch,_space_fr);
 
 				  snd_queue_img_buff(_img);
 				  return 1;
@@ -62,11 +62,8 @@ int memcpyDMA2Mem_send2MsgQ(CMD_CTRL* _img,unsigned int _ch)
 void *memcpy_work_server(void* _pdata)
 {
 	static int MEMCPY_COUNT=0;
-	int Chn_num=0;
 
-
-
-	CMD_CTRL*  image[8];
+	CMD_CTRL*  image[SPACE_CHANNEL_NUM][SPACE_FRAME_NUM];
 
 	setCurrentThreadHighPriority(1);
 
@@ -77,18 +74,42 @@ void *memcpy_work_server(void* _pdata)
 							if(pthread_mutex_lock(&DMA_mutex_trans0)==SUCCESS){
 
 										TIME_START();
-												IncFrameIdx();
-												const unsigned int IMG_FRAME_IDX=getFrameIdx();
-												int sensor_stat=GetSensorStat_T();
-												MallocImageBuff(image,IMG_FRAME_IDX,8);
-												for(Chn_num=0;Chn_num<8;Chn_num++){
-													 /*****************************/
-																CMD_CTRL* cmd_ctrl_pt=image[Chn_num];
-																SetSensorStatus(cmd_ctrl_pt,sensor_stat,Chn_num);
-																memcpyDMA2Mem_send2MsgQ(cmd_ctrl_pt,Chn_num);
-													 /*****************************/
-												  }
-										 PRINTF_DBG("MEMCPY:%d___",MEMCPY_COUNT++);
+														IncFrameIdx();
+
+														const unsigned int IMG_FRAME_IDX=getFrameIdx();
+														const int SENSOR_STATUS=GetSensorStat_T();
+														const int CIRCLE_SEQ=GetFrameCircleSeq();
+														const int ViewOutputNum=img_space_frame_output_num();
+
+														memset(image,0,sizeof(image));
+
+														MallocImageBuff4ViewOutput(image,CIRCLE_SEQ,IMG_FRAME_IDX);
+
+
+
+															int schi=0;
+															int sfri=0;
+
+															for(schi=0; schi <SPACE_CHANNEL_NUM;schi++){
+																for(sfri=0;sfri<SPACE_FRAME_NUM;sfri++){
+																		if(is_space_frame_output(schi,sfri)){
+																			 /*****************************/
+																					CMD_CTRL* cmd_ctrl_pt=image[schi][sfri];
+																					if(cmd_ctrl_pt!=NULL){
+
+																							const int view_ch=GetCmdImgViewChannel(cmd_ctrl_pt);
+
+																							SetSensorStatus(cmd_ctrl_pt,SENSOR_STATUS,view_ch);
+																							memcpyDMA2Mem_send2MsgQ(cmd_ctrl_pt,schi,sfri);
+																					}
+																			 /*****************************/
+																		}
+																}
+															}
+
+
+
+												PRINTF_DBG("MEMCPY:%d___",MEMCPY_COUNT++);
 										 TIME_END("3>MEM cpy cost time");
 
 										 sem_post(&m_sem_memcpy_frame_done);
