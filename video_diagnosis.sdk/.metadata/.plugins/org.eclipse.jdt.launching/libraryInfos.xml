@@ -19,6 +19,44 @@
 <entry path="D:\Xilinx\SDK\2015.4\tps\win64\jre\lib\endorsed"/>
 </endorsedDirs>
 </libraryInfo>
+<libraryInfo home="V:\Xilinx\SDK\2015.4\tps\win64" version="1.8.0_45">
+<bootpath>
+<entry path="V:\Xilinx\SDK\2015.4\tps\win64\jre\lib\resources.jar"/>
+<entry path="V:\Xilinx\SDK\2015.4\tps\win64\jre\lib\rt.jar"/>
+<entry path="V:\Xilinx\SDK\2015.4\tps\win64\jre\lib\sunrsasign.jar"/>
+<entry path="V:\Xilinx\SDK\2015.4\tps\win64\jre\lib\jsse.jar"/>
+<entry path="V:\Xilinx\SDK\2015.4\tps\win64\jre\lib\jce.jar"/>
+<entry path="V:\Xilinx\SDK\2015.4\tps\win64\jre\lib\charsets.jar"/>
+<entry path="V:\Xilinx\SDK\2015.4\tps\win64\jre\lib\jfr.jar"/>
+<entry path="V:\Xilinx\SDK\2015.4\tps\win64\jre\classes"/>
+</bootpath>
+<extensionDirs>
+<entry path="V:\Xilinx\SDK\2015.4\tps\win64\jre\lib\ext"/>
+<entry path="C:\windows\Sun\Java\lib\ext"/>
+</extensionDirs>
+<endorsedDirs>
+<entry path="V:\Xilinx\SDK\2015.4\tps\win64\jre\lib\endorsed"/>
+</endorsedDirs>
+</libraryInfo>
+<libraryInfo home="V:\Xilinx\SDK\2015.4\tps\win64\jre" version="1.8.0_45">
+<bootpath>
+<entry path="V:\Xilinx\SDK\2015.4\tps\win64\jre\lib\resources.jar"/>
+<entry path="V:\Xilinx\SDK\2015.4\tps\win64\jre\lib\rt.jar"/>
+<entry path="V:\Xilinx\SDK\2015.4\tps\win64\jre\lib\sunrsasign.jar"/>
+<entry path="V:\Xilinx\SDK\2015.4\tps\win64\jre\lib\jsse.jar"/>
+<entry path="V:\Xilinx\SDK\2015.4\tps\win64\jre\lib\jce.jar"/>
+<entry path="V:\Xilinx\SDK\2015.4\tps\win64\jre\lib\charsets.jar"/>
+<entry path="V:\Xilinx\SDK\2015.4\tps\win64\jre\lib\jfr.jar"/>
+<entry path="V:\Xilinx\SDK\2015.4\tps\win64\jre\classes"/>
+</bootpath>
+<extensionDirs>
+<entry path="V:\Xilinx\SDK\2015.4\tps\win64\jre\lib\ext"/>
+<entry path="C:\windows\Sun\Java\lib\ext"/>
+</extensionDirs>
+<endorsedDirs>
+<entry path="V:\Xilinx\SDK\2015.4\tps\win64\jre\lib\endorsed"/>
+</endorsedDirs>
+</libraryInfo>
 <libraryInfo home="D:\Xilinx\SDK\2015.4\tps\win64" version="1.8.0_45">
 <bootpath>
 <entry path="D:\Xilinx\SDK\2015.4\tps\win64\jre\lib\resources.jar"/>
