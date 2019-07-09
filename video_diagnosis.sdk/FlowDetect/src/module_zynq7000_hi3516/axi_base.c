@@ -249,16 +249,25 @@ void outside_second()
 /*-----------------------------------*/
 void sendImageStart()
 {
-	initFrameIdx();
+		initFrameIdx();
 
-	const unsigned int seq_t=GetFrameCircleSeq();
+		int schi=0;
+		int sfri=0;
 
-	int chi=0;
-	for(chi=0;chi<8;chi++){
-		if(GetGlobalSensorMask(chi)){
-			snd_queue_img_buff(CreateImageStart(chi,seq_t));
-		}
-	}
+			for(schi=0; schi <SPACE_CHANNEL_NUM;schi++){
+				for(sfri=0;sfri<SPACE_FRAME_NUM;sfri++){
+
+						if(is_space_frame_output(schi,sfri)){
+
+										const int View_channel=image_view_channel(schi,sfri);
+										assert(View_channel>=0);
+										const unsigned int seq_t=GetFrameCircleSeq();
+										snd_queue_img_buff(CreateImageStart(View_channel,seq_t));
+
+						}
+				}
+			}
+
 
 }
 /*-----------------------------------*/
@@ -268,14 +277,24 @@ void sendImageStart()
 /*-----------------------------------*/
 void sendImageStop()
 {
-	const unsigned int seq_t=GetFrameCircleSeq();
-	int chi=0;
-		for(chi=0;chi<8;chi++){
-			if(GetGlobalSensorMask(chi)){
-				snd_queue_img_buff(CreateImageStop(chi,seq_t));
-			}
-		}
+	int schi=0;
+	int sfri=0;
 
+	for(schi=0; schi <SPACE_CHANNEL_NUM;schi++){
+		for(sfri=0;sfri<SPACE_FRAME_NUM;sfri++){
+
+					if(is_space_frame_output(schi,sfri)){
+
+									const int View_channel=image_view_channel(schi,sfri);
+									assert(View_channel>=0);
+									const unsigned int seq_t=GetFrameCircleSeq();
+									snd_queue_img_buff(CreateImageStop(View_channel,seq_t));
+
+
+					}
+
+		}
+	}
 }
 /*-----------------------------------*/
 /**
@@ -287,15 +306,13 @@ void sendImageMask()
 			int schi=0;
 			int sfri=0;
 
-				for(schi=0; schi <SPACE_CHANNEL_NUM;schi++){
-					for(sfri=0;sfri<SPACE_FRAME_NUM;sfri++){
+			for(schi=0; schi <SPACE_CHANNEL_NUM;schi++){
+				for(sfri=0;sfri<SPACE_FRAME_NUM;sfri++){
 
 							if(is_space_frame_output(schi,sfri)){
 
 											const int View_channel=image_view_channel(schi,sfri);
-
 											assert(View_channel>=0);
-
 											CvRect rect=GetRectSpaceChannelFrame(schi,sfri);
 
 											CMD_CTRL* cmd_t=CreateImageMask(View_channel,rect.width,rect.height,0);
@@ -307,8 +324,9 @@ void sendImageMask()
 											}
 
 							}
-					}
+
 				}
+			}
 
 }
 /*-----------------------------------*/

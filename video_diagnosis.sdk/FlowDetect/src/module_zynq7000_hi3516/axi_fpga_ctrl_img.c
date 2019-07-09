@@ -8,12 +8,16 @@
 /*-----------------------------------*/
 int fpga_img_read_sensor_status()
 {
-	int  iTemp;
+	int  iTemp=0;
 	int* piTemp=&iTemp;
 	//**********************************************
 	// 获取 sensor 状态，0xFF为正常，开始工作，否则退出
 	//**********************************************
-	return FPGA_CTRL_read(ADDR_SENSOR_STATE, piTemp);
+	 if(TRUE==FPGA_CTRL_read(ADDR_SENSOR_STATE, piTemp)){
+			return iTemp;
+	 }
+
+	 return 0;
 }
 /*-----------------------------------*/
 /**

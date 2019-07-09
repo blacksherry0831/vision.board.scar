@@ -26,7 +26,7 @@ sem_t m_sem_fpga_circle_start;
 sem_t m_sem_fpga_circle_done;
 /*-----------------------------------*/
 volatile int FRAME_IDX=0;
-volatile unsigned int FRAME_IDX_MAX=0xffffffff;
+volatile unsigned int FRAME_IDX_MAX=UINT_MAX;
 volatile unsigned int FRAME_IDX_MIN=0;
 volatile unsigned int FRAME_CIRCLE_SEQ=0;
 volatile int FPGA_CIRCLE_TASK_RUNNING=FALSE;

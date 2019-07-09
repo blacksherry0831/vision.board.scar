@@ -303,7 +303,8 @@ void  MallocImageBuff4ViewOutput(CMD_CTRL** _buff,const int _seq,const int _img_
 		for(sfri=0;sfri<SPACE_FRAME_NUM;sfri++){
 				if(is_space_frame_output(schi,sfri)){
 
-						const int space_ch_fr_dix=sfri+schi*SPACE_CHANNEL_NUM;
+						const int space_ch_fr_dix=sfri+schi*SPACE_FRAME_NUM;
+
 						const int View_channel=image_view_channel(schi,sfri);
 						const int nChannels=image_view_nChannel(schi,sfri);
 

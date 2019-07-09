@@ -245,4 +245,6 @@ int IsImageChangeSigma(const CMD_CTRL* _cmd_ctrl);
 IplImage * GetIplImage(const CMD_CTRL* cmd);
 IplImageU* GetIplImageUx(const CMD_CTRL* cmd_t);
 /*-----------------------------------*/
+int GetCmdImgViewChannel(const CMD_CTRL* const _cmd_ctrl);
+/*-----------------------------------*/
 #endif

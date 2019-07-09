@@ -41,7 +41,7 @@ int Wait4MemCpyDone(long timeout_ms)
 int memcpyDMA2Mem_send2MsgQ(CMD_CTRL* _img,const  int _space_ch,const int _space_fr)
 {
 
-		if(is_space_frame_output(_space_ch,_space_fr)){
+
 
 			if(_img!=NULL){
 				  memcpyDMA2MemChEx(_img,_space_ch,_space_fr);
@@ -50,7 +50,7 @@ int memcpyDMA2Mem_send2MsgQ(CMD_CTRL* _img,const  int _space_ch,const int _space
 				  return 1;
 			}
 
-		}
+
 
 		return 0;
 }
@@ -64,6 +64,7 @@ void *memcpy_work_server(void* _pdata)
 	static int MEMCPY_COUNT=0;
 
 	CMD_CTRL*  image[SPACE_CHANNEL_NUM][SPACE_FRAME_NUM];
+	memset(image,0,sizeof(image));
 
 	setCurrentThreadHighPriority(1);
 
@@ -81,18 +82,14 @@ void *memcpy_work_server(void* _pdata)
 														const int CIRCLE_SEQ=GetFrameCircleSeq();
 														const int ViewOutputNum=img_space_frame_output_num();
 
-														memset(image,0,sizeof(image));
-
 														MallocImageBuff4ViewOutput(image,CIRCLE_SEQ,IMG_FRAME_IDX);
-
-
 
 															int schi=0;
 															int sfri=0;
 
 															for(schi=0; schi <SPACE_CHANNEL_NUM;schi++){
 																for(sfri=0;sfri<SPACE_FRAME_NUM;sfri++){
-																		if(is_space_frame_output(schi,sfri)){
+																		if(image[schi][sfri]!=NULL){
 																			 /*****************************/
 																					CMD_CTRL* cmd_ctrl_pt=image[schi][sfri];
 																					if(cmd_ctrl_pt!=NULL){
@@ -104,6 +101,7 @@ void *memcpy_work_server(void* _pdata)
 																					}
 																			 /*****************************/
 																		}
+																		image[schi][sfri]=NULL;
 																}
 															}
 
