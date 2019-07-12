@@ -301,19 +301,26 @@ void  MallocImageBuff4ViewOutput(CMD_CTRL** _buff,const int _seq,const int _img_
 
 	for(schi=0; schi <SPACE_CHANNEL_NUM;schi++){
 		for(sfri=0;sfri<SPACE_FRAME_NUM;sfri++){
-				if(is_space_frame_output(schi,sfri)){
 
+						const int frameOutput=is_space_frame_output(schi,sfri);
 						const int space_ch_fr_dix=sfri+schi*SPACE_FRAME_NUM;
-
-						const int View_channel=image_view_channel(schi,sfri);
-						const int nChannels=image_view_nChannel(schi,sfri);
+						const int viewChannel=image_view_channel(schi,sfri);
+						const int nChannels=image_nchannels(schi,sfri);
 
 						const CvRect rect=GetRectSpaceChannelFrame(schi,sfri);
+						const char* color_model=image_view_colorModel(schi,sfri);
+
+						if((frameOutput==TRUE) &&
+							(viewChannel>=0)	){
+
+							_buff[space_ch_fr_dix]=CreateImageCtrl(viewChannel,_img_frame,rect.width,rect.height,nChannels,_seq);
+
+							InitImageColorMode(_buff[space_ch_fr_dix],color_model);
+
+						}
 
 
-						_buff[space_ch_fr_dix]=CreateImageCtrl(View_channel,_img_frame,rect.width,rect.height,nChannels,_seq);
 
-				}
 		}
 	}
 
@@ -343,6 +350,39 @@ void copyimage_cut(const unsigned char* _src,
 		unsigned char *buff_row_dst=&_dst[idx_dst];
 
 		memcpy(buff_row_dst,buff_row_src,rect.width);
+	}
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void copyimage_cut_ch(const unsigned char* _src,
+		const unsigned int _src_w,
+		const unsigned int _src_h,
+		unsigned char* _dst,
+		const CvRect _r,
+		const int _chs)
+{
+
+	int hi=0;
+	const int hi_min=_r.y;
+	const int hi_max=_r.y+_r.height;
+
+	const int STEP=_src_w*_chs;
+	const int STEP_CUT=_r.width*_chs;
+
+
+	for(hi=hi_min;hi<hi_max;hi++){
+
+		const int idx_src=_r.x*_chs+hi*STEP;
+		const int idx_dst=(hi-_r.y)*STEP_CUT;
+
+		const unsigned char *buff_row_src=&_src[idx_src];
+		unsigned char *buff_row_dst=&_dst[idx_dst];
+
+		memcpy(buff_row_dst,buff_row_src,STEP_CUT);
 	}
 
 }
@@ -381,6 +421,7 @@ void CopyImage(void* const buff_src,CMD_CTRL* img_dst,const  int _space_ch,const
 
 	const int image_width_current=image_width(_space_ch,_space_fr);
 	const int image_height_current=image_height(_space_ch,_space_fr);
+	const int nChannels=image_nchannels(_space_ch,_space_fr);
 
 	const IplImage* const img_ptr=GetIplImage(img_dst);
 
@@ -399,8 +440,15 @@ void CopyImage(void* const buff_src,CMD_CTRL* img_dst,const  int _space_ch,const
 	const unsigned char *buff_src_p=(unsigned char *)buff_src;
 	unsigned char *buff_dst_p=(unsigned char *)(img_ptr->imageData);
 
+	if(nChannels==1){
 
-	copyimage_cut(buff_src_p,image_width_current,image_height_current,buff_dst_p,cut_rect);
+		copyimage_cut(buff_src_p,image_width_current,image_height_current,buff_dst_p,cut_rect);
+	}else{
+
+		copyimage_cut_ch(buff_src_p,image_width_current,image_height_current,buff_dst_p,cut_rect,nChannels);
+	}
+
+
 
 }
 /*-----------------------------------*/
@@ -638,9 +686,9 @@ CvRect image_view_Rect_org(int _space_ch,int _space_frame)
  *
  */
 /*-----------------------------------*/
-int image_view_nChannel(int _space_ch,int _space_frame)
+char* image_view_colorModel(int _space_ch,int _space_frame)
 {
-	return G_View[_space_ch][_space_frame].nChannels;
+	return G_View[_space_ch][_space_frame].colorModel;
 }
 /*-----------------------------------*/
 /**

@@ -1,22 +1,63 @@
 #include "mem_pool_fixed.h"
-
+/*-----------------------------------*/
+#define BLK_SIZE_4M (4194304)
+#define BLK_NUM_4M  (16)
+/*-----------------------------------*/
 #define BLK_SIZE_2M (2097152)
-
 #define BLK_NUM_2M  (64)
-
+/*-----------------------------------*/
 #define BLK_1K_SIZE (1024)
-
 #define BLK_1K_NUM  (BLK_NUM_2M*2+256)
+/*-----------------------------------*/
+static unsigned char    BUFF_4M[BLK_NUM_4M][BLK_SIZE_4M];
+static unsigned char    BUFF_2M[BLK_NUM_2M][BLK_SIZE_2M];
+static unsigned char    BUFF_1K[BLK_1K_NUM][BLK_1K_SIZE];
+/*-----------------------------------*/
+static OS_MEM  m_os_4m_mem={0};
+static OS_MEM  m_os_2m_mem={0};
+static OS_MEM  m_os_1k_mem={0};
+/*-----------------------------------*/
+static OS_ERR  m_os_err={0};
+/*-----------------------------------*/
+static sem_t   m_sem_4m_buff;
+static sem_t   m_sem_2m_buff;
+static sem_t   m_sem_1K_buff;
+/*-----------------------------------*/
+static  OS_MEM*			p_pool_os_mem[]={
+										&m_os_4m_mem,
+										&m_os_2m_mem,
+										&m_os_1k_mem
+										};
 
-unsigned char    BUFF_2M[BLK_NUM_2M][BLK_SIZE_2M];
+static    char  	p_pool_name[][64]={
+										"mem4m",
+										"mem2m",
+										"mem1k"
+										};
 
-unsigned char    BUFF_1K[BLK_1K_NUM][BLK_1K_SIZE];
+static    void*  	p_pool_addr[]={
+										&BUFF_4M[0][0],
+										&BUFF_2M[0][0],
+										&BUFF_1K[0][0]
+										};
 
-OS_MEM  m_os_2m_mem={0};
-OS_MEM  m_os_1k_mem={0};
-OS_ERR  m_os_err={0};
+static const unsigned int  		pool_blks[]={
+										BLK_NUM_4M,
+										BLK_NUM_2M,
+										BLK_1K_NUM
+										};
 
-sem_t   m_sem_2m_buff;
+static const unsigned int  		pool_size[]={
+										BLK_SIZE_4M,
+										BLK_SIZE_2M,
+										BLK_1K_SIZE
+										};
+
+static  sem_t*   			p_pool_sem[]={
+										&m_sem_4m_buff,
+										&m_sem_2m_buff,
+										&m_sem_1K_buff
+										};
 /*-----------------------------------*/
 #define PRINTF_MEM_USAGE	(0)
 /*-----------------------------------*/
@@ -35,17 +76,23 @@ int MemPoolAddrZone(void * _mem)
 		const CPU_ADDR mem_2m_start=(CPU_ADDR) (BUFF_2M);
 		const CPU_ADDR mem_2m_end=(CPU_ADDR)  ((void *) &BUFF_2M[BLK_NUM_2M-1][BLK_SIZE_2M-1]);
 
+		const CPU_ADDR mem_4m_start=(CPU_ADDR) (BUFF_4M);
+		const CPU_ADDR mem_4m_end=(CPU_ADDR)  ((void *) &BUFF_4M[BLK_NUM_4M-1][BLK_SIZE_4M-1]);
+
 			if(			(_mem_addr >= mem_1K_start )&&
-						(_mem_addr <= mem_1K_end )
-																			){
+						(_mem_addr <= mem_1K_end )){
 
 					return BLK_1K_SIZE;
 
 			}else if(	(_mem_addr >= mem_2m_start)&&
-						(_mem_addr <= mem_2m_end)
-			){
+						(_mem_addr <= mem_2m_end)){
 
 					return 	BLK_SIZE_2M;
+
+			}else if((_mem_addr >= mem_4m_start)&&
+						(_mem_addr <= mem_4m_end)){
+
+					return 	BLK_SIZE_4M;
 
 			}else if(_mem_addr==0){
 					return 0;
@@ -61,6 +108,35 @@ int MemPoolAddrZone(void * _mem)
  *
  */
 /*-----------------------------------*/
+void create_mem_pool(OS_MEM       *p_mem,
+        CPU_CHAR     *p_name,
+        void         *p_addr,
+        OS_MEM_QTY    n_blks,
+        OS_MEM_SIZE   blk_size,
+        OS_ERR       *p_err,
+        sem_t		 *p_sem)
+{
+
+	OSMemCreate(p_mem, p_name, p_addr,n_blks,blk_size, p_err);
+
+		if (*p_err == OS_ERR_NONE) {
+
+					int nRet = sem_init(p_sem, 0,  n_blks-1);
+
+					if (0 != nRet)
+						exit(-1);
+
+		}else{
+			printf("mem init error");
+			exit(-1);
+		}
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 void init_mem_pool() 
 {
 #if 1
@@ -68,33 +144,22 @@ void init_mem_pool()
 	assert(cpu_addr==4);
 #endif
 
-	OSMemCreate(&m_os_2m_mem, "memory", BUFF_2M, BLK_NUM_2M,BLK_SIZE_2M, &m_os_err);
+	const int POOL_NUMS=sizeof(pool_blks)/sizeof(unsigned int);
 
-	if (m_os_err == OS_ERR_NONE) {
+	int pi=0;
 
-		int nRet = sem_init(&m_sem_2m_buff, 0,  BLK_NUM_2M-1);
+	for(pi=0;pi<POOL_NUMS;pi++){
 
-		if (0 != nRet)
-			exit(-1);
+		create_mem_pool(p_pool_os_mem[pi],
+						&p_pool_name[pi][0],
+						p_pool_addr[pi],
+						pool_blks[pi],
+						pool_size[pi],
+						&m_os_err,
+						p_pool_sem[pi]
+						);
 
-	}else{
-		printf("mem init error");
-		exit(-1);
 	}
-
-
-	OSMemCreate(&m_os_1k_mem, "memory", BUFF_1K, BLK_1K_NUM,BLK_1K_SIZE, &m_os_err);
-
-	if (m_os_err == OS_ERR_NONE) {
-
-
-
-	}else{
-			printf("mem init error");
-			exit(-1);
-	}
-
-
 
 	printf("init mem pool done \n");
 		
@@ -124,13 +189,18 @@ void* mem_malloc(const int _size)
 
 	if(_size<=BLK_1K_SIZE){
 
+		 sem_wait_infinite(&m_sem_1K_buff);
 		 data = (unsigned char *)OSMemGet(&m_os_1k_mem, &m_os_err);
 
 	}else if(_size>BLK_1K_SIZE && _size<=BLK_SIZE_2M){
 
 		 sem_wait_infinite(&m_sem_2m_buff);
-
 		 data = (unsigned char *)OSMemGet(&m_os_2m_mem, &m_os_err);
+
+	}else if(_size>BLK_SIZE_2M && _size<=BLK_SIZE_4M){
+
+		sem_wait_infinite(&m_sem_4m_buff);
+		 data = (unsigned char *)OSMemGet(&m_os_4m_mem, &m_os_err);
 
 	}else{
 			printf("mem malloc size error \n");
@@ -183,6 +253,9 @@ void mem_free(void* _mem)
 	if(ADDR_ZONE==BLK_1K_SIZE){
 
 				OSMemPut(&m_os_1k_mem, _mem, &m_os_err);
+				if (m_os_err == OS_ERR_NONE) {
+					sem_post(&m_sem_1K_buff);
+				}
 
 	}else if(ADDR_ZONE==BLK_SIZE_2M){
 
@@ -191,6 +264,12 @@ void mem_free(void* _mem)
 					sem_post(&m_sem_2m_buff);
 				}
 
+	}else if(ADDR_ZONE==BLK_SIZE_4M){
+
+				OSMemPut(&m_os_4m_mem, _mem, &m_os_err);
+				if (m_os_err == OS_ERR_NONE) {
+					sem_post(&m_sem_4m_buff);
+				}
 
 	}else if(ADDR_ZONE==0){
 			 return;
@@ -230,14 +309,14 @@ void mem_free_clr(void** _mem_ptr)
  */
 /*-----------------------------------*/
 
-void destory_mem_pool()
+int destory_mem_pool()
 {
 
 	CPU_IntDestory();
 
-	int result_t=sem_destroy(&m_sem_2m_buff);
+	const int result_t=sem_destroy(&m_sem_2m_buff);
 
-
+	return result_t;
 
 }
 /*-----------------------------------*/

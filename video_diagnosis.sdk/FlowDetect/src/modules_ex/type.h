@@ -140,6 +140,7 @@ typedef struct _IplImageU
 
 	unsigned char sensor_stat[ALIGN_SIZE_T];
 	unsigned char nChannels[ALIGN_SIZE_T];
+	char colorModel[ALIGN_SIZE_T*8];/**<*/
 
 	IplImage  	Iplimg;
 } IplImageU;

@@ -84,6 +84,7 @@ void *memcpy_work_server(void* _pdata)
 
 														MallocImageBuff4ViewOutput(image,CIRCLE_SEQ,IMG_FRAME_IDX);
 
+#if 1
 															int schi=0;
 															int sfri=0;
 
@@ -104,8 +105,7 @@ void *memcpy_work_server(void* _pdata)
 																		image[schi][sfri]=NULL;
 																}
 															}
-
-
+#endif
 
 												PRINTF_DBG("MEMCPY:%d___",MEMCPY_COUNT++);
 										 TIME_END("3>MEM cpy cost time");

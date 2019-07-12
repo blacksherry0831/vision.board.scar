@@ -580,7 +580,7 @@ void InitImageCfg(CMD_CTRL* cmd_t,const int _ch,int _frame,int _width,int _heigh
  *
  */
 /*-----------------------------------*/
-void InitImageRoi(CMD_CTRL* cmd_t,int _ch,CvRect _rect_roi)
+void InitImageRoi(CMD_CTRL* cmd_t,CvRect _rect_roi)
 {
 	IplImageU* imgU=GetIplImageUx(cmd_t);
 	if(imgU!=NULL){
@@ -588,6 +588,18 @@ void InitImageRoi(CMD_CTRL* cmd_t,int _ch,CvRect _rect_roi)
 		SetInt2Char(_rect_roi.height,imgU->height_roi,ALIGN_SIZE_T);
 		SetInt2Char(_rect_roi.x,imgU->x_roi,ALIGN_SIZE_T);
 		SetInt2Char(_rect_roi.y,imgU->y_roi,ALIGN_SIZE_T);
+	}
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void InitImageColorMode(CMD_CTRL* cmd_t,const char* _color_mode)
+{
+	IplImageU* imgU=GetIplImageUx(cmd_t);
+	if(imgU!=NULL){
+		strcpy(imgU->colorModel,_color_mode);
 	}
 }
 /*-----------------------------------*/
@@ -604,14 +616,14 @@ void InitImageRoiRR(CMD_CTRL* cmd_t,int _ch,CvRect _rect_org,CvRect _rect_roi)
 					(_rect_org.x!=_rect_roi.x)&&
 					(_rect_org.y!=_rect_roi.y)){
 
-					InitImageRoi(cmd_t,_ch,_rect_roi);
+					InitImageRoi(cmd_t,_rect_roi);
 					return;
 
 			}
 
 	}
 
-	InitImageRoi(cmd_t,_ch,cvRect(0,0,0,0));
+	InitImageRoi(cmd_t,cvRect(0,0,0,0));
 
 
 }

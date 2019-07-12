@@ -45,9 +45,11 @@ void SaveImgMaskMatrix(const CMD_CTRL* const  _cmd);
 void init_image_cfg(const int _width,const int _height);
 /*-----------------------------------*/
 unsigned int image_frame_dma_offset(const int _space_ch,const int _space_frame);
+char* image_view_colorModel(int _space_ch,int _space_frame);
 /*-----------------------------------*/
 int image_width(int _space_ch,int _space_frame);
 int image_height(int _space_ch,int _space_frame);
+int image_nchannels(int _space_ch,int _space_frame);
 int image_frame_size(int _space_ch,int _space_frame);
 /*-----------------------------------*/
 void 	set_img_cut_rect(const CvRect _cut,const int _ViewCh);
