@@ -13,5 +13,6 @@ void FPGA_CTRL_unmmap();
 /*-----------------------------------*/
 int FPGA_CTRL_send(int addr, int* pidata);
 int FPGA_CTRL_read(int addr, int* pidata);
+int FPGA_CTRL_send_unit(int addr,unsigned int* pidata);
 /*-----------------------------------*/
 #endif

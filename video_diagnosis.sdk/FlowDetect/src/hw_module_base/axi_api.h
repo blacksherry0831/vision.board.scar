@@ -21,7 +21,7 @@ typedef struct _MMAP_OBJECT
 /*-----------------------------------*/
 extern void UsertoAXILite(int virtual_addr,int phy_addr,unsigned char *p_ucData,int Size);
 /*-----------------------------------*/
-extern void AXILitetoUser(int virtual_addr,int phy_addr,unsigned char *p_ucData,int Size);
+extern void AXILitetoUser(const int virtual_addr,const int phy_addr,const unsigned char *p_ucData,const int Size);
 /*-----------------------------------*/
 extern int AXILitemmapEx(const unsigned char* _dev,int Addr,unsigned int *ptrUiFd,void **_pptr_virtual_addr,int MAP_SIZE);
 /*-----------------------------------*/

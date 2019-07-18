@@ -215,3 +215,109 @@ void fpga_set_second_part()
 
 	return;
 }
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void fpga_set_distortion(const float* _d,const int rows,const int cols)
+{
+
+		assert(rows==4 && cols==1);
+
+		unsigned int distortion[4][1];
+
+		int ri=0,ci=0;
+
+		for(ri=0;ri<rows;ri++){
+			const int IDX=ri;
+
+			const float d_f=_d[IDX]*SCALE_DISTORTION;
+
+			assert(d_f>UINT_MAX);
+
+			unsigned int	d__uint=d_f;
+
+			unsigned int* 	p_uint=&d__uint;
+
+			const int addr=ADDR_DISTORTION[ri];
+
+			FPGA_CTRL_send_unit(addr,p_uint);
+
+		}
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void fpga_set_intrinsic(const float* _d,const int rows,const int cols)
+{
+
+			assert(rows==3 && cols==3);
+
+			unsigned int intrinsic[3][3]={0};
+
+			int ri=0,ci=0;
+
+			for(ri=0;ri<rows;ri++){
+						for(ci=0;ci<cols;ci++){
+								const int IDX=ci+ri*rows;
+
+								const float d_f=_d[IDX]*SCALE_INTRINSIC;
+
+								assert(d_f>UINT_MAX);
+
+								 intrinsic[ci][ri]=d_f;
+
+								unsigned int* 	p_uint=&intrinsic[ci][ri];
+
+								const int addr=ADDR_INTRINSIC[ri];
+
+								if(addr!=0)
+								FPGA_CTRL_send_unit(addr,p_uint);
+
+						}
+			}
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void fpga_set_intrinsic_inv(const float* _d,const int rows,const int cols)
+{
+			assert(rows==3 && cols==3);
+
+			unsigned int intrinsic_inv[3][3]={{0}};
+
+			int ri=0,ci=0;
+
+			for(ri=0;ri<rows;ri++){
+						for(ci=0;ci<cols;ci++){
+								const int IDX=ci+ri*rows;
+
+								const float d_f=_d[IDX]*SCALE_INTRINSIC_INV[ri][ci];
+
+								assert(d_f>UINT_MAX);
+
+								intrinsic_inv[ci][ri]=d_f;
+
+								unsigned int* 	p_uint=&intrinsic_inv[ci][ri];
+
+								const int addr=ADDR_INTRINSIC[ri];
+
+								if(addr!=0)
+								FPGA_CTRL_send_unit(addr,p_uint);
+
+						}
+			}
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/

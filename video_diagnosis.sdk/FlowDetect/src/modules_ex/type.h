@@ -151,7 +151,7 @@ typedef struct _IplImageU
 /*-----------------------------------*/
 typedef union _IplImageUI
 {
-	unsigned char buff[ALIGN_SIZE_T*32];
+	unsigned char buff[ALIGN_SIZE_T*64];
 	IplImageU iplImgU;
 }IplImageUI;
 /*-----------------------------------*/

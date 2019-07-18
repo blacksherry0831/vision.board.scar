@@ -118,6 +118,28 @@ void ClearViewInfo()
  *
  */
 /*-----------------------------------*/
+void initViewInfo_1_sensor_default_intrinsics_distortion(
+		const int _si,
+		const int _fi)
+
+{
+		G_View[_si][_fi].Distortion[0][0]=-3.65634471e-01;
+		G_View[_si][_fi].Distortion[1][0]= 1.40376598e-01;
+		G_View[_si][_fi].Distortion[2][0]=-2.57731555e-03;
+		G_View[_si][_fi].Distortion[3][0]=-2.75499711e-04;
+		G_View[_si][_fi].Distortion[4][0]=0;
+
+		G_View[_si][_fi].Intrinsics[0][0]=1.54510645e+03;
+		G_View[_si][_fi].Intrinsics[0][2]=1.10233044e+03;
+		G_View[_si][_fi].Intrinsics[1][1]=1.54874036e+03;
+		G_View[_si][_fi].Intrinsics[1][2]=6.17808777e+02;
+		G_View[_si][_fi].Intrinsics[2][2]=1;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 void initViewInfo_1_sensor_default(const int _si,
 		const int _fi,
 		const int _width,
@@ -142,6 +164,8 @@ void initViewInfo_1_sensor_default(const int _si,
 	G_View[_si][_fi].SpaceUsed=TRUE;
 
 	G_View[_si][_fi].ViewCh=_si;
+
+	initViewInfo_1_sensor_default_intrinsics_distortion(_si,_fi);
 
 }
 /*-----------------------------------*/

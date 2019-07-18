@@ -26,6 +26,8 @@ struct ViewInfo{
 	CvRect CutSize;/**<*/
 	CvRect OrgSize;/**<*/
 	char colorModel[64];/**<*/
+	float Intrinsics[3][3];
+	float Distortion[5][1];
 };
 /*-----------------------------------*/
 extern const size_t IMAGE_SIZE_FRAME;

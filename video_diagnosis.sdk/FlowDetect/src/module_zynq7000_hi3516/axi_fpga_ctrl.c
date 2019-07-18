@@ -22,7 +22,7 @@ void FPGA_CTRL_init()
 
 	assert(strlen(MEM_DEV)<256);
 
-	strcpy(MAP_PL_PARA.DEV,MEM_DEV);
+	strcpy( (char *)MAP_PL_PARA.DEV , MEM_DEV);
 
 	pthread_mutex_init(&(MAP_PL_PARA.lock),NULL);
 }
@@ -99,6 +99,34 @@ int FPGA_CTRL_send(int addr, int* pidata)
 								PL_PARA_ADDR_BASE+addr/4,
 								(unsigned char *)pidata,
 								sizeof(int));
+
+						 if(pthread_mutex_unlock(&MAP_PL_PARA.lock)==SUCCESS){
+							 return TRUE;
+						 }
+
+				}
+
+		}
+
+		return FALSE;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int FPGA_CTRL_send_unit(int addr,unsigned int* pidata)
+{
+
+		if(is_FPGA_CTRL_init()){
+
+
+				if( pthread_mutex_lock(&MAP_PL_PARA.lock)==SUCCESS){
+
+						 AXILitetoUser(MAP_PL_PARA.virtual_addr+addr,
+								PL_PARA_ADDR_BASE+addr/4,
+								(unsigned char *)pidata,
+								sizeof(unsigned int));
 
 						 if(pthread_mutex_unlock(&MAP_PL_PARA.lock)==SUCCESS){
 							 return TRUE;

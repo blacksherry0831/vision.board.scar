@@ -36,7 +36,7 @@ void UsertoAXILite(int virtual_addr,int phy_addr,unsigned char *p_ucData,int Siz
  *
  */
 /*-----------------------------------*/
-void AXILitetoUser(int virtual_addr,int phy_addr,unsigned char *p_ucData,int Size)
+void AXILitetoUser(const int virtual_addr,const int phy_addr,const unsigned char *p_ucData,const int Size)
 {
     if(Size > 0x10000)
     {
