@@ -8,7 +8,7 @@
 
 /*********************dmac***********************/
 #define PS_DDR_PHYADDR_FOR_DMA 	0x1E000000
-#define PS_DDR_LENGTH_FOR_DMA 	0x2000000//(1920*1080)
+#define PS_DDR_LENGTH_FOR_DMA 	 0x2000000
 /*********************dmac config****************/
 #define PL_RX_DMA_BASEADDR 0x83c00000
 #define PL_RX_DMA_MMAP_LENGTH 0x1000
