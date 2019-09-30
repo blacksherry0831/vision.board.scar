@@ -1,6 +1,102 @@
-# DMA
 
-## 1.寄存器配置
+
+
+
+
+
+# DMA功能模块
+
+[TOC]
+
+## PS->PL功能开发
+
+1. 实现PS端到PL端的数据搬运，将数据从Linux能够访问的PS：00000000-40000000, 使用DMA方式搬运到 
+
+PL：0x4000 0000~0x8000 0000；
+
+2. 在单目摄像头内(外)孔、8目摄像头内(外)孔、导航摄像头上实现以此DMA模块；
+
+ 	3. 提供测试代码测试DMA功能，及数据正确性；
+ 	4. 提供必要的DMA模块使用文档；
+
+
+
+
+
+
+
+
+
+
+
+
+
+## 一、DMA，PL->PS
+
+1. DMA将PL端数据传输到PS端；
+2. DMA基地址0x83c00000，DMA配置空间0x1000；
+3. DMA源地址0x4000 0000~0x8000 0000；
+4. DMA目的地址0x1E00 0000~0x2000 0000；
+
+### 1.1 DMA BASE ADDR
+
+```c++
+#define PL_RX_DMA_BASEADDR 0x83c00000
+#define PL_RX_DMA_MMAP_LENGTH 0x1000
+```
+
+| physical address |                    |                |
+| ---------------- | ------------------ | -------------- |
+| 0x83c0 0000      | PL_RX_DMA_BASEADDR | DMA基地址      |
+| ...              |                    | DMA 配置寄存器 |
+| 0x83c0 1000      |                    | 4KB            |
+
+### 1.2 DMA DEST MEM
+
+```C++
+#define PS_DDR_PHYADDR_FOR_DMA 	0x1E000000
+#define PS_DDR_LENGTH_FOR_DMA 	 0x2000000
+```
+
+| physical address |                        |                       |
+| ---------------- | ---------------------- | --------------------- |
+| 0x1E00 0000      | PS_DDR_PHYADDR_FOR_DMA |                       |
+| ...              |                        | DMA目的地址，暂存图像 |
+| 0x2000 0000      |                        | 32MB=16*2MB           |
+
+## 二、DMA，PS->PL
+
+1. DMA将PS端数据传输到PL端；
+2. DMA基地址0x????????，DMA配置空间0x1000；
+3. DMA源地址0x????????~0x????????；
+4. DMA目的地址0x4000 0000~0x8000 0000；
+
+### 2.1 DMA BASE ADDR
+
+```C++
+#define PL_RX_DMA_BASEADDR 		0x????????
+#define PL_RX_DMA_MMAP_LENGTH 	 0x1000
+```
+
+| physical address   |      |                |
+| ------------------ | ---- | -------------- |
+| 0x???? ????        |      | DMA基地址      |
+| ...                |      | DMA 配置寄存器 |
+| 0x???? ????+0x1000 |      | 4KB            |
+
+### 2.2 DMA DEST MEM
+
+| physical address         |                           |
+| ------------------------ | ------------------------- |
+| 0x4000 0000              |                           |
+| ...                      | 空白区域                  |
+| 0x4000 0000+1920X1080X8  |                           |
+| ...                      | 原始图像+算法输出图像+... |
+| 0x4000 0000+1920X1080X16 |                           |
+| ...                      | **存储模板**              |
+| 0x4800 0000              |                           |
+
+## 三、DMA寄存器配置
 
 ```c++
 #define AXI_DMAC_REG_IRQ_MASK			0x80
@@ -29,77 +125,26 @@
 #define AXI_DMAC_IRQ_EOT				(1 << 1)
 ```
 
-| DMA Address               | offset | physical address |
-| ------------------------- | ------ | ---------------- |
-| AXI_DMAC_REG_DEST_ADDRESS | 0x410  |                  |
-| AXI_DMAC_REG_SRC_ADDRESS  | 0x414  |                  |
+| DMA Address               | offset | tip         |
+| ------------------------- | ------ | ----------- |
+| AXI_DMAC_REG_DEST_ADDRESS | 0x410  | DMA目的地址 |
+| AXI_DMAC_REG_SRC_ADDRESS  | 0x414  | DMA源地址   |
 
-## 2.DMA配置
+## 四、PL MEM
 
-### 2.1DMA ,PL->PS
+| physical address |                  |
+| ---------------- | ---------------- |
+| 0x4000 0000      | PL端内存起始地址 |
+| ...              |                  |
+| 0x4800 0000      | 每个块128MB      |
+| ...              |                  |
+| ...              |                  |
+| 0x8000 0000      | 1GB              |
 
-#### 2.1.1 DMA CFG
+## 五、PS MEM
 
-```c++
-#define PL_RX_DMA_BASEADDR 0x83c00000
-#define PL_RX_DMA_MMAP_LENGTH 0x1000
-```
-
-| physical address |                    |                |
-| ---------------- | ------------------ | -------------- |
-| 0x83c0 0000      | PL_RX_DMA_BASEADDR | DMA基地址      |
-| ...              |                    | DMA 配置寄存器 |
-| 0x83c0 1000      |                    | 4KB            |
-
-#### 2.1.2 DMA DEST MEM
-
-```
-#define PS_DDR_PHYADDR_FOR_DMA 	0x1E000000
-#define PS_DDR_LENGTH_FOR_DMA 	 0x2000000
-```
-
-| physical address |                        |                       |
-| ---------------- | ---------------------- | --------------------- |
-| 0x1E00 0000      | PS_DDR_PHYADDR_FOR_DMA |                       |
-| ...              |                        | DMA目的地址，暂存图像 |
-| 0x2000 0000      |                        | 32MB=16*2MB           |
-
-## 2.2 DMA,PS->PL
-
-#### 2.2.1 DMA CFG
-
-```c++
-#define PL_RX_DMA_BASEADDR 
-#define PL_RX_DMA_MMAP_LENGTH 
-```
-
-| physical address |      |                |
-| ---------------- | ---- | -------------- |
-|                  |      | DMA基地址      |
-| ...              |      | DMA 配置寄存器 |
-|                  |      |                |
-
-#### 2.2.2 DMA DEST MEM
-
-```c++
-#define PS_DDR_PHYADDR_FOR_DMA 	 0x
-#define PS_DDR_LENGTH_FOR_DMA 	 0x
-```
-
-| physical address |      |                       |
-| ---------------- | ---- | --------------------- |
-|                  |      |                       |
-| ...              |      | DMA目的地址，暂存图像 |
-|                  |      |                       |
-
-## 4.PL MEM
-
-| physical address |       |
-| ---------------- | ----- |
-| 0x4000 0000      |       |
-| ...              |       |
-| 0x4800 0000      | 128MB |
-| ...              |       |
-| ...              |       |
-| 0x8000 0000      | 1GB   |
-
+| physical address |                  |
+| ---------------- | ---------------- |
+| 0x0000 0000      | PS端内存起始地址 |
+| ...              |                  |
+| 0x4000 0000      | 1GB              |
