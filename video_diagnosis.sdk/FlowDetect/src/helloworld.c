@@ -49,8 +49,8 @@ void printf_cmd_param(int optind,char* _optarg,int cmd)
 		               case 'f':
 		            	   	   	   strcpy(buffer,"frame");
 										   break;
-		               case 'c':
-		            	   	   	   strcpy(buffer,"channel");
+		               case 's':
+		            	   	   	   strcpy(buffer,"sensor");
 		            	   	            	break;
 		               case 'w':
 		            	   	   	   strcpy(buffer,"width");

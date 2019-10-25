@@ -30,8 +30,10 @@ pthread_cond_t  FPGA_cond_cvt;
 /*-----------------------------------*/
 void SetoutsideSigma(int _sigma);
 void SetinsideSigma(int _sigma);
-
+/*-----------------------------------*/
 void SetSigma4SDCard();
 void svm_enable(int _enable);
+/*-----------------------------------*/
+void sendImageMask();
 /*-----------------------------------*/
 #endif

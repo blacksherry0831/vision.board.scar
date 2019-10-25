@@ -227,8 +227,8 @@ void outside_second()
 
 	fpga_set_second_part();
 
-
-	fpga_set_sigma(GetSigma());
+	fpga_set_sigma_up(GetSigmaUp());
+	fpga_set_sigma_down(GetSigmaDown());
 
 //**********************************************
 // 5 - ´¥·¢¹¤×÷ £¨Âö³å£©

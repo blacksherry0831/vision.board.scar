@@ -55,6 +55,8 @@ unsigned int GetFrameIdxMax();
 void SetFrameIdxMin(unsigned int _max);
 unsigned int GetFrameIdxMin();
 /*-----------------------------------*/
+void setFpgaCircleCmd(const CMD_CTRL* const _cmd_ctrl);
+/*-----------------------------------*/
 /**
  *
  */

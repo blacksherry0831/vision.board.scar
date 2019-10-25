@@ -64,18 +64,33 @@ void* task_flow_ctrl_server_client(void *_data)
 										SetFpgaCircleWorkMode(StartParam);
 										cmd_resp_status=CT_OK;
 
-									}else if(IsImageChangeSigma(cmd_t)){
+									}else if(IsImageChangeSigmaUp(cmd_t)){
 
 										const int Sigma=GetCmdParam(cmd_t);
-										SetSigma(Sigma);
+										SetSigmaUp2FPGA(Sigma);
+										StoreImgCfgJson();
 										cmd_resp_status=CT_OK;
 
-									}else if(IsImageQuerySigma(cmd_t)){
+									}else if(IsImageQuerySigmaUp(cmd_t)){
 
 												cmd_resp_status=CT_OK;
-												cmd_resp_body=GetSigma();
+												cmd_resp_body=GetSigmaUp();
 
-									}else{
+									}else if(IsImageChangeSigmaDown(cmd_t)){
+
+										const int Sigma=GetCmdParam(cmd_t);
+										SetSigmaDown2FPGA(Sigma);
+										StoreImgCfgJson();
+										cmd_resp_status=CT_OK;
+
+									}else if(IsImageQuerySigmaDown(cmd_t)){
+
+												cmd_resp_status=CT_OK;
+												cmd_resp_body=GetSigmaDown();
+
+									}
+
+									else{
 											cmd_resp_status=CT_ERROR;
 											PRINTF_DBG("cmd error !!!");
 											goto EXIT_TASK_FLOW;

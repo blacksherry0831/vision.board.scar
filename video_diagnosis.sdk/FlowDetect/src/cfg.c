@@ -1,36 +1,74 @@
 #include "cfg.h"
 /*-----------------------------------*/
-static int G_Sigma=6;
-
+static int G_Sigma_Up=6;
+static int G_Sigma_Down=6;
+/*-----------------------------------*/
 static volatile unsigned int G_SENSOR=0xff;
-
-
 /*-----------------------------------*/
 /**
  *
  */
 /*-----------------------------------*/
-int GetSigma()
+int GetSigmaUp()
 {
-	return G_Sigma;
+	return G_Sigma_Up;
 }
 /*-----------------------------------*/
 /**
  *
  */
 /*-----------------------------------*/
-void SetSigma(int _sigma)
+int GetSigmaDown()
 {
-	G_Sigma=_sigma;
-	int param[1]={_sigma};
-	SaveParam2SDCard(PATH_SDCARD_IMG_SIGMA_CFG,param,1);
+	return G_Sigma_Down;
 }
 /*-----------------------------------*/
 /**
  *
  */
 /*-----------------------------------*/
-void SaveParam2SDCard(const char* const path,const int* _param,const int _size)
+void SetSigmaUp(int _sigma)
+{
+	G_Sigma_Up=_sigma;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void SetSigmaUp2FPGA(int _sigma)
+{
+	SetSigmaUp(_sigma);
+	fpga_set_sigma_up(G_Sigma_Up);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void SetSigmaDown(int _sigma)
+{
+	G_Sigma_Down=_sigma;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void SetSigmaDown2FPGA(int _sigma)
+{
+	SetSigmaDown(_sigma);
+	fpga_set_sigma_down(G_Sigma_Down);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void SaveParam2SDCard(
+		const char* const path,
+		const int* _param,
+		const int _size)
 {
 		char buff[1024];
 		FILE *fp = fopen(path,"wt+");
@@ -47,20 +85,6 @@ void SaveParam2SDCard(const char* const path,const int* _param,const int _size)
 	 	}
 
 	 	 fclose(fp);
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-void SetSigma4SDCard()
-{
-	int param[1]={0};
-	if(fs_is_file_exist(PATH_SDCARD_IMG_SIGMA_CFG)==SUCCESS){
-		ReadParam4SDCard(PATH_SDCARD_IMG_SIGMA_CFG,param, 1);
-		SetSigma(param[0]);
-	}
-
 }
 /*-----------------------------------*/
 /**
@@ -102,18 +126,20 @@ void ReadParam4SDCard(const char* const path, int* _param,const int _size)
  *
  */
 /*-----------------------------------*/
-void SetoutsideSigma(int _sigma)
+void SetoutsideSigma()
 {
-	SetSigma(_sigma);
+		fpga_set_sigma_up(GetSigmaUp());
+		fpga_set_sigma_down(GetSigmaDown());
 }
 /*-----------------------------------*/
 /**
  *
  */
 /*-----------------------------------*/
-void SetinsideSigma(int _sigma)
+void SetinsideSigma()
 {
-	SetSigma(_sigma);
+		fpga_set_sigma_up(GetSigmaUp());
+		fpga_set_sigma_down(GetSigmaDown());
 }
 /*-----------------------------------*/
 /**

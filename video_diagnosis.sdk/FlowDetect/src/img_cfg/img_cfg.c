@@ -24,8 +24,9 @@
 const char path_sdcard[]= PATH_SDCARD;
 const char file_type_txt[]=FILE_TYPE_TXT;
 /*-----------------------------------*/
-const char* KEY_PROJECT		=	"project";
-const char* KEY_SIGMA		=	"sigma";
+const char* KEY_PROJECT			=	"project";
+const char* KEY_SIGMA_UP		=	"sigma.up";
+const char* KEY_SIGMA_DOWN		=	"sigma.down";
 /*-----------------------------------*/
 const char* KEY_SPACE_USED_CFG	=	"space_used_config";
 const char* NOTE_SPACE_USED_CFG	=	"this is fpga && dma  && image cfg";
@@ -914,6 +915,11 @@ void ParseImgCfgJsonStr(const char* _str)
 
 	    }
 
+	    cJSON *sigma_up  = cJSON_GetObjectItemCaseSensitive(cfg_json, KEY_SIGMA_UP);
+	    cJSON *sigma_down  = cJSON_GetObjectItemCaseSensitive(cfg_json, KEY_SIGMA_DOWN);
+
+	    SetSigmaUp2FPGA(sigma_up->valueint);
+	    SetSigmaDown2FPGA(sigma_down->valueint);
 
 	    cJSON *space_used_json  = cJSON_GetObjectItemCaseSensitive(cfg_json, KEY_SPACE_USED_CHANNELS);
 	    cJSON *one_space_used_json;
@@ -998,12 +1004,19 @@ char* GetImgCfgJsonStr()
 	    }
 	    cJSON_AddItemToObject(root, KEY_SPACE_USED_CFG,space_used_config);
 	    /**<----------------------------------------------------------------*/
-	    cJSON * sigma =  cJSON_CreateNumber(GetSigma());
-	    if (sigma == NULL)
+	    cJSON * sigma_up =  cJSON_CreateNumber(GetSigmaUp());
+	    if (sigma_up == NULL)
 	    {
 	        goto end;
 	    }
-	    cJSON_AddItemToObject(root, KEY_SIGMA, sigma);
+	    cJSON_AddItemToObject(root, KEY_SIGMA_UP, sigma_up);
+	    /**<----------------------------------------------------------------*/
+	    cJSON * sigma_down =  cJSON_CreateNumber(GetSigmaDown());
+	    if (sigma_down == NULL)
+	    {
+	        goto end;
+	    }
+	    cJSON_AddItemToObject(root, KEY_SIGMA_DOWN, sigma_down);
 	    /**<----------------------------------------------------------------*/
 	    cJSON * project =  cJSON_CreateString(GetProjectRunStr());
 	  	    if (project == NULL)

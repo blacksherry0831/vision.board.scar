@@ -90,7 +90,10 @@ enum CMD_TYPE_02_I{
 		CT_IMG_FRAME='F',
 		CT_IMG_RECT='R',
 		CT_IMG_MODE_CHANGE='M',
-		CT_IMG_SIGMA_CHANGE='S',
+
+		CT_IMG_SIGMA_UP_CHANGE=0xF1,
+		CT_IMG_SIGMA_DOWN_CHANGE=0xF2,
+
 		CT_IMG_MASK_CHANGE='K',
 
 };
@@ -240,8 +243,11 @@ void init_cmd_buff_size(int nSemaphoreCount);
 /*-----------------------------------*/
 int initSemSignal();
 /*-----------------------------------*/
-int IsImageQuerySigma(const CMD_CTRL* _cmd_ctrl);
-int IsImageChangeSigma(const CMD_CTRL* _cmd_ctrl);
+int IsImageChangeSigmaUp(const CMD_CTRL* _cmd_ctrl);
+int IsImageQuerySigmaUp(const CMD_CTRL* _cmd_ctrl);
+/*-----------------------------------*/
+int IsImageChangeSigmaDown(const CMD_CTRL* _cmd_ctrl);
+int IsImageQuerySigmaDown(const CMD_CTRL* _cmd_ctrl);
 /*-----------------------------------*/
 IplImage * GetIplImage(const CMD_CTRL* cmd);
 IplImageU* GetIplImageUx(const CMD_CTRL* cmd_t);

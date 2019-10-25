@@ -115,6 +115,20 @@ int FPGA_CTRL_send(int addr, int* pidata)
  *
  */
 /*-----------------------------------*/
+int FPGA_CTRL_send_int(int _addr,const  int _data)
+{
+
+	int  iTemp=_data;
+	int* piTemp=&iTemp;
+
+	return FPGA_CTRL_send(_addr, piTemp);
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 int FPGA_CTRL_send_unit(int addr,unsigned int* pidata)
 {
 

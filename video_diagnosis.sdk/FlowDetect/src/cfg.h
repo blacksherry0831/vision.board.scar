@@ -19,9 +19,12 @@ struct cmd_param
 /*-----------------------------------*/
 unsigned int GetGlobalSensorMask(const int _ch);
 /*-----------------------------------*/
-void SetSigma(int _sigma);
-int  GetSigma();
-void SetSigma4SDCard();
+int  GetSigmaUp();
+int  GetSigmaDown();
+void SetSigmaUp2FPGA(int _sigma);
+void SetSigmaDown2FPGA(int _sigma);
+void SetSigmaUp(int _sigma);
+void SetSigmaDown(int _sigma);
 /*-----------------------------------*/
 void SaveParam2SDCard(const char* const path,const int* _param,const int _size);
 void ReadParam4SDCard(const char* const path, int* _param,const int _size);

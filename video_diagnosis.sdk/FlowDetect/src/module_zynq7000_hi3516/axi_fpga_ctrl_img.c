@@ -97,12 +97,28 @@ int fpga_is_busy()
  *
  */
 /*-----------------------------------*/
-void  fpga_set_sigma(const int sigma)
+void  fpga_set_sigma(const int _sigma_square)
 {
-	int  iTemp=sigma;
-	int* piTemp=&iTemp;
-
-	FPGA_CTRL_send(FLOW_DETECT_THD,piTemp);
+	FPGA_CTRL_send_int(FLOW_DETECT_THD,_sigma_square);
+	assert(0);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void  fpga_set_sigma_up(const int _sigma_square)
+{
+	FPGA_CTRL_send_int(CRACK_DETECT_SIGMA_UP_TH,_sigma_square);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void  fpga_set_sigma_down(const int _sigma_square)
+{
+	FPGA_CTRL_send_int(CRACK_DETECT_SIGMA_DOWN_TH,_sigma_square);
 }
 /*-----------------------------------*/
 /**
@@ -111,14 +127,10 @@ void  fpga_set_sigma(const int sigma)
 /*-----------------------------------*/
 int fpga_set_data_mode(int _WORK,int _DATA)
 {
-	int  iTemp;
-	int* piTemp=&iTemp;
-	*piTemp=_DATA;	//原始图像
-	FPGA_CTRL_send(ADDR_OUTSIDE_DATA_MODE,piTemp);
 
-	//	*piTemp=0;	// 求奇异值
-	*piTemp=_WORK;	// 求奇异值
-	FPGA_CTRL_send(ADDR_OUTSIDE_WORK_MODE,piTemp);
+	FPGA_CTRL_send_int(ADDR_OUTSIDE_DATA_MODE,_DATA);
+
+	FPGA_CTRL_send_int(ADDR_OUTSIDE_WORK_MODE,_WORK);
 
 	return TRUE;
 }
@@ -155,25 +167,21 @@ int fpga_set_work_mode(int _WORK,int _DATA)
 //**********************************************
 // 第一圈 -  求均值图
 //**********************************************
-void fpga_set_outside_first(int DATA_MODE)
+void fpga_set_outside_first(int _DATA_MODE)
 {
-	int  iTemp;
-	int* piTemp=&iTemp;
-
 	// 数据模式
 //	*piTemp=1;	//递增数
 //	*piTemp=0;	//求和
 //	*piTemp=2;	//全0
-	*piTemp=DATA_MODE;
-	FPGA_CTRL_send(ADDR_OUTSIDE_DATA_MODE,piTemp);
+	FPGA_CTRL_send_int(ADDR_OUTSIDE_DATA_MODE,_DATA_MODE);
 	// 工作模式
-	*piTemp=0;	// 正常图像
-	FPGA_CTRL_send(ADDR_OUTSIDE_WORK_MODE,piTemp);
+	//*piTemp=0;	// 正常图像
+	FPGA_CTRL_send_int(ADDR_OUTSIDE_WORK_MODE,0);
 	// 3.3 触发工作
-	*piTemp=1;
-	FPGA_CTRL_send(ADDR_OUTSIDE_START_EN,piTemp);
-	*piTemp=0;
-	FPGA_CTRL_send(ADDR_OUTSIDE_START_EN,piTemp);
+	//*piTemp=1;
+	FPGA_CTRL_send_int(ADDR_OUTSIDE_START_EN,1);
+	//*piTemp=0;
+	FPGA_CTRL_send_int(ADDR_OUTSIDE_START_EN,0);
 	// 3.4 等待完成
 
 }

@@ -329,18 +329,36 @@ int IsImageChangeWorkMode(const CMD_CTRL* _cmd_ctrl)
  *
  */
 /*-----------------------------------*/
-int IsImageChangeSigma(const CMD_CTRL* _cmd_ctrl)
+int IsImageChangeSigmaUp(const CMD_CTRL* _cmd_ctrl)
 {
-	return IsCmdCtrlCmd(_cmd_ctrl,CT_IMG,CT_IMG_SIGMA_CHANGE);
+	return IsCmdCtrlCmd(_cmd_ctrl,CT_IMG,CT_IMG_SIGMA_UP_CHANGE);
 }
 /*-----------------------------------*/
 /**
  *
  */
 /*-----------------------------------*/
-int IsImageQuerySigma(const CMD_CTRL* _cmd_ctrl)
+int IsImageQuerySigmaUp(const CMD_CTRL* _cmd_ctrl)
 {
-	return IsCmdCtrlCmd(_cmd_ctrl,CT_QUERY,CT_IMG_SIGMA_CHANGE);
+	return IsCmdCtrlCmd(_cmd_ctrl,CT_QUERY,CT_IMG_SIGMA_UP_CHANGE);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int IsImageChangeSigmaDown(const CMD_CTRL* _cmd_ctrl)
+{
+	return IsCmdCtrlCmd(_cmd_ctrl,CT_IMG,CT_IMG_SIGMA_DOWN_CHANGE);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int IsImageQuerySigmaDown(const CMD_CTRL* _cmd_ctrl)
+{
+	return IsCmdCtrlCmd(_cmd_ctrl,CT_QUERY,CT_IMG_SIGMA_DOWN_CHANGE);
 }
 /*-----------------------------------*/
 /**

@@ -134,7 +134,6 @@ void test()
 /*-----------------------------------*/
 void init_param()
 {
-	SetSigma4SDCard();
 
 	LoadImgCfgJson();
 
