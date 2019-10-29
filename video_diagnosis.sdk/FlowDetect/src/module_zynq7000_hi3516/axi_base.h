@@ -8,8 +8,11 @@
 /*-----------------------------------*/
 
 #include "module_zynq7000_hi3516/axi_fpga_ctrl_img.h"
+#include "module_zynq7000_hi3516/def_hw_zynq7000_hi3516_PL_MEM.h"
 
-#include "module_zynq7000_hi3516/dma.h"
+#include "img_cfg/img_cfg.h"
+
+#include "status.h"
 
 #include "task/task_sync.h"
 /*-----------------------------------*/

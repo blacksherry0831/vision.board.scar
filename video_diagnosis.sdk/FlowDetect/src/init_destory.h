@@ -13,6 +13,7 @@
 
 #include "modules_58/life_cycle.h"
 
+#include "module_zynq7000_hi3516/dma_83c0.h"
 
 void init();
 

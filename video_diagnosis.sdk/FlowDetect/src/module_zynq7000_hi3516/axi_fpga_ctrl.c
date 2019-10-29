@@ -129,6 +129,16 @@ int FPGA_CTRL_send_int(int _addr,const  int _data)
  *
  */
 /*-----------------------------------*/
+int FPGA_CTRL_send_int_1_0(int _addr)
+{
+		FPGA_CTRL_send_int(_addr,1);
+		return FPGA_CTRL_send_int(_addr,0);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 int FPGA_CTRL_send_unit(int addr,unsigned int* pidata)
 {
 

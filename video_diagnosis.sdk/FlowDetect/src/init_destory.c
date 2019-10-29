@@ -158,7 +158,9 @@ void init()
 
 	get_queue_img_buff();
 
-	dmac_addr_mmap();
+	dmac_83c0_addr_mmap_hw();
+
+	dmac_83c4_addr_mmap_hw();
 
 	initSemSignal();
 
@@ -178,7 +180,9 @@ void destory()
 
 	remove_queue_img_buff();
 
-	dmac_addr_unmap();
+	dmac_83c0_addr_unmap_hw();
+
+	dmac_83c4_addr_mmap_hw();
 
 	destorySemSignal();
 

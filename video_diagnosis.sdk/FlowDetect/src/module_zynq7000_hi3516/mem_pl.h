@@ -1,15 +1,21 @@
-#ifndef  THREAD_WORK_CTRL_H
-#define  THREAD_WORK_CTRL_H
+#ifndef DMA_83C0_H
+#define DMA_83C0_H
 /*-----------------------------------*/
 #include "../linux_header.h"
+#include "def_hw_zynq7000_hi3516.h"
+#include "modules_ex/base.h"
+#include "../img_cfg/img_cfg.h"
 /*-----------------------------------*/
 #include "module_zynq7000_hi3516/axi_base.h"
-#include "task/task_sync.h"
 /*-----------------------------------*/
-#include "sync_dma.h"
+
 /*-----------------------------------*/
-#include "modules_ex/tcp_server.h"
+unsigned int PL_MEM_getChStartPhyAddr(const int _ch);
 /*-----------------------------------*/
-pthread_t task_flow_ctrl_server();
+
+/*-----------------------------------*/
+/**
+ *
+ */
 /*-----------------------------------*/
 #endif

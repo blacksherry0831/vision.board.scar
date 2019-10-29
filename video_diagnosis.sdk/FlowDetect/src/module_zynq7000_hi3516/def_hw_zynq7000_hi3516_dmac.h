@@ -6,11 +6,20 @@
 /*-----------------------------------*/
 #ifdef TRANSFER_DATA_WITH_DMA
 
+#define PS_DDR_LENGTH_FOR_DMA_8M 	(0x800000)
+#define PS_DDR_LENGTH_FOR_DMA_16M 	(0x1000000)
+#define PS_DDR_LENGTH_FOR_DMA_32M 	(0x2000000)
+
 /*********************dmac***********************/
-#define PS_DDR_PHYADDR_FOR_DMA 	0x1E000000
-#define PS_DDR_LENGTH_FOR_DMA 	 0x2000000
+#define PS_DDR_PHYADDR_FOR_DMA_83C0 		0x1E000000
+#define PS_DDR_LENGTH_FOR_DMA_83C0 	 		PS_DDR_LENGTH_FOR_DMA_32M
+/*********************dmac***********************/
+#define PS_DDR_PHYADDR_FOR_DMA_83C4 		0x20000000
+#define PS_DDR_LENGTH_FOR_DMA_83C4 	 		PS_DDR_LENGTH_FOR_DMA_8M
 /*********************dmac config****************/
-#define PL_RX_DMA_BASEADDR 0x83c00000
+#define PS_2_PL_DMA_BASEADDR_83C4 0x83C40000
+#define PL_2_PS_DMA_BASEADDR_83C0 0x83C00000
+/************************************************/
 #define PL_RX_DMA_MMAP_LENGTH 0x1000
 /************************************************/
 #if 1

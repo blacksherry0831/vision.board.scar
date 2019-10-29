@@ -24,8 +24,6 @@
 #define 		PL_PARA_ADDR_BASE   	 (0x80000000)
 #define 		PL_PARA_ADDR_SIZE   	 (0x00001000)
 /*-----------------------------------*/
-#define			DDR3_ADDR				 (0x60000000)
-/*-----------------------------------*/
 #define 		SPACE_CHANNEL_NUM	(8)
 #define 		SPACE_FRAME_NUM		(64)
 /*-----------------------------------*/
