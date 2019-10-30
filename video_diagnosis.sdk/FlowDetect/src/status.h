@@ -4,8 +4,11 @@
 #include "linux_header.h"
 /*-----------------------------------*/
 enum ProjectRun{
+	scar_detect_01=0,
 	inside08,
 	outside08};
+/*-----------------------------------*/
+extern const char* ProjectName[];
 /*-----------------------------------*/
 int GetSensorStat_T();
 /*-----------------------------------*/

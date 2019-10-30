@@ -28,6 +28,16 @@ const char* KEY_PROJECT			=	"project";
 const char* KEY_SIGMA_UP		=	"sigma.up";
 const char* KEY_SIGMA_DOWN		=	"sigma.down";
 /*-----------------------------------*/
+const char* KEY_SCAR_IMG_CFG	=	"scar.img.cfg";
+/*-----------------------------------*/
+const char* KEY_SCAR_IMG_CFG_WORK_MODE		=	"work.mode";
+const char* KEY_SCAR_IMG_CFG_TH_GLOBAL_UP	=	"global.up";
+const char* KEY_SCAR_IMG_CFG_TH_GLOBAL_DOWN	=	"global.down";
+const char* KEY_SCAR_IMG_CFG_TH_ROW_UP		=	"row.up";
+const char* KEY_SCAR_IMG_CFG_TH_ROW_DOWN	=	"row.down";
+const char* KEY_SCAR_IMG_CFG_TH_COL_UP		=	"col.up";
+const char* KEY_SCAR_IMG_CFG_TH_COL_DOWN	=	"col.down";
+/*-----------------------------------*/
 const char* KEY_SPACE_USED_CFG	=	"space_used_config";
 const char* NOTE_SPACE_USED_CFG	=	"this is fpga && dma  && image cfg";
 /*-----------------------------------*/
@@ -899,6 +909,102 @@ unsigned int image_frame_fpga_ps_offset(const int _space_ch,const int _space_fra
  *
  */
 /*-----------------------------------*/
+void* ParseScarImgCfgItem(cJSON*	_cfg_json)
+{
+				 cJSON *scar_img_cfg_json  = cJSON_GetObjectItemCaseSensitive(_cfg_json, KEY_SCAR_IMG_CFG);
+
+				 cJSON *work_mode  = cJSON_GetObjectItemCaseSensitive(scar_img_cfg_json,  KEY_SCAR_IMG_CFG_WORK_MODE);
+
+				 cJSON *th_global_up  = cJSON_GetObjectItemCaseSensitive(scar_img_cfg_json,  KEY_SCAR_IMG_CFG_TH_GLOBAL_UP );
+				 cJSON *th_global_down  = cJSON_GetObjectItemCaseSensitive(scar_img_cfg_json, KEY_SCAR_IMG_CFG_TH_GLOBAL_DOWN);
+
+				 cJSON *th_row_up  =  cJSON_GetObjectItemCaseSensitive(scar_img_cfg_json, KEY_SCAR_IMG_CFG_TH_ROW_UP);
+				 cJSON *th_row_down  = cJSON_GetObjectItemCaseSensitive(scar_img_cfg_json, KEY_SCAR_IMG_CFG_TH_ROW_DOWN);
+
+				 cJSON *th_col_up  = cJSON_GetObjectItemCaseSensitive(scar_img_cfg_json, KEY_SCAR_IMG_CFG_TH_COL_UP);
+				 cJSON *th_col_down  = cJSON_GetObjectItemCaseSensitive(scar_img_cfg_json, KEY_SCAR_IMG_CFG_TH_COL_DOWN);
+
+				 SetScarWorkMode2FPGA(work_mode->valueint);
+				 SetScarGlobalThresholdUp2FPGA(th_global_up->valueint);
+				 SetScarGlobalThresholdDown2FPGA(th_global_down->valueint);
+				 SetScarRowThresholdUp2FPGA(th_row_up->valueint);
+				 SetScarRowThresholdDown2FPGA(th_row_down->valueint);
+				 SetScarColThresholdUp2FPGA(th_col_up->valueint);
+				 SetScarColThresholdDown2FPGA(th_col_down->valueint);
+
+
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void* ParseSpaceUsedItem(cJSON*	_cfg_json)
+{
+	 cJSON *space_used_json  = cJSON_GetObjectItemCaseSensitive(_cfg_json, KEY_SPACE_USED_CHANNELS);
+		    cJSON *one_space_used_json;
+
+		    cJSON_ArrayForEach(one_space_used_json, space_used_json)
+		       {
+		    	 cJSON *one_frame_used_json;
+
+		    	 	 	 cJSON_ArrayForEach(one_frame_used_json, one_space_used_json)
+		    		       {
+
+																				 /**<----------------------------------------------------------------*/
+																					cJSON* SpaceCh 		=	cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_SPACE_CH);
+																					cJSON* SpaceFrame 	=	cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_SPACE_FRAME);
+																					/**<----------------------------------------------------------------*/
+			 	 	 																cJSON* SpaceUsed = 		cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_SPACE_USED);
+				    	 	 														cJSON* ViewCh = 		cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_VIEW_CH);
+				    	 	 														cJSON* ViewOutput = 	cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_VIEW_OUTPUT);
+				    	 	 														cJSON* nChannels = 		cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_N_CHANNELS);
+
+				    	 	 														cJSON* CutSize_x = 		cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_CUT_SIZE_X);
+				    	 	 														cJSON* CutSize_y = 		cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_CUT_SIZE_Y);
+				    	 	 														cJSON* CutSize_width= 	cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_CUT_SIZE_WIDTH);
+				    	 	 														cJSON* CutSize_height= 	cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_CUT_SIZE_HEIGHT);
+
+				    	 	 														cJSON* OrgSize_width = 	cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_ORG_SIZE_WIDTH);
+				    	 	 														cJSON* OrgSize_height= 	cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_ORG_SIZE_HEIGHT);
+				    	 	 														cJSON* colorMode= 		cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_COLOR_MODE);
+																				/**<----------------------------------------------------------------*/
+																					const int schi=SpaceCh->valueint;
+																					const int sfri=SpaceFrame->valueint;
+
+																					assert(schi==G_View[schi][sfri].SpaceCh);
+																					assert(sfri==G_View[schi][sfri].SpaceFrame);
+
+
+																					G_View[schi][sfri].SpaceUsed=SpaceUsed->valueint;
+																					G_View[schi][sfri].ViewCh=ViewCh->valueint;
+
+																					G_View[schi][sfri].ViewOutput=ViewOutput->valueint;
+																					G_View[schi][sfri].nChannels=nChannels->valueint;
+																					G_View[schi][sfri].CutSize.x=CutSize_x->valueint;
+																					G_View[schi][sfri].CutSize.y=CutSize_y->valueint;
+
+																					G_View[schi][sfri].CutSize.width=CutSize_width->valueint;
+
+																					G_View[schi][sfri].CutSize.height=CutSize_height->valueint;
+																					G_View[schi][sfri].OrgSize.width=OrgSize_width->valueint;
+																					G_View[schi][sfri].OrgSize.height=OrgSize_height->valueint;
+
+																					strcpy(G_View[schi][sfri].colorModel,colorMode->valuestring);
+
+																				/**<----------------------------------------------------------------*/
+
+		    		       }
+
+		       }
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 void ParseImgCfgJsonStr(const char* _str)
 {
 	    int status = 0;
@@ -921,67 +1027,203 @@ void ParseImgCfgJsonStr(const char* _str)
 	    SetSigmaUp2FPGA(sigma_up->valueint);
 	    SetSigmaDown2FPGA(sigma_down->valueint);
 
-	    cJSON *space_used_json  = cJSON_GetObjectItemCaseSensitive(cfg_json, KEY_SPACE_USED_CHANNELS);
-	    cJSON *one_space_used_json;
-
-	    cJSON_ArrayForEach(one_space_used_json, space_used_json)
-	       {
-	    	 cJSON *one_frame_used_json;
-
-	    	 	 	 cJSON_ArrayForEach(one_frame_used_json, one_space_used_json)
-	    		       {
-
-																			 /**<----------------------------------------------------------------*/
-																				cJSON* SpaceCh 		=	cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_SPACE_CH);
-																				cJSON* SpaceFrame 	=	cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_SPACE_FRAME);
-																				/**<----------------------------------------------------------------*/
-		 	 	 																cJSON* SpaceUsed = 		cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_SPACE_USED);
-			    	 	 														cJSON* ViewCh = 		cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_VIEW_CH);
-			    	 	 														cJSON* ViewOutput = 	cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_VIEW_OUTPUT);
-			    	 	 														cJSON* nChannels = 		cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_N_CHANNELS);
-
-			    	 	 														cJSON* CutSize_x = 		cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_CUT_SIZE_X);
-			    	 	 														cJSON* CutSize_y = 		cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_CUT_SIZE_Y);
-			    	 	 														cJSON* CutSize_width= 	cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_CUT_SIZE_WIDTH);
-			    	 	 														cJSON* CutSize_height= 	cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_CUT_SIZE_HEIGHT);
-
-			    	 	 														cJSON* OrgSize_width = 	cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_ORG_SIZE_WIDTH);
-			    	 	 														cJSON* OrgSize_height= 	cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_ORG_SIZE_HEIGHT);
-			    	 	 														cJSON* colorMode= 		cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_COLOR_MODE);
-																			/**<----------------------------------------------------------------*/
-																				const int schi=SpaceCh->valueint;
-																				const int sfri=SpaceFrame->valueint;
-
-																				assert(schi==G_View[schi][sfri].SpaceCh);
-																				assert(sfri==G_View[schi][sfri].SpaceFrame);
-
-
-																				G_View[schi][sfri].SpaceUsed=SpaceUsed->valueint;
-																				G_View[schi][sfri].ViewCh=ViewCh->valueint;
-
-																				G_View[schi][sfri].ViewOutput=ViewOutput->valueint;
-																				G_View[schi][sfri].nChannels=nChannels->valueint;
-																				G_View[schi][sfri].CutSize.x=CutSize_x->valueint;
-																				G_View[schi][sfri].CutSize.y=CutSize_y->valueint;
-
-																				G_View[schi][sfri].CutSize.width=CutSize_width->valueint;
-
-																				G_View[schi][sfri].CutSize.height=CutSize_height->valueint;
-																				G_View[schi][sfri].OrgSize.width=OrgSize_width->valueint;
-																				G_View[schi][sfri].OrgSize.height=OrgSize_height->valueint;
-
-																				strcpy(G_View[schi][sfri].colorModel,colorMode->valuestring);
-
-																			/**<----------------------------------------------------------------*/
-
-	    		       }
-
-	       }
-
+	    ParseSpaceUsedItem(cfg_json);
+	    ParseScarImgCfgItem(cfg_json);
 
 	end:
 	    cJSON_Delete(cfg_json);
 	    return status;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void* AddScarImgCfgItem(cJSON*	_root)
+{
+	/**<----------------------------------------------------------------*/
+		cJSON *scar_img_cfg =cJSON_CreateObject();
+	  		 if (scar_img_cfg == NULL){
+	  			return NULL;
+	  		 }
+	  	cJSON_AddItemToObject(_root, KEY_SCAR_IMG_CFG, scar_img_cfg);
+	/**<----------------------------------------------------------------*/
+	  	{
+	  												cJSON* scar_work_mode = cJSON_CreateNumber(GetScarWorkMode());
+	  												 if (scar_work_mode == NULL){
+	  													 return NULL;
+	  												}
+	  												cJSON_AddItemToObject(scar_img_cfg, KEY_SCAR_IMG_CFG_WORK_MODE, scar_work_mode);
+	  												/**<----------------------------------------------------------------*/
+	  												cJSON*  scar_th_global_up = cJSON_CreateNumber(GetScarGlobalThresholdUp());
+	  												 if (scar_th_global_up == NULL){
+	  													return NULL;
+	  												}
+	  												cJSON_AddItemToObject(scar_img_cfg, KEY_SCAR_IMG_CFG_TH_GLOBAL_UP, scar_th_global_up);
+	  												/**<----------------------------------------------------------------*/
+	  												cJSON* scar_th_global_down = cJSON_CreateNumber(GetScarGlobalThresholdDown());
+	  												 if (scar_th_global_down == NULL){
+	  													 return NULL;
+	  												}
+	  												cJSON_AddItemToObject(scar_img_cfg, KEY_SCAR_IMG_CFG_TH_GLOBAL_DOWN, scar_th_global_down);
+	  												/**<----------------------------------------------------------------*/
+	  												cJSON*  scar_th_row_up = cJSON_CreateNumber(GetScarRowThresholdUp());
+	  												 if (scar_th_row_up == NULL){
+	  													 return NULL;
+	  												}
+	  												cJSON_AddItemToObject(scar_img_cfg, KEY_SCAR_IMG_CFG_TH_ROW_UP, scar_th_row_up);
+	  												/**<----------------------------------------------------------------*/
+	  												cJSON* scar_th_row_down = cJSON_CreateNumber(GetScarRowThresholdDown());
+	  												 if (scar_th_row_down == NULL){
+	  													 return NULL;
+	  												}
+	  												cJSON_AddItemToObject(scar_img_cfg, KEY_SCAR_IMG_CFG_TH_ROW_DOWN, scar_th_row_down);
+	  												/**<----------------------------------------------------------------*/
+	  												cJSON*  scar_th_col_up = cJSON_CreateNumber(GetScarColThresholdUp());
+	  												 if (scar_th_col_up == NULL){
+	  													 return NULL;
+	  												}
+	  												cJSON_AddItemToObject(scar_img_cfg, KEY_SCAR_IMG_CFG_TH_COL_UP, scar_th_col_up);
+	  												/**<----------------------------------------------------------------*/
+	  												cJSON* scar_th_col_down = cJSON_CreateNumber(GetScarColThresholdDown());
+	  												 if (scar_th_col_down == NULL){
+	  													 return NULL;
+	  												}
+	  												cJSON_AddItemToObject(scar_img_cfg, KEY_SCAR_IMG_CFG_TH_COL_DOWN, scar_th_col_down);
+	  												/**<----------------------------------------------------------------*/
+	  	}
+		/**<----------------------------------------------------------------*/
+		return scar_img_cfg;
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void* AddSpaceUsedItem(cJSON*	_root)
+{
+	    cJSON * space_used_all = cJSON_CreateArray();
+	    if (space_used_all == NULL)
+	    {
+	    	 return NULL;
+	    }
+	    cJSON_AddItemToObject(_root, KEY_SPACE_USED_CHANNELS, space_used_all);
+	 /**<----------------------------------------------------------------*/
+
+
+	 /**<----------------------------------------------------------------*/
+	int schi=0;
+	int sfri=0;
+
+	for(schi=0; schi <SPACE_CHANNEL_NUM;schi++){
+		 	 	 	/**<----------------------------------------------------------------*/
+					cJSON *space_used_one_channel =cJSON_CreateArray();
+					if (space_used_one_channel == NULL){
+						 return NULL;
+					}
+					cJSON_AddItemToArray(space_used_all,space_used_one_channel);
+					/**<----------------------------------------------------------------*/
+					for(sfri=0;sfri<SPACE_FRAME_NUM;sfri++){
+									if(is_space_frame_used(schi,sfri)){
+													/**<----------------------------------------------------------------*/
+													cJSON *space_used_one_frame =cJSON_CreateObject();
+													if (space_used_one_frame == NULL){
+														 return NULL;
+													}
+													cJSON_AddItemToArray(space_used_one_channel,space_used_one_frame);
+													/**<----------------------------------------------------------------*/
+													cJSON* SpaceCh = cJSON_CreateNumber(G_View[schi][sfri].SpaceCh);
+													 if (SpaceCh == NULL){
+														 return NULL;
+													}
+													cJSON_AddItemToObject(space_used_one_frame, KEY_SPACE_CH, SpaceCh);
+#if 1
+													/**<----------------------------------------------------------------*/
+													cJSON* SpaceFrame = cJSON_CreateNumber(G_View[schi][sfri].SpaceFrame);
+													 if (SpaceFrame == NULL){
+														 return NULL;
+													}
+													cJSON_AddItemToObject(space_used_one_frame, KEY_SPACE_FRAME, SpaceFrame);
+													/**<----------------------------------------------------------------*/
+													cJSON* SpaceUsed = cJSON_CreateNumber(G_View[schi][sfri].SpaceUsed);
+													 if (SpaceUsed == NULL){
+														 return NULL;
+													}
+													cJSON_AddItemToObject(space_used_one_frame, KEY_SPACE_USED, SpaceUsed);
+													/**<----------------------------------------------------------------*/
+													cJSON* ViewCh = cJSON_CreateNumber(G_View[schi][sfri].ViewCh);
+													 if (ViewCh == NULL){
+														 return NULL;
+													}
+													cJSON_AddItemToObject(space_used_one_frame, KEY_VIEW_CH, ViewCh);
+													/**<----------------------------------------------------------------*/
+													cJSON* ViewOutput = cJSON_CreateNumber(G_View[schi][sfri].ViewOutput);
+													 if (ViewOutput == NULL){
+														 return NULL;
+													}
+													cJSON_AddItemToObject(space_used_one_frame, KEY_VIEW_OUTPUT, ViewOutput);
+													/**<----------------------------------------------------------------*/
+													cJSON* nChannels = cJSON_CreateNumber(G_View[schi][sfri].nChannels);
+													 if (nChannels == NULL){
+														 return NULL;
+													}
+													cJSON_AddItemToObject(space_used_one_frame, KEY_N_CHANNELS, nChannels);
+													/**<----------------------------------------------------------------*/
+													cJSON* CutSize_x = cJSON_CreateNumber(G_View[schi][sfri].CutSize.x);
+													 if (CutSize_x == NULL){
+														 return NULL;
+													}
+													cJSON_AddItemToObject(space_used_one_frame, KEY_CUT_SIZE_X, CutSize_x);
+													/**<----------------------------------------------------------------*/
+													cJSON* CutSize_y = cJSON_CreateNumber(G_View[schi][sfri].CutSize.y);
+													 if (CutSize_y == NULL){
+														 return NULL;
+													}
+													cJSON_AddItemToObject(space_used_one_frame, KEY_CUT_SIZE_Y, CutSize_y);
+													/**<----------------------------------------------------------------*/
+													cJSON* CutSize_width = cJSON_CreateNumber(G_View[schi][sfri].CutSize.width);
+													 if (CutSize_width == NULL){
+														 return NULL;
+													}
+													cJSON_AddItemToObject(space_used_one_frame, KEY_CUT_SIZE_WIDTH, CutSize_width);
+													/**<----------------------------------------------------------------*/
+													cJSON* CutSize_height= cJSON_CreateNumber(G_View[schi][sfri].CutSize.height);
+													if (CutSize_height== NULL){
+														 return NULL;
+													}
+													cJSON_AddItemToObject(space_used_one_frame,KEY_CUT_SIZE_HEIGHT, CutSize_height);
+													/**<----------------------------------------------------------------*/
+													cJSON* OrgSize_width = cJSON_CreateNumber(G_View[schi][sfri].OrgSize.width);
+													 if (OrgSize_width == NULL){
+														 return NULL;
+													}
+													cJSON_AddItemToObject(space_used_one_frame, KEY_ORG_SIZE_WIDTH, OrgSize_width);
+													/**<----------------------------------------------------------------*/
+													cJSON* OrgSize_height= cJSON_CreateNumber(G_View[schi][sfri].OrgSize.height);
+													if (OrgSize_height== NULL){
+														 return NULL;
+													}
+													cJSON_AddItemToObject(space_used_one_frame, KEY_ORG_SIZE_HEIGHT, OrgSize_height);
+													/**<----------------------------------------------------------------*/
+													cJSON* colorMode= cJSON_CreateString(G_View[schi][sfri].colorModel);
+													if (OrgSize_height== NULL){
+														 return NULL;
+													}
+													cJSON_AddItemToObject(space_used_one_frame, KEY_COLOR_MODE, colorMode);
+													/**<----------------------------------------------------------------*/
+#endif
+
+
+									}
+					}
+
+
+	}
+
+	return space_used_all;
+
+
 }
 /*-----------------------------------*/
 /**
@@ -1024,123 +1266,18 @@ char* GetImgCfgJsonStr()
 	  	        goto end;
 	  	    }
 	  	 cJSON_AddItemToObject(root, KEY_PROJECT, project);
+		 /**<----------------------------------------------------------------*/
+	  	 cJSON* scar_img_cfg =AddScarImgCfgItem(root);
+	  		 if (scar_img_cfg == NULL){
+	  		 	goto end;
+	  		 }
 	    /**<----------------------------------------------------------------*/
-	   	    cJSON * space_used_all = cJSON_CreateArray();
-	   	    if (space_used_all == NULL)
-	   	    {
+	   	 cJSON* space_used_all = AddSpaceUsedItem(root);
+	   	    if (space_used_all == NULL){
 	   	        goto end;
 	   	    }
-	   	    cJSON_AddItemToObject(root, KEY_SPACE_USED_CHANNELS, space_used_all);
-	   	 /**<----------------------------------------------------------------*/
-	    	int schi=0;
-	    	int sfri=0;
-
-	    	for(schi=0; schi <SPACE_CHANNEL_NUM;schi++){
-	    		 	 	 	/**<----------------------------------------------------------------*/
-							cJSON *space_used_one_channel =cJSON_CreateArray();
-							if (space_used_one_channel == NULL){
-									goto end;
-							}
-							cJSON_AddItemToArray(space_used_all,space_used_one_channel);
-							/**<----------------------------------------------------------------*/
-							for(sfri=0;sfri<SPACE_FRAME_NUM;sfri++){
-											if(is_space_frame_used(schi,sfri)){
-															/**<----------------------------------------------------------------*/
-															cJSON *space_used_one_frame =cJSON_CreateObject();
-															if (space_used_one_frame == NULL){
-																		goto end;
-															}
-															cJSON_AddItemToArray(space_used_one_channel,space_used_one_frame);
-															/**<----------------------------------------------------------------*/
-															cJSON* SpaceCh = cJSON_CreateNumber(G_View[schi][sfri].SpaceCh);
-															 if (SpaceCh == NULL){
-																goto end;
-															}
-															cJSON_AddItemToObject(space_used_one_frame, KEY_SPACE_CH, SpaceCh);
-#if 1
-															/**<----------------------------------------------------------------*/
-															cJSON* SpaceFrame = cJSON_CreateNumber(G_View[schi][sfri].SpaceFrame);
-															 if (SpaceFrame == NULL){
-																goto end;
-															}
-															cJSON_AddItemToObject(space_used_one_frame, KEY_SPACE_FRAME, SpaceFrame);
-															/**<----------------------------------------------------------------*/
-															cJSON* SpaceUsed = cJSON_CreateNumber(G_View[schi][sfri].SpaceUsed);
-															 if (SpaceUsed == NULL){
-																goto end;
-															}
-															cJSON_AddItemToObject(space_used_one_frame, KEY_SPACE_USED, SpaceUsed);
-															/**<----------------------------------------------------------------*/
-															cJSON* ViewCh = cJSON_CreateNumber(G_View[schi][sfri].ViewCh);
-															 if (ViewCh == NULL){
-																goto end;
-															}
-															cJSON_AddItemToObject(space_used_one_frame, KEY_VIEW_CH, ViewCh);
-															/**<----------------------------------------------------------------*/
-															cJSON* ViewOutput = cJSON_CreateNumber(G_View[schi][sfri].ViewOutput);
-															 if (ViewOutput == NULL){
-																goto end;
-															}
-															cJSON_AddItemToObject(space_used_one_frame, KEY_VIEW_OUTPUT, ViewOutput);
-															/**<----------------------------------------------------------------*/
-															cJSON* nChannels = cJSON_CreateNumber(G_View[schi][sfri].nChannels);
-															 if (nChannels == NULL){
-																goto end;
-															}
-															cJSON_AddItemToObject(space_used_one_frame, KEY_N_CHANNELS, nChannels);
-															/**<----------------------------------------------------------------*/
-															cJSON* CutSize_x = cJSON_CreateNumber(G_View[schi][sfri].CutSize.x);
-															 if (CutSize_x == NULL){
-																goto end;
-															}
-															cJSON_AddItemToObject(space_used_one_frame, KEY_CUT_SIZE_X, CutSize_x);
-															/**<----------------------------------------------------------------*/
-															cJSON* CutSize_y = cJSON_CreateNumber(G_View[schi][sfri].CutSize.y);
-															 if (CutSize_y == NULL){
-																goto end;
-															}
-															cJSON_AddItemToObject(space_used_one_frame, KEY_CUT_SIZE_Y, CutSize_y);
-															/**<----------------------------------------------------------------*/
-															cJSON* CutSize_width = cJSON_CreateNumber(G_View[schi][sfri].CutSize.width);
-															 if (CutSize_width == NULL){
-																goto end;
-															}
-															cJSON_AddItemToObject(space_used_one_frame, KEY_CUT_SIZE_WIDTH, CutSize_width);
-															/**<----------------------------------------------------------------*/
-															cJSON* CutSize_height= cJSON_CreateNumber(G_View[schi][sfri].CutSize.height);
-															if (CutSize_height== NULL){
-																goto end;
-															}
-															cJSON_AddItemToObject(space_used_one_frame,KEY_CUT_SIZE_HEIGHT, CutSize_height);
-															/**<----------------------------------------------------------------*/
-															cJSON* OrgSize_width = cJSON_CreateNumber(G_View[schi][sfri].OrgSize.width);
-															 if (OrgSize_width == NULL){
-																goto end;
-															}
-															cJSON_AddItemToObject(space_used_one_frame, KEY_ORG_SIZE_WIDTH, OrgSize_width);
-															/**<----------------------------------------------------------------*/
-															cJSON* OrgSize_height= cJSON_CreateNumber(G_View[schi][sfri].OrgSize.height);
-															if (OrgSize_height== NULL){
-																goto end;
-															}
-															cJSON_AddItemToObject(space_used_one_frame, KEY_ORG_SIZE_HEIGHT, OrgSize_height);
-															/**<----------------------------------------------------------------*/
-															cJSON* colorMode= cJSON_CreateString(G_View[schi][sfri].colorModel);
-															if (OrgSize_height== NULL){
-																goto end;
-															}
-															cJSON_AddItemToObject(space_used_one_frame, KEY_COLOR_MODE, colorMode);
-															/**<----------------------------------------------------------------*/
-#endif
-
-
-											}
-							}
-
-
-	    	}
-	   /**<----------------------------------------------------------------*/
-	    	 char* string = cJSON_Print(root);
+	   	  /**<----------------------------------------------------------------*/
+		    char* string = cJSON_Print(root);
 	    	    if (string == NULL)
 	    	    {
 	    	        fprintf(stderr, "Failed to print monitor.\n");

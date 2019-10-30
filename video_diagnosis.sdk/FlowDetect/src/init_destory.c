@@ -265,15 +265,32 @@ void run_main()
  *
  */
 /*-----------------------------------*/
+int IsCmdProject(const struct cmd_param _cmd_param,enum ProjectRun _project )
+{
+	  if(strcmp(_cmd_param.project,ProjectName[_project])==0){
+		  return 1;
+	  }else{
+		  return 0;
+	  }
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 void setProjectMode(const struct cmd_param _cmd_param)
 {
-	  if(_cmd_param.in_out=='i'){
-			SetProjecRun(inside08);
-	  }else if(_cmd_param.in_out=='o'){
-		   	SetProjecRun(outside08);
+
+	  if(IsCmdProject(_cmd_param,scar_detect_01)){
+		  	  SetProjecRun(scar_detect_01);
+	  }else	  if(IsCmdProject(_cmd_param,inside08)){
+	 		  SetProjecRun(inside08);
+	  }else	  if(IsCmdProject(_cmd_param,outside08)){
+	 		  SetProjecRun(outside08);
 	  }else{
-		    printf("no in,no out ! \n");
+		  printf("no in,no out ! \n");
 	  }
+
 }
 /*-----------------------------------*/
 /**

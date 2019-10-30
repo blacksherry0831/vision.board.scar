@@ -90,20 +90,22 @@ struct cmd_param process_argc_argv(int argc, char * argv[])
 #endif
 
 	    struct cmd_param cmdParam;
-	    cmdParam.in_out='n';
 
-	    char* short_options="w:h:s:f:ioDM:N:";
+
+	    char* short_options="w:h:s:f:iop:DM:N:";
 
 	    static struct option long_options[] = {
 	           {"width", required_argument, NULL, 'w'},
 	           {"height", required_argument, NULL, 'h'},
 	           {"sensor", required_argument, NULL, 's'},
 	           {"framebuffer", required_argument, NULL, 'f'},
-	           {"in",  no_argument,       NULL, 'i'},
-	           {"out",  no_argument,       NULL, 'o'},
+
+	           {"project", required_argument,       NULL, 'p'},
+
 	           {"debugOutput",  no_argument,       NULL, 'D'},
 	           {"frameNumMax", required_argument,       NULL, 'M'},
 	           {"frameNumMin", required_argument,       NULL, 'N'},
+
 	           {0, 0, 0, 0}
 	       };
 
@@ -114,12 +116,12 @@ struct cmd_param process_argc_argv(int argc, char * argv[])
 
 	    	   switch (cmd)
 	    		        {
-	    		               case 'i':
-	    													   cmdParam.in_out=cmd;
-	    													   break;
-	    		               case 'o':
-	    													   cmdParam.in_out=cmd;
-	    													   break;
+	    		              case 'p':
+	    		            	   	   	   	   	   	   	   	   	 if (optarg){
+	    		            	 	    		            	   	   	  strcpy(cmdParam.project,optarg);
+	    		            	 	    						 }
+	    		            	 	    						break;
+
 	    		               case 'f':
 	    		            	   	   	   	   	   if (optarg){
 	    		            	   	   	   	   		   	   	   cmdParam.space_frame=atoi(optarg);

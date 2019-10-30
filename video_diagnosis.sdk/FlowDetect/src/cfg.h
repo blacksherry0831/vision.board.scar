@@ -8,7 +8,7 @@
 /*-----------------------------------*/
 struct cmd_param
 {
-  char in_out;
+  char project[32];
   int  width_param;
   int height_param;
   int space_frame;

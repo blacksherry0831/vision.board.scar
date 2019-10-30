@@ -10,10 +10,22 @@
 /*-----------------------------------*/
 /**
  *
-
  *
  */
 /*-----------------------------------*/
-
+int fpga_img_scar_detect_reset();
+int fpga_img_scar_detect_start_en();
+int fpga_img_scar_detect_set_mask_addr(int _addr_zone,int _addr_idx);
+/*-----------------------------------*/
+int fpga_img_scar_detect_mode(int _mode);
+/*-----------------------------------*/
+int fpga_img_scar_detect_set_g_th_up(int _th);
+int fpga_img_scar_detect_set_g_th_down(int _th);
+/*-----------------------------------*/
+int fpga_img_scar_detect_set_row_th_up(int _th);
+int fpga_img_scar_detect_set_row_th_down(int _th);
+/*-----------------------------------*/
+int fpga_img_scar_detect_set_col_th_up(int _th);
+int fpga_img_scar_detect_set_col_th_down(int _th);
 /*-----------------------------------*/
 #endif

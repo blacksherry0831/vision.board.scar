@@ -3,6 +3,11 @@
 static int SENSOR_STAT=0;
 static volatile enum ProjectRun gProjectCurrentRunning=outside08;
 /*-----------------------------------*/
+const char* ProjectName[]={
+		"scar_detect_01",
+		"inside08",
+		"outside08"};
+/*-----------------------------------*/
 /**
  *
  */
