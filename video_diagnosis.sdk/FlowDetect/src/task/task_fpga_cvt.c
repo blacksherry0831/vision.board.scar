@@ -1,5 +1,6 @@
-
 #include "task_fpga_cvt.h"
+/*-----------------------------------*/
+#include "img_cfg/scar_cfg.h"
 /*-----------------------------------*/
 int FPGA_CONVERT_DONE=FALSE;
 /*-----------------------------------*/
@@ -14,6 +15,11 @@ enum CircleFlag
 };
 /*-----------------------------------*/
 unsigned int    FPGA_CvtDone=0;
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 /*-----------------------------------*/
 /**
  *
@@ -154,11 +160,49 @@ int IsFrameCollect(int _current_idx)
  *
  */
 /*-----------------------------------*/
+void scar_inside_second_ex(int _channel)
+{
+	FPGA_CvtDone=FALSE;
+
+	scar_cvt(_channel);
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 void outside_inside_second_ex()
 {
 	FPGA_CvtDone=FALSE;
 
 	outside_second();
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void scar_second_sync(int _frame_idx,const int _channel_mask)
+{
+	static int FPGA_COUNT=0;
+	if(pthread_mutex_lock(&FPGA_mutex_cvt)==SUCCESS){
+
+				TIME_START();
+					scar_inside_second_ex(_channel_mask);
+					__sync_lock_test_and_set(&FPGA_CvtDone,TRUE);
+					PRINTF_DBG("FPGA:%d___",FPGA_COUNT++);
+
+				TIME_END("1> FPGA Convert cost time : ");
+
+				if(pthread_mutex_unlock(&FPGA_mutex_cvt)==SUCCESS){
+						sem_post(&m_sem_fpga_frame_done);
+						sched_yield();
+						sem_wait_infinite(&m_sem_dma_frame_done2fpga);
+
+				}
+	}
 
 }
 /*-----------------------------------*/
@@ -192,6 +236,25 @@ void outside_second_sync(int _frame_idx)
  *
  */
 /*-----------------------------------*/
+void CvtFrameScar(unsigned int _base_idx,unsigned int current_idx,const int _channel_mask)
+{
+	const unsigned int relative_idx=current_idx-_base_idx;
+
+	if(		(relative_idx>=GetFrameIdxMin())&&
+			(relative_idx<=GetFrameIdxMax())
+			){
+			scar_second_sync(current_idx,_channel_mask);
+	}else{
+			sleepMS(100);
+			IncFrameIdx();
+	}
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 void CvtFrame(unsigned int _base_idx,unsigned int current_idx)
 {
 	const unsigned int relative_idx=current_idx-_base_idx;
@@ -204,6 +267,33 @@ void CvtFrame(unsigned int _base_idx,unsigned int current_idx)
 			sleepMS(100);
 			IncFrameIdx();
 	}
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void theFirstCircleScar()
+{
+	const int FirstCircle=FIRST_CIRCLE_IO;
+
+			PRINTF_DBG("FPGA>>wait for start cmd 00 ! \n");
+
+			if(wait4Circle(FirstCircle)){
+
+				PRINTF_DBG("FPGA>>start cmd 00 ! \n");
+
+					if(GetProjectRun()==scar_detect_01){
+
+					}else{
+
+					}
+
+
+			}
+
+			PRINTF_DBG("FPGA>>stop cmd 00 ! \n");
 
 }
 /*-----------------------------------*/
@@ -261,7 +351,33 @@ void theFirstCircle()
  *
  */
 /*-----------------------------------*/
+void theSecondCircleScar()
+{
+	const int SecondCircle=SECOND_CIRCLE_IO;
 
+	PRINTF_DBG("FPGA>>wait for start cmd 01 ! \n");
+
+	if(wait4Circle(SecondCircle)){
+
+		PRINTF_DBG("FPGA>>start cmd 01 ! \n");
+#if TRUE
+			const int  MASK_MAX=SCAR_IMG_MASK_SQE_MAX;
+			int fi=0;
+			for(	fi=0,FRAME_IDX_SECOND=FRAME_IDX_FIRST;
+					fi<MASK_MAX && IsCircleRunning(SecondCircle) && IsFrameCollect(FRAME_IDX_SECOND-FRAME_IDX_FIRST);
+					fi++,FRAME_IDX_SECOND++){
+
+				const int  CHANNEL_MASK=GetMaskChannel(fi);
+
+				CvtFrameScar(FRAME_IDX_FIRST,FRAME_IDX_SECOND,CHANNEL_MASK);
+
+			}
+#endif
+		PRINTF_DBG("FPGA>>stop cmd 01 ! \n");
+
+	}
+
+}
 /*-----------------------------------*/
 /**
  *
@@ -339,9 +455,9 @@ void *fpga_cvt_server(void* _pdata)
 
 					startThisCircle();
 
-						theFirstCircle();
+						theFirstCircleScar();
 
-						theSecondCircle();
+						theSecondCircleScar();
 
 					stopThisCircle();
 			}

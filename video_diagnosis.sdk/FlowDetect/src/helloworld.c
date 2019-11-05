@@ -107,6 +107,7 @@ struct cmd_param process_argc_argv(int argc, char * argv[])
 	           {"frameNumMin", required_argument,       NULL, 'N'},
 
 	           {0, 0, 0, 0}
+
 	       };
 
 	    int cmd=-1;

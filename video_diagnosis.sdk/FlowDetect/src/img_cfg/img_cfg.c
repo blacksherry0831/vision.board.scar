@@ -119,6 +119,7 @@ void ClearViewInfo()
 				G_View[schi][sfri].SpaceFrame=sfri;
 
 				G_View[schi][sfri].ViewCh=-1;
+				G_View[schi][sfri].ImageMask=-1;
 				strcpy(G_View[schi][sfri].colorModel,COLOR_GRAY);
 		}
 	}
@@ -237,7 +238,6 @@ void image_enable_output_frame_only(int _space_frame)
 void image_enable_output_frame_only_1()
 {
 	image_enable_output_frame_only(1);
-
 }
 /*-----------------------------------*/
 /**
@@ -247,19 +247,6 @@ void image_enable_output_frame_only_1()
 void image_enable_output_frame_only_2()
 {
 	image_enable_output_frame_only(2);
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-void initViewInfo_basic(const int _width,const int _height,const int _space_frame)
-{
-	ClearViewInfo();
-	initViewInfo_img_basic(_width,_height);
-	initViewInfo_output_basic(_space_frame);
-
-	saveImgCfgJsonDefault();
 }
 /*-----------------------------------*/
 /**
@@ -305,6 +292,19 @@ void initViewInfo_output_basic(const int _space_frame)
 
 	}
 
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void initViewInfo_basic(const int _width,const int _height,const int _space_frame)
+{
+	ClearViewInfo();
+	initViewInfo_img_basic(_width,_height);
+	initViewInfo_output_basic(_space_frame);
+
+	saveImgCfgJsonDefault();
 }
 /*-----------------------------------*/
 /**
@@ -552,25 +552,30 @@ void SetRectCutCmd(CMD_CTRL*  cmd_t)
  *
  */
 /*-----------------------------------*/
-void encodeWithState(const char* filename, const unsigned char* image, unsigned width, unsigned height) {
-  unsigned error;
-  unsigned char* png;
-  size_t pngsize;
-  LodePNGState state;
+void encodeWithState(
+		const char* filename,
+		const unsigned char* image,
+		unsigned width,
+		unsigned height)
+{
+	unsigned error;
+	unsigned char* png;
+	size_t pngsize;
+	LodePNGState state;
 
-  lodepng_state_init(&state);
+	lodepng_state_init(&state);
   /*optionally customize the state*/
 
-  state.info_raw.colortype=LCT_GREY;
+	state.info_raw.colortype=LCT_GREY;
 
-  error = lodepng_encode(&png, &pngsize, image, width, height, &state);
-  if(!error) lodepng_save_file(png, pngsize, filename);
+	error = lodepng_encode(&png, &pngsize, image, width, height, &state);
+	if(!error) lodepng_save_file(png, pngsize, filename);
 
-  /*if there's an error, display it*/
-  if(error) printf("error %u: %s\n", error, lodepng_error_text(error));
+	/*if there's an error, display it*/
+	if(error) printf("error %u: %s\n", error, lodepng_error_text(error));
 
-  lodepng_state_cleanup(&state);
-  free(png);
+	lodepng_state_cleanup(&state);
+	free(png);
 }
 /*-----------------------------------*/
 /**
@@ -627,6 +632,28 @@ void SetMaskImageFileName(char* _filename,int _w,int _h,int _ch)
  *
  */
 /*-----------------------------------*/
+void SetMaskImageFileName_space_frame(
+		char* _filename,
+		const int _w,
+		const int _h,
+		const int _ch_space,
+		const int _ch_frame)
+{
+	assert(_ch_space<SCAR_IMG_MASK_CHANNEL_MAX);
+	assert(_ch_frame<SCAR_IMG_MASK_FRAME_MAX);
+	sprintf(_filename,
+			"%sw.%d.h.%d.chs.%d.chf.%d.mask.png",
+			PATH_SDCARD,
+			_w,
+			_h,
+			_ch_space,
+			_ch_frame);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 int IsImgMaskValid(const CMD_CTRL* const  _cmd)
 {
 	const int UCHAR_SIZE=8;
@@ -661,6 +688,44 @@ void SaveImgMaskMatrix(const CMD_CTRL* const  _cmd)
 	char filename_t[1024];
 
 	SetMaskImageFileName(filename_t,width,height,channel);
+
+	encodeWithState(
+			filename_t,
+			(unsigned char *)data_t,
+			width,
+			height);
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void SaveImgMaskMatrix_SCAR(const CMD_CTRL* const  _cmd)
+{
+	const int UCHAR_SIZE=8;
+
+	const IplImageU * imgU=GetIplImageUx(_cmd);
+
+	char* data_t=GetIplImageImageData(_cmd);
+
+	const int mask_pos=UChar2Int(imgU->IpAddrChannel,UCHAR_SIZE);
+
+	const int ch_space=mask_pos%SCAR_IMG_MASK_CHANNEL_MAX;
+	const int ch_frame=mask_pos/SCAR_IMG_MASK_CHANNEL_MAX;
+
+	const int width=UChar2Int(imgU->width,UCHAR_SIZE);
+	const int height=UChar2Int(imgU->height,UCHAR_SIZE);
+
+	char filename_t[1024];
+
+	SetMaskImageFileName_space_frame(filename_t,width,height,ch_space,ch_frame);
 
 	encodeWithState(filename_t,data_t,width,height);
 

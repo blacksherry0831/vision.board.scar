@@ -1,5 +1,149 @@
 #include "thread_work_ctrl.h"
 /*-----------------------------------*/
+#include "modules_ex/cmd_scar.h"
+#include "module_zynq7000_hi3516/dma_83c4_ex.h"
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int process_cmd_ctrl(CMD_CTRL*  _cmd,int* _resp_cmd_02,int* _resp_body)
+{
+					const int CmdParam_t=GetCmdParam(_cmd);
+					*_resp_cmd_02=CT_OK;
+
+
+					if(isStartCmd(_cmd)){
+
+						setFpgaScarCmd(_cmd);
+						*_resp_cmd_02=CT_OK;
+
+					}else if(isHeartbeatCmd(_cmd)){
+
+						const int hb_resp=CmdParam_t;
+
+						if(hb_resp==HB_RESP){
+							*_resp_cmd_02=CT_OK;
+						}else if(hb_resp==HB_NONE){
+							*_resp_cmd_02=CT_OK;
+						}else{
+							assert(0);
+						}
+						PRINTF_DBG("@cmd rcv hearbeat !\n");
+
+					}else if(IsImageRect(_cmd)){
+
+							SetRectCutCmd(_cmd);
+							*_resp_cmd_02=CT_OK;
+
+					}else if(IsImageMaskChange(_cmd)){
+
+						if(IsImgMaskValid(_cmd)){
+							SaveImgMaskMatrix(_cmd);
+						}
+						sendImageMask();
+
+					}else if(IsImageChangeWorkMode(_cmd)){
+
+						const int StartParam=CmdParam_t;
+						SetFpgaCircleWorkMode(StartParam);
+						*_resp_cmd_02=CT_OK;
+
+					}else if(IsImageChangeSigmaUp(_cmd)){
+
+						const int Sigma=CmdParam_t;
+						SetSigmaUp2FPGA(Sigma);
+						StoreImgCfgJson();
+						*_resp_cmd_02=CT_OK;
+
+					}else if(IsImageQuerySigmaUp(_cmd)){
+
+						*_resp_cmd_02=CT_OK;
+						*_resp_body=GetSigmaUp();
+
+					}else if(IsImageChangeSigmaDown(_cmd)){
+
+						const int Sigma=CmdParam_t;
+						SetSigmaDown2FPGA(Sigma);
+						StoreImgCfgJson();
+						*_resp_cmd_02=CT_OK;
+
+					}else if(IsImageQuerySigmaDown(_cmd)){
+
+						*_resp_cmd_02=CT_OK;
+						*_resp_body=GetSigmaDown();
+
+					}else if(IsImageScarSet_GlobalSigmaUp(_cmd)){
+							SetScarGlobalThresholdUp2FPGA(CmdParam_t);
+							StoreImgCfgJson();
+					}
+					else if(IsImageScarQuery_GlobalSigmaUp(_cmd)){
+							*_resp_body=GetScarGlobalThresholdUp();
+					}
+					else if(IsImageScarSet_GlobalSigmaDown(_cmd)){
+							SetScarGlobalThresholdDown2FPGA(CmdParam_t);
+							StoreImgCfgJson();
+					}
+					else if(IsImageScarQuery_GlobalSigmaDown(_cmd)){
+
+						*_resp_body=GetScarGlobalThresholdDown();
+					}
+					else if(IsImageScarSet_RowSigmaUp(_cmd)){
+						SetScarRowThresholdUp2FPGA(CmdParam_t);
+						StoreImgCfgJson();
+					}
+					else if(IsImageScarQuery_RowSigmaUp(_cmd)){
+
+						*_resp_body=GetScarRowThresholdUp();
+					}
+					else if(IsImageScarSet_RowSigmaDown(_cmd)){
+						SetScarRowThresholdDown2FPGA(CmdParam_t);
+						StoreImgCfgJson();
+					}
+					else if(IsImageScarQuery_RowSigmaDown(_cmd)){
+
+						*_resp_body=GetScarRowThresholdDown();
+					}
+					else if(IsImageScarSet_ColSigmaUp(_cmd)){
+						SetScarColThresholdUp2FPGA(CmdParam_t);
+						StoreImgCfgJson();
+					}
+					else if(IsImageScarQuery_ColSigmaUp(_cmd)){
+
+						*_resp_body=GetScarColThresholdUp();
+					}
+					else if(IsImageScarSet_ColSigmaDown(_cmd)){
+						SetScarColThresholdDown2FPGA(CmdParam_t);
+						StoreImgCfgJson();
+					}
+					else if(IsImageScarQuery_ColSigmaDown(_cmd)){
+
+						*_resp_body=GetScarColThresholdDown();
+					}
+					else if(IsImageScarSet_WorkMode(_cmd)){
+						SetScarWorkMode2FPGA(CmdParam_t);
+						StoreImgCfgJson();
+					}
+					else if(IsImageScarSet_Mask(_cmd)){
+
+						if(IsImgMaskValid(_cmd)){
+							SaveImgMaskMatrix_SCAR(_cmd);
+							dmac_83c4_trans_mask_img_cmd_ctrl(_cmd);
+						}
+
+					}
+					else if(IsImageScarSet_SelectMask(_cmd)){
+						SetScarCurrentMask_Cmd(_cmd);
+					}
+					else{
+							*_resp_cmd_02=CT_ERROR;
+							PRINTF_DBG("cmd error !!!");
+							return FALSE;
+					}
+
+					return TRUE;
+}
+/*-----------------------------------*/
 /**
  *
  */
@@ -27,79 +171,20 @@ void* task_flow_ctrl_server_client(void *_data)
 		socket_read_stat=socket_read_1_cmd(sock_server,cmd_t);
 					if(socket_read_stat==TRUE){
 
-									if(isStartCmd(cmd_t)){
+							const int IsValidCmd_t=process_cmd_ctrl(cmd_t,&cmd_resp_status,&cmd_resp_body);
 
-										setFpgaCircleCmd(cmd_t);
-										cmd_resp_status=CT_OK;
-
-									}else if(isHeartbeatCmd(cmd_t)){
-
-										int hb_resp=GetCmdParam(cmd_t);
-
-										if(hb_resp==HB_RESP){
-											cmd_resp_status=CT_OK;
-										}else if(hb_resp==HB_NONE){
-											cmd_resp_status=CT_NONE;
-										}else{
-											assert(0);
-										}
-										PRINTF_DBG("@cmd rcv hearbeat !\n");
-
-									}else if(IsImageRect(cmd_t)){
-
-											SetRectCutCmd(cmd_t);
-											cmd_resp_status=CT_OK;
-
-									}else if(IsImageMaskChange(cmd_t)){
-
-										if(IsImgMaskValid(cmd_t)){
-											SaveImgMaskMatrix(cmd_t);
-										}
-										cmd_resp_status=CT_OK;
-										sendImageMask();
-
-									}else if(IsImageChangeWorkMode(cmd_t)){
-
-										const int StartParam=GetCmdParam(cmd_t);
-										SetFpgaCircleWorkMode(StartParam);
-										cmd_resp_status=CT_OK;
-
-									}else if(IsImageChangeSigmaUp(cmd_t)){
-
-										const int Sigma=GetCmdParam(cmd_t);
-										SetSigmaUp2FPGA(Sigma);
-										StoreImgCfgJson();
-										cmd_resp_status=CT_OK;
-
-									}else if(IsImageQuerySigmaUp(cmd_t)){
-
-												cmd_resp_status=CT_OK;
-												cmd_resp_body=GetSigmaUp();
-
-									}else if(IsImageChangeSigmaDown(cmd_t)){
-
-										const int Sigma=GetCmdParam(cmd_t);
-										SetSigmaDown2FPGA(Sigma);
-										StoreImgCfgJson();
-										cmd_resp_status=CT_OK;
-
-									}else if(IsImageQuerySigmaDown(cmd_t)){
-
-												cmd_resp_status=CT_OK;
-												cmd_resp_body=GetSigmaDown();
-
-									}
-
-									else{
+							if(IsValidCmd_t==FALSE){
 											cmd_resp_status=CT_ERROR;
 											PRINTF_DBG("cmd error !!!");
 											goto EXIT_TASK_FLOW;
-									}
+							}else{
+										if(cmd_resp_status==CT_OK || cmd_resp_status==CT_ERROR){
+												socket_send_stat=SendRespCmd(sock_server,cmd_resp_status,cmd_resp_body);
+										}
+							}
 
 
-									if(cmd_resp_status==CT_OK || cmd_resp_status==CT_ERROR){
-											socket_send_stat=SendRespCmd(sock_server,cmd_resp_status,cmd_resp_body);
-									}
+
 
 					}
 

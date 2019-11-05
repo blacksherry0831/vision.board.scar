@@ -331,6 +331,15 @@ void printf_dbg_fpga_param()
  *
  */
 /*-----------------------------------*/
+int  post_Start_sig()
+{
+	return  sem_post(&m_sem_fpga_circle_start);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 int  StartFpgaCircle(int _WorkMode,unsigned int _seq)
 {
 	int result_t=-1;
@@ -350,7 +359,7 @@ int  StartFpgaCircle(int _WorkMode,unsigned int _seq)
 		FPGA_CIRCLE_TASK_FIRST_START=FPGA_CIRCLE_TASK_SECOND_START=FALSE;
 		SetFpgaCircleWorkMode(_WorkMode);
 		SetFrameCircleSeq(_seq);
-		result_t=sem_post(&m_sem_fpga_circle_start);
+		result_t= post_Start_sig();
 	}
 
 
@@ -382,6 +391,15 @@ int IsFpgaTaskFirstStart()
  *
  */
 /*-----------------------------------*/
+void SetFpgaTaskFirstStart(int _switch)
+{
+	FPGA_CIRCLE_TASK_FIRST_START=_switch;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 int IsFpgaTaskSecondStart()
 {
 	return FPGA_CIRCLE_TASK_SECOND_START;
@@ -391,10 +409,19 @@ int IsFpgaTaskSecondStart()
  *
  */
 /*-----------------------------------*/
+void SetFpgaTaskSecondStart(int _switch)
+{
+	FPGA_CIRCLE_TASK_SECOND_START=_switch;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 void setFpgaCircleCmd(const CMD_CTRL* const _cmd_ctrl)
 {
 	const int StartParam=GetStartCmdParam(_cmd_ctrl);
-	const int StartCmd01=GetCmdCmd01(_cmd_ctrl);
+	const int StartCmd01=GetCmdCmd02(_cmd_ctrl);
 	const unsigned int StartSeq=GetCmdFrameSeq(_cmd_ctrl);
 
 		if(StartCmd01 == CT_START){
@@ -467,6 +494,15 @@ int Wait4FpgaCircleDone()
 int IsFpgaCircleRunning()
 {
 	return FPGA_CIRCLE_TASK_RUNNING;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void SetFpgaCircleRunning(int _run)
+{
+	FPGA_CIRCLE_TASK_RUNNING=_run;
 }
 /*-----------------------------------*/
 /**

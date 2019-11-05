@@ -25,7 +25,7 @@ void *dma_work_server(void* _pdata)
 
 																		dmac_trans_all_frame();
 
-																		PRINTF_DBG("DMA:%d___",DMA_COUNT++);
+																	PRINTF_DBG("DMA:%d___",DMA_COUNT++);
 
 																	TIME_END("2> DMA cpy cost time");
 

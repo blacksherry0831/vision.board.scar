@@ -16,9 +16,16 @@
 int				dmac_83c4_transfer_init(void);
 int				dmac_83c4_addr_mmap_hw(void);
 int				dmac_83c4_addr_unmap_hw(void);
-int 			dmac_83c4_config_and_transfer(unsigned int dst_phyaddr, unsigned int src_phyaddr, unsigned int len);
+int 			dmac_83c4_config_and_transfer(
+							unsigned int dst_phyaddr,
+							unsigned int src_phyaddr,
+							unsigned int len);
 /*-----------------------------------*/
-
+int				dmac_83c4_pthread_mutex_lock();
+int 			dmac_83c4_pthread_mutex_unlock();
+/*-----------------------------------*/
+unsigned char *dmac_83c4_get_mem_ps_phy_base_addr();
+unsigned char *dmac_83c4_get_mem_ps_virtual_base_addr();
 /*-----------------------------------*/
 /**
  *

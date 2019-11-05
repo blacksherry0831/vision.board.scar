@@ -39,17 +39,7 @@ void fpga_img_svm_enable(int _enable)
 /*-----------------------------------*/
 int fpga_reset()
 {
-	int  iTemp=0;
-	//**********************************************
-	// ¸´Î»
-	//**********************************************
-	// 2.1 ¸´Î»
-	 iTemp=1;
-	 FPGA_CTRL_send(ADDR_OUTSIDE_RESET,&iTemp);
-	 iTemp=0;
-	 FPGA_CTRL_send(ADDR_OUTSIDE_RESET,&iTemp);
-
-	return TRUE;
+	return 	 FPGA_CTRL_send_int_1_0(ADDR_OUTSIDE_RESET);
 }
 /*-----------------------------------*/
 /**

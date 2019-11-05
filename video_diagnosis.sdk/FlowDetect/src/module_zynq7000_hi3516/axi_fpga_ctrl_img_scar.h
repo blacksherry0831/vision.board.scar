@@ -3,6 +3,10 @@
 /*-----------------------------------*/
 #include "linux_header.h"
 /*-----------------------------------*/
+#define 	SCAR_IMG_MASK_CHANNEL_MAX		(8)
+#define 	SCAR_IMG_MASK_FRAME_MAX			(48)
+#define 	SCAR_IMG_MASK_SQE_MAX			(SCAR_IMG_MASK_CHANNEL_MAX*SCAR_IMG_MASK_FRAME_MAX)
+/*-----------------------------------*/
 #define SCAR_DETECT_MODE_GLOBAL		(1)
 #define SCAR_DETECT_MODE_ROW		(1<<1)
 #define SCAR_DETECT_MODE_COL		(1<<2)

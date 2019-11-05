@@ -7,7 +7,39 @@ static SCAR_PARAM  G_SCAR_PARAM={
 		3,
 		4,
 		5,
-		6};
+		6,
+		0,
+		1};
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void SetScarCurrentMask(
+		const int* 	_mask_seq,
+		const int	_num)
+{
+	memcpy(G_SCAR_PARAM.current_mask_seq,_mask_seq,_num);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void SetScarCurrentMask_Cmd(const CMD_CTRL* const  _cmd)
+{
+	const int UCHAR_SIZE=8;
+
+	const IplImageU * imgU=GetIplImageUx(_cmd);
+
+	const int CmdParam_t=GetCmdParam(_cmd);
+
+
+	const int seq_num	=	GetMaskSeqNum(_cmd);
+	const int* seq_ptr	=	GetMaskSeqPtr(_cmd);
+
+	SetScarCurrentMask(seq_ptr,seq_num);
+}
 /*-----------------------------------*/
 /**
  *
@@ -203,6 +235,15 @@ void SetScarColThresholdDown2FPGA(const int _th)
 {
 	SetScarColThresholdDown(_th);
 	fpga_img_scar_detect_set_col_th_down(_th);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int GetMaskChannel(const int _idx)
+{
+	return G_SCAR_PARAM.current_mask_seq[_idx];
 }
 /*-----------------------------------*/
 /**

@@ -156,6 +156,8 @@ void init()
 
 	FPGA_CTRL_mmap();
 
+	fpga_img_scar_reset();
+
 	get_queue_img_buff();
 
 	dmac_83c0_addr_mmap_hw();
@@ -187,15 +189,6 @@ void destory()
 	destorySemSignal();
 
 	destory_mem_pool();
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-void init_tcp_rcv_server()
-{
-
 }
 /*-----------------------------------*/
 /**

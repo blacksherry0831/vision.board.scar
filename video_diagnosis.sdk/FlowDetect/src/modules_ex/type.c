@@ -25,7 +25,10 @@ int SetCmdParam(const CMD_CTRL* const _cmd_ctrl,int _param)
  *
  */
 /*-----------------------------------*/
-int IsCmdCtrlCmd(const CMD_CTRL* _cmd_ctrl,const unsigned char _cmd00,const unsigned char _cmd01)
+int IsCmdCtrlCmd(
+		const CMD_CTRL* _cmd_ctrl,
+		const unsigned char _cmd00,
+		const unsigned char _cmd01)
 {
 	const CMD_CTRL_HEADER* _cmd=&(_cmd_ctrl->f_header);
 
@@ -38,15 +41,6 @@ int IsCmdCtrlCmd(const CMD_CTRL* _cmd_ctrl,const unsigned char _cmd00,const unsi
 	}
 
 
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-void readnCMD_CTRL()
-{
-	
 }
 /*-----------------------------------*/
 /**
@@ -104,8 +98,8 @@ unsigned int GetCMDBodySize(CMD_CTRL_HEADER _cmd)
 {
 	unsigned int size_t=_cmd.f_data_len[0]+
 				_cmd.f_data_len[1]*256+
-				_cmd.f_reserve[0]*256*256+
-				_cmd.f_reserve[1]*256*256*256;
+				_cmd.f_data_len_high[0]*256*256+
+				_cmd.f_data_len_high[1]*256*256*256;
 		
 	return size_t;
 	
@@ -115,7 +109,7 @@ unsigned int GetCMDBodySize(CMD_CTRL_HEADER _cmd)
  *
  */
 /*-----------------------------------*/
-char * GetIplImageImageData(const CMD_CTRL* const  _cmd)
+char* 	GetIplImageImageData(const CMD_CTRL* const  _cmd)
 {
 	char* data_t=(char *)( & (_cmd->f_data[sizeof(IplImageUI)] ) );
 	return data_t;
@@ -125,7 +119,7 @@ char * GetIplImageImageData(const CMD_CTRL* const  _cmd)
  *
  */
 /*-----------------------------------*/
-IplImage * GetIplImage(const CMD_CTRL* cmd)
+IplImage* 	GetIplImage(const CMD_CTRL* cmd)
 {
 		 return & (((IplImageU*)( cmd->f_data))->Iplimg);
 }
@@ -191,7 +185,7 @@ int GetCmdParam(const CMD_CTRL* const _cmd_ctrl)
  *
  */
 /*-----------------------------------*/
-int GetCmdCmd01(const CMD_CTRL* const _cmd_ctrl)
+int GetCmdCmd02(const CMD_CTRL* const _cmd_ctrl)
 {
 	const CMD_CTRL_HEADER* _cmd=&(_cmd_ctrl->f_header);
 
@@ -673,8 +667,8 @@ void CreateCmdBody(CMD_CTRL* cmd_t,unsigned int body_size)
 		cmd_t->f_header.f_data_len[0]=low_0;
 		cmd_t->f_header.f_data_len[1]=high_0;
 
-		cmd_t->f_header.f_reserve[0]=low_1;
-		cmd_t->f_header.f_reserve[1]=high_1;
+		cmd_t->f_header.f_data_len_high[0]=low_1;
+		cmd_t->f_header.f_data_len_high[1]=high_1;
 	}
 
 

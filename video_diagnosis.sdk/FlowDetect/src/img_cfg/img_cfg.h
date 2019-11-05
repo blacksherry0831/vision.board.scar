@@ -25,6 +25,7 @@ struct ViewInfo{
 	int ViewCh;/**video  channel<*/
 	int ViewOutput;/**< output this video */
 	int nChannels;/**<*/
+	int ImageMask;
 	CvRect CutSize;/**<*/
 	CvRect OrgSize;/**<*/
 	char colorModel[64];/**<*/
@@ -45,6 +46,7 @@ void  SetRectCutCmd(CMD_CTRL*  cmd_t);
 void  ClearRectCut();
 /*-----------------------------------*/
 void SaveImgMaskMatrix(const CMD_CTRL* const  _cmd);
+void SaveImgMaskMatrix_SCAR(const CMD_CTRL* const  _cmd);
 /*-----------------------------------*/
 void init_image_cfg(const int _width,const int _height);
 /*-----------------------------------*/

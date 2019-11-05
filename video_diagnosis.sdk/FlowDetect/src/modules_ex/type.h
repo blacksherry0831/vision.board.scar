@@ -90,11 +90,18 @@ enum CMD_TYPE_02_I{
 		CT_IMG_FRAME='F',
 		CT_IMG_RECT='R',
 		CT_IMG_MODE_CHANGE='M',
+		CT_IMG_MASK_CHANGE='K',
+
+};
+/*-----------------------------------*/
+/**
+*
+*/
+/*-----------------------------------*/
+enum CMD_TYPE_02_I_SIGMA{
 
 		CT_IMG_SIGMA_UP_CHANGE=0xF1,
 		CT_IMG_SIGMA_DOWN_CHANGE=0xF2,
-
-		CT_IMG_MASK_CHANGE='K',
 
 };
 /*-----------------------------------*/
@@ -165,7 +172,7 @@ typedef union _IplImageUI
 typedef struct {
 
 	unsigned char f_header[4];//"Yjkj"
-	unsigned char f_reserve[2];//length high
+	unsigned char f_data_len_high[2];//length high
 	unsigned char f_cmd_idx[4];//
 	unsigned char f_dst_dev[2];
 	unsigned char f_src_dev[2];
@@ -183,6 +190,15 @@ typedef struct{
 	unsigned int f_data_size;
 	unsigned char f_crc;
 }CMD_CTRL;
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int IsCmdCtrlCmd(
+		const CMD_CTRL* _cmd_ctrl,
+		const unsigned char _cmd00,
+		const unsigned char _cmd01);
 /*-----------------------------------*/
 /**
  *
@@ -222,7 +238,7 @@ int IsImageRect(const CMD_CTRL* _cmd_ctrl);
 int IsImageMaskChange(const CMD_CTRL* _cmd_ctrl);
 int IsImageChangeWorkMode(const CMD_CTRL* _cmd_ctrl);
 /*-----------------------------------*/
-int GetCmdCmd01(const CMD_CTRL* const _cmd_ctrl);
+int GetCmdCmd02(const CMD_CTRL* const _cmd_ctrl);
 int GetCmdParam(const CMD_CTRL* const _cmd_ctrl);
 /*-----------------------------------*/
 extern unsigned int GetCMDBodySize(CMD_CTRL_HEADER _cmd);
@@ -236,6 +252,8 @@ extern int SendHeartbeatCmd(int _socketfd,int _need_resp,int _seq);
 /*-----------------------------------*/
 int GetStartCmdParam(const CMD_CTRL* const _cmd_ctrl);
 unsigned int GetCmdFrameSeq(const CMD_CTRL* const _cmd_ctrl);
+/*-----------------------------------*/
+
 /*-----------------------------------*/
 void SetSensorStatus(CMD_CTRL* _cmd,int _status,int _channel);
 /*-----------------------------------*/

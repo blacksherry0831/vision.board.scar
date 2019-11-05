@@ -6,6 +6,7 @@
 /*-----------------------------------*/
 #include "modules_ex/base.h"
 /*-----------------------------------*/
+#include "module_zynq7000_hi3516/axi_fpga_ctrl_img_scar.h"
 /*-----------------------------------*/
 typedef struct scar_param{
 
@@ -16,8 +17,15 @@ typedef struct scar_param{
 	int 	row_th_down;
 	int		col_th_up;
 	int		col_th_down;
+	int     current_mask_seq[SCAR_IMG_MASK_SQE_MAX];
 
 }SCAR_PARAM;
+/*-----------------------------------*/
+void SetScarCurrentMask(
+		const int* 	_mask_seq,
+		const int	_num);
+/*-----------------------------------*/
+void SetScarCurrentMask_Cmd(const CMD_CTRL* const  _cmd);
 /*-----------------------------------*/
 int GetScarWorkMode();
 int GetScarGlobalThresholdUp();
@@ -28,6 +36,7 @@ int GetScarColThresholdUp();
 int GetScarColThresholdDown();
 /*-----------------------------------*/
 void SetScarWorkMode2FPGA(const int _th);
+/*-----------------------------------*/
 void SetScarGlobalThresholdUp2FPGA(const int _th);
 void SetScarGlobalThresholdDown2FPGA(const int _th);
 void SetScarRowThresholdUp2FPGA(const int _th);
