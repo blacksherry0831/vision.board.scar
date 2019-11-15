@@ -26,7 +26,9 @@
 							<tool id="xilinx.gnu.armlinux.c.toolchain.compiler.debug.1459204547" name="ARM Linux gcc compiler" superClass="xilinx.gnu.armlinux.c.toolchain.compiler.debug">
 								<option defaultValue="gnu.c.optimization.level.none" id="xilinx.gnu.compiler.option.optimization.level.1905551346" name="Optimization Level" superClass="xilinx.gnu.compiler.option.optimization.level" value="gnu.c.optimization.level.none" valueType="enumerated"/>
 								<option id="xilinx.gnu.compiler.option.debugging.level.231040784" name="Debug Level" superClass="xilinx.gnu.compiler.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
-								<option id="xilinx.gnu.compiler.symbols.defined.64794949" name="Defined symbols (-D)" superClass="xilinx.gnu.compiler.symbols.defined"/>
+								<option id="xilinx.gnu.compiler.symbols.defined.64794949" name="Defined symbols (-D)" superClass="xilinx.gnu.compiler.symbols.defined" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="_DEBUG"/>
+								</option>
 								<option id="xilinx.gnu.compiler.misc.other.116870587" name="Other flags" superClass="xilinx.gnu.compiler.misc.other" value="-c -fmessage-length=0 -MT&quot;$@&quot;" valueType="string"/>
 								<option id="xilinx.gnu.compiler.dircategory.includes.1003081670" name="Include Paths" superClass="xilinx.gnu.compiler.dircategory.includes" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>

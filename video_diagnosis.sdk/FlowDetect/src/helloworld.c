@@ -3,6 +3,8 @@
 /*-----------------------------------*/
 #include "init_destory.h"
 /*-----------------------------------*/
+#include "modules/printf_log/printf_log.h"
+/*-----------------------------------*/
 /**
  *
  */
@@ -21,11 +23,10 @@ extern int optopt;
 /*-----------------------------------*/
 void printf_1_cmd_param(char* _optarg,int cmd,const char* _cmd_long)
 {
-	 	 if (_optarg){
-
-			   printf ("option:[%s] %c argv: %s\n",_cmd_long, cmd, _optarg);
+	 	 if(_optarg){
+	 		PRINTF_DBG_EX("option:[%s] %c argv: %s\n",_cmd_long, cmd, _optarg);
 		}else{
-				printf ("option:[%s] %c no argument\n",_cmd_long, cmd);
+			PRINTF_DBG_EX("option:[%s] %c no argument\n",_cmd_long, cmd);
 		}
 }
 /*-----------------------------------*/
@@ -37,7 +38,7 @@ void printf_cmd_param(int optind,char* _optarg,int cmd)
 {
 	char buffer[128];
 
-	printf("optind: %d\n", optind);
+	PRINTF_DBG_EX("optind: %d\n", optind);
 
 	   switch (cmd){
 		               case 'i':
@@ -84,15 +85,15 @@ void printf_cmd_param(int optind,char* _optarg,int cmd)
 struct cmd_param process_argc_argv(int argc, char * argv[])
 {
 #if TRUE
-	    printf("\n\n");
-	    printf("optind:%d£¬opterr£º%d\n",optind,opterr);
-	    printf("--------------------------\n");
+	PRINTF_DBG_EX("\n\n");
+	PRINTF_DBG_EX("optind:%d£¬opterr£º%d\n",optind,opterr);
+	PRINTF_DBG_EX("--------------------------\n");
 #endif
 
 	    struct cmd_param cmdParam;
 
 
-	    char* short_options="w:h:s:f:iop:DM:N:";
+	    char* short_options="w:h:s:f:p:D";
 
 	    static struct option long_options[] = {
 	           {"width", required_argument, NULL, 'w'},
@@ -103,8 +104,6 @@ struct cmd_param process_argc_argv(int argc, char * argv[])
 	           {"project", required_argument,       NULL, 'p'},
 
 	           {"debugOutput",  no_argument,       NULL, 'D'},
-	           {"frameNumMax", required_argument,       NULL, 'M'},
-	           {"frameNumMin", required_argument,       NULL, 'N'},
 
 	           {0, 0, 0, 0}
 
@@ -118,10 +117,10 @@ struct cmd_param process_argc_argv(int argc, char * argv[])
 	    	   switch (cmd)
 	    		        {
 	    		              case 'p':
-	    		            	   	   	   	   	   	   	   	   	 if (optarg){
-	    		            	 	    		            	   	   	  strcpy(cmdParam.project,optarg);
-	    		            	 	    						 }
-	    		            	 	    						break;
+	    		            	   	   	   	   	   	if (optarg){
+	    		            	 	    		       	   	  strcpy(cmdParam.project,optarg);
+	    		            	 	    			}
+	    		            	 	    			break;
 
 	    		               case 'f':
 	    		            	   	   	   	   	   if (optarg){
@@ -147,19 +146,10 @@ struct cmd_param process_argc_argv(int argc, char * argv[])
 	    		               case 'D':
 	    		            	   	   	   	   	   setPrintConsole(1);
 	    		            	   	   	   	   	   break;
-	    		               case 'N'://min
-	    		            	   	   	   	   	   	if (optarg){
-	    		            	  	            	   	   	   cmdParam.frame_idx_min=atoi(optarg);
-	    		            	  	            	}
-	    		            	  	            	break;
-	    		               case 'M'://max
-													if (optarg){
-															   cmdParam.frame_idx_max=atoi(optarg);
-													}
-													break;
+
 	    		               case '?':
-	    		                       printf("Unknown option: %c\n",(char)optopt);
-	    		                       break;
+	    		            	   	   	   	   	   PRINTF_DBG_EX("Unknown option: %c\n",(char)optopt);
+	    		            	   	   	   	   	   break;
 	    		               }
 
 
@@ -175,9 +165,6 @@ struct cmd_param process_argc_argv(int argc, char * argv[])
 void init_cmd_param(const struct cmd_param _cmd_param)
 {
 	 setProjectMode(_cmd_param);
-
-	 SetFrameIdxMin(_cmd_param.frame_idx_min);
-	 SetFrameIdxMax(_cmd_param.frame_idx_max);
 
 	 SetGlobalSensor(_cmd_param.sensor);
 
@@ -199,7 +186,7 @@ int main(int argc, char * argv[])
 
 	 	 	 main_ring();
 
-	    printf("Exit Main \n");
+	    PRINTF_DBG_EX("Exit Main \n");
 
 	return EXIT_SUCCESS;
 }

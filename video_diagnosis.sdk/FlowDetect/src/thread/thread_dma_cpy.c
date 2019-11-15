@@ -25,7 +25,7 @@ void *dma_work_server(void* _pdata)
 
 																		dmac_trans_all_frame();
 
-																	PRINTF_DBG("DMA:%d___",DMA_COUNT++);
+																	PRINTF_DBG_EX("DMA:%d___",DMA_COUNT++);
 
 																	TIME_END("2> DMA cpy cost time");
 
@@ -61,7 +61,7 @@ pthread_t init_dma_server(void *_data)
 {
 	pthread_t _thread_tid;
 	if( pthread_create(&_thread_tid, NULL, dma_work_server, _data) ){
-			PRINTF_DBG(" Create print_thread1 thread error!\n");
+			PRINTF_DBG_EX(" Create print_thread1 thread error!\n");
 			exit(0);
 	}
  return _thread_tid;

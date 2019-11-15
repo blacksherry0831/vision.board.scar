@@ -56,7 +56,7 @@ volatile int ProcessImageData=0;
 /*-----------------------------------*/
 int wait4FpgaStart()
 {
-	PRINTF_DBG("FPGA>>wait for start cmd ! \n");
+	PRINTF_DBG_EX("FPGA>>wait for start cmd ! \n");
 
 	if(Wait4StartFpgaCircle()==SUCCESS){
 		return TRUE;
@@ -160,11 +160,11 @@ int IsFrameCollect(int _current_idx)
  *
  */
 /*-----------------------------------*/
-void scar_inside_second_ex(int _channel)
+void scar_inside_second_ex(const int _org,const int _fi)
 {
 	FPGA_CvtDone=FALSE;
 
-	scar_cvt(_channel);
+	scar_cvt(_org,_fi);
 
 }
 /*-----------------------------------*/
@@ -184,15 +184,16 @@ void outside_inside_second_ex()
  *
  */
 /*-----------------------------------*/
-void scar_second_sync(int _frame_idx,const int _channel_mask)
+void scar_second_sync(int _frame_idx,const int _org,const int _fi)
 {
 	static int FPGA_COUNT=0;
 	if(pthread_mutex_lock(&FPGA_mutex_cvt)==SUCCESS){
 
 				TIME_START();
-					scar_inside_second_ex(_channel_mask);
+
+					scar_inside_second_ex(_org,_fi);
 					__sync_lock_test_and_set(&FPGA_CvtDone,TRUE);
-					PRINTF_DBG("FPGA:%d___",FPGA_COUNT++);
+					PRINTF_DBG_EX("FPGA:%d___",FPGA_COUNT++);
 
 				TIME_END("1> FPGA Convert cost time : ");
 
@@ -218,7 +219,7 @@ void outside_second_sync(int _frame_idx)
 				TIME_START();
 					outside_inside_second_ex();
 					__sync_lock_test_and_set(&FPGA_CvtDone,TRUE);
-					PRINTF_DBG("FPGA:%d___",FPGA_COUNT++);
+					PRINTF_DBG_EX("FPGA:%d___",FPGA_COUNT++);
 
 				TIME_END("1> FPGA Convert cost time : ");
 
@@ -236,14 +237,14 @@ void outside_second_sync(int _frame_idx)
  *
  */
 /*-----------------------------------*/
-void CvtFrameScar(unsigned int _base_idx,unsigned int current_idx,const int _channel_mask)
+void CvtFrameScar(unsigned int _base_idx,unsigned int current_idx,const int _org,const int _fi)
 {
 	const unsigned int relative_idx=current_idx-_base_idx;
 
 	if(		(relative_idx>=GetFrameIdxMin())&&
 			(relative_idx<=GetFrameIdxMax())
 			){
-			scar_second_sync(current_idx,_channel_mask);
+			scar_second_sync(current_idx,_org,_fi);
 	}else{
 			sleepMS(100);
 			IncFrameIdx();
@@ -278,11 +279,11 @@ void theFirstCircleScar()
 {
 	const int FirstCircle=FIRST_CIRCLE_IO;
 
-			PRINTF_DBG("FPGA>>wait for start cmd 00 ! \n");
+			PRINTF_DBG_EX("FPGA>>wait for start cmd 00 ! \n");
 
 			if(wait4Circle(FirstCircle)){
 
-				PRINTF_DBG("FPGA>>start cmd 00 ! \n");
+				PRINTF_DBG_EX("FPGA>>start cmd 00 ! \n");
 
 					if(GetProjectRun()==scar_detect_01){
 
@@ -293,7 +294,7 @@ void theFirstCircleScar()
 
 			}
 
-			PRINTF_DBG("FPGA>>stop cmd 00 ! \n");
+			PRINTF_DBG_EX("FPGA>>stop cmd 00 ! \n");
 
 }
 /*-----------------------------------*/
@@ -305,11 +306,11 @@ void theFirstCircle()
 {
 		const int FirstCircle=FIRST_CIRCLE_IO;
 
-		PRINTF_DBG("FPGA>>wait for start cmd 00 ! \n");
+		PRINTF_DBG_EX("FPGA>>wait for start cmd 00 ! \n");
 
 		if(wait4Circle(FirstCircle)){
 
-			PRINTF_DBG("FPGA>>start cmd 00 ! \n");
+			PRINTF_DBG_EX("FPGA>>start cmd 00 ! \n");
 
 				if(GetProjectRun()==outside08){
 
@@ -343,7 +344,25 @@ void theFirstCircle()
 
 		}
 
-		PRINTF_DBG("FPGA>>stop cmd 00 ! \n");
+		PRINTF_DBG_EX("FPGA>>stop cmd 00 ! \n");
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int GetMaskSeqFrames()
+{
+	if(IsWorkMode_OrgImg()){
+
+	}else if(IsWorkMode_DiffImg()){
+		return GetMaskSeqChannel_Total_Num();
+	}else{
+
+	}
+
+	return INT_MAX;
 
 }
 /*-----------------------------------*/
@@ -355,25 +374,36 @@ void theSecondCircleScar()
 {
 	const int SecondCircle=SECOND_CIRCLE_IO;
 
-	PRINTF_DBG("FPGA>>wait for start cmd 01 ! \n");
+	PRINTF_DBG_EX("FPGA>>wait for start cmd 01 ! \n");
 
 	if(wait4Circle(SecondCircle)){
 
-		PRINTF_DBG("FPGA>>start cmd 01 ! \n");
+		PRINTF_DBG_EX("FPGA>>start cmd 01 ! \n");
 #if TRUE
-			const int  MASK_MAX=SCAR_IMG_MASK_SQE_MAX;
+
+			const int  MASK_TOTAL_CHANNELS= GetMaskSeqFrames();
 			int fi=0;
+
 			for(	fi=0,FRAME_IDX_SECOND=FRAME_IDX_FIRST;
-					fi<MASK_MAX && IsCircleRunning(SecondCircle) && IsFrameCollect(FRAME_IDX_SECOND-FRAME_IDX_FIRST);
+					fi<MASK_TOTAL_CHANNELS && IsCircleRunning(SecondCircle) && IsFrameCollect(FRAME_IDX_SECOND-FRAME_IDX_FIRST);
 					fi++,FRAME_IDX_SECOND++){
 
-				const int  CHANNEL_MASK=GetMaskChannel(fi);
+					int is_org=FALSE;
+					if(IsWorkMode_OrgImg()){
+						is_org=TRUE;
+					}else if(IsWorkMode_DiffImg()){
+						is_org=FALSE;
+					}else{
+						assert(0);
+					}
 
-				CvtFrameScar(FRAME_IDX_FIRST,FRAME_IDX_SECOND,CHANNEL_MASK);
+					CvtFrameScar(FRAME_IDX_FIRST,FRAME_IDX_SECOND,is_org,fi);
+
+
 
 			}
 #endif
-		PRINTF_DBG("FPGA>>stop cmd 01 ! \n");
+		PRINTF_DBG_EX("FPGA>>stop cmd 01 ! \n");
 
 	}
 
@@ -387,11 +417,11 @@ void theSecondCircle()
 {
 	const int SecondCircle=SECOND_CIRCLE_IO;
 
-	PRINTF_DBG("FPGA>>wait for start cmd 01 ! \n");
+	PRINTF_DBG_EX("FPGA>>wait for start cmd 01 ! \n");
 
 	if(wait4Circle(SecondCircle)){
 
-		PRINTF_DBG("FPGA>>start cmd 01 ! \n");
+		PRINTF_DBG_EX("FPGA>>start cmd 01 ! \n");
 
 			for(FRAME_IDX_SECOND=FRAME_IDX_FIRST;
 					IsCircleRunning(SecondCircle) &&  IsFrameCollect(FRAME_IDX_SECOND-FRAME_IDX_FIRST);
@@ -401,7 +431,7 @@ void theSecondCircle()
 
 			}
 
-		PRINTF_DBG("FPGA>>stop cmd 01 ! \n");
+		PRINTF_DBG_EX("FPGA>>stop cmd 01 ! \n");
 
 	}
 
@@ -424,10 +454,10 @@ void stopThisCircle()
 void startThisCircle()
 {
 	sendImageStart();
-	PRINTF_DBG("FPGA>>Start FPGA Circle \n");
+	PRINTF_DBG_EX("FPGA>>Start FPGA Circle \n");
 	sleepMS(100);
 	sendImageMask();
-	PRINTF_DBG("FPGA>>Send Mask Image \n");
+	PRINTF_DBG_EX("FPGA>>Send Mask Image \n");
 }
 /*-----------------------------------*/
 /**
@@ -495,7 +525,7 @@ void *axi_rcv_server(void* _pdata)
 					IplImageU* imgU=(IplImageU*)img_data;
 					int ch=imgU->IpAddrChannel[0];
 
-					PRINTF_DBG("inner rcv a image Channel:%d\n",ch);
+					PRINTF_DBG_EX("inner rcv a image Channel:%d\n",ch);
 
 					ReleaseCmdCtrl(&img_data);
 				}
@@ -521,7 +551,7 @@ pthread_t rcv_image_buff_axi_server(void *_data)
 {
 	pthread_t _thread_tid;
 	if( pthread_create(&_thread_tid, NULL, axi_rcv_server, _data) ){
-			PRINTF_DBG(" Create print_thread1 thread error!\n");
+			PRINTF_DBG_EX(" Create print_thread1 thread error!\n");
 			exit(0);
 	}
  return _thread_tid;

@@ -10,7 +10,7 @@ void UsertoAXILite(int virtual_addr,int phy_addr,unsigned char *p_ucData,int Siz
 {
     if(Size > 0x10000)
     {
-        PRINTF_DBG("Size is out!\n");
+        PRINTF_DBG_EX("Size is out!\n");
         return;
     }
 
@@ -27,7 +27,7 @@ void UsertoAXILite(int virtual_addr,int phy_addr,unsigned char *p_ucData,int Siz
 	  }
 
    }else{
-	   PRINTF_DBG("Address not used!\n");
+	   PRINTF_DBG_EX("Address not used!\n");
    }
    return;
 }
@@ -40,7 +40,7 @@ void AXILitetoUser(const int virtual_addr,const int phy_addr,const unsigned char
 {
     if(Size > 0x10000)
     {
-        PRINTF_DBG("Size is out!\n");
+        PRINTF_DBG_EX("Size is out!\n");
         return;
     }
 	int i;
@@ -57,7 +57,7 @@ void AXILitetoUser(const int virtual_addr,const int phy_addr,const unsigned char
 		  *(unsigned int*)(virtual_addr+i*4) = *(unsigned int*)(p_ucData+i*4);
 	  }
    }else{
-	   PRINTF_DBG("Address not used!\n");
+	   PRINTF_DBG_EX("Address not used!\n");
    }
 
    return;
@@ -80,7 +80,7 @@ int AXILitemmapEx(const unsigned char* _dev,int Addr,unsigned int *ptrUiFd,void 
 
     if(_pptr_virtual_addr == NULL)
     {
-        PRINTF_DBG("mmap failed!\n");
+        PRINTF_DBG_EX("mmap failed!\n");
         return -1;
     }
 
@@ -131,7 +131,7 @@ int AXILitemmapExS(MAP_OBJ* mapObj)
 
     if(mapObj->virtual_addr == NULL)
     {
-        PRINTF_DBG("mmap failed!\n");
+        PRINTF_DBG_EX("mmap failed!\n");
         return -1;
     }
 

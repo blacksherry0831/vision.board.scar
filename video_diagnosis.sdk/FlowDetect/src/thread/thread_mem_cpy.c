@@ -107,7 +107,7 @@ void *memcpy_work_server(void* _pdata)
 															}
 #endif
 
-												PRINTF_DBG("MEMCPY:%d___",MEMCPY_COUNT++);
+												PRINTF_DBG_EX("MEMCPY:%d___",MEMCPY_COUNT++);
 										 TIME_END("3>MEM cpy cost time");
 
 										 sem_post(&m_sem_memcpy_frame_done);
@@ -134,7 +134,7 @@ pthread_t init_memcpy_server(void *_data)
 {
 	pthread_t _thread_tid;
 	if( pthread_create(&_thread_tid, NULL,memcpy_work_server, _data) ){
-			PRINTF_DBG(" Create print_thread1 thread error!\n");
+			PRINTF_DBG_EX(" Create print_thread1 thread error!\n");
 			exit(0);
 	}
 

@@ -58,11 +58,15 @@ int image_height(int _space_ch,int _space_frame);
 int image_nchannels(int _space_ch,int _space_frame);
 int image_frame_size(int _space_ch,int _space_frame);
 /*-----------------------------------*/
+int IsImgMaskValid(const CMD_CTRL* const  _cmd);
+/*-----------------------------------*/
 void 	set_img_cut_rect(const CvRect _cut,const int _ViewCh);
 /*-----------------------------------*/
 CvRect 	GetRectSpaceChannelFrame(const int _si,const int _fi);
 /*-----------------------------------*/
 void saveImgCfgJsonDefault();
 void LoadImgCfgJson();
+/*-----------------------------------*/
+int GetMaskChannel_Number();
 /*-----------------------------------*/
 #endif

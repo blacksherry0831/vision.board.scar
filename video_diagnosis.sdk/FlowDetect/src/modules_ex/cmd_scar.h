@@ -65,8 +65,10 @@ int IsImageScarSet_WorkMode(const CMD_CTRL* _cmd_ctrl);
 int IsImageScarSet_Mask(const CMD_CTRL* _cmd_ctrl);
 int IsImageScarSet_SelectMask(const CMD_CTRL* _cmd_ctrl);
 /*-----------------------------------*/
-int 			GetMaskSeqNum(const CMD_CTRL* const _cmd_ctrl);
 unsigned int* 	GetMaskSeqPtr(const CMD_CTRL* const _cmd_ctrl);
+/*-----------------------------------*/
+int GetMaskSeq_MaskImgNumber(const CMD_CTRL* const _cmd_ctrl);
+int GetMaskSeq_SerialNumber(const CMD_CTRL* const _cmd_ctrl);
 /*-----------------------------------*/
 /**
 *

@@ -115,11 +115,11 @@ void *tcp_server(void* _data)
 		*_clientfd_ptr = accept(sockfd, (struct sockaddr*)client, &client_size);
 
 		if (*_clientfd_ptr < 0 ){
-			PRINTF_DBG("listen socket error: %s(errno: %d)\n",strerror(errno),errno);
+			PRINTF_DBG_EX("listen socket error: %s(errno: %d)\n",strerror(errno),errno);
 				break;
 		}else{
 			if(IsRun()){
-				PRINTF_DBG("Connected to %s:%u\n",inet_ntoa(client->sin_addr),ntohs(client->sin_port));
+				PRINTF_DBG_EX("Connected to %s:%u\n",inet_ntoa(client->sin_addr),ntohs(client->sin_port));
 					if(pthread_create(&_thread_ap_id,NULL,tcp_server->pfunClient,_clientfd_ptr) == -1){
 						 fprintf(stderr,"pthread_create error!\n");
 					}

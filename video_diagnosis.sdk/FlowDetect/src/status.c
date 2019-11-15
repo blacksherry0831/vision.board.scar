@@ -52,12 +52,16 @@ enum ProjectRun GetProjectRun()
 /*-----------------------------------*/
 char * GetProjectRunStr()
 {
+	const int project_t=GetProjectRun();
 
-	if(GetProjectRun()==inside08){
-		return	"inside";
-	}else if(GetProjectRun()==outside08){
-		return	"outside";
+	if(		project_t==inside08  	||
+			project_t==outside08	||
+			project_t==scar_detect_01){
+
+		return	ProjectName[project_t];
+
 	}else{
+		assert(0);
 		return 	"undefined";
 	}
 

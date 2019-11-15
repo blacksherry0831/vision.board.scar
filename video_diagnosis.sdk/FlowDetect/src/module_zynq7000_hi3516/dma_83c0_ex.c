@@ -109,10 +109,20 @@ int SetDmaFrameByWorkMode(int _wm)
 
 						}
 
+			}else if(GetProjectRun()==scar_detect_01){
+
+						if(IsWorkMode_OrgImg()){
+							image_enable_output_frame_only_1();
+						}else if(IsWorkMode_DiffImg()){
+							image_enable_output_frame_only_2();
+						}else{
+
+						}
+
 			}else{
 
-
 			}
+
 
 	return 0;
 }
@@ -150,7 +160,7 @@ int memcpyDMA2MemChEx(CMD_CTRL* img,const  int _space_ch,const int _space_fr)
 	 }
 
 #if 1
-	 PRINTF_DBG("Channel:[%d] ",_space_ch);
+	 PRINTF_DBG_EX("Channel:[%d] ",_space_ch);
 
 	 TIME_END("memcpy a channel:");
 

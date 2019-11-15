@@ -6,17 +6,17 @@
 /*-----------------------------------*/
 void printf_binary(int n,int size)
 {
-	PRINTF_DBG("LSB##");
+	PRINTF_DBG_EX("LSB##");
 	while (size--) {
     if (n & 1)
-    	PRINTF_DBG("1");
+    	PRINTF_DBG_EX("1");
     else
-    	PRINTF_DBG("0");
+    	PRINTF_DBG_EX("0");
 
     n >>= 1;
 	}
-	PRINTF_DBG("##MSB");
-	PRINTF_DBG("\n");
+	PRINTF_DBG_EX("##MSB");
+	PRINTF_DBG_EX("\n");
 }
 /*-----------------------------------*/
 /**
@@ -40,14 +40,14 @@ int sensor_state_8()
 				int bit=STAT8&0x01;
 
 				if(bit==0)
-				PRINTF_DBG("Sensor error: %d",i);
+				PRINTF_DBG_EX("Sensor error: %d",i);
 
 				STAT8=STAT8>>1;
 			}
-			PRINTF_DBG("\n");
+			PRINTF_DBG_EX("\n");
 
 		}
-			PRINTF_DBG("Sensor STAT: 0X%x\n",STAT);
+			PRINTF_DBG_EX("Sensor STAT: 0X%x\n",STAT);
 
 			printf_binary(STAT,8);
 
@@ -72,7 +72,7 @@ int sensor_state_1()
 										if(STAT & (0x01<<_ch)){
 
 										}else{
-												PRINTF_DBG("Sensor error: %d",_ch);
+												PRINTF_DBG_EX("Sensor error: %d",_ch);
 												error_t=TRUE;
 										}
 							}
@@ -167,7 +167,7 @@ int set_fpga_work_mode(int _WORK,int _DATA)
 //**********************************************
 void outside_first_m()
 {
-    PRINTF_DBG("outside_first!\n");
+    PRINTF_DBG_EX("outside_first!\n");
 
     set_fpga_work_mode(FPGA_WORK_MODE_AVG,
     		 FPGA_WORK_MODE_DATA_AVG);
@@ -180,7 +180,7 @@ void outside_first_m()
 //**********************************************
 void outside_second_m()
 {
-    PRINTF_DBG("outside_second!\n");
+    PRINTF_DBG_EX("outside_second!\n");
 	set_fpga_work_mode(FPGA_WORK_MODE_DIFF,
 			FPGA_WORK_MODE_DATA_DIFF);
 

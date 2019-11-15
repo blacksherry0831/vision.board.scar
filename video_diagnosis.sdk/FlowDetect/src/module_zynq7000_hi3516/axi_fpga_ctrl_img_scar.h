@@ -32,4 +32,6 @@ int fpga_img_scar_detect_set_row_th_down(int _th);
 int fpga_img_scar_detect_set_col_th_up(int _th);
 int fpga_img_scar_detect_set_col_th_down(int _th);
 /*-----------------------------------*/
+void scar_cvt(int _org,const int _fi);
+/*-----------------------------------*/
 #endif

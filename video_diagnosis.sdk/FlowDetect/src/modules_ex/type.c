@@ -473,11 +473,11 @@ int socket_write_1_cmd_release(int _sockfd,CMD_CTRL*  _cmd_ptr)
 			status=socket_write_1_cmd(_sockfd,_cmd_ptr);
 #if _DEBUG
 			if(isHeartbeatCmd(_cmd_ptr)){
-				PRINTF_DBG("socket send : HeartbeatCmd\n");
+				PRINTF_DBG_EX("socket send : HeartbeatCmd\n");
 			}
 
 			if(IsImageFrame(_cmd_ptr)){
-				PRINTF_DBG("socket send : ImageFrame\n");
+				PRINTF_DBG_EX("socket send : ImageFrame\n");
 			}
 #endif
 			ReleaseCmdCtrl(&_cmd_ptr);
@@ -541,7 +541,7 @@ void initIplimageHeader(IplImage * _img,
 			_img->imageSize=SIZE;
 			_img->nChannels=_nchannels;
 	}else{
-			PRINTF_DBG("no memory");
+			PRINTF_DBG_EX("no memory");
 	}
 
 }
@@ -579,7 +579,7 @@ void InitImageCfg(CMD_CTRL* cmd_t,const int _ch,int _frame,int _width,int _heigh
 			SetInt2Char(0,image->y_roi,ALIGN_SIZE_T);
 			/*-----------------------------------*/
 	}else{
-		PRINTF_DBG("no memory");
+		PRINTF_DBG_EX("no memory");
 	}
 
 	char* data_t=GetIplImageImageData(cmd_t);
@@ -698,7 +698,7 @@ CMD_CTRL* CreateImageCtrl(const int _ch,int _frame,int _width,int _height,int _n
 #if _DEBUG
 
 	if(IsCmdCtrl( cmd_t)==FALSE){
-			PRINTF_DBG("copy buff_src 2 image: image ctrl is not a valid buff ");
+			PRINTF_DBG_EX("copy buff_src 2 image: image ctrl is not a valid buff ");
 			exit(-1);
 	}
 #endif

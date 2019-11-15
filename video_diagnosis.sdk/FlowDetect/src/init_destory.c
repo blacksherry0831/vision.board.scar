@@ -98,7 +98,7 @@ int init_mac_addr(const char *ifname)
 void test_bitwidth()
 {
 	const int BITWIDTH=sizeof(void*);
-		  PRINTF_DBG("bit Width is :%d !\n",BITWIDTH*8);
+		  PRINTF_DBG_EX("bit Width is :%d !\n",BITWIDTH*8);
 }
 /*-----------------------------------*/
 /**
@@ -111,7 +111,7 @@ void test_mac_addr()
 	init_ip_addr(G_ETH);
 
 	if(G_MAC_ADDR[5]!=G_IP_ADDR[3]){
-		  PRINTF_DBG("must G_MAC_ADDR[5]==G_IP_ADDR[3] !\n");
+		  PRINTF_DBG_EX("must G_MAC_ADDR[5]==G_IP_ADDR[3] !\n");
 		  exit(EXIT_FAILURE);
 	}
 }
@@ -199,7 +199,7 @@ int main_ring()
 {
 
 			init();
-#if _DEBUG
+#ifdef _DEBUG
 			test();
 #endif
 
@@ -281,7 +281,8 @@ void setProjectMode(const struct cmd_param _cmd_param)
 	  }else	  if(IsCmdProject(_cmd_param,outside08)){
 	 		  SetProjecRun(outside08);
 	  }else{
-		  printf("no in,no out ! \n");
+		  assert(0);
+		  PRINTF_DBG_EX("no in,no out ! \n");
 	  }
 
 }

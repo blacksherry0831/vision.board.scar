@@ -113,7 +113,7 @@ void * rcv_queue_imag_buff()
 			perror("mq_receive failure on mqfd\n");
 
 		}else if(num_bytes_received==sizeof(void *)){
-			PRINTF_DBG("data read \n");
+			PRINTF_DBG_EX("data read \n");
 
 			uintptr_t* ptr_pt=(uintptr_t*)msg_buffer;
 			uintptr_t ptr_t=*ptr_pt;
@@ -124,7 +124,7 @@ void * rcv_queue_imag_buff()
 
 
 		}else{
-			PRINTF_DBG("data read error \n");
+			PRINTF_DBG_EX("data read error \n");
 		}
 
 		return NULL;
@@ -156,7 +156,7 @@ int send_queue_mq(mqd_t mqfd,const char* msg_buffer,int num_bytes_to_send)
 	if (status == -1){
 			perror("mq_send failure on mqfd");
 	}else{
-			PRINTF_DBG("successful call to mq_send");
+			PRINTF_DBG_EX("successful call to mq_send");
 	}
 
 
@@ -186,7 +186,7 @@ int send_queue(const char*_name,const char* msg_buffer,int num_bytes_to_send)
 	if (status == -1){
 			perror("mq_send failure on mqfd");
 	}else{
-			PRINTF_DBG("successful call to mq_send");
+			PRINTF_DBG_EX("successful call to mq_send");
 	}
 
 
@@ -217,7 +217,7 @@ int recv_queue(const char*_name)
 		if (num_bytes_received == -1){
 			perror("mq_receive failure on mqfd");
 		}else{
-			PRINTF_DBG("data read ");
+			PRINTF_DBG_EX("data read ");
 		}
 
 

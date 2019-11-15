@@ -139,7 +139,22 @@ int IsImageScarSet_SelectMask(const CMD_CTRL* _cmd_ctrl)
  *
  */
 /*-----------------------------------*/
-int GetMaskSeqNum(const CMD_CTRL* const _cmd_ctrl)
+int GetMaskSeq_MaskImgNumber(const CMD_CTRL* const _cmd_ctrl)
+{
+	assert(_cmd_ctrl->f_data_size>=2);
+
+	unsigned char* data_t=_cmd_ctrl->f_data;
+
+	const int param=UChar2Int(data_t+4,4);
+
+	return param;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int GetMaskSeq_SerialNumber(const CMD_CTRL* const _cmd_ctrl)
 {
 	assert(_cmd_ctrl->f_data_size>=2);
 
@@ -160,7 +175,7 @@ unsigned int* GetMaskSeqPtr(const CMD_CTRL* const _cmd_ctrl)
 
 	unsigned int* data_t=(unsigned int*)_cmd_ctrl->f_data;
 
-	return data_t[1];
+	return &data_t[2];
 }
 /*-----------------------------------*/
 /**

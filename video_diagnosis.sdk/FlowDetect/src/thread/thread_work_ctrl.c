@@ -3,19 +3,23 @@
 #include "modules_ex/cmd_scar.h"
 #include "module_zynq7000_hi3516/dma_83c4_ex.h"
 /*-----------------------------------*/
+#include "modules_ex/cmd_crack1_8.h"
+/*-----------------------------------*/
 /**
  *
  */
 /*-----------------------------------*/
 int process_cmd_ctrl(CMD_CTRL*  _cmd,int* _resp_cmd_02,int* _resp_body)
 {
+					const int CMD_BODY_MAX=INT_MAX;
+
 					const int CmdParam_t=GetCmdParam(_cmd);
 					*_resp_cmd_02=CT_OK;
 
 
 					if(isStartCmd(_cmd)){
 
-						setFpgaScarCmd(_cmd);
+						setFpgaCircleCmd(_cmd);
 						*_resp_cmd_02=CT_OK;
 
 					}else if(isHeartbeatCmd(_cmd)){
@@ -29,7 +33,7 @@ int process_cmd_ctrl(CMD_CTRL*  _cmd,int* _resp_cmd_02,int* _resp_body)
 						}else{
 							assert(0);
 						}
-						PRINTF_DBG("@cmd rcv hearbeat !\n");
+						PRINTF_DBG_EX("@cmd rcv hearbeat !\n");
 
 					}else if(IsImageRect(_cmd)){
 
@@ -131,13 +135,33 @@ int process_cmd_ctrl(CMD_CTRL*  _cmd,int* _resp_cmd_02,int* _resp_body)
 							dmac_83c4_trans_mask_img_cmd_ctrl(_cmd);
 						}
 
-					}
-					else if(IsImageScarSet_SelectMask(_cmd)){
+					}else if(IsImageScarSet_SelectMask(_cmd)){
+
 						SetScarCurrentMask_Cmd(_cmd);
-					}
-					else{
+
+					}else if(IsImageCrack_Query_Frame_Min(_cmd)){
+
+						*_resp_body=GetFrameIdxMin();
+
+					}else if(IsImageCrack_Query_Frame_Max(_cmd)){
+
+						*_resp_body=CMD_BODY_MAX;
+
+					}else if(IsImageCrack_Set_Frame_Max(_cmd)){
+
+
+
+					}else if(IsImageCrack_Set_Frame_Min(_cmd)){
+
+
+					}else if(IsImageCrack_Set_out_1st_circle_frames(_cmd)){
+
+					}else if(IsImageCrack_Query_out_1st_circle_frames(_cmd)){
+						*_resp_body=CMD_BODY_MAX;
+					}else{
+							assert(0);
 							*_resp_cmd_02=CT_ERROR;
-							PRINTF_DBG("cmd error !!!");
+							PRINTF_DBG_EX("cmd error !!!");
 							return FALSE;
 					}
 
@@ -166,29 +190,26 @@ void* task_flow_ctrl_server_client(void *_data)
 	CMD_CTRL*  cmd_t=CreateCmdCtrl(2);
 /*-----------------------------------*/
 	while(IsRun() && socket_read_stat && socket_send_stat && (fpga_ctrl_stat==SUCCESS)){
-		cmd_resp_status=CT_NONE;
-		cmd_resp_body=0;
-		socket_read_stat=socket_read_1_cmd(sock_server,cmd_t);
-					if(socket_read_stat==TRUE){
 
-							const int IsValidCmd_t=process_cmd_ctrl(cmd_t,&cmd_resp_status,&cmd_resp_body);
+				cmd_resp_status=CT_NONE;
+				cmd_resp_body=0;
+				socket_read_stat=socket_read_1_cmd(sock_server,cmd_t);
 
-							if(IsValidCmd_t==FALSE){
-											cmd_resp_status=CT_ERROR;
-											PRINTF_DBG("cmd error !!!");
-											goto EXIT_TASK_FLOW;
-							}else{
-										if(cmd_resp_status==CT_OK || cmd_resp_status==CT_ERROR){
-												socket_send_stat=SendRespCmd(sock_server,cmd_resp_status,cmd_resp_body);
+						if(socket_read_stat==TRUE){
+
+										const int IsValidCmd_t=process_cmd_ctrl(cmd_t,&cmd_resp_status,&cmd_resp_body);
+
+										if(IsValidCmd_t==FALSE){
+														cmd_resp_status=CT_ERROR;
+														PRINTF_DBG_EX("cmd error !!!");
+														goto EXIT_TASK_FLOW;
+										}else{
+													if(cmd_resp_status==CT_OK || cmd_resp_status==CT_ERROR){
+															socket_send_stat=SendRespCmd(sock_server,cmd_resp_status,cmd_resp_body);
+													}
 										}
-							}
 
-
-
-
-					}
-
-
+						}
 
 	}
 
@@ -216,7 +237,7 @@ pthread_t task_flow_ctrl_server()
 	 	 	 	 tcp_server_data->pfunClient= task_flow_ctrl_server_client;
 
 	if( pthread_create(&_thread_tid, NULL, tcp_server, tcp_server_data) ){
-			PRINTF_DBG(" Create print_thread1 thread error!\n");
+			PRINTF_DBG_EX(" Create print_thread1 thread error!\n");
 			exit(0);
 	}
 

@@ -5,24 +5,58 @@
 #include "def.h"
 /*-----------------------------------*/
 #include "modules_ex/base.h"
+#include "modules_ex/cmd_scar.h"
 /*-----------------------------------*/
 #include "module_zynq7000_hi3516/axi_fpga_ctrl_img_scar.h"
 /*-----------------------------------*/
-typedef struct scar_param{
+typedef struct scar_threshold{
 
-	int		work_mode;
 	int		global_th_up;
 	int		global_th_down;
 	int		row_th_up;
 	int 	row_th_down;
 	int		col_th_up;
 	int		col_th_down;
-	int     current_mask_seq[SCAR_IMG_MASK_SQE_MAX];
+
+}SCAR_THRESHOLD;
+/*-----------------------------------*/
+typedef struct scar_param{
+
+	SCAR_THRESHOLD  scar_th;
+
+	int		work_mode;
+
 
 }SCAR_PARAM;
 /*-----------------------------------*/
+typedef struct scar_mask_one{
+
+	int     mask_id;
+
+	SCAR_THRESHOLD  scar_th;
+
+	int		work_mode;
+
+
+}SCAR_MASK_ONE;
+/*-----------------------------------*/
+typedef struct scar_nask_seq{
+
+	int				 mask_seq_num;
+	SCAR_MASK_ONE    mask_seq[SCAR_IMG_MASK_SQE_MAX];
+
+}SCAR_MASK_SEQ;
+/*-----------------------------------*/
+/*-----------------------------------*/
+typedef struct scar_nask_seq_multi{
+
+	int				 mask_sno;
+	SCAR_MASK_SEQ	 mask_seqs[20];
+}SCAR_MASK_SEQ_MULTI;
+/*-----------------------------------*/
 void SetScarCurrentMask(
-		const int* 	_mask_seq,
+		const int _sno,
+		const unsigned int* 	_mask_seq,
 		const int	_num);
 /*-----------------------------------*/
 void SetScarCurrentMask_Cmd(const CMD_CTRL* const  _cmd);
@@ -43,5 +77,12 @@ void SetScarRowThresholdUp2FPGA(const int _th);
 void SetScarRowThresholdDown2FPGA(const int _th);
 void SetScarColThresholdUp2FPGA(const int _th);
 void SetScarColThresholdDown2FPGA(const int _th);
+/*-----------------------------------*/
+int GetMaskChannel_Total_Num();
+/*-----------------------------------*/
+void SetScarCurrentSerialNumber(
+		const int	_sno);
+/*-----------------------------------*/
+void SetScarCurrentSerialNumber_default();
 /*-----------------------------------*/
 #endif

@@ -68,7 +68,7 @@ int initSemSignal()
 		int nRet = sem_init(sem_ptr, 0, 0);
 
 		if (0 != nRet){
-				 PRINTF_DBG("sem_init _fail");
+				 PRINTF_DBG_EX("sem_init _fail");
 				 return -1;
 		}
 
@@ -92,7 +92,7 @@ int destorySemSignal()
 			int nRet = sem_destroy(sem_ptr);
 
 			if (0 != nRet){
-					 PRINTF_DBG("sem_init _fail");
+					 PRINTF_DBG_EX("sem_init _fail");
 					 return -1;
 			}
 
@@ -147,9 +147,9 @@ int IsRun()
 /*-----------------------------------*/
 void StopRun(int _param)
 {
-	PRINTF_DBG("###############################################################\n");
-	PRINTF_DBG("Process shutdown ! \n");
-	PRINTF_DBG("###############################################################\n");
+	PRINTF_DBG_EX("###############################################################\n");
+	PRINTF_DBG_EX("Process shutdown ! \n");
+	PRINTF_DBG_EX("###############################################################\n");
 	G_Thread_Run=FALSE;
 }
 /*-----------------------------------*/
@@ -159,7 +159,7 @@ void StopRun(int _param)
 /*-----------------------------------*/
 void ExitFpgaThread()
 {
-	 PRINTF_DBG("pthread close>> [fpga thread]\n");
+	 PRINTF_DBG_EX("pthread close>> [fpga thread]\n");
 	 G_Thread_FPGA_Running=FALSE;
 	 pthread_exit(NULL);
 }
@@ -170,7 +170,7 @@ void ExitFpgaThread()
 /*-----------------------------------*/
 void EnterTaskFlowCtrl()
 {
-	PRINTF_DBG("pthread start >>[task flow ctrl]\n");
+	PRINTF_DBG_EX("pthread start >>[task flow ctrl]\n");
 }
 /*-----------------------------------*/
 /**
@@ -180,7 +180,7 @@ void EnterTaskFlowCtrl()
 void ExitTaskFlowCtrl()
 {
 	StopFpgaCircleRunning();
-	PRINTF_DBG("pthread close >>[task flow ctrl]\n");
+	PRINTF_DBG_EX("pthread close >>[task flow ctrl]\n");
 	pthread_exit(NULL);
 }
 /*-----------------------------------*/
@@ -191,7 +191,7 @@ void ExitTaskFlowCtrl()
 void ExitTcpServer(int socket_fd,int server_port)
 {
 	close(socket_fd);
-	PRINTF_DBG("pthread close>> [TcpServer:%d]\n",server_port);
+	PRINTF_DBG_EX("pthread close>> [TcpServer:%d]\n",server_port);
 	pthread_exit(NULL);
 }
 /*-----------------------------------*/
@@ -201,7 +201,7 @@ void ExitTcpServer(int socket_fd,int server_port)
 /*-----------------------------------*/
 void ExitDmaThread()
 {
-	 PRINTF_DBG("pthread close>> [dma thread]\n");
+	 PRINTF_DBG_EX("pthread close>> [dma thread]\n");
 	 G_Thread_DMA_Running=FALSE;
 	 pthread_exit(NULL);
 }
@@ -212,7 +212,7 @@ void ExitDmaThread()
 /*-----------------------------------*/
 void ExitMemCpyThread()
 {
-	PRINTF_DBG("pthread close>> [memcpy thread]\n");
+	PRINTF_DBG_EX("pthread close>> [memcpy thread]\n");
 	G_Thread_MEMCPY_Running=FALSE;
 	pthread_exit(NULL);
 }
@@ -223,7 +223,7 @@ void ExitMemCpyThread()
 /*-----------------------------------*/
 void EnterTcpTransImageThread(int _socket)
 {
-	PRINTF_DBG("pthread start>> [tcp image transfer thread]\n");
+	PRINTF_DBG_EX("pthread start>> [tcp image transfer thread]\n");
 
 	G_Thread_TCP_TRANS_IMG_Running=TRUE;
 
@@ -247,7 +247,7 @@ int IsTcpTransImageThreadRunning()
 /*-----------------------------------*/
 void ExitTcpTransImageThread()
 {
-	PRINTF_DBG("pthread close>> [tcp image transfer thread]\n");
+	PRINTF_DBG_EX("pthread close>> [tcp image transfer thread]\n");
 	G_Thread_TCP_TRANS_IMG_Running=FALSE;
 	pthread_exit(NULL);
 }
@@ -308,20 +308,20 @@ void printf_dbg_fpga_param()
 
 #if _DEBUG
 
-	PRINTF_DBG("FPGA_CIRCLE_WORK_MODE: ");
+	PRINTF_DBG_EX("FPGA_CIRCLE_WORK_MODE: ");
 	if(FPGA_CIRCLE_WORK_MODE&WM_ORG_IMG){
-		PRINTF_DBG("WM_ORG_IMG,");
+		PRINTF_DBG_EX("WM_ORG_IMG,");
 	}
 	if(FPGA_CIRCLE_WORK_MODE&WM_DIFF_IMG){
-		PRINTF_DBG("WM_DIFF_IMG,");
+		PRINTF_DBG_EX("WM_DIFF_IMG,");
 	}
 	if(FPGA_CIRCLE_WORK_MODE&WM_SIZE_FULL){
-		PRINTF_DBG("WM_SIZE_FULL,\n");
+		PRINTF_DBG_EX("WM_SIZE_FULL,\n");
 	}
 	if(FPGA_CIRCLE_WORK_MODE&WM_SIZE_CUT){
-		PRINTF_DBG("WM_SIZE_CUT,");
+		PRINTF_DBG_EX("WM_SIZE_CUT,");
 	}
-	PRINTF_DBG("\n");
+	PRINTF_DBG_EX("\n");
 
 #endif
 
@@ -344,8 +344,8 @@ int  StartFpgaCircle(int _WorkMode,unsigned int _seq)
 {
 	int result_t=-1;
 
-	while(FPGA_CIRCLE_TASK_RUNNING==TRUE){
-		PRINTF_DBG("FPGA CIRCLE TASK IS RUNNING NOW,wait for fpga circle done ! \n");
+	while(IsFpgaCircleRunning()==TRUE){
+		PRINTF_DBG_EX("FPGA CIRCLE TASK IS RUNNING NOW,wait for fpga circle done ! \n");
 		FPGA_CIRCLE_TASK_FIRST_START=FPGA_CIRCLE_TASK_SECOND_START=FALSE;
 		sleep(1);
 		if(IsRun()==FALSE){
@@ -354,7 +354,7 @@ int  StartFpgaCircle(int _WorkMode,unsigned int _seq)
 	}
 
 
-	if(FPGA_CIRCLE_TASK_RUNNING==FALSE){
+	if(IsFpgaCircleRunning()==FALSE){
 		FPGA_CIRCLE_TASK_RUNNING=TRUE;
 		FPGA_CIRCLE_TASK_FIRST_START=FPGA_CIRCLE_TASK_SECOND_START=FALSE;
 		SetFpgaCircleWorkMode(_WorkMode);
@@ -426,12 +426,12 @@ void setFpgaCircleCmd(const CMD_CTRL* const _cmd_ctrl)
 
 		if(StartCmd01 == CT_START){
 
-			PRINTF_DBG("Rcv Start CMD \n");
+			PRINTF_DBG_EX("Rcv Start CMD \n");
 			StartFpgaCircle(StartParam,StartSeq);
 
 		}else if(StartCmd01==CT_START_00){
 
-			PRINTF_DBG("Rcv Start CMD 00 \n");
+			PRINTF_DBG_EX("Rcv Start CMD 00 \n");
 			FPGA_CIRCLE_TASK_FIRST_START=TRUE;
 
 		}else if(StartCmd01==CT_STOP_00){
@@ -440,7 +440,7 @@ void setFpgaCircleCmd(const CMD_CTRL* const _cmd_ctrl)
 
 		}else if(StartCmd01==CT_START_01){
 
-			PRINTF_DBG("Rcv Start CMD 01 \n");
+			PRINTF_DBG_EX("Rcv Start CMD 01 \n");
 			FPGA_CIRCLE_TASK_SECOND_START=TRUE;
 
 		}else if(StartCmd01==CT_STOP_01){
@@ -449,13 +449,13 @@ void setFpgaCircleCmd(const CMD_CTRL* const _cmd_ctrl)
 
 		}else if(StartCmd01==CT_STOP){
 
-			PRINTF_DBG("Rcv Stop CMD \n");
+			PRINTF_DBG_EX("Rcv Stop CMD \n");
 			StopFpgaCircleRunning();
 
 
 		}else{
 
-			PRINTF_DBG("Rcv Stop CMD \n");
+			PRINTF_DBG_EX("Rcv Stop CMD \n");
 
 		}
 
@@ -512,6 +512,24 @@ void SetFpgaCircleRunning(int _run)
 int GetFpgaCircleWorkMode()
 {
 	return FPGA_CIRCLE_WORK_MODE;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int IsWorkMode_OrgImg()
+{
+	return WM_ORG_IMG==(GetFpgaCircleWorkMode()&WM_ORG_IMG);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int IsWorkMode_DiffImg()
+{
+	return WM_DIFF_IMG==(GetFpgaCircleWorkMode()&WM_DIFF_IMG);
 }
 /*-----------------------------------*/
 /**

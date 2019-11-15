@@ -57,6 +57,9 @@ unsigned int GetFrameIdxMin();
 /*-----------------------------------*/
 void setFpgaCircleCmd(const CMD_CTRL* const _cmd_ctrl);
 /*-----------------------------------*/
+int IsWorkMode_OrgImg();
+int IsWorkMode_DiffImg();
+/*-----------------------------------*/
 /**
  *
  */

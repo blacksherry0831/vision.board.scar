@@ -15,7 +15,7 @@ int dmac_addr_mmap_hw_base(DMA_PS_PL_OBJ* _dma_obj)
     fd = open(_dma_obj->DEV, O_RDWR|O_SYNC);
     if(fd < 0)
     {
-        PRINTF_DBG("open %s failed!\n",_dma_obj->DEV);
+        PRINTF_DBG_EX("open %s failed!\n",_dma_obj->DEV);
         return -1;
     }
 
@@ -29,12 +29,12 @@ int dmac_addr_mmap_hw_base(DMA_PS_PL_OBJ* _dma_obj)
 
     if(_dma_obj->DMA_Base_Addr_Virtual == NULL)
     {
-        PRINTF_DBG("mmap failed!\n");
+        PRINTF_DBG_EX("mmap failed!\n");
         close(fd);
         return -1;
     }
 
-    PRINTF_DBG("mmap dma_base_addr[0x%08x] to [0x%08x] successfully!\n",
+    PRINTF_DBG_EX("mmap dma_base_addr[0x%08x] to [0x%08x] successfully!\n",
     		_dma_obj->DMA_Base_Addr_Phy,
     		(unsigned int)_dma_obj->DMA_Base_Addr_Virtual);
 
@@ -48,7 +48,7 @@ int dmac_addr_mmap_hw_base(DMA_PS_PL_OBJ* _dma_obj)
 
     if(_dma_obj->MEM_PS_Base_Addr_Virtual == NULL)
     {
-        PRINTF_DBG("mmap failed!\n");
+        PRINTF_DBG_EX("mmap failed!\n");
         close(fd);
         munmap(_dma_obj->DMA_Base_Addr_Virtual,
         		_dma_obj->DMA_Space_size);
@@ -56,7 +56,7 @@ int dmac_addr_mmap_hw_base(DMA_PS_PL_OBJ* _dma_obj)
         return -1;
     }
 
-    PRINTF_DBG("mmap ps_ddr_addr[0x%08x] to [0x%08x] successfully!\n",
+    PRINTF_DBG_EX("mmap ps_ddr_addr[0x%08x] to [0x%08x] successfully!\n",
     		_dma_obj->MEM_PS_Base_Addr_Phy,
 		(unsigned int)_dma_obj->MEM_PS_Base_Addr_Virtual);
 

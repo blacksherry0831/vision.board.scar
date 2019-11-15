@@ -462,7 +462,7 @@ void CopyImage(void* const buff_src,CMD_CTRL* img_dst,const  int _space_ch,const
 
 #if _DEBUG
 	if(IsCmdCtrl(img_dst)==FALSE){
-		PRINTF_DBG("copy buff_src 2 image: image ctrl is not a valid buff ");
+		PRINTF_DBG_EX("copy buff_src 2 image: image ctrl is not a valid buff ");
 		assert(IsCmdCtrl(img_dst));
 	}
 #endif

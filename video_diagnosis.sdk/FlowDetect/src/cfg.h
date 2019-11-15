@@ -13,8 +13,6 @@ struct cmd_param
   int height_param;
   int space_frame;
   int sensor;
-  int frame_idx_max;
-  int frame_idx_min;
 };
 /*-----------------------------------*/
 unsigned int GetGlobalSensorMask(const int _ch);

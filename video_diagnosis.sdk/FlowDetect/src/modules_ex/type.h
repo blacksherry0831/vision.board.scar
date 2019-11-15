@@ -115,6 +115,7 @@ enum WorkMode
 	WM_SIZE_CUT=0x40,
 	WM_ORG_IMG=0x20,
 	WM_DIFF_IMG=0x10,
+	WM_SIGMA_IMG=0x10,
 	RESP=0x01
 
 };

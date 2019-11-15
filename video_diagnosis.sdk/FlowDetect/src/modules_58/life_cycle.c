@@ -62,20 +62,20 @@ void test_life_cycle()
 
 	 cetc_get_check(&data);
 
-	 PRINTF_DBG("Magic: %x, DeadLine: %d, OnLine: %d\n",data.magic,data.deadline,data.online);
+	 PRINTF_DBG_EX("Magic: %x, DeadLine: %d, OnLine: %d\n",data.magic,data.deadline,data.online);
 
 	 if(data.deadline!=0){
 
 #if 1
 		 if(cetc_update_flash() < 0) {
-			 	       PRINTF_DBG("update deadline fail\n");
+			 	       PRINTF_DBG_EX("update deadline fail\n");
 			 	       exit(1);
 			 }
 #endif
 
 	 }else{
 
-		 PRINTF_DBG("deadline==%d\n",data.deadline);
+		 PRINTF_DBG_EX("deadline==%d\n",data.deadline);
 
 	 }
 

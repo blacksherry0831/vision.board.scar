@@ -32,7 +32,7 @@ void* tcp_data_transfer_image(void *_data)
 											if(seconds_new-seconds_old>time_step){
 
 												seconds_old=time(NULL);
-												PRINTF_DBG("!hearbeat freq(s): %d ",time_step);
+												PRINTF_DBG_EX("!hearbeat freq(s): %d ",time_step);
 												TIME_START();
 												 socket_status=SendHeartbeatCmd(sock_server,HB_NONE,GetFrameCircleSeq());
 												TIME_END("!tcp send a Heartbeat cost :");
@@ -73,7 +73,7 @@ pthread_t tcp_image_buff_trans_server(void *_data)
 		 	 	 	 tcp_server_data->pfunClient=tcp_data_transfer_image;
 
 	if( pthread_create(&_thread_tid, NULL, tcp_server, tcp_server_data) ){
-			PRINTF_DBG(" Create print_thread1 thread error!\n");
+			PRINTF_DBG_EX(" Create print_thread1 thread error!\n");
 			exit(0);
 	}
 

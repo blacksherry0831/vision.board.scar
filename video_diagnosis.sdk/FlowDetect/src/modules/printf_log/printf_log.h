@@ -1,5 +1,5 @@
-#ifndef PRINTF_LOG_H
-#define PRINTF_LOG_H
+#ifndef _PRINTF_LOG_H_
+#define _PRINTF_LOG_H_
 #include "linux_header.h"
 /*-----------------------------------*/
 #define _DEBUG_PRINT 1
@@ -13,10 +13,11 @@ extern int getPrintConsole();
  */
 /*-----------------------------------*/
 #ifdef _DEBUG_PRINT
-//#define PRINTF_DBG(x,...) printf ("FILE:"__FILE__",LINE:%05d:"x"/n",__LINE__,##__VA_ARGS__)
-#define PRINTF_DBG(x,...)      if(getPrintConsole())   printf (x,##__VA_ARGS__)
+
+#define PRINTF_DBG_EX(x,...)      if(getPrintConsole())   printf(x,##__VA_ARGS__)
 #else
-#define PRINTF_DBG(x,...)
+#define PRINTF_DBG_EX(x,...)
+
 #endif
 /*-----------------------------------*/
 #if defined(_DEBUG_PRINT)
@@ -33,5 +34,8 @@ extern int getPrintConsole();
 /*-----------------------------------*/
 void printf_error();
 /*-----------------------------------*/
-
+#define TIME_START()  do{struct timeval startTime,endTime;float Timeuse;gettimeofday(&startTime,NULL);
+/*-----------------------------------*/
+#define TIME_END(X)		gettimeofday(&endTime,NULL);Timeuse = 1000000*(endTime.tv_sec - startTime.tv_sec) + (endTime.tv_usec - startTime.tv_usec);	PRINTF_DBG_EX("%s = %f us,%f ms\n",X,Timeuse,Timeuse/1000);}while(0)
+/*-----------------------------------*/
 #endif

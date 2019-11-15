@@ -70,7 +70,7 @@ int set_socket_buf_size(int sockfd,const int send_buf_size)
 
 
 
-	PRINTF_DBG("SO_SNDBUF: %d(default)\n",buf_size_get);
+	PRINTF_DBG_EX("SO_SNDBUF: %d(default)\n",buf_size_get);
 
 
 
@@ -86,7 +86,7 @@ int set_socket_buf_size(int sockfd,const int send_buf_size)
 
 	if(send_buf_size!=buf_size_get){
 
-		PRINTF_DBG("SO_SNDBUF: %d,but set value is %d\n",buf_size_get,send_buf_size);
+		PRINTF_DBG_EX("SO_SNDBUF: %d,but set value is %d\n",buf_size_get,send_buf_size);
 
 	}
 
@@ -185,7 +185,7 @@ int _4UChar2Int(const unsigned char* _data)
  *
  */
 /*-----------------------------------*/
-int UChar2Int(const unsigned char* _data,int _size)
+int UChar2Int(const unsigned char* _data,const int _size)
 {
 
 	return SetChar2Int(_data,_size);
@@ -285,7 +285,7 @@ int SelectAccept(int sockfd,int _sec)
 	if(err == 0){
 		 //PRINTF_DBG("socket tcp select> time out!\n");
 	} else if(err == -1){
-		 PRINTF_DBG("socket tcp select> fail!\n");
+		 PRINTF_DBG_EX("socket tcp select> fail!\n");
 	}else{
 
 		if(FD_ISSET(sockfd,&rfds)){
@@ -353,7 +353,7 @@ void wait4MemFree()
 	while( IsRun()){
 
 		if(GetFreeMemSizeMB()<16){
-			PRINTF_DBG("Memory Free Is: %d MB\n", GetFreeMemSizeMB());
+			PRINTF_DBG_EX("Memory Free Is: %d MB\n", GetFreeMemSizeMB());
 			sleep(1);
 		}else{
 			break;
@@ -388,7 +388,7 @@ void init_irh_irw(short* Irh,short* Irw,unsigned int *Irhw)
 	            break;
 	        // 输出读取的结果到屏幕
 	        sum+=rc;
-	        PRINTF_DBG("Irh is loaded %d !\n",sum);
+	        PRINTF_DBG_EX("Irh is loaded %d !\n",sum);
 	    }
 	    // 关闭文件
 	    fclose(fp);
@@ -410,7 +410,7 @@ void init_irh_irw(short* Irh,short* Irw,unsigned int *Irhw)
 	            break;
 	        // 输出读取的结果到屏幕
 	        sum+=rc;
-	        PRINTF_DBG("Irw is loaded %d !\n",sum);
+	        PRINTF_DBG_EX("Irw is loaded %d !\n",sum);
 	    }
 	    // 关闭文件
 	    fclose(fp);
@@ -456,7 +456,7 @@ int Wait4Signal(long timeout_ms,pthread_mutex_t *__mutex,pthread_cond_t *__restr
 								//time out again
 								continue;
 							}else{
-								PRINTF_DBG("error");
+								PRINTF_DBG_EX("error");
 								assert(0);
 							}
 
