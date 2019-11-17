@@ -129,31 +129,6 @@ int fpga_set_data_mode(int _WORK,int _DATA)
  *
  */
 /*-----------------------------------*/
-int fpga_set_work_mode(int _WORK,int _DATA)
-{
-
-	if(fpga_img_read_sensor_status()==0x00){
-		return FALSE;
-	}
-
-
-	if(fpga_reset()==FALSE){
-		return FALSE;
-	}
-
-	fpga_set_data_mode(_WORK,_DATA);
-
-	fpga_start();
-
-	// 等待完成
-
-	return TRUE;
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
 //**********************************************
 // 第一圈 -  求均值图
 //**********************************************
@@ -209,7 +184,7 @@ void fpga_set_second_part()
 ////	*piTemp=1;	// 求奇异值
 //	FPGA_CTRL_send(ADDR_OUTSIDE_WORK_MODE,piTemp);
 
-	fpga_set_work_mode(1,0);
+	fpga_set_data_mode(1,0);
 
 	return;
 }

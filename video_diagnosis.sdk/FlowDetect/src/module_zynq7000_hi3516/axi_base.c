@@ -149,47 +149,6 @@ int init_fpga()
  *
  */
 /*-----------------------------------*/
-int set_fpga_work_mode(int _WORK,int _DATA)
-{
-	if(wait4FpgaConvertDone()==FALSE){
-		return FALSE;
-	}
-
-	fpga_set_work_mode(_WORK,_DATA);
-
-
-	return wait4FpgaConvertDone();
-}
-
-
-//**********************************************
-// 第一圈 -  求均值图
-//**********************************************
-void outside_first_m()
-{
-    PRINTF_DBG_EX("outside_first!\n");
-
-    set_fpga_work_mode(FPGA_WORK_MODE_AVG,
-    		 FPGA_WORK_MODE_DATA_AVG);
-
-}
-
-
-//**********************************************
-// 第二圈 -  求奇异值图
-//**********************************************
-void outside_second_m()
-{
-    PRINTF_DBG_EX("outside_second!\n");
-	set_fpga_work_mode(FPGA_WORK_MODE_DIFF,
-			FPGA_WORK_MODE_DATA_DIFF);
-
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
 //**********************************************
 // 第一圈 -  求均值图
 //**********************************************
