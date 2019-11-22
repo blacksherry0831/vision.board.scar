@@ -25,11 +25,12 @@ enum CMD_TYPE_02_I_SCAR{
 		CT_IMG_MASK_SET_SCAR=0x81,
 		CT_IMG_MASK_SELECT_SCAR=0x82,
 		CT_IMG_MASK_DETECT_START_SCAR=0x83,
+		CT_IMG_MASK_CLEAR_SCAR=0x84,
 
 };
 ```
 
-```
+```c++
 enum CMD_TYPE_02_I_SCAR_SIGMA{
 
 		CT_IMG_SCAR_GLOBAL_SIGMA_UP=0xF3,
@@ -175,6 +176,31 @@ $$
 | 0xffffffff | 原始图像输出模式 |      |
 | otherwise  | 正常检测         |      |
 |            |                  |      |
+
+### 3.4 清除屏蔽图像
+
+| Command      | 命令字01 | 命令字02               | BODY(multi-byte) |
+| ------------ | -------- | ---------------------- | ---------------- |
+| 设置屏蔽图像 | CT_IMG   | CT_IMG_MASK_CLEAR_SCAR | IplImageU        |
+| 回复         | CT_RESP  | CT_OK                  |                  |
+
+
+
+| IplImageU     | value(default)                   | detail                  |
+| ------------- | -------------------------------- | ----------------------- |
+| nSize         |                                  | struct size             |
+| prefix        | "Image"                          |                         |
+| IpAddrChannel | maskid=mask_frame*8+mask_channel | 要清除的蒙版序号        |
+| width         | 1920                             |                         |
+| height        | 1080                             |                         |
+| width_roi     | 0                                |                         |
+| height_roi    | 0                                |                         |
+| x_roi         | 0                                |                         |
+| y_roi         | 0                                |                         |
+| sensor_stat   | 0                                |                         |
+| nChannels     | 1                                | 灰度图                  |
+| colorModel    | "gray"                           | 灰度图像                |
+|               |                                  | 图像数据必须是全白的255 |
 
 ## 四、工作触发
 

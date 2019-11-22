@@ -75,3 +75,39 @@ int decodeWithState(const char* filename,char* dst,int _width,int _height,int _n
  *
  */
 /*-----------------------------------*/
+void encodeWithState_cmd_ctrl(
+		const char* _filename,
+		const CMD_CTRL* const  _cmd)
+{
+
+	const int UCHAR_SIZE=8;
+	const IplImageU * imgU=GetIplImageUx(_cmd);
+	const int width=UChar2Int(imgU->width,UCHAR_SIZE);
+	const int height=UChar2Int(imgU->height,UCHAR_SIZE);
+	unsigned char* data_t=(unsigned char*)GetIplImageImageData(_cmd);
+	encodeWithState(_filename,data_t,width,height);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int decodeWithState_cmd_ctrl(
+		const char* _filename,
+		const CMD_CTRL* const  _cmd)
+{
+	const int UCHAR_SIZE=8;
+	const IplImageU * imgU=GetIplImageUx(_cmd);
+	char* data_t=GetIplImageImageData(_cmd);
+	assert(UChar2Int(imgU->IpAddrChannel,UCHAR_SIZE)>=0);
+	const int width=UChar2Int(imgU->width,UCHAR_SIZE);
+	const int height=UChar2Int(imgU->height,UCHAR_SIZE);
+	const int nChannels=UChar2Int(imgU->nChannels,UCHAR_SIZE);
+	return decodeWithState(_filename,data_t,width,height,nChannels);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+

@@ -18,6 +18,8 @@ int SetSensorStat_T(const int _s);
 const char * GetProjectRunStr();
 /*-----------------------------------*/
 int MakeProjectDirectory();
+/*-----------------------------------*/
+void initProjectCfgDirPath_Separator(char *_path);
 void initProjectCfgDirPath(char *_path);
 /*-----------------------------------*/
 #endif

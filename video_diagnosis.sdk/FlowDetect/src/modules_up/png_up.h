@@ -3,6 +3,8 @@
 /*-----------------------------------*/
 #include <assert.h>
 /*-----------------------------------*/
+#include "modules_ex/type.h"
+/*-----------------------------------*/
 #include <modules/lodepng/lodepng.h>
 /*-----------------------------------*/
 int decodeWithState(
@@ -17,5 +19,13 @@ void encodeWithState(
 		const unsigned char* image,
 		unsigned width,
 		unsigned height);
+/*-----------------------------------*/
+void encodeWithState_cmd_ctrl(
+		const char* _filename,
+		const CMD_CTRL* const  _cmd);
+/*-----------------------------------*/
+int decodeWithState_cmd_ctrl(
+		const char* filename,
+		const CMD_CTRL* const  _cmd);
 /*-----------------------------------*/
 #endif

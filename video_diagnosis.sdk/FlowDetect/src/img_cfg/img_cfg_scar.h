@@ -1,5 +1,5 @@
-#ifndef IMG_CFG_H
-#define IMG_CFG_H
+#ifndef _IMG_CFG_SCAR_H_
+#define _IMG_CFG_SCAR_H_
 /*-----------------------------------*/
 #include "linux_header.h"
 #include "cfg.h"
@@ -21,6 +21,10 @@
 void sendImageStart_DetectSno(
 		const int _frame_total,
 		const int _sno);
+/*-----------------------------------*/
+void Save_And_Dma_ImageMask_Scar(CMD_CTRL*  _cmd);
+/*-----------------------------------*/
+void Clear_And_Dma_ImageMask_Scar(CMD_CTRL*  _cmd);
 /*-----------------------------------*/
 
 #endif

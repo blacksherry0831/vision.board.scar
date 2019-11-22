@@ -20,6 +20,7 @@ enum CMD_TYPE_02_I_SCAR{
 		CT_IMG_MASK_SET_SCAR=0x81,
 		CT_IMG_MASK_SELECT_SCAR=0x82,
 		CT_IMG_MASK_DETECT_START_SCAR=0x83,
+		CT_IMG_MASK_CLEAR_SCAR=0x84,
 
 };
 /*-----------------------------------*/
@@ -64,6 +65,7 @@ int IsImageScarQuery_ColSigmaDown(const CMD_CTRL* _cmd_ctrl);
 /*-----------------------------------*/
 int IsImageScarSet_WorkMode(const CMD_CTRL* _cmd_ctrl);
 int IsImageScarSet_Mask(const CMD_CTRL* _cmd_ctrl);
+int IsImageScarClear_Mask(const CMD_CTRL* _cmd_ctrl);
 int IsImageScarSet_SelectMask(const CMD_CTRL* _cmd_ctrl);
 /*-----------------------------------*/
 /*-----------------------------------*/

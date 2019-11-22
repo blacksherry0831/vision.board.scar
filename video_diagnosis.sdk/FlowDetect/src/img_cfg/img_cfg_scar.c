@@ -71,29 +71,43 @@ void SetMaskImageFileName_space_frame_scar(
  *
  */
 /*-----------------------------------*/
-void SaveImgMaskMatrix_Scar(const CMD_CTRL* const  _cmd)
+void SetMaskImageFileName_cmd_ctrl(
+		char* _filename,
+		const CMD_CTRL* const  _cmd)
 {
 	const int UCHAR_SIZE=8;
-
 	const IplImageU * imgU=GetIplImageUx(_cmd);
 
-	unsigned char* data_t=(unsigned char*)GetIplImageImageData(_cmd);
-
 	const int mask_pos=UChar2Int(imgU->IpAddrChannel,UCHAR_SIZE);
-
 	const int width=UChar2Int(imgU->width,UCHAR_SIZE);
 	const int height=UChar2Int(imgU->height,UCHAR_SIZE);
-
-	char filename_t[1024];
-
 	SetMaskImageFileName_space_frame_scar(
-			filename_t,
+			_filename,
 			width,
 			height,
 			mask_pos);
-
-	encodeWithState(filename_t,data_t,width,height);
-
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void SaveImgMaskMatrix_Scar(const CMD_CTRL* const  _cmd)
+{
+	char filename_t[1024];
+	SetMaskImageFileName_cmd_ctrl(filename_t,_cmd);
+	encodeWithState_cmd_ctrl(filename_t,_cmd);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void DeleteImgMaskMatrix_Scar(const CMD_CTRL* const  _cmd)
+{
+	char filename_t[1024];
+	SetMaskImageFileName_cmd_ctrl(filename_t,_cmd);
+	remove(filename_t);
 }
 /*-----------------------------------*/
 /**
@@ -102,34 +116,14 @@ void SaveImgMaskMatrix_Scar(const CMD_CTRL* const  _cmd)
 /*-----------------------------------*/
 int ReadImgMaskMatrix_Scar(const CMD_CTRL* _cmd)
 {
-		const int UCHAR_SIZE=8;
-
-		const IplImageU * imgU=GetIplImageUx(_cmd);
-
-		char* data_t=GetIplImageImageData(_cmd);
-
-		const int mask_pos=UChar2Int(imgU->IpAddrChannel,UCHAR_SIZE);
-		const int width=UChar2Int(imgU->width,UCHAR_SIZE);
-		const int height=UChar2Int(imgU->height,UCHAR_SIZE);
-		const int nChannels=UChar2Int(imgU->nChannels,UCHAR_SIZE);
-
 		char filename_t[1024]={0};
-
-		SetMaskImageFileName_space_frame_scar(
-				filename_t,
-				width,
-				height,
-				mask_pos);
-
+		SetMaskImageFileName_cmd_ctrl(filename_t,_cmd);
 
 		if(SUCCESS==fs_is_file_exist(filename_t)){
-				return decodeWithState(filename_t,data_t,width,height,nChannels);
+				return decodeWithState_cmd_ctrl(filename_t,_cmd);
 		}else{
 				return FALSE;
 		}
-
-
-
 }
 /*-----------------------------------*/
 /**
@@ -155,6 +149,18 @@ void Save_And_Dma_ImageMask_Scar(CMD_CTRL*  _cmd)
 {
 	if(IsImgMaskValid_Scar(_cmd)){
 			SaveImgMaskMatrix_Scar(_cmd);
+			dmac_83c1_trans_mask_img_cmd_ctrl(_cmd);
+	}
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void Clear_And_Dma_ImageMask_Scar(CMD_CTRL*  _cmd)
+{
+	if(IsImgMaskValid_Scar(_cmd)){
+			DeleteImgMaskMatrix_Scar(_cmd);
 			dmac_83c1_trans_mask_img_cmd_ctrl(_cmd);
 	}
 }

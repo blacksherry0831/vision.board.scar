@@ -1,8 +1,10 @@
 #include "thread_work_ctrl.h"
 /*-----------------------------------*/
-#include "modules_ex/cmd_scar.h"
+#include "img_cfg/img_cfg_scar.h"
+/*-----------------------------------*/
 #include "module_zynq7000_hi3516/dma_83c4_ex.h"
 /*-----------------------------------*/
+#include "modules_ex/cmd_scar.h"
 #include "modules_ex/cmd_crack1_8.h"
 /*-----------------------------------*/
 /**
@@ -33,7 +35,7 @@ int process_cmd_ctrl(CMD_CTRL*  _cmd,int* _resp_cmd_02,int* _resp_body)
 						}else{
 							assert(0);
 						}
-						PRINTF_DBG_EX("@cmd rcv hearbeat !\n");
+						PRINTF_DBG_EX("Ctrl@Rcv hearbeat !\n");
 
 					}else if(IsImageRect(_cmd)){
 
@@ -131,6 +133,10 @@ int process_cmd_ctrl(CMD_CTRL*  _cmd,int* _resp_cmd_02,int* _resp_body)
 					else if(IsImageScarSet_Mask(_cmd)){
 
 						Save_And_Dma_ImageMask_Scar(_cmd);
+
+					}else if(IsImageScarClear_Mask(_cmd)){
+
+						Clear_And_Dma_ImageMask_Scar(_cmd);
 
 					}else if(IsImageScarSet_SelectMask(_cmd)){
 

@@ -137,6 +137,15 @@ int IsImageScarSet_Mask(const CMD_CTRL* _cmd_ctrl)
  *
  */
 /*-----------------------------------*/
+int IsImageScarClear_Mask(const CMD_CTRL* _cmd_ctrl)
+{
+	return IsCmdCtrlCmd(_cmd_ctrl,CT_IMG,CT_IMG_MASK_CLEAR_SCAR);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 int IsImageScarSet_SelectMask(const CMD_CTRL* _cmd_ctrl)
 {
 	return IsCmdCtrlCmd(_cmd_ctrl,CT_IMG,CT_IMG_MASK_SELECT_SCAR);
