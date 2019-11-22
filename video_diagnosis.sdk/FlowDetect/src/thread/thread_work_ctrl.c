@@ -130,10 +130,7 @@ int process_cmd_ctrl(CMD_CTRL*  _cmd,int* _resp_cmd_02,int* _resp_body)
 					}
 					else if(IsImageScarSet_Mask(_cmd)){
 
-						if(IsImgMaskValid(_cmd)){
-							SaveImgMaskMatrix_SCAR(_cmd);
-							dmac_83c4_trans_mask_img_cmd_ctrl(_cmd);
-						}
+						Save_And_Dma_ImageMask_Scar(_cmd);
 
 					}else if(IsImageScarSet_SelectMask(_cmd)){
 

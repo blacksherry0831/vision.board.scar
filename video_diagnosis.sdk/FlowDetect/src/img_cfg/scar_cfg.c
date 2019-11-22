@@ -27,17 +27,28 @@ void InitScarMaskSeq()
  *
  */
 /*-----------------------------------*/
+int GetMaskSnoIdx()
+{
+	return G_MASK_SEQ_MULTI.mask_sno%MAX_DETECT_SNO;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 void SetScarCurrentMask(
 		const int _sno,
 		const unsigned int* 	_mask_seq,
-		const int	_num)
+		const int	_num,
+		const int  _loop)
 {
 	const int SZ_INT=sizeof(int);
 	assert(SZ_INT==4);
 
-	SetScarCurrentSerialNumber(_sno);
-
-	G_MASK_SEQ_MULTI.mask_seqs[_sno].mask_seq_num=_num;
+	G_MASK_SEQ_MULTI.mask_sno=_sno;
+	const int sno_i=GetMaskSnoIdx();
+	G_MASK_SEQ_MULTI.mask_seqs[sno_i].mask_seq_num	=_num;
+	G_MASK_SEQ_MULTI.mask_seqs[sno_i].mask_seq_loop	=_loop;
 
 	int mi=0;
 
@@ -45,14 +56,14 @@ void SetScarCurrentMask(
 
 		const unsigned int*		seq_current=_mask_seq+mi*8;
 
-		G_MASK_SEQ_MULTI.mask_seqs[_sno].mask_seq[mi].mask_id= UChar2Int((const unsigned char*)(seq_current),SZ_INT);
-		G_MASK_SEQ_MULTI.mask_seqs[_sno].mask_seq[mi].scar_th.global_th_up=UChar2Int((const unsigned char*)(seq_current+1),SZ_INT);
-		G_MASK_SEQ_MULTI.mask_seqs[_sno].mask_seq[mi].scar_th.global_th_down=UChar2Int((const unsigned char*)(seq_current+2),SZ_INT);
-		G_MASK_SEQ_MULTI.mask_seqs[_sno].mask_seq[mi].scar_th.row_th_up=UChar2Int((const unsigned char*)(seq_current+3),SZ_INT);
-		G_MASK_SEQ_MULTI.mask_seqs[_sno].mask_seq[mi].scar_th.row_th_down=UChar2Int((const unsigned char*)(seq_current+4),SZ_INT);
-		G_MASK_SEQ_MULTI.mask_seqs[_sno].mask_seq[mi].scar_th.col_th_up=UChar2Int((const unsigned char*)(seq_current+5),SZ_INT);
-		G_MASK_SEQ_MULTI.mask_seqs[_sno].mask_seq[mi].scar_th.col_th_down=UChar2Int((const unsigned char*)(seq_current+6),SZ_INT);
-		G_MASK_SEQ_MULTI.mask_seqs[_sno].mask_seq[mi].work_mode=UChar2Int((const unsigned char*)(seq_current+7),SZ_INT);
+		G_MASK_SEQ_MULTI.mask_seqs[sno_i].mask_seq[mi].mask_id= UChar2Int((const unsigned char*)(seq_current),SZ_INT);
+		G_MASK_SEQ_MULTI.mask_seqs[sno_i].mask_seq[mi].scar_th.global_th_up=UChar2Int((const unsigned char*)(seq_current+1),SZ_INT);
+		G_MASK_SEQ_MULTI.mask_seqs[sno_i].mask_seq[mi].scar_th.global_th_down=UChar2Int((const unsigned char*)(seq_current+2),SZ_INT);
+		G_MASK_SEQ_MULTI.mask_seqs[sno_i].mask_seq[mi].scar_th.row_th_up=UChar2Int((const unsigned char*)(seq_current+3),SZ_INT);
+		G_MASK_SEQ_MULTI.mask_seqs[sno_i].mask_seq[mi].scar_th.row_th_down=UChar2Int((const unsigned char*)(seq_current+4),SZ_INT);
+		G_MASK_SEQ_MULTI.mask_seqs[sno_i].mask_seq[mi].scar_th.col_th_up=UChar2Int((const unsigned char*)(seq_current+5),SZ_INT);
+		G_MASK_SEQ_MULTI.mask_seqs[sno_i].mask_seq[mi].scar_th.col_th_down=UChar2Int((const unsigned char*)(seq_current+6),SZ_INT);
+		G_MASK_SEQ_MULTI.mask_seqs[sno_i].mask_seq[mi].work_mode=UChar2Int((const unsigned char*)(seq_current+7),SZ_INT);
 
 	}
 
@@ -62,26 +73,16 @@ void SetScarCurrentMask(
  *
  */
 /*-----------------------------------*/
-void SetScarCurrentSerialNumber(
-		const int	_sno)
-{
-	G_MASK_SEQ_MULTI.mask_sno=_sno;
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
 void SetScarCurrentSerialNumber_default()
 {
-	SetScarCurrentSerialNumber(0xffffffff);
+	G_MASK_SEQ_MULTI.mask_sno=0xffffffff;
 }
 /*-----------------------------------*/
 /**
  *
  */
 /*-----------------------------------*/
-int GetScarCurrentSerialNumber()
+int GetScarMaskSeq_SNO()
 {
 	return G_MASK_SEQ_MULTI.mask_sno;
 }
@@ -90,13 +91,29 @@ int GetScarCurrentSerialNumber()
  *
  */
 /*-----------------------------------*/
-void SetScarMaskSeq(
-		const unsigned int* 	_mask_seq,
-		const int	_num,
-		const int	_sno)
+int GetScarMaskChannel_Total_Num()
 {
+	const int sno_i=GetMaskSnoIdx();
+	if(sno_i==0xffffffff){
+		return INT32_MAX;
+	}else{
+		return G_MASK_SEQ_MULTI.mask_seqs[sno_i].mask_seq_num;
+	}
 
-		SetScarCurrentMask(_sno,_mask_seq,_num);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int GetScarMaskSeqChannel_Is_Loop()
+{
+	const int sno_i=GetMaskSnoIdx();
+	if(sno_i==0xffffffff){
+		return 0;
+	}else{
+		return G_MASK_SEQ_MULTI.mask_seqs[sno_i].mask_seq_loop;
+	}
 
 }
 /*-----------------------------------*/
@@ -107,11 +124,16 @@ void SetScarMaskSeq(
 void SetScarCurrentMask_Cmd(const CMD_CTRL* const  _cmd)
 {
 
-	const unsigned int* 	seq_ptr	=	GetMaskSeqPtr(_cmd);
-	const int   mask_img_num		=	GetMaskSeq_MaskImgNumber(_cmd);
-	const int   seq_serial_number	=	GetMaskSeq_SerialNumber(_cmd);
+	const unsigned int* seq_ptr				=	ParseMaskSeq_Ptr(_cmd);
+	const int   		mask_img_num		=	ParseMaskSeq_MaskImgNumber(_cmd);
+	const int   		seq_serial_number	=	ParseMaskSeq_SerialNumber(_cmd);
+	const int   		seq_loop			=	ParseMaskSeq_Loop(_cmd);
 
-	SetScarMaskSeq(seq_ptr,mask_img_num,seq_serial_number);
+	SetScarCurrentMask(
+			seq_serial_number,
+			seq_ptr,
+			mask_img_num,
+			seq_loop);
 
 }
 /*-----------------------------------*/
@@ -317,12 +339,11 @@ void SetScarColThresholdDown2FPGA(const int _th)
 /*-----------------------------------*/
 int GetMaskSeqChannel(const int _idx)
 {
-	const int current_sno=G_MASK_SEQ_MULTI.mask_sno;
-
-	if(current_sno==0xffffffff){
+	const int sno_i=GetMaskSnoIdx();
+	if(sno_i==0xffffffff){
 			return 0;
 	}else{
-			return G_MASK_SEQ_MULTI.mask_seqs[current_sno].mask_seq[_idx].mask_id;
+			return G_MASK_SEQ_MULTI.mask_seqs[sno_i].mask_seq[_idx].mask_id;
 	}
 
 }
@@ -333,11 +354,11 @@ int GetMaskSeqChannel(const int _idx)
 /*-----------------------------------*/
 int GetMaskSeq_work_mode(const int _idx)
 {
-	const int current_sno=G_MASK_SEQ_MULTI.mask_sno;
-	if(current_sno==0xffffffff){
+	const int sno_i=GetMaskSnoIdx();
+	if(sno_i==0xffffffff){
 			return 0;
 	}else{
-		return G_MASK_SEQ_MULTI.mask_seqs[current_sno].mask_seq[_idx].work_mode;
+		return G_MASK_SEQ_MULTI.mask_seqs[sno_i].mask_seq[_idx].work_mode;
 	}
 
 }
@@ -348,11 +369,11 @@ int GetMaskSeq_work_mode(const int _idx)
 /*-----------------------------------*/
 int GetMaskSeq_g_th_up(const int _idx)
 {
-	const int current_sno=G_MASK_SEQ_MULTI.mask_sno;
-	if(current_sno==0xffffffff){
+	const int sno_i=GetMaskSnoIdx();
+	if(sno_i==0xffffffff){
 			return 0;
 	}else{
-			return G_MASK_SEQ_MULTI.mask_seqs[current_sno].mask_seq[_idx].scar_th.global_th_up;
+			return G_MASK_SEQ_MULTI.mask_seqs[sno_i].mask_seq[_idx].scar_th.global_th_up;
 	}
 
 }
@@ -364,11 +385,11 @@ int GetMaskSeq_g_th_up(const int _idx)
 int GetMaskSeq_g_th_down(const int _idx)
 {
 
-	const int current_sno=G_MASK_SEQ_MULTI.mask_sno;
-	if(current_sno==0xffffffff){
+	const int sno_i=GetMaskSnoIdx();
+	if(sno_i==0xffffffff){
 			return 0;
 	}else{
-			return G_MASK_SEQ_MULTI.mask_seqs[current_sno].mask_seq[_idx].scar_th.global_th_down;
+			return G_MASK_SEQ_MULTI.mask_seqs[sno_i].mask_seq[_idx].scar_th.global_th_down;
 	}
 
 }
@@ -380,11 +401,11 @@ int GetMaskSeq_g_th_down(const int _idx)
 int GetMaskSeq_row_th_up(const int _idx)
 {
 
-	const int current_sno=G_MASK_SEQ_MULTI.mask_sno;
-	if(current_sno==0xffffffff){
+	const int sno_i=GetMaskSnoIdx();
+	if(sno_i==0xffffffff){
 			return 0;
 	}else{
-			return G_MASK_SEQ_MULTI.mask_seqs[current_sno].mask_seq[_idx].scar_th.row_th_up;
+			return G_MASK_SEQ_MULTI.mask_seqs[sno_i].mask_seq[_idx].scar_th.row_th_up;
 	}
 
 }
@@ -396,11 +417,11 @@ int GetMaskSeq_row_th_up(const int _idx)
 int GetMaskSeq_row_th_down(const int _idx)
 {
 
-	const int current_sno=G_MASK_SEQ_MULTI.mask_sno;
-		if(current_sno==0xffffffff){
+	const int sno_i=GetMaskSnoIdx();
+		if(sno_i==0xffffffff){
 			return 0;
 	}else{
-		return G_MASK_SEQ_MULTI.mask_seqs[current_sno].mask_seq[_idx].scar_th.row_th_down;
+		return G_MASK_SEQ_MULTI.mask_seqs[ sno_i].mask_seq[_idx].scar_th.row_th_down;
 	}
 
 }
@@ -412,11 +433,11 @@ int GetMaskSeq_row_th_down(const int _idx)
 int GetMaskSeq_col_th_up(const int _idx)
 {
 
-	const int current_sno=G_MASK_SEQ_MULTI.mask_sno;
-		if(current_sno==0xffffffff){
+	const int sno_i=GetMaskSnoIdx();
+		if(sno_i==0xffffffff){
 			return 0;
 	}else{
-		return G_MASK_SEQ_MULTI.mask_seqs[current_sno].mask_seq[_idx].scar_th.col_th_up;
+		return G_MASK_SEQ_MULTI.mask_seqs[ sno_i].mask_seq[_idx].scar_th.col_th_up;
 	}
 
 }
@@ -428,27 +449,11 @@ int GetMaskSeq_col_th_up(const int _idx)
 int GetMaskSeq_col_th_down(const int _idx)
 {
 
-	const int current_sno=G_MASK_SEQ_MULTI.mask_sno;
-		if(current_sno==0xffffffff){
+	const int sno_i=GetMaskSnoIdx();
+		if(sno_i==0xffffffff){
 			return 0;
 	}else{
-		return G_MASK_SEQ_MULTI.mask_seqs[current_sno].mask_seq[_idx].scar_th.col_th_down;
-	}
-
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-int GetMaskSeqChannel_Total_Num()
-{
-
-	const int current_sno=G_MASK_SEQ_MULTI.mask_sno;
-	if(current_sno==0xffffffff){
-		return INT32_MAX;
-	}else{
-		return G_MASK_SEQ_MULTI.mask_seqs[current_sno].mask_seq_num;
+		return G_MASK_SEQ_MULTI.mask_seqs[ sno_i].mask_seq[_idx].scar_th.col_th_down;
 	}
 
 }

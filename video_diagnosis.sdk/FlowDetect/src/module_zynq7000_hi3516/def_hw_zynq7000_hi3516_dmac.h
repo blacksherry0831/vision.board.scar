@@ -11,21 +11,26 @@
 #define PS_DDR_LENGTH_FOR_DMA_32M 	(0x2000000)
 
 /*********************dmac***********************/
-#define PS_DDR_PHYADDR_FOR_DMA_83C0 		0x1E000000
+#define PS_DDR_PHYADDR_FOR_DMA_83C0 		(0x1E000000)
 #define PS_DDR_LENGTH_FOR_DMA_83C0 	 		PS_DDR_LENGTH_FOR_DMA_32M
 /*********************dmac***********************/
-#define PS_DDR_PHYADDR_FOR_DMA_83C4 		0x20000000
-#define PS_DDR_LENGTH_FOR_DMA_83C4 	 		PS_DDR_LENGTH_FOR_DMA_8M
+#define PS_DDR_PHYADDR_FOR_DMA_83C1 		(0x20000000)
+#define PS_DDR_LENGTH_FOR_DMA_83C1 	 		PS_DDR_LENGTH_FOR_DMA_8M
+/*********************dmac***********************/
+#define PS_DDR_PHYADDR_FOR_DMA_83C4 		(0)
+#define PS_DDR_LENGTH_FOR_DMA_83C4 	 		(0)
 /*********************dmac config****************/
-#define PS_2_PL_DMA_BASEADDR_83C4 0x83C40000
-#define PL_2_PS_DMA_BASEADDR_83C0 0x83C00000
+#define PL_2_PS_DMA_BASEADDR_83C0 			(0x83C00000)
+#define PL_2_PS_DMA_BASEADDR_83C1 			(0x83C10000)
+
+#define PS_2_PL_DMA_BASEADDR_83C4 			(0x83C40000)
 /************************************************/
-#define PL_RX_DMA_MMAP_LENGTH 0x1000
+#define PL_RX_DMA_MMAP_LENGTH 				(0x1000)
 /************************************************/
 #if 1
-#define PS_MALLOC_BUFFER_MAXNUM 16
-#define EACH_BUFFER_SIZE_FOR_DMA 0x1000000
-#define EACH_FRAME_SIZE_FOR_CAMERA (1920*1080)
+#define PS_MALLOC_BUFFER_MAXNUM 			(16)
+#define EACH_BUFFER_SIZE_FOR_DMA 			(0x1000000)
+#define EACH_FRAME_SIZE_FOR_CAMERA 			(1920*1080)
 #endif
 /*********************dmac axi*******************/
 #define AXI_DMAC_REG_IRQ_MASK			0x80

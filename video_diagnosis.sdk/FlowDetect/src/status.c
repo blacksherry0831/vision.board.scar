@@ -1,5 +1,7 @@
 #include "status.h"
 /*-----------------------------------*/
+#include "module_zynq7000_hi3516/def_hw_zynq7000_hi3516.h"
+/*-----------------------------------*/
 static int SENSOR_STAT=0;
 static volatile enum ProjectRun gProjectCurrentRunning=outside08;
 /*-----------------------------------*/
@@ -50,7 +52,7 @@ enum ProjectRun GetProjectRun()
  *
  */
 /*-----------------------------------*/
-char * GetProjectRunStr()
+const char * GetProjectRunStr()
 {
 	const int project_t=GetProjectRun();
 
@@ -66,6 +68,48 @@ char * GetProjectRunStr()
 	}
 
 
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void initProjectCfgDir(char *_path)
+{
+	sprintf(_path,"%s%s","project.cfg.",GetProjectRunStr());
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void initProjectCfgDirPath(char *_path)
+{
+	char pathname[1024]={0};
+	initProjectCfgDir(pathname);
+	sprintf(_path,"%s%s",PATH_SDCARD,pathname);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void initProjectCfgDirPath_Separator(char *_path)
+{
+	char filename[1024]={0};
+	initProjectCfgDir(filename);
+	sprintf(_path,"%s%s%s",PATH_SDCARD,filename,"/");
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int MakeProjectDirectory()
+{
+	char filefullpath[1024]={0};
+	initProjectCfgDirPath(filefullpath);
+	return mkdir(filefullpath,0777);
 }
 /*-----------------------------------*/
 /**

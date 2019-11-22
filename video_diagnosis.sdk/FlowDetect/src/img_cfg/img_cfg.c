@@ -460,14 +460,7 @@ void CopyImage(void* const buff_src,CMD_CTRL* img_dst,const  int _space_ch,const
 
 	const IplImage* const img_ptr=GetIplImage(img_dst);
 
-#if _DEBUG
-	if(IsCmdCtrl(img_dst)==FALSE){
-		PRINTF_DBG_EX("copy buff_src 2 image: image ctrl is not a valid buff ");
-		assert(IsCmdCtrl(img_dst));
-	}
-#endif
-
-
+	assert(IsCmdCtrl_Debug(img_dst,"copy buff_src 2 image: image ctrl is not a valid buff "));
 
 	InitImageRoiRR(img_dst,ViewChannel,cut_rect,rect_roi);
 
@@ -547,77 +540,7 @@ void SetRectCutCmd(CMD_CTRL*  cmd_t)
 	StoreImgCfgJson();
 
 }
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-void encodeWithState(
-		const char* filename,
-		const unsigned char* image,
-		unsigned width,
-		unsigned height)
-{
-	unsigned error;
-	unsigned char* png;
-	size_t pngsize;
-	LodePNGState state;
 
-	lodepng_state_init(&state);
-  /*optionally customize the state*/
-
-	state.info_raw.colortype=LCT_GREY;
-
-	error = lodepng_encode(&png, &pngsize, image, width, height, &state);
-	if(!error) lodepng_save_file(png, pngsize, filename);
-
-	/*if there's an error, display it*/
-	if(error) printf("error %u: %s\n", error, lodepng_error_text(error));
-
-	lodepng_state_cleanup(&state);
-	free(png);
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-int decodeWithState(const char* filename,char* dst,int _width,int _height,int _nChannels)
-{
-  unsigned error;
-  unsigned char* image;
-  unsigned width, height;
-  unsigned char* png;
-  size_t pngsize;
-  LodePNGState state;
-  int result_t=0;
-  lodepng_state_init(&state);
-  /*optionally customize the state*/
-  state.info_raw.colortype=LCT_GREY;
-
-  lodepng_load_file(&png, &pngsize, filename);
-  error = lodepng_decode(&image, &width, &height, &state, png, pngsize);
-  if(error) printf("error %u: %s\n", error, lodepng_error_text(error));
-
-  free(png);
-
-  /*use image here*/
-  /*state contains extra information about the PNG such as text chunks, ...*/
-  assert(width==_width);
-  assert(height==_height);
-  unsigned int Size=width*height*_nChannels;
-  if(error==0){
-
-	  memcpy(dst,image,Size);
-	  result_t=1;
-  }
-
-  /*free  image here*/
-  lodepng_state_cleanup(&state);
-  free(image);
-
-  return  result_t;
-}
 /*-----------------------------------*/
 /**
  *
@@ -625,29 +548,10 @@ int decodeWithState(const char* filename,char* dst,int _width,int _height,int _n
 /*-----------------------------------*/
 void SetMaskImageFileName(char* _filename,int _w,int _h,int _ch)
 {
-	sprintf(_filename,"%sw.%d.h.%d.ch.%d.mask.png",PATH_SDCARD,_w,_h,_ch);
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-void SetMaskImageFileName_space_frame(
-		char* _filename,
-		const int _w,
-		const int _h,
-		const int _ch_space,
-		const int _ch_frame)
-{
-	assert(_ch_space<SCAR_IMG_MASK_CHANNEL_MAX);
-	assert(_ch_frame<SCAR_IMG_MASK_FRAME_MAX);
-	sprintf(_filename,
-			"%sw.%d.h.%d.chs.%d.chf.%d.mask.png",
-			PATH_SDCARD,
-			_w,
-			_h,
-			_ch_space,
-			_ch_frame);
+	char path_cfg[1024]={0};
+	initProjectCfgDirPath_Separator(path_cfg);
+
+	sprintf(_filename,"%sw.%d.h.%d.ch.%d.mask.png",path_cfg,_w,_h,_ch);
 }
 /*-----------------------------------*/
 /**
@@ -694,40 +598,6 @@ void SaveImgMaskMatrix(const CMD_CTRL* const  _cmd)
 			(unsigned char *)data_t,
 			width,
 			height);
-
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-void SaveImgMaskMatrix_SCAR(const CMD_CTRL* const  _cmd)
-{
-	const int UCHAR_SIZE=8;
-
-	const IplImageU * imgU=GetIplImageUx(_cmd);
-
-	char* data_t=GetIplImageImageData(_cmd);
-
-	const int mask_pos=UChar2Int(imgU->IpAddrChannel,UCHAR_SIZE);
-
-	const int ch_space=mask_pos%SCAR_IMG_MASK_CHANNEL_MAX;
-	const int ch_frame=mask_pos/SCAR_IMG_MASK_CHANNEL_MAX;
-
-	const int width=UChar2Int(imgU->width,UCHAR_SIZE);
-	const int height=UChar2Int(imgU->height,UCHAR_SIZE);
-
-	char filename_t[1024];
-
-	SetMaskImageFileName_space_frame(filename_t,width,height,ch_space,ch_frame);
-
-	encodeWithState(filename_t,data_t,width,height);
 
 }
 /*-----------------------------------*/
@@ -844,7 +714,7 @@ int image_frame_size(int _space_ch,int _space_frame)
  *
  */
 /*-----------------------------------*/
-int is_space_frame_output(int _space_ch,int _space_fr)
+int is_space_frame_output(const int _space_ch,const int _space_fr)
 {
 
 	return G_View[_space_ch][_space_fr].ViewOutput;
@@ -997,7 +867,7 @@ void* ParseScarImgCfgItem(cJSON*	_cfg_json)
 				 SetScarColThresholdUp2FPGA(th_col_up->valueint);
 				 SetScarColThresholdDown2FPGA(th_col_down->valueint);
 
-
+				 return NULL;
 
 }
 /*-----------------------------------*/
@@ -1359,7 +1229,9 @@ end:
 /*-----------------------------------*/
 void initImgCfgJsonFileDefault(char* _cfg_json_file)
 {
-	sprintf(_cfg_json_file,"%s%s",PATH_SDCARD,IMG_CFG_JSON_DEFAULT);
+	char path_cfg[1024]={0};
+		initProjectCfgDirPath_Separator(path_cfg);
+	sprintf(_cfg_json_file,"%s%s",path_cfg,IMG_CFG_JSON_DEFAULT);
 }
 /*-----------------------------------*/
 /**
@@ -1368,7 +1240,9 @@ void initImgCfgJsonFileDefault(char* _cfg_json_file)
 /*-----------------------------------*/
 void initImgCfgJsonFileEx(char* _cfg_json_file)
 {
-	sprintf(_cfg_json_file,"%s%s",PATH_SDCARD,IMG_CFG_JSON);
+	char path_cfg[1024]={0};
+	initProjectCfgDirPath_Separator(path_cfg);
+	sprintf(_cfg_json_file,"%s%s",path_cfg,IMG_CFG_JSON);
 }
 /*-----------------------------------*/
 /**

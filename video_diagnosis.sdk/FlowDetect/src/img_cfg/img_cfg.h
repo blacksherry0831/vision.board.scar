@@ -8,7 +8,7 @@
 /*-----------------------------------*/
 #include <modules/opencv2/core/types_c.h>
 /*-----------------------------------*/
-#include <modules/lodepng/lodepng.h>
+#include <modules_up/png_up.h>
 /*-----------------------------------*/
 #include "modules/cJSON/cJSON.h"
 /*-----------------------------------*/
@@ -46,7 +46,6 @@ void  SetRectCutCmd(CMD_CTRL*  cmd_t);
 void  ClearRectCut();
 /*-----------------------------------*/
 void SaveImgMaskMatrix(const CMD_CTRL* const  _cmd);
-void SaveImgMaskMatrix_SCAR(const CMD_CTRL* const  _cmd);
 /*-----------------------------------*/
 void init_image_cfg(const int _width,const int _height);
 /*-----------------------------------*/
@@ -59,6 +58,7 @@ int image_nchannels(int _space_ch,int _space_frame);
 int image_frame_size(int _space_ch,int _space_frame);
 /*-----------------------------------*/
 int IsImgMaskValid(const CMD_CTRL* const  _cmd);
+int is_space_frame_output(const int _space_ch,const int _space_fr);
 /*-----------------------------------*/
 void 	set_img_cut_rect(const CvRect _cut,const int _ViewCh);
 /*-----------------------------------*/

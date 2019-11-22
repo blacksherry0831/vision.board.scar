@@ -14,7 +14,7 @@ unsigned int 	Get_PL_MEM_MaskImage_PhyAddr_offset(const int _mask_frame)
 	const unsigned int imgSize=image_mask_size();
 
 	const unsigned int blank_area=imgSize*8;
-	const unsigned int result_area=imgSize*8;
+	const unsigned int result_area=imgSize*2;
 
 	const unsigned int offset=_mask_frame*imgSize;
 	const unsigned int mask_offset= blank_area+result_area+offset;

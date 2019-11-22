@@ -213,7 +213,7 @@ void fpga_set_distortion(const float* _d,const int rows,const int cols)
 
 			unsigned int* 	p_uint=&d__uint;
 
-			const int addr=ADDR_DISTORTION[ri];
+			const unsigned int addr=ADDR_DISTORTION[ri];
 
 			FPGA_CTRL_send_unit(addr,p_uint);
 
@@ -230,7 +230,7 @@ void fpga_set_intrinsic(const float* _d,const int rows,const int cols)
 
 			assert(rows==3 && cols==3);
 
-			unsigned int intrinsic[3][3]={0};
+			unsigned int intrinsic[3][3]={{0}};
 
 			int ri=0,ci=0;
 

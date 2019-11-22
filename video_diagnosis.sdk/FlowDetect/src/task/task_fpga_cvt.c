@@ -118,9 +118,10 @@ int IsCircleRunning(const int _first_second)
 
 				}else{
 
-
+						assert(0);
 				}
 
+				return 0;
 
 }
 /*-----------------------------------*/
@@ -357,13 +358,30 @@ int GetMaskSeqFrames()
 	if(IsWorkMode_OrgImg()){
 
 	}else if(IsWorkMode_DiffImg()){
-		return GetMaskSeqChannel_Total_Num();
+		return GetScarMaskChannel_Total_Num();
 	}else{
 
 	}
 
 	return INT_MAX;
 
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int IsScarWorkMode_Org()
+{
+	int is_org=FALSE;
+		if(IsWorkMode_OrgImg()){
+			is_org=TRUE;
+		}else if(IsWorkMode_DiffImg()){
+			is_org=FALSE;
+		}else{
+			assert(0);
+		}
+	return is_org;
 }
 /*-----------------------------------*/
 /**
@@ -381,27 +399,39 @@ void theSecondCircleScar()
 		PRINTF_DBG_EX("FPGA>>start cmd 01 ! \n");
 #if TRUE
 
-			const int  MASK_TOTAL_CHANNELS= GetMaskSeqFrames();
 			int fi=0;
 
 			for(	fi=0,FRAME_IDX_SECOND=FRAME_IDX_FIRST;
-					fi<MASK_TOTAL_CHANNELS && IsCircleRunning(SecondCircle) && IsFrameCollect(FRAME_IDX_SECOND-FRAME_IDX_FIRST);
+					IsCircleRunning(SecondCircle) && IsFrameCollect(FRAME_IDX_SECOND-FRAME_IDX_FIRST);
 					fi++,FRAME_IDX_SECOND++){
 
-					int is_org=FALSE;
-					if(IsWorkMode_OrgImg()){
-						is_org=TRUE;
-					}else if(IsWorkMode_DiffImg()){
-						is_org=FALSE;
-					}else{
-						assert(0);
+
+					const int  MASK_TOTAL_CHANNELS	= GetMaskSeqFrames();
+					const int  MASK_LOOP			= GetScarMaskSeqChannel_Is_Loop();
+					const int  MASK_SNO				= GetScarMaskSeq_SNO();
+
+					if(fi>=MASK_TOTAL_CHANNELS){
+						if(MASK_LOOP==FALSE){
+							break;
+						}else{
+							fi=0;
+						}
 					}
+
+					if(fi==0){
+						sendImageStart_DetectSno(MASK_TOTAL_CHANNELS,MASK_SNO);
+					}else{
+						//normal fpga cvt
+					}
+
+					const int is_org=IsScarWorkMode_Org();
 
 					CvtFrameScar(FRAME_IDX_FIRST,FRAME_IDX_SECOND,is_org,fi);
 
 
 
 			}
+
 #endif
 		PRINTF_DBG_EX("FPGA>>stop cmd 01 ! \n");
 

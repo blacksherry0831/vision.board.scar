@@ -1,12 +1,16 @@
 #ifndef DMA_HW_BASE_H
 #define DMA_HW_BASE_H
 /*-----------------------------------*/
+#include <stdint.h>
+#include <fcntl.h>
+/*-----------------------------------*/
 #include <linux/types.h>
 /*-----------------------------------*/
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/mman.h>
 /*-----------------------------------*/
-#include <fcntl.h>
+#include <assert.h>
 /*-----------------------------------*/
 #include "modules/printf_log/printf_log.h"
 /*-----------------------------------*/

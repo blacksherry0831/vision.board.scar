@@ -87,7 +87,7 @@ void FPGA_CTRL_unmmap()
  *
  */
 /*-----------------------------------*/
-int FPGA_CTRL_send(int addr, int* pidata)
+int FPGA_CTRL_send(unsigned int _addr, int* pidata)
 {
 
 		if(is_FPGA_CTRL_init()){
@@ -95,8 +95,8 @@ int FPGA_CTRL_send(int addr, int* pidata)
 
 				if( pthread_mutex_lock(&MAP_PL_PARA.lock)==SUCCESS){
 
-						 AXILitetoUser(MAP_PL_PARA.virtual_addr+addr,
-								PL_PARA_ADDR_BASE+addr/4,
+						 AXILitetoUser(MAP_PL_PARA.virtual_addr+_addr,
+								PL_PARA_ADDR_BASE+_addr/4,
 								(unsigned char *)pidata,
 								sizeof(int));
 
@@ -115,7 +115,7 @@ int FPGA_CTRL_send(int addr, int* pidata)
  *
  */
 /*-----------------------------------*/
-int FPGA_CTRL_send_int(int _addr,const  int _data)
+int FPGA_CTRL_send_int(unsigned int _addr,const  int _data)
 {
 
 	int  iTemp=_data;
@@ -129,7 +129,7 @@ int FPGA_CTRL_send_int(int _addr,const  int _data)
  *
  */
 /*-----------------------------------*/
-int FPGA_CTRL_send_int_1_0(int _addr)
+int FPGA_CTRL_send_int_1_0(unsigned int _addr)
 {
 		FPGA_CTRL_send_int(_addr,1);
 		return FPGA_CTRL_send_int(_addr,0);
@@ -139,7 +139,7 @@ int FPGA_CTRL_send_int_1_0(int _addr)
  *
  */
 /*-----------------------------------*/
-int FPGA_CTRL_send_unit(int addr,unsigned int* pidata)
+int FPGA_CTRL_send_unit(unsigned int _addr,unsigned int* pidata)
 {
 
 		if(is_FPGA_CTRL_init()){
@@ -147,8 +147,8 @@ int FPGA_CTRL_send_unit(int addr,unsigned int* pidata)
 
 				if( pthread_mutex_lock(&MAP_PL_PARA.lock)==SUCCESS){
 
-						 AXILitetoUser(MAP_PL_PARA.virtual_addr+addr,
-								PL_PARA_ADDR_BASE+addr/4,
+						 AXILitetoUser(MAP_PL_PARA.virtual_addr+_addr,
+								PL_PARA_ADDR_BASE+_addr/4,
 								(unsigned char *)pidata,
 								sizeof(unsigned int));
 
@@ -167,15 +167,15 @@ int FPGA_CTRL_send_unit(int addr,unsigned int* pidata)
  *
  */
 /*-----------------------------------*/
-int FPGA_CTRL_read(int addr, int* pidata)
+int FPGA_CTRL_read(unsigned int _addr, int* pidata)
 {
 	  if(is_FPGA_CTRL_init()){
 
 
 				if( pthread_mutex_lock(&MAP_PL_PARA.lock)==SUCCESS){
 
-					UsertoAXILite(MAP_PL_PARA.virtual_addr+addr,
-										PL_PARA_ADDR_BASE+addr/4,
+					UsertoAXILite(MAP_PL_PARA.virtual_addr+_addr,
+										PL_PARA_ADDR_BASE+_addr/4,
 										(unsigned char*)pidata,
 										sizeof(int));
 

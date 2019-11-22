@@ -131,12 +131,6 @@ int SetDmaFrameByWorkMode(int _wm)
  *
  */
 /*-----------------------------------*/
-
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
 int memcpyDMA2MemChEx(CMD_CTRL* img,const  int _space_ch,const int _space_fr)
 {
 	int result_t=FALSE;

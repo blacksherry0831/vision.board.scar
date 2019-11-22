@@ -1,11 +1,11 @@
-#ifndef AXI_FPGA_CTRL_IMG_SCAR_H
-#define AXI_FPGA_CTRL_IMG_SCAR_H
+#ifndef _AXI_FPGA_CTRL_IMG_SCAR_H
+#define _AXI_FPGA_CTRL_IMG_SCAR_H
 /*-----------------------------------*/
 #include "linux_header.h"
 /*-----------------------------------*/
-#define 	SCAR_IMG_MASK_CHANNEL_MAX		(8)
-#define 	SCAR_IMG_MASK_FRAME_MAX			(48)
-#define 	SCAR_IMG_MASK_SQE_MAX			(SCAR_IMG_MASK_CHANNEL_MAX*SCAR_IMG_MASK_FRAME_MAX)
+#include "def_img_space_scar.h"
+/*-----------------------------------*/
+
 /*-----------------------------------*/
 #define SCAR_DETECT_MODE_GLOBAL		(1)
 #define SCAR_DETECT_MODE_ROW		(1<<1)

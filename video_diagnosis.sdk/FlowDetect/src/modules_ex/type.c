@@ -64,9 +64,6 @@ void SetSensorStatus(CMD_CTRL* _cmd,int _status,int _channel)
 
 	IplImageU *image=(IplImageU *)_cmd->f_data;
 
-#if _DEBUG
-	image->sensor_stat[ALIGN_SIZE_T-1]=_status;
-#endif
 	const int SENSOR_STATUS=_status & (1<<_channel);
 
 	SetInt2Char(SENSOR_STATUS,image->sensor_stat,ALIGN_SIZE_T-1);
@@ -394,7 +391,7 @@ int socket_read_1_cmd(int _sockfd,CMD_CTRL*  _cmd_ptr)
 int socket_write_1_cmd(int _sockfd,CMD_CTRL*  _cmd_ptr)
 {
 
-#if _DEBUG
+#ifdef _DEBUG
 
 	static int image_frame_idx=0;
 	if(IsImageFrame( _cmd_ptr)){
@@ -678,11 +675,29 @@ void CreateCmdBody(CMD_CTRL* cmd_t,unsigned int body_size)
  *
  */
 /*-----------------------------------*/
+void FillImageCtrl(CMD_CTRL* _cmd,const int _data)
+{
+	 IplImage* img_ptr=GetIplImage( _cmd);
+
+	 unsigned char *buff_p=(unsigned char *)(img_ptr->imageData);
+
+	 const  int buff_sz_t=img_ptr->imageSize;
+
+	 memset(buff_p,_data,buff_sz_t);
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 CMD_CTRL* CreateImageCtrl(const int _ch,int _frame,int _width,int _height,int _nChs, int _seq)
 {
 	assert(_nChs!=0);
 	assert(_width!=0);
 	assert(_height!=0);
+	assert(_width<=1920);
+	assert(_height<=1080);
 
 	const unsigned int SIZE=_width*_height*_nChs;
 	const unsigned int body_size=sizeof(IplImageUI)+SIZE;
@@ -695,13 +710,7 @@ CMD_CTRL* CreateImageCtrl(const int _ch,int _frame,int _width,int _height,int _n
 
 	}
 
-#if _DEBUG
-
-	if(IsCmdCtrl( cmd_t)==FALSE){
-			PRINTF_DBG_EX("copy buff_src 2 image: image ctrl is not a valid buff ");
-			exit(-1);
-	}
-#endif
+	assert(IsCmdCtrl_Debug(cmd_t,"copy buff_src 2 image: image ctrl is not a valid buff"));
 
 	return cmd_t;
 }
@@ -793,7 +802,7 @@ CMD_CTRL* CreateCmdCtrl(int body_size)
  *
  */
 /*-----------------------------------*/
-int IsCmdCtrl(CMD_CTRL* cmd_t)
+int IsCmdCtrl(const CMD_CTRL* cmd_t)
 {
 
 	if(	cmd_t->f_header.f_header[0]=='Y' &&
@@ -873,6 +882,25 @@ int SendHeartbeatCmd(int _socketfd,int _need_resp,int _seq)
 
 	return socket_write_1_cmd_release(_socketfd,cmd);
 
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int IsCmdCtrl_Debug(const CMD_CTRL* _cmd,const char* msg)
+{
+
+	const int result_t=IsCmdCtrl(_cmd);
+
+#ifdef _DEBUG
+	if(result_t==FALSE){
+		PRINTF_DBG_EX(msg);
+	}
+#endif
+
+return result_t;
 
 }
 /*-----------------------------------*/

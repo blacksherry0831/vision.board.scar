@@ -148,27 +148,63 @@ void init_param()
  *
  */
 /*-----------------------------------*/
-void init()
+void init_once()
 {
-	init_mem_pool();
-
 	signal(SIGINT,StopRun);
-
-	FPGA_CTRL_mmap();
-
+	MakeProjectDirectory();
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void init_device()
+{
 	fpga_img_scar_reset();
-
-	get_queue_img_buff();
-
-	dmac_83c0_addr_mmap_hw();
-
-	dmac_83c4_addr_mmap_hw();
-
-	initSemSignal();
-
+	InitMaskImage_scar();
 	init_param();
 }
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void install()
+{
+		init_mem_pool();
 
+		FPGA_CTRL_mmap();
+		get_queue_img_buff();
+		dmac_83c0_addr_mmap_hw();
+		dmac_83c1_addr_mmap_hw();
+		initSemSignal();
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void uninstall()
+{
+		FPGA_CTRL_unmmap();
+		remove_queue_img_buff();
+		dmac_83c0_addr_unmap_hw();
+		dmac_83c1_addr_mmap_hw();
+		destorySemSignal();
+
+		destory_mem_pool();
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void init()
+{
+	init_once();
+	install();
+	init_device();
+}
 /*-----------------------------------*/
 /**
  *
@@ -177,18 +213,7 @@ void init()
 void destory()
 {
 	sleep(3);
-
-	FPGA_CTRL_unmmap();
-
-	remove_queue_img_buff();
-
-	dmac_83c0_addr_unmap_hw();
-
-	dmac_83c4_addr_mmap_hw();
-
-	destorySemSignal();
-
-	destory_mem_pool();
+	uninstall();
 }
 /*-----------------------------------*/
 /**
@@ -241,12 +266,12 @@ int main_ring()
 /*-----------------------------------*/
 void run_main()
 {
-	int time=0;
+	int time_t=0;
 	do{
 
 			sleep(1);
 
-			if(time++%10==0){
+			if(time_t++%10==0){
 
 			}
 

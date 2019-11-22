@@ -426,30 +426,32 @@ void setFpgaCircleCmd(const CMD_CTRL* const _cmd_ctrl)
 
 		if(StartCmd01 == CT_START){
 
-			PRINTF_DBG_EX("Rcv Start CMD \n");
+			PRINTF_DBG_EX("workflow@Rcv Start CMD \n");
 			StartFpgaCircle(StartParam,StartSeq);
 
 		}else if(StartCmd01==CT_START_00){
 
-			PRINTF_DBG_EX("Rcv Start CMD 00 \n");
+			PRINTF_DBG_EX("workflow@Rcv Start CMD 00 \n");
 			FPGA_CIRCLE_TASK_FIRST_START=TRUE;
 
 		}else if(StartCmd01==CT_STOP_00){
 
+			PRINTF_DBG_EX("workflow@Rcv Stop  CMD 00\n");
 			FPGA_CIRCLE_TASK_FIRST_START=FALSE;
 
 		}else if(StartCmd01==CT_START_01){
 
-			PRINTF_DBG_EX("Rcv Start CMD 01 \n");
+			PRINTF_DBG_EX("workflow@Rcv Start CMD 01 \n");
 			FPGA_CIRCLE_TASK_SECOND_START=TRUE;
 
 		}else if(StartCmd01==CT_STOP_01){
 
+			PRINTF_DBG_EX("workflow@Rcv Stop  CMD 	01\n");
 			FPGA_CIRCLE_TASK_SECOND_START=FALSE;
 
 		}else if(StartCmd01==CT_STOP){
 
-			PRINTF_DBG_EX("Rcv Stop CMD \n");
+			PRINTF_DBG_EX("workflow@Rcv Stop CMD \n");
 			StopFpgaCircleRunning();
 
 

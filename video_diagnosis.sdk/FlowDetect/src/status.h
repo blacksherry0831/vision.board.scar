@@ -1,7 +1,8 @@
 #ifndef STATUS_H
 #define STATUS_H
 /*-----------------------------------*/
-#include "linux_header.h"
+#include <sys/stat.h>
+#include <assert.h>
 /*-----------------------------------*/
 enum ProjectRun{
 	scar_detect_01=0,
@@ -14,6 +15,9 @@ int GetSensorStat_T();
 /*-----------------------------------*/
 int SetSensorStat_T(const int _s);
 /*-----------------------------------*/
-char * GetProjectRunStr();
+const char * GetProjectRunStr();
+/*-----------------------------------*/
+int MakeProjectDirectory();
+void initProjectCfgDirPath(char *_path);
 /*-----------------------------------*/
 #endif

@@ -41,8 +41,8 @@ int fpga_img_scar_detect_start_en()
 /*-----------------------------------*/
 int fpga_img_scar_detect_set_mask_addr_1(const int _ch)
 {
-	const int _addr_zone=_ch%SCAR_IMG_MASK_CHANNEL_MAX;
-	const int _addr_idx=_ch/SCAR_IMG_MASK_CHANNEL_MAX;
+	const int _addr_zone=GetSpaceIdx_Scar(_ch);
+	const int _addr_idx= GetFrameIdx_Scar(_ch);
 
 	return fpga_img_scar_detect_set_mask_addr(_addr_zone,_addr_idx);
 }
@@ -178,43 +178,40 @@ int wait4FpgaScarConvertDone()
 void set_mask_seq_param(const int _fi)
 {
 
-	const int sno=GetScarCurrentSerialNumber();
+	const int sno=GetScarMaskSeq_SNO();
+	const int frameNum=GetScarMaskChannel_Total_Num();
 
-	if(sno==0xffffffff){
+	assert(_fi<frameNum);
 
-		fpga_img_scar_detect_set_mask_addr_1(0);
-		fpga_img_scar_detect_mode(0);
+	if(
+		(_fi<frameNum) &&
+		(sno!=0xffffffff) ){
 
-	}else{
+				const int mask_ch=GetMaskSeqChannel(_fi);
+				const int work_mode=GetMaskSeq_work_mode(_fi);
+				const int g_th_up=GetMaskSeq_g_th_up(_fi);
+				const int g_th_down=GetMaskSeq_g_th_down(_fi);
+				const int row_th_up=GetMaskSeq_row_th_up(_fi);
+				const int row_th_down=GetMaskSeq_row_th_down(_fi);
+				const int col_th_up=GetMaskSeq_col_th_up(_fi);
+				const int col_th_down=GetMaskSeq_col_th_down(_fi);
 
-		const int mask_ch=GetMaskSeqChannel(_fi);
+				fpga_img_scar_detect_set_mask_addr_1(mask_ch);
+				fpga_img_scar_detect_mode(work_mode);
+				/*-----------------------------------*/
+				fpga_img_scar_detect_set_g_th_up(g_th_up);
+				fpga_img_scar_detect_set_g_th_down(g_th_down);
+				/*-----------------------------------*/
+				fpga_img_scar_detect_set_row_th_up(row_th_up);
+				fpga_img_scar_detect_set_row_th_down(row_th_down);
+				/*-----------------------------------*/
+				fpga_img_scar_detect_set_col_th_up(col_th_up);
+				fpga_img_scar_detect_set_col_th_down(col_th_down);
 
-		const int work_mode=GetMaskSeq_work_mode(_fi);
-
-		const int g_th_up=GetMaskSeq_g_th_up(_fi);
-		const int g_th_down=GetMaskSeq_g_th_down(_fi);
-
-		const int row_th_up=GetMaskSeq_row_th_up(_fi);
-		const int row_th_down=GetMaskSeq_row_th_down(_fi);
-
-		const int col_th_up=GetMaskSeq_col_th_up(_fi);
-		const int col_th_down=GetMaskSeq_col_th_down(_fi);
-
-
-		fpga_img_scar_detect_set_mask_addr_1(mask_ch);
-
-		fpga_img_scar_detect_mode(work_mode);
-		/*-----------------------------------*/
-		fpga_img_scar_detect_set_g_th_up(g_th_up);
-		fpga_img_scar_detect_set_g_th_down(g_th_down);
-		/*-----------------------------------*/
-		fpga_img_scar_detect_set_row_th_up(row_th_up);
-		fpga_img_scar_detect_set_row_th_down(row_th_down);
-		/*-----------------------------------*/
-		fpga_img_scar_detect_set_col_th_up(col_th_up);
-		fpga_img_scar_detect_set_col_th_down(col_th_down);
-
-	}
+		}else{
+				fpga_img_scar_detect_set_mask_addr_1(0);
+				fpga_img_scar_detect_mode(0);
+		}
 
 }
 /*-----------------------------------*/
@@ -226,15 +223,16 @@ void scar_cvt(int _org,const int _fi)
 {
 	wait4FpgaScarConvertDone();
 	{
-		if(_org){
+		fpga_img_scar_detect_reset();
 
-			fpga_img_scar_detect_reset();
-			fpga_img_scar_detect_mode(0);
-		}else{
-			set_mask_seq_param(_fi);
-		}
+			if(_org){
+				fpga_img_scar_detect_mode(0);
+				fpga_img_scar_detect_set_mask_addr_1(0);
+			}else{
+				set_mask_seq_param(_fi);
+			}
 
-			fpga_img_scar_detect_start_en();
+		fpga_img_scar_detect_start_en();
 	}
 	wait4FpgaScarConvertDone();
 }

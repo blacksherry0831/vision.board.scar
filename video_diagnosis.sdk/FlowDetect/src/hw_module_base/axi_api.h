@@ -1,5 +1,5 @@
-#ifndef AXI_API_H
-#define AXI_API_H
+#ifndef _AXI_API_H
+#define _AXI_API_H
 /*-----------------------------------*/
 #include "linux_header.h"
 /*-----------------------------------*/
@@ -19,11 +19,19 @@ typedef struct _MMAP_OBJECT
 	pthread_mutex_t lock;
 }MAP_OBJ;
 /*-----------------------------------*/
-extern void UsertoAXILite(int virtual_addr,int phy_addr,unsigned char *p_ucData,int Size);
+extern void UsertoAXILite(
+		unsigned int virtual_addr,
+		unsigned int phy_addr,
+		unsigned char *p_ucData,
+		int Size);
 /*-----------------------------------*/
-extern void AXILitetoUser(const int virtual_addr,const int phy_addr,const unsigned char *p_ucData,const int Size);
+extern void AXILitetoUser(
+		const unsigned int virtual_addr,
+		const unsigned int phy_addr,
+		const unsigned char *p_ucData,
+		const int Size);
 /*-----------------------------------*/
-extern int AXILitemmapEx(const unsigned char* _dev,int Addr,unsigned int *ptrUiFd,void **_pptr_virtual_addr,int MAP_SIZE);
+extern int AXILitemmapEx(const unsigned char* _dev,unsigned int Addr,unsigned int *ptrUiFd,void **_pptr_virtual_addr,int MAP_SIZE);
 /*-----------------------------------*/
 extern void AXILiteunmmapEx(unsigned int *ptrUiFd,void **_pptr_virtual_addr,int MAP_SIZE);
 /*-----------------------------------*/

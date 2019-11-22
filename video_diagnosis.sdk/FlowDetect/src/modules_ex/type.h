@@ -200,6 +200,10 @@ int IsCmdCtrlCmd(
 		const CMD_CTRL* _cmd_ctrl,
 		const unsigned char _cmd00,
 		const unsigned char _cmd01);
+
+int SetImageCmd(
+		CMD_CTRL* _cmd_ctrl,
+		const unsigned char _flag);
 /*-----------------------------------*/
 /**
  *
@@ -217,7 +221,10 @@ extern int socket_write_1_cmd_raw_data(int _sockfd,CMD_CTRL*  _cmd_ptr);
 /*-----------------------------------*/
 extern CMD_CTRL* CreateCmdCtrl(int body_size);
 extern CMD_CTRL* CreateImageCtrl(int _ch,int _frame,int _width,int _height,int _nChs, int _seq);
-extern int IsCmdCtrl(CMD_CTRL* cmd_t);
+
+void FillImageCtrl(CMD_CTRL* _cmd,const int _data);
+
+extern int IsCmdCtrl(const CMD_CTRL* cmd_t);
 
 CMD_CTRL* CreateImageStart(int _ch,unsigned int _seq);
 CMD_CTRL* CreateImageStop(int _ch,unsigned int _seq);
@@ -268,9 +275,12 @@ int IsImageQuerySigmaUp(const CMD_CTRL* _cmd_ctrl);
 int IsImageChangeSigmaDown(const CMD_CTRL* _cmd_ctrl);
 int IsImageQuerySigmaDown(const CMD_CTRL* _cmd_ctrl);
 /*-----------------------------------*/
-IplImage * GetIplImage(const CMD_CTRL* cmd);
-IplImageU* GetIplImageUx(const CMD_CTRL* cmd_t);
+char* 		GetIplImageImageData(const CMD_CTRL* const  _cmd);
+IplImage * 	GetIplImage(const CMD_CTRL* cmd);
+IplImageU* 	GetIplImageUx(const CMD_CTRL* cmd_t);
 /*-----------------------------------*/
 int GetCmdImgViewChannel(const CMD_CTRL* const _cmd_ctrl);
+/*-----------------------------------*/
+int IsCmdCtrl_Debug(const CMD_CTRL* _cmd,const char* msg);
 /*-----------------------------------*/
 #endif

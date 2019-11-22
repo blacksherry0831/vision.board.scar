@@ -6,7 +6,11 @@
 输出:无
  */
 /*-----------------------------------*/
-void UsertoAXILite(int virtual_addr,int phy_addr,unsigned char *p_ucData,int Size)
+void UsertoAXILite(
+		unsigned int virtual_addr,
+		unsigned int phy_addr,
+		unsigned char *p_ucData,
+		int Size)
 {
     if(Size > 0x10000)
     {
@@ -36,7 +40,11 @@ void UsertoAXILite(int virtual_addr,int phy_addr,unsigned char *p_ucData,int Siz
  *
  */
 /*-----------------------------------*/
-void AXILitetoUser(const int virtual_addr,const int phy_addr,const unsigned char *p_ucData,const int Size)
+void AXILitetoUser(
+		const unsigned int virtual_addr,
+		const unsigned int phy_addr,
+		const unsigned char *p_ucData,
+		const int Size)
 {
     if(Size > 0x10000)
     {
@@ -67,12 +75,12 @@ void AXILitetoUser(const int virtual_addr,const int phy_addr,const unsigned char
  *
  */
 /*-----------------------------------*/
-int AXILitemmapEx(const unsigned char* _dev,int Addr,unsigned int *ptrUiFd,void **_pptr_virtual_addr,int MAP_SIZE)
+int AXILitemmapEx(const unsigned char* _dev,unsigned int Addr,unsigned int *ptrUiFd,void **_pptr_virtual_addr,int MAP_SIZE)
 {
-	*ptrUiFd = open(_dev, O_RDWR|O_SYNC);
+	*ptrUiFd = open((const char*)_dev, O_RDWR|O_SYNC);
     if(ptrUiFd < 0)
     {
-        PRINTF_DBG("open %s failed!\n",_dev);
+        PRINTF_DBG_EX("open %s failed!\n",_dev);
         return -1;
     }
     // 按页存储，不能超过4k（1页），（ 0x1000）
@@ -120,10 +128,10 @@ void AXILiteunmmapEx(unsigned int *ptrUiFd,void **_pptr_virtual_addr,int MAP_SIZ
 /*-----------------------------------*/
 int AXILitemmapExS(MAP_OBJ* mapObj)
 {
-	mapObj->fd = open(mapObj->DEV, O_RDWR|O_SYNC);
+	mapObj->fd = open((const char*) (mapObj->DEV), O_RDWR|O_SYNC);
     if(mapObj->fd < 0)
     {
-        PRINTF_DBG("open %s failed!\n",mapObj->DEV);
+        PRINTF_DBG_EX("open %s failed!\n",mapObj->DEV);
         return -1;
     }
     // 按页存储，不能超过4k（1页），（ 0x1000）

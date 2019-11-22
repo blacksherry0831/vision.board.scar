@@ -19,6 +19,7 @@ enum CMD_TYPE_02_I_SCAR{
 		CT_IMG_MODE_SCAR=0x80,
 		CT_IMG_MASK_SET_SCAR=0x81,
 		CT_IMG_MASK_SELECT_SCAR=0x82,
+		CT_IMG_MASK_DETECT_START_SCAR=0x83,
 
 };
 /*-----------------------------------*/
@@ -65,13 +66,18 @@ int IsImageScarSet_WorkMode(const CMD_CTRL* _cmd_ctrl);
 int IsImageScarSet_Mask(const CMD_CTRL* _cmd_ctrl);
 int IsImageScarSet_SelectMask(const CMD_CTRL* _cmd_ctrl);
 /*-----------------------------------*/
-unsigned int* 	GetMaskSeqPtr(const CMD_CTRL* const _cmd_ctrl);
 /*-----------------------------------*/
-int GetMaskSeq_MaskImgNumber(const CMD_CTRL* const _cmd_ctrl);
-int GetMaskSeq_SerialNumber(const CMD_CTRL* const _cmd_ctrl);
+CMD_CTRL* CreateImageMask_Scar(const int _ch,const int _w,const int _h,unsigned int _seq);
 /*-----------------------------------*/
-/**
-*
-*/
+int 			ParseMaskSeq_MaskImgNumber(const CMD_CTRL* const _cmd_ctrl);
+int 			ParseMaskSeq_SerialNumber(const CMD_CTRL* const _cmd_ctrl);
+int 			ParseMaskSeq_Loop(const CMD_CTRL* const _cmd_ctrl);
+unsigned int* 	ParseMaskSeq_Ptr(const CMD_CTRL* const _cmd_ctrl);
+/*-----------------------------------*/
+CMD_CTRL* CreateImageStart_Scar_DetectSno(
+		const int _ch,
+		const int _frame,
+		const int _sno,
+		const unsigned int _seq);
 /*-----------------------------------*/
 #endif

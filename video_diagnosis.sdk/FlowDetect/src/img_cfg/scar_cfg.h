@@ -43,21 +43,25 @@ typedef struct scar_mask_one{
 typedef struct scar_nask_seq{
 
 	int				 mask_seq_num;
+	int				 mask_seq_loop;
 	SCAR_MASK_ONE    mask_seq[SCAR_IMG_MASK_SQE_MAX];
 
 }SCAR_MASK_SEQ;
 /*-----------------------------------*/
+#define MAX_DETECT_SNO	(20)
 /*-----------------------------------*/
 typedef struct scar_nask_seq_multi{
 
 	int				 mask_sno;
-	SCAR_MASK_SEQ	 mask_seqs[20];
+	SCAR_MASK_SEQ	 mask_seqs[MAX_DETECT_SNO];
+
 }SCAR_MASK_SEQ_MULTI;
 /*-----------------------------------*/
 void SetScarCurrentMask(
 		const int _sno,
 		const unsigned int* 	_mask_seq,
-		const int	_num);
+		const int	_num,
+		const int  _loop);
 /*-----------------------------------*/
 void SetScarCurrentMask_Cmd(const CMD_CTRL* const  _cmd);
 /*-----------------------------------*/
@@ -78,7 +82,9 @@ void SetScarRowThresholdDown2FPGA(const int _th);
 void SetScarColThresholdUp2FPGA(const int _th);
 void SetScarColThresholdDown2FPGA(const int _th);
 /*-----------------------------------*/
-int GetMaskChannel_Total_Num();
+int GetScarMaskChannel_Total_Num();
+int GetScarMaskSeqChannel_Is_Loop();
+int GetScarMaskSeq_SNO();
 /*-----------------------------------*/
 void SetScarCurrentSerialNumber(
 		const int	_sno);

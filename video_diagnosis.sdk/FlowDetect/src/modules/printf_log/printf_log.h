@@ -1,6 +1,14 @@
 #ifndef _PRINTF_LOG_H_
 #define _PRINTF_LOG_H_
-#include "linux_header.h"
+/*-----------------------------------*/
+#include <stdio.h>
+#include <stdlib.h>
+/*-----------------------------------*/
+#include <string.h>
+#include <errno.h>
+/*-----------------------------------*/
+/*-----------------------------------*/
+#include <sys/time.h>    // for gettimeofday()
 /*-----------------------------------*/
 #define _DEBUG_PRINT 1
 /*-----------------------------------*/
@@ -14,7 +22,7 @@ extern int getPrintConsole();
 /*-----------------------------------*/
 #ifdef _DEBUG_PRINT
 
-#define PRINTF_DBG_EX(x,...)      if(getPrintConsole())   printf(x,##__VA_ARGS__)
+#define PRINTF_DBG_EX(x,...)    do{  if(getPrintConsole())   printf(x,##__VA_ARGS__);}while(0)
 #else
 #define PRINTF_DBG_EX(x,...)
 

@@ -41,12 +41,9 @@ void printf_cmd_param(int optind,char* _optarg,int cmd)
 	PRINTF_DBG_EX("optind: %d\n", optind);
 
 	   switch (cmd){
-		               case 'i':
-		            	   	   	   strcpy(buffer,"in");
-		                       	   	   	   break;
-		               case 'o':
-		            	   	   	   strcpy(buffer,"out");
-		                       	   	   	   break;
+	   	   	   	   	   case 'p':
+	  		            	   	   strcpy(buffer,"project");
+	  										   break;
 		               case 'f':
 		            	   	   	   strcpy(buffer,"frame");
 										   break;
@@ -59,8 +56,8 @@ void printf_cmd_param(int optind,char* _optarg,int cmd)
 		               case 'h':
 		            	   	   	   strcpy(buffer,"height");
 		            	  					break;
-		               case 'N':
-		            	   	   	   strcpy(buffer,"frame max Number");
+		               case 'D':
+		            	   	   	   strcpy(buffer,"debug mode !");
 		            	   	   	   	   	   	break;
 		               case '?':
 		                       	   sprintf(buffer,"Unknown option: %c\n",(char)optopt);
@@ -100,13 +97,9 @@ struct cmd_param process_argc_argv(int argc, char * argv[])
 	           {"height", required_argument, NULL, 'h'},
 	           {"sensor", required_argument, NULL, 's'},
 	           {"framebuffer", required_argument, NULL, 'f'},
-
 	           {"project", required_argument,       NULL, 'p'},
-
 	           {"debugOutput",  no_argument,       NULL, 'D'},
-
 	           {0, 0, 0, 0}
-
 	       };
 
 	    int cmd=-1;
