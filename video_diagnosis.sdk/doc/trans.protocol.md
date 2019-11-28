@@ -39,6 +39,8 @@ enum CMD_TYPE_02_RESP {
 	CT_OK=0x00,
 	CT_ERROR=0x01,
 	CT_NONE=0x02,
+    
+    CT_LIFE_CIRCLE_DEADLINE=0xA0,
 
 	};
 /*-----------------------------------*/
@@ -115,4 +117,11 @@ $$
 \sigma^{2}	\in	[0,255] \\
 \sigma		\in	[0,\sqrt{255}]
 $$
+
+## Deadline设置
+
+| Command      | 命令字01 | 命令字02                | BODY           |
+| ------------ | -------- | ----------------------- | -------------- |
+| 查询Deadline | CT_QUERY | CT_LIFE_CIRCLE_DEADLINE |                |
+| 应答Deadline | CT_RESP  | CT_OK                   | deadline*2hour |
 

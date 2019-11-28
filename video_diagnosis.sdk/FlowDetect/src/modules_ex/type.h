@@ -8,6 +8,8 @@
 /*-----------------------------------*/
 #include <modules/uCOS/mem_pool_fixed.h>
 /*-----------------------------------*/
+#define STRUCT_UNION_SIZE	(ALIGN_SIZE_T*64)
+/*-----------------------------------*/
 /**
  *
  */
@@ -49,8 +51,11 @@ enum CMD_TYPE_02 {
 
 		CT_BEAT='b',
 
+		CT_ROLLER_Q=0x10,
 		CT_LR_RUN_2=0x20,
-		CT_ROLLER_Q=0x10
+
+		CT_LIFE_CIRCLE_DEADLINE=0xA0,
+
 	};
 /*-----------------------------------*/
 /**
@@ -162,7 +167,7 @@ typedef struct _IplImageU
 /*-----------------------------------*/
 typedef union _IplImageUI
 {
-	unsigned char buff[ALIGN_SIZE_T*64];
+	unsigned char buff[STRUCT_UNION_SIZE];
 	IplImageU iplImgU;
 }IplImageUI;
 /*-----------------------------------*/

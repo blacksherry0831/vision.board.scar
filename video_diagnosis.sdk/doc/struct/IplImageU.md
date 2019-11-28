@@ -1,7 +1,8 @@
 # IplImageU
 
-```
+```c++
 #define ALIGN_SIZE_T (8)
+#define STRUCT_UNION_SIZE	(ALIGN_SIZE_T*64)
 ```
 
 
@@ -65,5 +66,13 @@ typedef struct _IplImage
                                needed for correct deallocation */
 }
 IplImage;
+```
+
+```C++
+typedef union _IplImageUI
+{
+	unsigned char buff[STRUCT_UNION_SIZE];
+	IplImageU iplImgU;
+}IplImageUI;
 ```
 

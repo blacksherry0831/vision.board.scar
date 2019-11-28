@@ -6,6 +6,9 @@
 /*-----------------------------------*/
 #include "modules_ex/cmd_scar.h"
 #include "modules_ex/cmd_crack1_8.h"
+#include "modules_ex/cmd_file.h"
+/*-----------------------------------*/
+#include "modules_58/cetc_flash.h"
 /*-----------------------------------*/
 /**
  *
@@ -36,6 +39,10 @@ int process_cmd_ctrl(CMD_CTRL*  _cmd,int* _resp_cmd_02,int* _resp_body)
 							assert(0);
 						}
 						PRINTF_DBG_EX("Ctrl@Rcv hearbeat !\n");
+
+					}else if(isLifeCircleDeadlineCmd(_cmd)){
+
+						*_resp_body=flash_get_deadline();
 
 					}else if(IsImageRect(_cmd)){
 
@@ -161,6 +168,15 @@ int process_cmd_ctrl(CMD_CTRL*  _cmd,int* _resp_cmd_02,int* _resp_body)
 
 					}else if(IsImageCrack_Query_out_1st_circle_frames(_cmd)){
 						*_resp_body=CMD_BODY_MAX;
+
+					}else if(IsFileGet(_cmd)){
+
+						sendFile2Queue_filetran(_cmd);
+
+					}else if(IsFilePut(_cmd)){
+
+						SaveFile2SdCard_filetran(_cmd);
+
 					}else{
 							assert(0);
 							*_resp_cmd_02=CT_ERROR;

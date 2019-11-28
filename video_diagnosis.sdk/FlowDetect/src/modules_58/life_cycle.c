@@ -66,7 +66,7 @@ void test_life_cycle()
 
 	 if(data.deadline!=0){
 
-#if 1
+#if 0
 		 if(cetc_update_flash() < 0) {
 			 	       PRINTF_DBG_EX("update deadline fail\n");
 			 	       exit(1);

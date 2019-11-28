@@ -22,10 +22,16 @@ extern ssize_t writen(const int fd, const void* const buf, const size_t n);
  *
  */
 /*-----------------------------------*/
-void SetInt2Char(const int _value,unsigned char* _data,int _size);
-int SetChar2Int(const unsigned char* _data,int _size);
-
+void SetInt2Char(const int _value,char* _data,int _size);
+void SetInt2UChar(const int _value,unsigned char* _data,int _size);
+int  SetChar2Int(const unsigned char* _data,int _size);
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 int UChar2Int(const unsigned char* _data,const int _size);
+int Char2Int(const  char* _data,const int _size);
 /*-----------------------------------*/
 /**
  *

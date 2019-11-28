@@ -21,28 +21,6 @@ int IsImgMaskValid_Scar(const CMD_CTRL* const  _cmd)
  *
  */
 /*-----------------------------------*/
-void SetMaskImageFileName_space_frame(
-		char* _filename,
-		const int _w,
-		const int _h,
-		const int _ch_space,
-		const int _ch_frame)
-{
-	assert(_ch_space<SCAR_IMG_MASK_CHANNEL_MAX);
-	assert(_ch_frame<SCAR_IMG_MASK_FRAME_MAX);
-	sprintf(_filename,
-			"%sw.%d.h.%d.chs.%d.chf.%d.mask.png",
-			PATH_SDCARD,
-			_w,
-			_h,
-			_ch_space,
-			_ch_frame);
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
 void SetMaskImageFileName_space_frame_scar(
 		char* _filename,
 		const int _w,

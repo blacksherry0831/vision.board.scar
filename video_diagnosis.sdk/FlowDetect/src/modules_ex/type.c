@@ -51,7 +51,7 @@ int GetSensorStatus(CMD_CTRL* _cmd)
 {
 	IplImageU *image=(IplImageU *)_cmd->f_data;
 
-	return SetChar2Int(image->sensor_stat,sizeof(int));
+	return UChar2Int(image->sensor_stat,sizeof(int));
 }
 /*-----------------------------------*/
 /**
@@ -244,6 +244,15 @@ void SetCmdFrameSeq(CMD_CTRL*  _cmd_ctrl,unsigned int _cmd_idx)
 	_cmd_ctrl->f_header.f_cmd_idx[1]= _cmd_idx /256 % 256;
 	_cmd_ctrl->f_header.f_cmd_idx[2]= _cmd_idx /256 /256% 256;
 	_cmd_ctrl->f_header.f_cmd_idx[3]= _cmd_idx /256 /256 /256 % 256;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int isLifeCircleDeadlineCmd(const CMD_CTRL* _cmd_ctrl)
+{
+	return IsCmdCtrlCmd(_cmd_ctrl,CT_QUERY,CT_LIFE_CIRCLE_DEADLINE);
 }
 /*-----------------------------------*/
 /**
@@ -699,8 +708,11 @@ CMD_CTRL* CreateImageCtrl(const int _ch,int _frame,int _width,int _height,int _n
 	assert(_width<=1920);
 	assert(_height<=1080);
 
+	const unsigned int UnionSize=sizeof(IplImageUI);
 	const unsigned int SIZE=_width*_height*_nChs;
-	const unsigned int body_size=sizeof(IplImageUI)+SIZE;
+	const unsigned int body_size=UnionSize+SIZE;
+
+	assert(UnionSize<=STRUCT_UNION_SIZE);
 
 	CMD_CTRL*  cmd_t=CreateCmdCtrl(body_size);
 	if(cmd_t!=NULL){
