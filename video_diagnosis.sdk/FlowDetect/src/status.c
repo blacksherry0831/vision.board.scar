@@ -76,7 +76,7 @@ const char * GetProjectRunStr()
 /*-----------------------------------*/
 void initProjectCfgDir(char *_path)
 {
-	sprintf(_path,"%s%s","project.cfg.",GetProjectRunStr());
+	sprintf(_path,"%s%s",GetProjectConfigPathPrefix(),GetProjectRunStr());
 }
 /*-----------------------------------*/
 /**

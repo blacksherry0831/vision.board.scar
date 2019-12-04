@@ -40,6 +40,9 @@ extern int getPrintConsole();
         }while(0)
 #endif
 /*-----------------------------------*/
+#define CK_F(x) \
+if( (x) == (-1) ){ perror("-1,Failure");exit(EXIT_FAILURE);}
+/*-----------------------------------*/
 void printf_error();
 /*-----------------------------------*/
 #define TIME_START()  do{struct timeval startTime,endTime;float Timeuse;gettimeofday(&startTime,NULL);

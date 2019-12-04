@@ -65,67 +65,6 @@ void SetSigmaDown2FPGA(int _sigma)
  *
  */
 /*-----------------------------------*/
-void SaveParam2SDCard(
-		const char* const path,
-		const int* _param,
-		const int _size)
-{
-		char buff[1024];
-		FILE *fp = fopen(path,"wt+");
-
-	 	int i=0;
-
-	 	if (NULL == fp){
-	 		return ;
-	 	}
-
-	 	for(i=0;i<_size;i++){
-	 		snprintf(buff,sizeof(buff),"%d,%d\n",i,_param[i]);
-	 		fputs(buff,fp);
-	 	}
-
-	 	 fclose(fp);
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-void ReadParam4SDCard(const char* const path, int* _param,const int _size)
-{
-			char buff[1024]={0};
-			int i=0;
-			FILE *fp = fopen(path,"r");
-
-						if (NULL == fp){
-							return ;
-						}
-
-						for(i=0;i<_size;i++){
-
-							memset(buff,0,sizeof(buff));
-							fgets(buff,sizeof(buff),fp);
-
-							 char*token=strtok(buff,",");
-
-							 while(token!=NULL){
-
-								 _param[i]= atoi(token);
-
-								 token=strtok(NULL,",");
-
-							 }
-
-						}
-
-		 fclose(fp);
-
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
 void SetoutsideSigma()
 {
 		fpga_set_sigma_up(GetSigmaUp());

@@ -32,11 +32,14 @@ void* tcp_data_transfer_image(void *_data)
 											if(seconds_new-seconds_old>time_step){
 
 												seconds_old=time(NULL);
-												PRINTF_DBG_EX("!hearbeat freq(s): %d ",time_step);
-												TIME_START();
-												 socket_status=SendHeartbeatCmd(sock_server,HB_NONE,GetFrameCircleSeq());
-												TIME_END("!tcp send a Heartbeat cost :");
+												PRINTF_DBG_EX("DATA@ hearbeat freq(s): %d ",time_step);
 
+													SendHeartbeatCmd_TimeCost(
+														sock_server,
+														&socket_status,
+														HB_NONE,
+														GetFrameCircleSeq(),
+														"DATA@ TCP SEND Heartbeat cost :");
 
 											}
 											sleep_1ms();
@@ -44,9 +47,11 @@ void* tcp_data_transfer_image(void *_data)
 									}else if(msg.message_type==EIDRM){
 											break;
 									}else  if(msg.message_type==msgTypeImage()){
-										TIME_START();
-										 	 socket_status=socket_write_1_cmd_release(sock_server,img_data);
-										TIME_END("tcp send a frame cost :");
+													socket_write_1_cmd_release_time_cost(
+														sock_server,
+														&socket_status,
+														img_data,
+														"DATA@ tcp SEND frame cost :");
 									}else{
 											DEBUG_PRINT("message queue: message_type error\n");
 									}

@@ -32,4 +32,7 @@ int fpga_is_busy();
 int fpga_reset();
 int fpga_start();
 /*-----------------------------------*/
+void  fpga_set_sigma_up(const int _sigma_square);
+void  fpga_set_sigma_down(const int _sigma_square);
+/*-----------------------------------*/
 #endif

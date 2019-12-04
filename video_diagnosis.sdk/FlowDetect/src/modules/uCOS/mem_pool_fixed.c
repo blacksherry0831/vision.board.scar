@@ -95,10 +95,9 @@ int MemPoolAddrZone(void * _mem)
 					return 	BLK_SIZE_4M;
 
 			}else if(_mem_addr==0){
-					return 0;
+					return 0;// no mem
 			}else{
-
-				return -1;
+					return  1; //free()
 			}
 
 		return -1;
@@ -203,8 +202,7 @@ void* mem_malloc(const int _size)
 		 data = (unsigned char *)OSMemGet(&m_os_4m_mem, &m_os_err);
 
 	}else{
-			printf("mem malloc size error \n");
-			return NULL;
+			return malloc(_size);
 	}
 
 	if (m_os_err == OS_ERR_NONE) {
@@ -272,7 +270,9 @@ void mem_free(void* _mem)
 				}
 
 	}else if(ADDR_ZONE==0){
-			 return;
+			 return;//no mem
+	}else if(ADDR_ZONE==1){
+			free(_mem);
 	}else{
 			printf_mem_usage();
 			printf("mem FREE error NOT A BUFF ADDR");

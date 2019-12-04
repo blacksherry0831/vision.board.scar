@@ -12,7 +12,7 @@ typedef struct _FileTrans
 {
 	unsigned char nSize[ALIGN_SIZE_T];//this struct size
 	char prefix[ALIGN_SIZE_T];
-	char fileFullPath[ALIGN_SIZE_T*8];
+	char fileFullPath[ALIGN_SIZE_T*16];
 	char fileSize[ALIGN_SIZE_T];
 } FileTrans;
 ```

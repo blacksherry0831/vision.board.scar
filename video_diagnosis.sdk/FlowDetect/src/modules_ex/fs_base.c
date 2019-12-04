@@ -132,13 +132,133 @@ void fs_readfile(const char *fname, char *buffer, size_t *size, mode_t *mode)
    int fd=0;
    struct stat st;
 
-   ck(fd=open(fname,O_RDONLY) );
-   ck(fstat(fd,&st) );
+   CK_F(fd=open(fname,O_RDONLY) );
+   CK_F(fstat(fd,&st) );
    *size=st.st_size;
    *mode=st.st_mode;
-   buffer=calloc(1,*size+1);
-   ck(readall(fd, buffer, size) );
-   ck(close(fd) );
+   CK_F(readall(fd, buffer, size) );
+   CK_F(close(fd) );
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+const char *fs_find_file_name(const char *name)
+{
+	char *name_start = NULL;
+	int sep = '/';
+	if (NULL == name) {
+			PRINTF_DBG_EX("the path name is NULL\n");
+	    return NULL;
+	}
+	name_start = strrchr(name, sep);
+
+	return (NULL == name_start)?name:(name_start + 1);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void fs_get_file_path(const char *path, const char *filename,  char *filefullpath)
+{
+    strcpy(filefullpath, path);
+    if(filefullpath[strlen(path) - 1] != '/')
+        strcat(filefullpath, "/");
+    strcat(filefullpath, filename);
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int 	fs_is_file_reg_file(const char * _path)
+{
+		struct stat statbuf;
+	    lstat(_path, &statbuf);
+	    return (S_ISREG(statbuf.st_mode));//判断是否是常规文件
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int 	fs_is_file_dir(const char * _path)
+{
+		struct stat statbuf;
+		lstat(_path, &statbuf);
+		return (S_ISDIR(statbuf.st_mode));
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int fs_delete_file(const char* path)
+{
+    DIR *dir;
+    struct dirent *dirinfo;
+    struct stat statbuf;
+    char filefullpath[MAX_PATH_LEN] = {0};
+    lstat(path, &statbuf);
+
+    if (S_ISREG(statbuf.st_mode))//判断是否是常规文件
+    {
+        remove(path);
+    }
+    else if (S_ISDIR(statbuf.st_mode))//判断是否是目录
+    {
+        if ((dir = opendir(path)) == NULL)
+            return 1;
+        while ((dirinfo = readdir(dir)) != NULL)
+        {
+        	fs_get_file_path(path, dirinfo->d_name, filefullpath);
+            if (strcmp(dirinfo->d_name, ".") == 0 || strcmp(dirinfo->d_name, "..") == 0)//判断是否是特殊目录
+            continue;
+            fs_delete_file(filefullpath);
+            PRINTF_DBG_EX("delete path is = %s\n",filefullpath);
+            rmdir(filefullpath);
+        }
+        closedir(dir);
+    }else{
+    	assert(0);
+    }
+    return 0;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int fs_count_files(const char *path)
+{
+    DIR *dir_ptr = NULL;
+    struct dirent *direntp;
+    char *npath;
+    if (!path) return 0;
+    if( (dir_ptr = opendir(path)) == NULL ) return 0;
+
+    int count=0;
+    while( (direntp = readdir(dir_ptr)))
+    {
+        if (strcmp(direntp->d_name,".")==0 ||
+            strcmp(direntp->d_name,"..")==0) continue;
+        switch (direntp->d_type) {
+            case DT_REG:
+                ++count;
+                break;
+            case DT_DIR:
+                npath=malloc(strlen(path)+strlen(direntp->d_name)+2);
+                sprintf(npath,"%s/%s",path, direntp->d_name);
+                count += fs_count_files(npath);
+                free(npath);
+                break;
+        }
+    }
+    closedir(dir_ptr);
+    return count;
 }
 /*-----------------------------------*/
 /**

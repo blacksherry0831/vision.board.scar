@@ -14,7 +14,7 @@
 void init_mem_pool();
 
 void* mem_malloc(int _size);
-//void  mem_free(void* _mem);
+void  mem_free(void* _mem);
 void  mem_free_clr(void** _mem_ptr);
 void  mem_destory();
 

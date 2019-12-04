@@ -1,5 +1,16 @@
 #include "cmd_file.h"
 /*-----------------------------------*/
+#include "msg_queue/msg_sysV_queue.h"
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int IsFileDelete(const CMD_CTRL* _cmd_ctrl)
+{
+	return IsCmdCtrlCmd(_cmd_ctrl,CT_FILE,CT_FILE_DELETE);
+}
+/*-----------------------------------*/
 /**
  *
  */
@@ -28,7 +39,10 @@ int SetFileCmd(CMD_CTRL* _cmd_ctrl,const unsigned char _flag)
 
 	 _cmd->f_cmd[0]=CT_FILE;
 
-	 assert((_flag==CT_FILE_GET) || (_flag==CT_FILE_PUT));
+	 assert((_flag==CT_FILE_GET) ||
+			(_flag==CT_FILE_PUT) ||
+			(_flag==CT_START)	 ||
+			(_flag==CT_STOP));
 
 	 _cmd->f_cmd[1]=_flag;
 
@@ -42,6 +56,15 @@ int SetFileCmd(CMD_CTRL* _cmd_ctrl,const unsigned char _flag)
 FileTrans* GetFileTrans(const CMD_CTRL* cmd_t)
 {
 	 return (FileTrans *)(cmd_t->f_data);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+const char*	GetCmdCtrl_File_FullName(const CMD_CTRL* _cmd)
+{
+	 return ((FileTrans *)(_cmd->f_data))->fileFullPath;
 }
 /*-----------------------------------*/
 /**
@@ -99,6 +122,7 @@ void InitFileCfg(
 			file_t->prefix[3]='e';
 			file_t->prefix[4]='\0';
 			/*-----------------------------------*/
+			assert(strlen(_fileName)<(ALIGN_SIZE_T*16));
 			strcpy(file_t->fileFullPath,_fileName);
 			/*-----------------------------------*/
 			SetInt2Char(_fileSize,file_t->fileSize,ALIGN_SIZE_T);
@@ -117,16 +141,67 @@ void InitFileCfg(
  *
  */
 /*-----------------------------------*/
+int GetFileBodySize(const int _sz)
+{
+		const unsigned int UnionSize=sizeof(FileTransUI);
+		const unsigned int body_size=UnionSize+_sz;
+		assert(UnionSize<=STRUCT_UNION_SIZE);
+		return body_size;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+CMD_CTRL* CreateFileStart(
+		const int 		_seq,
+		const int		_cmd_param)
+{
+	const unsigned int body_size=GetFileBodySize(1);
+
+	CMD_CTRL*  cmd_t=CreateCmdCtrl(body_size);
+
+	if(cmd_t!=NULL){
+		SetFileCmd(cmd_t,CT_START);
+		SetCmdParam(cmd_t,_cmd_param);
+	}
+
+	assert(IsCmdCtrl_Debug(cmd_t,"copy buff_src 2 image: image ctrl is not a valid buff"));
+	return cmd_t;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+CMD_CTRL* CreateFileStop(
+		const int 		_seq,
+		const int		_cmd_param)
+{
+
+	const unsigned int body_size=GetFileBodySize(1);
+
+	CMD_CTRL*  cmd_t=CreateCmdCtrl(body_size);
+
+	if(cmd_t!=NULL){
+		SetFileCmd(cmd_t,CT_STOP);
+		SetCmdParam(cmd_t,_cmd_param);
+	}
+	assert(IsCmdCtrl_Debug(cmd_t,"copy buff_src 2 image: image ctrl is not a valid buff"));
+	return cmd_t;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 CMD_CTRL* CreateFileCtrl(
 		const char* 	_fileName,
 		const char*  	_fileData,
 		const int 		_fileSize,
 		const int 		_seq)
 {
-	const unsigned int UnionSize=sizeof(FileTransUI);
-	const unsigned int body_size=UnionSize+_fileSize;
-
-	assert(UnionSize<=STRUCT_UNION_SIZE);
+	const unsigned int body_size=GetFileBodySize(_fileSize);
 
 	CMD_CTRL*  cmd_t=CreateCmdCtrl(body_size);
 
@@ -148,19 +223,151 @@ CMD_CTRL* CreateFileCtrlEx(
 {
 	CMD_CTRL*  cmd_t=NULL;
 
-			char *buffer=NULL;
+			const int file_size=fs_file_size(_fileName);
+
+			char *buffer=mem_malloc(file_size+1);
 			 size_t size;
 			 mode_t mode;
 
 			 fs_readfile(_fileName,buffer,&size,&mode);
+			 assert(size==file_size);
 			 /* play with buffer here  */
 			 {
 				cmd_t=CreateFileCtrl(_fileName,buffer,size,_seq);
 			 }
-			 free(buffer);
+			 mem_free(buffer);
 
 
 	return cmd_t;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void send_dir(char* _path)
+{
+    DIR *d = NULL;
+    struct dirent *dp = NULL; /* readdir函数的返回值就存放在这个结构体中 */
+    struct stat st;
+    char p[MAX_PATH_LEN] = {0};
+
+    if(stat(_path, &st) < 0 || !S_ISDIR(st.st_mode)) {
+    	PRINTF_DBG_EX("invalid path: %s\n", _path);
+        return;
+    }
+
+    if(!(d = opendir(_path))) {
+    	PRINTF_DBG_EX("opendir[%s] error: %m\n", _path);
+        return;
+    }
+
+    while((dp = readdir(d)) != NULL) {
+        /* 把当前目录.，上一级目录..及隐藏文件都去掉，避免死循环遍历目录 */
+        if((!strncmp(dp->d_name, ".", 1)) || (!strncmp(dp->d_name, "..", 2)))
+            continue;
+
+        snprintf(p, sizeof(p) - 1, "%s/%s", _path, dp->d_name);
+        stat(p, &st);
+        if(!S_ISDIR(st.st_mode)) {
+        	PRINTF_DBG_EX("%s\n", dp->d_name);
+        	{
+        		char filefullpath[MAX_PATH_LEN] = {0};
+        		fs_get_file_path(_path, dp->d_name, filefullpath);
+        		PRINTF_DBG_EX("file put path is = %s\n",filefullpath);
+            	CMD_CTRL* cmd_t=CreateFileCtrlEx(filefullpath,0);
+                snd_queue_img_buff(cmd_t);
+        	}
+        } else {
+        	PRINTF_DBG_EX("%s/\n", dp->d_name);
+            send_dir(p);
+        }
+    }
+    closedir(d);
+
+    return;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int IsFileNameOnly(const char* _file)
+{
+	char* idx=strchr(_file,'/');
+	if(idx==NULL){
+		return TRUE;
+	}else{
+		return FALSE;
+	}
+	return FALSE;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void getFileFullPath(char* _ffp,const char* _file_name)
+{
+
+		char path_cfg[MAX_PATH_LEN]={0};
+		initProjectCfgDirPath_Separator(path_cfg);
+		sprintf(_ffp,"%s%s",path_cfg,_file_name);
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+const char* GetProjectConfigPathPrefix()
+{
+	return "project.cfg.";
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void mergeCmdFileFullPath(char* _ffp,const char* _file_name)
+{
+
+	assert(_file_name!=NULL);
+	assert(strlen(_file_name)<MAX_PATH_LEN);
+
+	if(IsFileNameOnly(_file_name)){
+
+		if(strcmp(_file_name,GetProjectConfigPathPrefix())==0){
+			getFileFullPath(_ffp,"");
+		}else{
+			getFileFullPath(_ffp,_file_name);
+		}
+
+	}else{
+			strcpy(_ffp,_file_name);
+	}
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void deleteFile_SdCard(const CMD_CTRL* _cmd)
+{
+
+	const FileTrans* data_t=GetFileTrans_const(_cmd);
+	const char*		filefullname_t=data_t->fileFullPath;
+	const int		filesize_t= Char2Int(data_t->fileSize,sizeof(int));
+	assert(filesize_t==0);
+
+	char filefullpath[MAX_PATH_LEN]={0};
+
+	mergeCmdFileFullPath(filefullpath,filefullname_t);
+
+	fs_delete_file(filefullpath);
+
+
 }
 /*-----------------------------------*/
 /**
@@ -175,12 +382,24 @@ void sendFile2Queue_filetran(const CMD_CTRL* _cmd)
 	const int		filesize_t= Char2Int(data_t->fileSize,sizeof(int));
 	assert(filesize_t==0);
 
-	if(fs_is_file_exist(filefullname_t)){
+	char filefullpath[MAX_PATH_LEN]={0};
+	mergeCmdFileFullPath(filefullpath,filefullname_t);
 
-			CMD_CTRL* cmd_t=CreateFileCtrlEx(filefullname_t,0);
+	if(fs_is_file_dir(filefullpath)){
 
-			snd_queue_img_buff(cmd_t);
+		const int file_count=fs_count_files(filefullpath);
+		snd_queue_img_buff(CreateFileStart(0,file_count));
+		send_dir(filefullpath);
+		snd_queue_img_buff(CreateFileStop(0,file_count));
 
+	}else	if(fs_is_file_reg_file(filefullpath)){
+
+		assert(TRUE==fs_is_file_exist(filefullpath));
+		CMD_CTRL* cmd_t=CreateFileCtrlEx(filefullpath,0);
+		snd_queue_img_buff(cmd_t);
+
+	}else{
+		assert(0);
 	}
 
 }
@@ -193,11 +412,14 @@ void SaveFile2SdCard_filetran(const CMD_CTRL* _cmd)
 {
 	const FileTrans* data_t=GetFileTrans_const(_cmd);
 	const char*		filefullname_t=data_t->fileFullPath;
-	const int		filesize_t= UChar2Int(data_t->fileSize,sizeof(int)) ;
+	const int		filesize_t= Char2Int(data_t->fileSize,sizeof(int)) ;
 	const char*		buffer_t=GetFileData_const(_cmd);
 
-	fs_store_binary(filefullname_t,buffer_t,filesize_t);
+	char filefullpath[MAX_PATH_LEN]={0};
 
+	mergeCmdFileFullPath(filefullpath,filefullname_t);
+
+	fs_store_binary(filefullpath,buffer_t,filesize_t);
 }
 /*-----------------------------------*/
 /**

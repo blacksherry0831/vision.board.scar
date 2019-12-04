@@ -219,6 +219,11 @@ extern int socket_write_1_cmd(int _sockfd,CMD_CTRL*  _cmd_ptr);
 extern int socket_write_1_cmd_release(int _sockfd,CMD_CTRL*  _cmd_ptr);
 extern int socket_write_1_cmd_raw_release(int _sockfd,CMD_CTRL*  _cmd_ptr);
 extern int socket_write_1_cmd_raw_data(int _sockfd,CMD_CTRL*  _cmd_ptr);
+int socket_write_1_cmd_release_time_cost(
+		const int 	_socketfd,
+		int*		_status,
+		CMD_CTRL*  _cmd_ptr,
+		const char* _msg);
 /*-----------------------------------*/
 /**
  *
@@ -263,10 +268,21 @@ extern int SendHeartbeatCmd(int _socketfd,int _need_resp,int _seq);
  *
  */
 /*-----------------------------------*/
+int SendHeartbeatCmd_TimeCost(
+		const int 	_socketfd,
+		int*		_status,
+		const int 	_need_resp,
+		const int 	_seq,
+		const char* _msg);
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 int GetStartCmdParam(const CMD_CTRL* const _cmd_ctrl);
 unsigned int GetCmdFrameSeq(const CMD_CTRL* const _cmd_ctrl);
 /*-----------------------------------*/
-
+int SetCmdParam(const CMD_CTRL* const _cmd_ctrl,const int _param);
 /*-----------------------------------*/
 void SetSensorStatus(CMD_CTRL* _cmd,int _status,int _channel);
 /*-----------------------------------*/

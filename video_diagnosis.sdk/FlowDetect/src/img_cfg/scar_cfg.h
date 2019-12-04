@@ -3,6 +3,7 @@
 /*-----------------------------------*/
 #include "linux_header.h"
 #include "def.h"
+#include "def_app.h"
 /*-----------------------------------*/
 #include "modules_ex/base.h"
 #include "modules_ex/cmd_scar.h"

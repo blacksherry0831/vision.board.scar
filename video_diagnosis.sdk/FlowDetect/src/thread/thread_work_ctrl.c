@@ -10,6 +10,8 @@
 /*-----------------------------------*/
 #include "modules_58/cetc_flash.h"
 /*-----------------------------------*/
+#include "def_app.h"
+/*-----------------------------------*/
 /**
  *
  */
@@ -176,6 +178,10 @@ int process_cmd_ctrl(CMD_CTRL*  _cmd,int* _resp_cmd_02,int* _resp_body)
 					}else if(IsFilePut(_cmd)){
 
 						SaveFile2SdCard_filetran(_cmd);
+
+					}else if(IsFileDelete(_cmd)){
+
+						deleteFile_SdCard(_cmd);
 
 					}else{
 							assert(0);

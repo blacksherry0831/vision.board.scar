@@ -9,7 +9,7 @@ void InitImageRoiRR(CMD_CTRL* cmd_t,int _ch,CvRect _rect_org,CvRect _rect_roi);
  *
  */
 /*-----------------------------------*/
-int SetCmdParam(const CMD_CTRL* const _cmd_ctrl,int _param)
+int SetCmdParam(const CMD_CTRL* const _cmd_ctrl,const int _param)
 {
 
 	assert(_param>=0);
@@ -470,14 +470,9 @@ int socket_write_1_cmd_raw_data(int _sockfd,CMD_CTRL*  _cmd_ptr)
  *
  */
 /*-----------------------------------*/
-int socket_write_1_cmd_release(int _sockfd,CMD_CTRL*  _cmd_ptr)
+int  TestCmdCtrl(CMD_CTRL*  _cmd_ptr)
 {
-	int status=TRUE;
-
-	if(IsCmdCtrl(_cmd_ptr)){
-
-			status=socket_write_1_cmd(_sockfd,_cmd_ptr);
-#if _DEBUG
+#ifdef _DEBUG
 			if(isHeartbeatCmd(_cmd_ptr)){
 				PRINTF_DBG_EX("socket send : HeartbeatCmd\n");
 			}
@@ -485,7 +480,28 @@ int socket_write_1_cmd_release(int _sockfd,CMD_CTRL*  _cmd_ptr)
 			if(IsImageFrame(_cmd_ptr)){
 				PRINTF_DBG_EX("socket send : ImageFrame\n");
 			}
+
+			if(IsFilePut(_cmd_ptr)){
+				const char* ffp=GetCmdCtrl_File_FullName(_cmd_ptr);
+				PRINTF_DBG_EX("socket send : File %s \n",ffp);
+			}
+
 #endif
+			return 1;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int socket_write_1_cmd_release(int _sockfd,CMD_CTRL*  _cmd_ptr)
+{
+	int status=TRUE;
+
+	if(IsCmdCtrl(_cmd_ptr)){
+
+			status=socket_write_1_cmd(_sockfd,_cmd_ptr);
+			assert(TestCmdCtrl(_cmd_ptr));
 			ReleaseCmdCtrl(&_cmd_ptr);
 
 
@@ -495,6 +511,25 @@ int socket_write_1_cmd_release(int _sockfd,CMD_CTRL*  _cmd_ptr)
 	}
 
 	return status;
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int socket_write_1_cmd_release_time_cost(
+		const int 		_socketfd,
+		int*			_status,
+		CMD_CTRL* 	 	_cmd_ptr,
+		const char* 	_msg)
+{
+		assert(_status!=NULL);
+		*_status=FALSE;
+		TIME_START();
+		*_status=socket_write_1_cmd_release(_socketfd,_cmd_ptr);
+		TIME_END(_msg);
+		return *_status;
 
 }
 /*-----------------------------------*/
@@ -895,6 +930,25 @@ int SendHeartbeatCmd(int _socketfd,int _need_resp,int _seq)
 	return socket_write_1_cmd_release(_socketfd,cmd);
 
 
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int SendHeartbeatCmd_TimeCost(
+		const int 	_socketfd,
+		int*	_status,
+		const int 	_need_resp,
+		const int 	_seq,
+		const char* _msg)
+{
+	assert(_status!=NULL);
+	*_status=FALSE;
+	TIME_START();
+	*_status=SendHeartbeatCmd(_socketfd,_need_resp,_seq);
+	TIME_END(_msg);
+	return *_status;
 }
 /*-----------------------------------*/
 /**
