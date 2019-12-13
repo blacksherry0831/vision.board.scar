@@ -55,6 +55,7 @@ enum CMD_TYPE_02 {
 		CT_LR_RUN_2=0x20,
 
 		CT_LIFE_CIRCLE_DEADLINE=0xA0,
+		CT_VERSION=0xA1,
 
 	};
 /*-----------------------------------*/
@@ -303,5 +304,7 @@ IplImageU* 	GetIplImageUx(const CMD_CTRL* cmd_t);
 int GetCmdImgViewChannel(const CMD_CTRL* const _cmd_ctrl);
 /*-----------------------------------*/
 int IsCmdCtrl_Debug(const CMD_CTRL* _cmd,const char* msg);
+/*-----------------------------------*/
+int isVersionCmd(const CMD_CTRL* _cmd_ctrl);
 /*-----------------------------------*/
 #endif

@@ -41,7 +41,7 @@ enum CMD_TYPE_02_RESP {
 	CT_NONE=0x02,
     
     CT_LIFE_CIRCLE_DEADLINE=0xA0,
-
+	CT_VERSION=0xA1,
 	};
 /*-----------------------------------*/
 /**
@@ -124,4 +124,18 @@ $$
 | ------------ | -------- | ----------------------- | -------------- |
 | 查询Deadline | CT_QUERY | CT_LIFE_CIRCLE_DEADLINE |                |
 | 应答Deadline | CT_RESP  | CT_OK                   | deadline*2hour |
+
+## 查询下位机版本号
+
+| Command      | 命令字01 | 命令字02   | BODY（2 bytes）                      |
+| ------------ | -------- | ---------- | ------------------------------------ |
+| 查询Deadline | CT_QUERY | CT_VERSION |                                      |
+| 应答Deadline | CT_RESP  | CT_OK      | 程序版本，偶数==稳定版，基数==测试版 |
+
+| VERSION                            | tip      | range     |
+| ---------------------------------- | -------- | --------- |
+| MAJOR                              | 主版本   | [0,65]    |
+| MINOR                              | 次版本   | [0,9]     |
+| SUBMINOR                           | 次子版本 | [0,99]    |
+| FULL=MAJORx1000+MINORx100+SUBMINOR | 版本号   | [0,65535] |
 

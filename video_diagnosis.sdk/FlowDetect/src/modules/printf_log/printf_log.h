@@ -34,18 +34,18 @@ extern int getPrintConsole();
         	if(getPrintConsole()){\
 					fprintf(stderr,"-----DEBUG-----\n");\
 					fprintf(stderr,"%s %s\n",__TIME__,__DATE__);\
-					fprintf(stderr,"%s:%d:%s():",__FILE__,__LINE__,__func__);\
+					fprintf(stderr,"%s:%d:%s()\n:",__FILE__,__LINE__,__func__);\
 					fprintf(stderr,__VA_ARGS__);\
         	}\
         }while(0)
 #endif
 /*-----------------------------------*/
 #define CK_F(x) \
-if( (x) == (-1) ){ perror("-1,Failure");exit(EXIT_FAILURE);}
+if( (x) == (-1) ){ perror("-1,Failure\n");exit(EXIT_FAILURE);}
 /*-----------------------------------*/
 void printf_error();
 /*-----------------------------------*/
-#define TIME_START()  do{struct timeval startTime,endTime;float Timeuse;gettimeofday(&startTime,NULL);
+#define TIME_START()  do{struct timeval startTime,endTime;float Timeuse=0;gettimeofday(&startTime,NULL);
 /*-----------------------------------*/
 #define TIME_END(X)		gettimeofday(&endTime,NULL);Timeuse = 1000000*(endTime.tv_sec - startTime.tv_sec) + (endTime.tv_usec - startTime.tv_usec);	PRINTF_DBG_EX("%s = %f us,%f ms\n",X,Timeuse,Timeuse/1000);}while(0)
 /*-----------------------------------*/

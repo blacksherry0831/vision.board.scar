@@ -11,7 +11,7 @@ void printf_dbg_fpga_scar_param()
 
 	const int work_mode=GetFpgaCircleWorkMode();
 
-#if _DEBUG
+#ifdef _DEBUG
 
 	PRINTF_DBG_EX("FPGA_CIRCLE_WORK_MODE: ");
 	if(work_mode&SCAR_DETECT_MODE_GLOBAL){
@@ -40,11 +40,12 @@ int  StartFpgaScarCircle(int _WorkMode,unsigned int _seq)
 {
 	int result_t=-1;
 
-	while(IsFpgaCircleRunning()==TRUE){
+
+
+	while(TRUE==IsCircleTaskRunning_FpgaCvt()){
 		PRINTF_DBG_EX("FPGA CIRCLE TASK IS RUNNING NOW,wait for fpga circle done ! \n");
 
-		SetFpgaTaskFirstStart(FALSE);
-		SetFpgaTaskSecondStart(FALSE);
+		init_1st_2nd_circle_flag();
 
 		sleep(1);
 		if(IsRun()==FALSE){
@@ -53,13 +54,9 @@ int  StartFpgaScarCircle(int _WorkMode,unsigned int _seq)
 	}
 
 
-	if( IsFpgaCircleRunning()==FALSE){
-		SetFpgaCircleRunning(TRUE);
-
-		SetFpgaTaskFirstStart(FALSE);
-		SetFpgaTaskSecondStart(FALSE);
-
-
+	if(FALSE==IsCircleTaskRunning_FpgaCvt()){
+		init_1st_2nd_circle_flag();
+		set_task_circle_start();
 
 		SetFrameCircleSeq(_seq);
 		result_t=post_Start_sig();
@@ -88,31 +85,31 @@ void setFpgaScarCmd(const CMD_CTRL* const _cmd_ctrl)
 		}else if(StartCmd02==CT_START_00){
 
 			PRINTF_DBG_EX("Rcv Start CMD 00 \n");
-			SetFpgaTaskFirstStart(TRUE);
+			set_1st_circle_start();
 
 		}else if(StartCmd02==CT_STOP_00){
 
-			SetFpgaTaskFirstStart(FALSE);
+			set_1st_circle_end();
 
 
 		}else if(StartCmd02==CT_START_01){
 
 			PRINTF_DBG_EX("Rcv Start CMD 01 \n");
-			SetFpgaTaskSecondStart(TRUE);
+			set_2nd_circle_start();
 
 		}else if(StartCmd02==CT_STOP_01){
 
-			SetFpgaTaskSecondStart(FALSE);
+			set_2nd_circle_end();
 
 		}else if(StartCmd02==CT_STOP){
 
 			PRINTF_DBG_EX("Rcv Stop CMD \n");
-			StopFpgaCircleRunning();
+			set_task_circle_end();
 
 
 		}else{
-
-			PRINTF_DBG_EX("Rcv Stop CMD \n");
+			assert(0);
+			PRINTF_DBG_EX("Rcv Error Cmd \n");
 
 		}
 

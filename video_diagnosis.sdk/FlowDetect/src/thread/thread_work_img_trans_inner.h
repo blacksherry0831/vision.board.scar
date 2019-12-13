@@ -1,5 +1,5 @@
-#ifndef  THREAD_WORK_IMG_TRANS_H
-#define  THREAD_WORK_IMG_TRANS_H
+#ifndef  THREAD_WORK_IMG_TRANS_INNER_H
+#define  THREAD_WORK_IMG_TRANS_INNER_H
 /*-----------------------------------*/
 #include "linux_header.h"
 /*-----------------------------------*/
@@ -13,8 +13,6 @@
 /*-----------------------------------*/
 #include "msg_queue/msg_sysV_queue.h"
 /*-----------------------------------*/
-#include "sync_img_msg_q.h"
-/*-----------------------------------*/
-pthread_t tcp_image_buff_trans_server(void *_data);
+pthread_t inner_image_buff_trans_server(void *_data);
 /*-----------------------------------*/
 #endif

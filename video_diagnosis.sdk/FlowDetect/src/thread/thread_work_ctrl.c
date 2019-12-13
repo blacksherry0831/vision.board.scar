@@ -40,11 +40,16 @@ int process_cmd_ctrl(CMD_CTRL*  _cmd,int* _resp_cmd_02,int* _resp_body)
 						}else{
 							assert(0);
 						}
+#if	PRINTF_HB
 						PRINTF_DBG_EX("Ctrl@Rcv hearbeat !\n");
-
+#endif
 					}else if(isLifeCircleDeadlineCmd(_cmd)){
 
 						*_resp_body=flash_get_deadline();
+
+					}else if(isVersionCmd(_cmd)){
+
+						*_resp_body=GetVersion();
 
 					}else if(IsImageRect(_cmd)){
 
@@ -177,7 +182,7 @@ int process_cmd_ctrl(CMD_CTRL*  _cmd,int* _resp_cmd_02,int* _resp_body)
 
 					}else if(IsFilePut(_cmd)){
 
-						SaveFile2SdCard_filetran(_cmd);
+						SaveFile2SdCard_filetran_TimeCost(_cmd);
 
 					}else if(IsFileDelete(_cmd)){
 

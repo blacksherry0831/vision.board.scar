@@ -1,20 +1,35 @@
-#ifndef  THREAD_WORK_IMG_TRANS_H
-#define  THREAD_WORK_IMG_TRANS_H
-/*-----------------------------------*/
-#include "linux_header.h"
-/*-----------------------------------*/
-#include "def_app.h"
-/*-----------------------------------*/
-#include "module_zynq7000_hi3516/axi_base.h"
-/*-----------------------------------*/
-#include "task/task_sync.h"
-/*-----------------------------------*/
-#include "modules_ex/tcp_server.h"
-/*-----------------------------------*/
-#include "msg_queue/msg_sysV_queue.h"
-/*-----------------------------------*/
 #include "sync_img_msg_q.h"
 /*-----------------------------------*/
-pthread_t tcp_image_buff_trans_server(void *_data);
+volatile int G_TCP_TRANS_THREADS=0;
 /*-----------------------------------*/
-#endif
+/**
+ *
+ */
+/*-----------------------------------*/
+int GetTcpTransImgThreads()
+{
+	return G_TCP_TRANS_THREADS;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void IncTcpTransImgThreads()
+{
+	__sync_fetch_and_add(&G_TCP_TRANS_THREADS,1);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void DecTcpTransImgThreads()
+{
+	__sync_fetch_and_sub(&G_TCP_TRANS_THREADS,1);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/

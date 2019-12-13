@@ -35,7 +35,7 @@ pthread_mutex_t FPGA_mutex_cvt = PTHREAD_MUTEX_INITIALIZER;
 /*-----------------------------------*/
 int IsCircleTaskRunning()
 {
-	return IsFpgaCircleRunning() && IsRun();
+	return IsCircleTaskRunning_FpgaCvt() && IsRun();
 }
 /*-----------------------------------*/
 /**
@@ -56,12 +56,13 @@ volatile int ProcessImageData=0;
 /*-----------------------------------*/
 int wait4FpgaStart()
 {
-	PRINTF_DBG_EX("FPGA>>wait for start cmd ! \n");
+	PRINTF_DBG_EX("FPGA Cvt >>wait for start cmd ! \n");
 
 	if(Wait4StartFpgaCircle()==SUCCESS){
 		return TRUE;
 	}else{
 		ExitFpgaThread();
+		exit(-1);
 	}
 
 	return FALSE;
@@ -71,57 +72,62 @@ int wait4FpgaStart()
  *
  */
 /*-----------------------------------*/
-int wait4Circle(const int _first_second)
+int wait4FirstCircle()
 {
+	while(IsCircleTaskRunning()){
 
-		while(IsCircleTaskRunning()){
+		const int start_1st=get_1st_circle_start();
 
-					if(_first_second==FIRST_CIRCLE_IO){
-
-							if(TRUE==IsFpgaTaskFirstStart()){
-								return TRUE;
-							}
-
-					}else if(_first_second==SECOND_CIRCLE_IO){
-
-							if(TRUE==IsFpgaTaskSecondStart()){
-								return TRUE;
-							}
-					}else{
-
-
-					}
-
-					usleep(1);
-
+		if(TRUE==start_1st){
+			return TRUE;
 		}
+
+		usleep(1);
+
+	}
 
 	return FALSE;
 }
-
 /*-----------------------------------*/
 /**
  *
  */
 /*-----------------------------------*/
-int IsCircleRunning(const int _first_second)
+int wait4Circle2nd()
 {
-	const int IsCircleRunning=IsCircleTaskRunning();
+	while(IsCircleTaskRunning()){
 
-				if(_first_second==0x00){
+			const int start_status=get_2nd_circle_start();
 
-					 return IsCircleRunning && IsFpgaTaskFirstStart();
+			if(TRUE==start_status){
+				return TRUE;
+			}
 
-				}else if(_first_second==0x01){
+			usleep(1);
 
-					 return IsCircleRunning && IsFpgaTaskSecondStart();
+		}
 
-				}else{
-
-						assert(0);
-				}
-
-				return 0;
+		return FALSE;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int IsFirstCircleRunning()
+{
+		const int IsCircleRunning=IsCircleTaskRunning();
+		return IsCircleRunning && get_1st_circle_start();
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int IsSecondCircleRunning()
+{
+		const int IsCircleRunning=IsCircleTaskRunning();
+		return IsCircleRunning && get_2nd_circle_running();
 
 }
 /*-----------------------------------*/
@@ -282,7 +288,7 @@ void theFirstCircleScar()
 
 			PRINTF_DBG_EX("FPGA>>wait for start cmd 00 ! \n");
 
-			if(wait4Circle(FirstCircle)){
+			if(wait4FirstCircle()){
 
 				PRINTF_DBG_EX("FPGA>>start cmd 00 ! \n");
 
@@ -291,7 +297,6 @@ void theFirstCircleScar()
 					}else{
 
 					}
-
 
 			}
 
@@ -309,7 +314,7 @@ void theFirstCircle()
 
 		PRINTF_DBG_EX("FPGA>>wait for start cmd 00 ! \n");
 
-		if(wait4Circle(FirstCircle)){
+		if(wait4FirstCircle()){
 
 			PRINTF_DBG_EX("FPGA>>start cmd 00 ! \n");
 
@@ -321,7 +326,7 @@ void theFirstCircle()
 								outside08_first_ex(First_Mode);
 							}while(0);
 
-							while(	IsCircleRunning(FirstCircle) ){
+							while(	IsFirstCircleRunning() ){
 									usleep(1);
 							}
 
@@ -329,7 +334,7 @@ void theFirstCircle()
 
 
 							for(FRAME_IDX_FIRST=0;
-									IsCircleRunning(FirstCircle) && IsFrameCollect(FRAME_IDX_FIRST);
+									IsFirstCircleRunning() && IsFrameCollect(FRAME_IDX_FIRST);
 									FRAME_IDX_FIRST++){
 
 									CvtFrame(0,FRAME_IDX_FIRST);
@@ -394,7 +399,7 @@ void theSecondCircleScar()
 
 	PRINTF_DBG_EX("FPGA>>wait for start cmd 01 ! \n");
 
-	if(wait4Circle(SecondCircle)){
+	if(wait4Circle2nd()){
 
 		PRINTF_DBG_EX("FPGA>>start cmd 01 ! \n");
 #if TRUE
@@ -402,15 +407,15 @@ void theSecondCircleScar()
 			int fi=0;
 
 			for(	fi=0,FRAME_IDX_SECOND=FRAME_IDX_FIRST;
-					IsCircleRunning(SecondCircle) && IsFrameCollect(FRAME_IDX_SECOND-FRAME_IDX_FIRST);
+					IsSecondCircleRunning() && IsFrameCollect(FRAME_IDX_SECOND-FRAME_IDX_FIRST);
 					fi++,FRAME_IDX_SECOND++){
 
 
-					const int  MASK_TOTAL_CHANNELS	= GetMaskSeqFrames();
+					const int  MASK_TOTAL_FRAMES	= GetMaskSeqFrames();
 					const int  MASK_LOOP			= GetScarMaskSeqChannel_Is_Loop();
 					const int  MASK_SNO				= GetScarMaskSeq_SNO();
 
-					if(fi>=MASK_TOTAL_CHANNELS){
+					if(fi>=MASK_TOTAL_FRAMES){
 						if(MASK_LOOP==FALSE){
 							break;
 						}else{
@@ -419,7 +424,7 @@ void theSecondCircleScar()
 					}
 
 					if(fi==0){
-						sendImageStart_DetectSno(MASK_TOTAL_CHANNELS,MASK_SNO);
+						sendImageStart_DetectSno(MASK_TOTAL_FRAMES,MASK_SNO);
 					}else{
 						//normal fpga cvt
 					}
@@ -449,12 +454,12 @@ void theSecondCircle()
 
 	PRINTF_DBG_EX("FPGA>>wait for start cmd 01 ! \n");
 
-	if(wait4Circle(SecondCircle)){
+	if(wait4Circle2nd()){
 
 		PRINTF_DBG_EX("FPGA>>start cmd 01 ! \n");
 
 			for(FRAME_IDX_SECOND=FRAME_IDX_FIRST;
-					IsCircleRunning(SecondCircle) &&  IsFrameCollect(FRAME_IDX_SECOND-FRAME_IDX_FIRST);
+					IsSecondCircleRunning() &&  IsFrameCollect(FRAME_IDX_SECOND-FRAME_IDX_FIRST);
 					FRAME_IDX_SECOND++){
 
 					CvtFrame(FRAME_IDX_FIRST,FRAME_IDX_SECOND);
@@ -474,7 +479,6 @@ void theSecondCircle()
 void stopThisCircle()
 {
 		sendImageStop();
-		StopFpgaCircleRunning();
 }
 /*-----------------------------------*/
 /**
@@ -533,56 +537,3 @@ void *fpga_cvt_server(void* _pdata)
  */
 /*-----------------------------------*/
 
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-void *axi_rcv_server(void* _pdata)
-{
-	while(IsRun()){
-
-		if(ProcessImageData==RCV_IMAGE_BY_SELF){
-
-				MESSAGE msg=rcv_queue_img_buff();
-
-				if(msg.message_type==ENOMSG){
-					usleep(10);
-				}else{
-
-					CMD_CTRL *img_data=msg._data;
-
-					IplImageU* imgU=(IplImageU*)img_data;
-					int ch=imgU->IpAddrChannel[0];
-
-					PRINTF_DBG_EX("inner rcv a image Channel:%d\n",ch);
-
-					ReleaseCmdCtrl(&img_data);
-				}
-
-
-
-
-		}else{
-			sleep(1);
-		}
-
-	}
-
-	pthread_exit(NULL);
-
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-pthread_t rcv_image_buff_axi_server(void *_data)
-{
-	pthread_t _thread_tid;
-	if( pthread_create(&_thread_tid, NULL, axi_rcv_server, _data) ){
-			PRINTF_DBG_EX(" Create print_thread1 thread error!\n");
-			exit(0);
-	}
- return _thread_tid;
-}

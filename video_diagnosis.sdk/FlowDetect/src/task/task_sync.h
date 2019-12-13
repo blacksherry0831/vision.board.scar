@@ -1,9 +1,19 @@
 #ifndef FLOW_SYNC_H
 #define FLOW_SYNC_H
-
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 #include "../linux_header.h"
 #include  "../def.h"
 #include "modules_ex/type.h"
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+#include "task/task_sync_fpga_cvt.h"
 /*-----------------------------------*/
 /**
  *
@@ -19,8 +29,6 @@ int IsRun();
 void StopRun(int _param);
 
 /*-----------------------------------*/
-
-void SetProjecRun(enum ProjectRun _pr);
 enum ProjectRun GetProjectRun();
 /*-----------------------------------*/
 void StopFpgaCircleRunning();
@@ -30,7 +38,10 @@ int GetFpgaCircleWorkMode();
 int SetFpgaCircleWorkMode(int _wm);
 /*-----------------------------------*/
 void EnterTcpTransImageThread(int _socket);
+/*-----------------------------------*/
 int IsTcpTransImageThreadRunning();
+void SetTcpTransImageThreadRunning(const int _v);
+/*-----------------------------------*/
 void ExitTcpTransImageThread();
 
 int IsFpgaCircleRunning();

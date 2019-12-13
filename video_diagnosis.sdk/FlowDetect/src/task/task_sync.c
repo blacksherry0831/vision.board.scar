@@ -29,9 +29,11 @@ volatile int FRAME_IDX=0;
 volatile unsigned int FRAME_IDX_MAX=UINT_MAX;
 volatile unsigned int FRAME_IDX_MIN=0;
 volatile unsigned int FRAME_CIRCLE_SEQ=0;
-volatile int FPGA_CIRCLE_TASK_RUNNING=FALSE;
-volatile int FPGA_CIRCLE_TASK_FIRST_START=FALSE;
-volatile int FPGA_CIRCLE_TASK_SECOND_START=FALSE;
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 volatile int FPGA_CIRCLE_WORK_MODE=WM_SIZE_FULL|WM_ORG_IMG;
 /*-----------------------------------*/
 /**
@@ -221,15 +223,9 @@ void ExitMemCpyThread()
  *
  */
 /*-----------------------------------*/
-void EnterTcpTransImageThread(int _socket)
+void SetTcpTransImageThreadRunning(const int _v)
 {
-	PRINTF_DBG_EX("pthread start>> [tcp image transfer thread]\n");
-
-	G_Thread_TCP_TRANS_IMG_Running=TRUE;
-
-	setCurrentThreadHighPriority(1);
-
-	set_socket_buf_size(_socket,16*1024*1024);
+	G_Thread_TCP_TRANS_IMG_Running=_v;
 }
 /*-----------------------------------*/
 /**
@@ -239,17 +235,6 @@ void EnterTcpTransImageThread(int _socket)
 int IsTcpTransImageThreadRunning()
 {
 	return G_Thread_TCP_TRANS_IMG_Running;
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-void ExitTcpTransImageThread()
-{
-	PRINTF_DBG_EX("pthread close>> [tcp image transfer thread]\n");
-	G_Thread_TCP_TRANS_IMG_Running=FALSE;
-	pthread_exit(NULL);
 }
 /*-----------------------------------*/
 /**
@@ -303,10 +288,9 @@ int IsTcpTransImageRun()
  *
  */
 /*-----------------------------------*/
-void printf_dbg_fpga_param()
+int printf_dbg_fpga_param()
 {
-
-#if _DEBUG
+#ifdef _DEBUG
 
 	PRINTF_DBG_EX("FPGA_CIRCLE_WORK_MODE: ");
 	if(FPGA_CIRCLE_WORK_MODE&WM_ORG_IMG){
@@ -324,7 +308,7 @@ void printf_dbg_fpga_param()
 	PRINTF_DBG_EX("\n");
 
 #endif
-
+	return TRUE;
 }
 /*-----------------------------------*/
 /**
@@ -340,31 +324,41 @@ int  post_Start_sig()
  *
  */
 /*-----------------------------------*/
-int  StartFpgaCircle(int _WorkMode,unsigned int _seq)
+int wait4fpgaCvtDone()
 {
-	int result_t=-1;
-
-	while(IsFpgaCircleRunning()==TRUE){
+	while(IsCircleTaskRunning_FpgaCvt()==TRUE){
 		PRINTF_DBG_EX("FPGA CIRCLE TASK IS RUNNING NOW,wait for fpga circle done ! \n");
-		FPGA_CIRCLE_TASK_FIRST_START=FPGA_CIRCLE_TASK_SECOND_START=FALSE;
-		sleep(1);
+		init_1st_2nd_task_circle_flag();
+		sleepMS(100);
 		if(IsRun()==FALSE){
 			return -1;
 		}
 	}
+	return TRUE;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int  StartFpgaCircle(int _WorkMode,unsigned int _seq)
+{
 
+	wait4fpgaCvtDone();
 
-	if(IsFpgaCircleRunning()==FALSE){
-		FPGA_CIRCLE_TASK_RUNNING=TRUE;
-		FPGA_CIRCLE_TASK_FIRST_START=FPGA_CIRCLE_TASK_SECOND_START=FALSE;
+	int result_t=-1;
+
+	assert(FALSE==IsCircleTaskRunning_FpgaCvt());
+
+	if(FALSE==IsCircleTaskRunning_FpgaCvt()){
+		init_1st_2nd_task_circle_flag();
+		set_task_circle_start();
 		SetFpgaCircleWorkMode(_WorkMode);
 		SetFrameCircleSeq(_seq);
 		result_t= post_Start_sig();
 	}
 
-
-
-	printf_dbg_fpga_param();
+	assert(printf_dbg_fpga_param());
 
 	return result_t;
 }
@@ -375,43 +369,7 @@ int  StartFpgaCircle(int _WorkMode,unsigned int _seq)
 /*-----------------------------------*/
 void StopFpgaCircleRunning()
 {
-	FPGA_CIRCLE_TASK_RUNNING=FPGA_CIRCLE_TASK_FIRST_START=FPGA_CIRCLE_TASK_SECOND_START=FALSE;
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-int IsFpgaTaskFirstStart()
-{
-	return FPGA_CIRCLE_TASK_FIRST_START;
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-void SetFpgaTaskFirstStart(int _switch)
-{
-	FPGA_CIRCLE_TASK_FIRST_START=_switch;
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-int IsFpgaTaskSecondStart()
-{
-	return FPGA_CIRCLE_TASK_SECOND_START;
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-void SetFpgaTaskSecondStart(int _switch)
-{
-	FPGA_CIRCLE_TASK_SECOND_START=_switch;
+	init_1st_2nd_task_circle_flag();
 }
 /*-----------------------------------*/
 /**
@@ -432,33 +390,32 @@ void setFpgaCircleCmd(const CMD_CTRL* const _cmd_ctrl)
 		}else if(StartCmd01==CT_START_00){
 
 			PRINTF_DBG_EX("workflow@Rcv Start CMD 00 \n");
-			FPGA_CIRCLE_TASK_FIRST_START=TRUE;
+			set_1st_circle_start();
 
 		}else if(StartCmd01==CT_STOP_00){
 
 			PRINTF_DBG_EX("workflow@Rcv Stop  CMD 00\n");
-			FPGA_CIRCLE_TASK_FIRST_START=FALSE;
+			set_1st_circle_end();
 
 		}else if(StartCmd01==CT_START_01){
 
 			PRINTF_DBG_EX("workflow@Rcv Start CMD 01 \n");
-			FPGA_CIRCLE_TASK_SECOND_START=TRUE;
+			set_2nd_circle_start();
 
 		}else if(StartCmd01==CT_STOP_01){
 
 			PRINTF_DBG_EX("workflow@Rcv Stop  CMD 	01\n");
-			FPGA_CIRCLE_TASK_SECOND_START=FALSE;
+			set_2nd_circle_end();
 
 		}else if(StartCmd01==CT_STOP){
 
 			PRINTF_DBG_EX("workflow@Rcv Stop CMD \n");
-			StopFpgaCircleRunning();
-
+			set_task_circle_end();
 
 		}else{
 
-			PRINTF_DBG_EX("Rcv Stop CMD \n");
-
+			PRINTF_DBG_EX("workflow@Rcv Error CMD \n");
+			assert(0);
 		}
 
 }
@@ -487,24 +444,6 @@ int Wait4StartFpgaCircle()
 int Wait4FpgaCircleDone()
 {
 	return sem_wait_infinite(&m_sem_fpga_circle_done);
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-int IsFpgaCircleRunning()
-{
-	return FPGA_CIRCLE_TASK_RUNNING;
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-void SetFpgaCircleRunning(int _run)
-{
-	FPGA_CIRCLE_TASK_RUNNING=_run;
 }
 /*-----------------------------------*/
 /**

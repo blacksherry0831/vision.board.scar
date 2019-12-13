@@ -14,6 +14,8 @@
 #include "modules_ex/type.h"
 #include "modules_ex/fs_base.h"
 /*-----------------------------------*/
+#include "module_zynq7000_hi3516/def_hw_zynq7000_hi3516.h"
+/*-----------------------------------*/
 /**
  *
  */
@@ -67,6 +69,7 @@ int IsFileGet(const CMD_CTRL* _cmd_ctrl);
 int IsFilePut(const CMD_CTRL* _cmd_ctrl);
 /*-----------------------------------*/
 void sendFile2Queue_filetran(const CMD_CTRL* _cmd);
+void SaveFile2SdCard_filetran_TimeCost(const CMD_CTRL* _cmd);
 void SaveFile2SdCard_filetran(const CMD_CTRL* _cmd);
 void deleteFile_SdCard(const CMD_CTRL* _cmd);
 /*-----------------------------------*/

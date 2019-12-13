@@ -201,6 +201,7 @@ void uninstall()
 /*-----------------------------------*/
 void init()
 {
+	PrintBuildTime();
 	init_once();
 	install();
 	init_device();
@@ -228,6 +229,7 @@ int main_ring()
 			test();
 #endif
 
+			pthread_t thread_task_inner_rcv=inner_image_buff_trans_server(NULL);
 			pthread_t thread_task_tcp_rcv=tcp_image_buff_trans_server(NULL);
 
 			sleep(1);//let tcp data trans thread start first
@@ -248,10 +250,9 @@ int main_ring()
 
 			destory();
 
+			pthread_join(thread_task_inner_rcv,NULL);
 			pthread_join(thread_task_tcp_flow,NULL);
-
 			pthread_join(thread_task_tcp_rcv,NULL);
-
 			pthread_join(thread_task_fpga_cvt,NULL);
 			pthread_join(thread_task_dma,NULL);
 			pthread_join(thread_task_memcpy,NULL);

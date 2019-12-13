@@ -259,6 +259,15 @@ int isLifeCircleDeadlineCmd(const CMD_CTRL* _cmd_ctrl)
  *
  */
 /*-----------------------------------*/
+int isVersionCmd(const CMD_CTRL* _cmd_ctrl)
+{
+	return IsCmdCtrlCmd(_cmd_ctrl,CT_QUERY,CT_VERSION);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 int isHeartbeatCmd(const CMD_CTRL* _cmd_ctrl)
 {
 	return IsCmdCtrlCmd(_cmd_ctrl,CT_HEART,CT_BEAT);
@@ -473,6 +482,7 @@ int socket_write_1_cmd_raw_data(int _sockfd,CMD_CTRL*  _cmd_ptr)
 int  TestCmdCtrl(CMD_CTRL*  _cmd_ptr)
 {
 #ifdef _DEBUG
+#if 0
 			if(isHeartbeatCmd(_cmd_ptr)){
 				PRINTF_DBG_EX("socket send : HeartbeatCmd\n");
 			}
@@ -485,7 +495,7 @@ int  TestCmdCtrl(CMD_CTRL*  _cmd_ptr)
 				const char* ffp=GetCmdCtrl_File_FullName(_cmd_ptr);
 				PRINTF_DBG_EX("socket send : File %s \n",ffp);
 			}
-
+#endif
 #endif
 			return 1;
 }

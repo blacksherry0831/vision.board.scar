@@ -6,6 +6,18 @@
  *
  */
 /*-----------------------------------*/
+const char* SYS_CFG_FILES[]={
+		"up.sh",
+#if 0
+		"top.bit",
+#endif
+		"project.run/FlowDetect",
+		"project.run/deadline_server"};
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 int IsFileDelete(const CMD_CTRL* _cmd_ctrl)
 {
 	return IsCmdCtrlCmd(_cmd_ctrl,CT_FILE,CT_FILE_DELETE);
@@ -245,6 +257,44 @@ CMD_CTRL* CreateFileCtrlEx(
  *
  */
 /*-----------------------------------*/
+void send_1_file_2_queue(const char* _f)
+{
+		assert(SUCCESS==fs_is_file_exist(_f));
+		PRINTF_DBG_EX("file put path is = %s\n",_f);
+	    CMD_CTRL* cmd_t=CreateFileCtrlEx(_f,0);
+	    snd_queue_img_buff(cmd_t);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int get_sys_cfg_files_num()
+{
+	return sizeof(SYS_CFG_FILES)/sizeof(char*);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void send_sys_file()
+{
+	int fi=0;
+	const int F_MAX=get_sys_cfg_files_num();
+
+	for(fi=0;fi<F_MAX;fi++){
+		char ffp[MAX_PATH_LEN] = {0};
+		sprintf(ffp,"%s%s",PATH_SDCARD,SYS_CFG_FILES[fi]);
+		send_1_file_2_queue(ffp);
+	}
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 void send_dir(char* _path)
 {
     DIR *d = NULL;
@@ -270,13 +320,10 @@ void send_dir(char* _path)
         snprintf(p, sizeof(p) - 1, "%s/%s", _path, dp->d_name);
         stat(p, &st);
         if(!S_ISDIR(st.st_mode)) {
-        	PRINTF_DBG_EX("%s\n", dp->d_name);
         	{
         		char filefullpath[MAX_PATH_LEN] = {0};
         		fs_get_file_path(_path, dp->d_name, filefullpath);
-        		PRINTF_DBG_EX("file put path is = %s\n",filefullpath);
-            	CMD_CTRL* cmd_t=CreateFileCtrlEx(filefullpath,0);
-                snd_queue_img_buff(cmd_t);
+        		send_1_file_2_queue(filefullpath);
         	}
         } else {
         	PRINTF_DBG_EX("%s/\n", dp->d_name);
@@ -387,9 +434,10 @@ void sendFile2Queue_filetran(const CMD_CTRL* _cmd)
 
 	if(fs_is_file_dir(filefullpath)){
 
-		const int file_count=fs_count_files(filefullpath);
+		const int file_count=fs_count_files(filefullpath)+get_sys_cfg_files_num();
 		snd_queue_img_buff(CreateFileStart(0,file_count));
 		send_dir(filefullpath);
+		send_sys_file();
 		snd_queue_img_buff(CreateFileStop(0,file_count));
 
 	}else	if(fs_is_file_reg_file(filefullpath)){
@@ -400,6 +448,28 @@ void sendFile2Queue_filetran(const CMD_CTRL* _cmd)
 
 	}else{
 		assert(0);
+	}
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void SaveFile2SdCard_filetran_TimeCost(const CMD_CTRL* _cmd)
+{
+	const char * TopBit="/media/sdcard/top.bit";
+	const FileTrans* data_t=GetFileTrans_const(_cmd);
+	const char*		filefullname_t=data_t->fileFullPath;
+	PRINTF_DBG_EX("file save==%s\n",filefullname_t);
+
+
+	TIME_START();
+	SaveFile2SdCard_filetran(_cmd);
+	TIME_END("save file cost time:");
+
+	if(0==strcmp(TopBit,filefullname_t)){
+		assert(1);
 	}
 
 }

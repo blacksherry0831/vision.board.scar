@@ -22,4 +22,9 @@ int MakeProjectDirectory();
 void initProjectCfgDirPath_Separator(char *_path);
 void initProjectCfgDirPath(char *_path);
 /*-----------------------------------*/
+void PrintBuildTime();
+short unsigned int GetVersion();
+/*-----------------------------------*/
+#define PRINTF_HB	(0)
+/*-----------------------------------*/
 #endif
