@@ -16,7 +16,7 @@
  *
  */
 /*-----------------------------------*/
-int process_cmd_ctrl(CMD_CTRL*  _cmd,int* _resp_cmd_02,int* _resp_body)
+int process_cmd_ctrl(CMD_CTRL*  _cmd,int* _resp_cmd_02,unsigned int* _resp_body)
 {
 					const int CMD_BODY_MAX=INT_MAX;
 
@@ -205,14 +205,14 @@ int process_cmd_ctrl(CMD_CTRL*  _cmd,int* _resp_cmd_02,int* _resp_body)
 void* task_flow_ctrl_server_client(void *_data)
 {
 
-   	int sock_server=*((int*)_data);
+   const	int sock_server=*((int*)_data);
 
    	mem_free_clr(&_data);
 
 	int socket_read_stat=TRUE;
 	int socket_send_stat=TRUE;
 	int cmd_resp_status=FALSE;
-	int cmd_resp_body =0;
+	unsigned int cmd_resp_body =0;
 	int fpga_ctrl_stat=SUCCESS;
 
 	EnterTaskFlowCtrl();

@@ -20,11 +20,6 @@ unsigned int    FPGA_CvtDone=0;
  *
  */
 /*-----------------------------------*/
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
 pthread_cond_t 	mCondFpgaStartStep_1=PTHREAD_COND_INITIALIZER;
 pthread_mutex_t mMutexFpga=PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t FPGA_mutex_cvt = PTHREAD_MUTEX_INITIALIZER;
@@ -37,18 +32,6 @@ int IsCircleTaskRunning()
 {
 	return IsCircleTaskRunning_FpgaCvt() && IsRun();
 }
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-volatile int ProcessImageData=0;
 /*-----------------------------------*/
 /**
  *
@@ -72,7 +55,7 @@ int wait4FpgaStart()
  *
  */
 /*-----------------------------------*/
-int wait4FirstCircle()
+int wait4Circle1st()
 {
 	while(IsCircleTaskRunning()){
 
@@ -117,7 +100,7 @@ int wait4Circle2nd()
 int IsFirstCircleRunning()
 {
 		const int IsCircleRunning=IsCircleTaskRunning();
-		return IsCircleRunning && get_1st_circle_start();
+		return IsCircleRunning && get_1st_circle_running();
 }
 /*-----------------------------------*/
 /**
@@ -152,7 +135,7 @@ int  initFirstMode()
  *
  */
 /*-----------------------------------*/
-int IsFrameCollect(int _current_idx)
+int IsFrameCollect(const unsigned int _current_idx)
 {
 
 	if(_current_idx<GetFrameIdxMax()){
@@ -288,7 +271,7 @@ void theFirstCircleScar()
 
 			PRINTF_DBG_EX("FPGA>>wait for start cmd 00 ! \n");
 
-			if(wait4FirstCircle()){
+			if(wait4Circle1st()){
 
 				PRINTF_DBG_EX("FPGA>>start cmd 00 ! \n");
 
@@ -314,7 +297,7 @@ void theFirstCircle()
 
 		PRINTF_DBG_EX("FPGA>>wait for start cmd 00 ! \n");
 
-		if(wait4FirstCircle()){
+		if(wait4Circle1st()){
 
 			PRINTF_DBG_EX("FPGA>>start cmd 00 ! \n");
 

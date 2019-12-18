@@ -74,34 +74,34 @@ int  StartFpgaScarCircle(int _WorkMode,unsigned int _seq)
 void setFpgaScarCmd(const CMD_CTRL* const _cmd_ctrl)
 {
 	const int StartParam=GetStartCmdParam(_cmd_ctrl);
-	const int StartCmd02=GetCmdCmd02(_cmd_ctrl);
+	const int StartCmd01=GetCmdCmd01(_cmd_ctrl);
 	const unsigned int StartSeq=GetCmdFrameSeq(_cmd_ctrl);
 
-		if(StartCmd02 == CT_START){
+		if(StartCmd01 == CT_START){
 
 			PRINTF_DBG_EX("Rcv Start CMD \n");
 			StartFpgaScarCircle(StartParam,StartSeq);
 
-		}else if(StartCmd02==CT_START_00){
+		}else if(StartCmd01==CT_START_00){
 
 			PRINTF_DBG_EX("Rcv Start CMD 00 \n");
 			set_1st_circle_start();
 
-		}else if(StartCmd02==CT_STOP_00){
+		}else if(StartCmd01==CT_STOP_00){
 
 			set_1st_circle_end();
 
 
-		}else if(StartCmd02==CT_START_01){
+		}else if(StartCmd01==CT_START_01){
 
 			PRINTF_DBG_EX("Rcv Start CMD 01 \n");
 			set_2nd_circle_start();
 
-		}else if(StartCmd02==CT_STOP_01){
+		}else if(StartCmd01==CT_STOP_01){
 
 			set_2nd_circle_end();
 
-		}else if(StartCmd02==CT_STOP){
+		}else if(StartCmd01==CT_STOP){
 
 			PRINTF_DBG_EX("Rcv Stop CMD \n");
 			set_task_circle_end();

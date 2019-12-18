@@ -257,13 +257,17 @@ int IsImageRect(const CMD_CTRL* _cmd_ctrl);
 int IsImageMaskChange(const CMD_CTRL* _cmd_ctrl);
 int IsImageChangeWorkMode(const CMD_CTRL* _cmd_ctrl);
 /*-----------------------------------*/
-int GetCmdCmd02(const CMD_CTRL* const _cmd_ctrl);
+int GetCmdCmd01(const CMD_CTRL* const _cmd_ctrl);
 int GetCmdParam(const CMD_CTRL* const _cmd_ctrl);
 /*-----------------------------------*/
 extern unsigned int GetCMDBodySize(CMD_CTRL_HEADER _cmd);
 extern void initRespCmd(CMD_CTRL* cmd_t,int _ok);
-extern int SendRespCmd(int _socketfd,int _ok,int _body);
-extern int SendHeartbeatCmd(int _socketfd,int _need_resp,int _seq);
+extern int SendRespCmd(int _socketfd,int _ok,const unsigned int _body);
+
+int SendHeartbeatCmd(
+		const int _socketfd,
+		const unsigned int _need_resp,
+		const int _seq);
 /*-----------------------------------*/
 /**
  *
@@ -283,7 +287,9 @@ int SendHeartbeatCmd_TimeCost(
 int GetStartCmdParam(const CMD_CTRL* const _cmd_ctrl);
 unsigned int GetCmdFrameSeq(const CMD_CTRL* const _cmd_ctrl);
 /*-----------------------------------*/
-int SetCmdParam(const CMD_CTRL* const _cmd_ctrl,const int _param);
+int SetCmdParam(
+		const CMD_CTRL* const _cmd_ctrl,
+		const unsigned int _param);
 /*-----------------------------------*/
 void SetSensorStatus(CMD_CTRL* _cmd,int _status,int _channel);
 /*-----------------------------------*/

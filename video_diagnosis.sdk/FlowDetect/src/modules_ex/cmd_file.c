@@ -167,7 +167,7 @@ int GetFileBodySize(const int _sz)
 /*-----------------------------------*/
 CMD_CTRL* CreateFileStart(
 		const int 		_seq,
-		const int		_cmd_param)
+		const unsigned int		_cmd_param)
 {
 	const unsigned int body_size=GetFileBodySize(1);
 
@@ -187,8 +187,8 @@ CMD_CTRL* CreateFileStart(
  */
 /*-----------------------------------*/
 CMD_CTRL* CreateFileStop(
-		const int 		_seq,
-		const int		_cmd_param)
+		const int 				_seq,
+		const unsigned int		_cmd_param)
 {
 
 	const unsigned int body_size=GetFileBodySize(1);

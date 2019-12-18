@@ -15,6 +15,12 @@ struct cmd_param
   int sensor;
 };
 /*-----------------------------------*/
+void SetFrameIdxMax(unsigned int _max);
+unsigned int GetFrameIdxMax();
+/*-----------------------------------*/
+void SetFrameIdxMin(unsigned int _max);
+unsigned int GetFrameIdxMin();
+/*-----------------------------------*/
 unsigned int GetGlobalSensorMask(const int _ch);
 /*-----------------------------------*/
 int  GetSigmaUp();

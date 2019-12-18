@@ -9,7 +9,9 @@ void InitImageRoiRR(CMD_CTRL* cmd_t,int _ch,CvRect _rect_org,CvRect _rect_roi);
  *
  */
 /*-----------------------------------*/
-int SetCmdParam(const CMD_CTRL* const _cmd_ctrl,const int _param)
+int SetCmdParam(
+		const CMD_CTRL* const _cmd_ctrl,
+		const unsigned int _param)
 {
 
 	assert(_param>=0);
@@ -182,7 +184,7 @@ int GetCmdParam(const CMD_CTRL* const _cmd_ctrl)
  *
  */
 /*-----------------------------------*/
-int GetCmdCmd02(const CMD_CTRL* const _cmd_ctrl)
+int GetCmdCmd01(const CMD_CTRL* const _cmd_ctrl)
 {
 	const CMD_CTRL_HEADER* _cmd=&(_cmd_ctrl->f_header);
 
@@ -814,7 +816,10 @@ CMD_CTRL* CreateImageStop(int _ch,unsigned int _seq)
  *
  */
 /*-----------------------------------*/
-CMD_CTRL* CreateImageHeartbeat(int _ch,int _need_resp,int _seq)
+CMD_CTRL* CreateImageHeartbeat(
+		const int _ch,
+		const unsigned int _need_resp,
+		const int _seq)
 {
 	CMD_CTRL*  cmd_t=CreateImageCtrl(_ch,FRAME_IDX_TYPE_HEARBEAT,ALIGN_BYTE,1,1,_seq);//4 byte align
 	SetHeartbeatCmd(cmd_t, _need_resp);
@@ -917,7 +922,7 @@ void initRespCmd(CMD_CTRL* cmd,int _ok)
  *
  */
 /*-----------------------------------*/
-int SendRespCmd(int _socketfd,int _ok,int _body)
+int SendRespCmd(int _socketfd,int _ok,const unsigned int _body)
 {
 	CMD_CTRL* cmd=CreateCmdCtrl(0);
 
@@ -932,7 +937,10 @@ int SendRespCmd(int _socketfd,int _ok,int _body)
  *
  */
 /*-----------------------------------*/
-int SendHeartbeatCmd(int _socketfd,int _need_resp,int _seq)
+int SendHeartbeatCmd(
+		const int _socketfd,
+		const unsigned int _need_resp,
+		const int _seq)
 {
 
 	CMD_CTRL* cmd=CreateImageHeartbeat(0,_need_resp,_seq);

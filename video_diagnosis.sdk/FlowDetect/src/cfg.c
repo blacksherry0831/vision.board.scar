@@ -3,6 +3,9 @@
 static int G_Sigma_Up=6;
 static int G_Sigma_Down=6;
 /*-----------------------------------*/
+static volatile unsigned int G_FRAME_IDX_MAX=UINT_MAX;
+static volatile unsigned int G_FRAME_IDX_MIN=0;
+/*-----------------------------------*/
 static volatile unsigned int G_SENSOR=0xff;
 /*-----------------------------------*/
 /**
@@ -112,6 +115,42 @@ unsigned int GetGlobalSensorMask(const int _ch)
 				return FALSE;
 			}
 
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void SetFrameIdxMin(const unsigned int _max)
+{
+	G_FRAME_IDX_MIN=_max;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+unsigned int GetFrameIdxMin()
+{
+	return G_FRAME_IDX_MIN;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void SetFrameIdxMax(const unsigned int _max)
+{
+	G_FRAME_IDX_MAX=_max;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+unsigned int GetFrameIdxMax()
+{
+	return G_FRAME_IDX_MAX;
 }
 /*-----------------------------------*/
 /**

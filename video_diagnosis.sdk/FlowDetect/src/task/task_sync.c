@@ -26,8 +26,7 @@ sem_t m_sem_fpga_circle_start;
 sem_t m_sem_fpga_circle_done;
 /*-----------------------------------*/
 volatile int FRAME_IDX=0;
-volatile unsigned int FRAME_IDX_MAX=UINT_MAX;
-volatile unsigned int FRAME_IDX_MIN=0;
+/*-----------------------------------*/
 volatile unsigned int FRAME_CIRCLE_SEQ=0;
 /*-----------------------------------*/
 /**
@@ -379,7 +378,7 @@ void StopFpgaCircleRunning()
 void setFpgaCircleCmd(const CMD_CTRL* const _cmd_ctrl)
 {
 	const int StartParam=GetStartCmdParam(_cmd_ctrl);
-	const int StartCmd01=GetCmdCmd02(_cmd_ctrl);
+	const int StartCmd01=GetCmdCmd01(_cmd_ctrl);
 	const unsigned int StartSeq=GetCmdFrameSeq(_cmd_ctrl);
 
 		if(StartCmd01 == CT_START){
@@ -485,42 +484,6 @@ int SetFpgaCircleWorkMode(int _wm)
 	SetDmaFrameByWorkMode(_wm);
 
 	return 1;
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-void SetFrameIdxMin(unsigned int _max)
-{
-	FRAME_IDX_MIN=_max;
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-unsigned int GetFrameIdxMin()
-{
-	return FRAME_IDX_MIN;
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-void SetFrameIdxMax(unsigned int _max)
-{
-	FRAME_IDX_MAX=_max;
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-unsigned int GetFrameIdxMax()
-{
-	return FRAME_IDX_MAX;
 }
 /*-----------------------------------*/
 /**
