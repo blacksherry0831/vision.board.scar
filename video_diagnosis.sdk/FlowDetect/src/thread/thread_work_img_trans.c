@@ -4,6 +4,32 @@
  *
  */
 /*-----------------------------------*/
+int SendHeartbeatCmd_Ex(
+		const int 	_socketfd,
+		int*		_status,
+		const int 	_need_resp,
+		const int 	_seq,
+		const char* _msg)
+{
+#if PRINTF_HB
+				SendHeartbeatCmd_TimeCost(
+											_socketfd,
+											_status,
+											_need_resp,
+											_seq,
+											_msg);
+#else
+				*_status=SendHeartbeatCmd(
+										_socketfd,
+										_need_resp,
+										GetFrameCircleSeq());
+#endif
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 void EnterTcpTransImageThread(int _socket)
 {
 	PRINTF_DBG_EX("pthread start>> [tcp image transfer thread]\n");
@@ -63,19 +89,13 @@ void* tcp_data_transfer_image(void *_data)
 												seconds_old=time(NULL);
 #if PRINTF_HB
 													PRINTF_DBG_EX("DATA@ hearbeat freq(s): %d ",time_step);
-
-													SendHeartbeatCmd_TimeCost(
-														sock_server,
-														&socket_status,
-														HB_NONE,
-														GetFrameCircleSeq(),
-														"DATA@ TCP SEND Heartbeat cost :");
-#else
-													socket_status=SendHeartbeatCmd(
-														sock_server,
-														HB_NONE,
-														GetFrameCircleSeq());
 #endif
+													SendHeartbeatCmd_Ex(
+															sock_server,
+															&socket_status,
+															HB_NONE,
+															GetFrameCircleSeq(),
+															"DATA@ TCP SEND Heartbeat cost :");
 
 											}
 											sleep_1ms();
