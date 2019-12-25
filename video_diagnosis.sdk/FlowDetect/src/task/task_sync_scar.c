@@ -59,7 +59,7 @@ int  StartFpgaScarCircle(int _WorkMode,unsigned int _seq)
 		set_task_circle_start();
 
 		SetFrameCircleSeq(_seq);
-		result_t=post_Start_sig();
+		result_t=post_fpga_start_sig();
 	}
 
 	printf_dbg_fpga_scar_param();

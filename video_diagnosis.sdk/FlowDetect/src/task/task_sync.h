@@ -24,6 +24,9 @@ extern sem_t m_sem_dma_frame_done2Mem;
 extern sem_t m_sem_dma_frame_done2fpga;
 extern sem_t m_sem_memcpy_frame_done;
 /*-----------------------------------*/
+int  post_fpga_start_sig();
+int  wait_fpga_start_sig();
+/*-----------------------------------*/
 
 int IsRun();
 void StopRun(int _param);

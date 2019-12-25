@@ -22,8 +22,7 @@ sem_t m_sem_dma_frame_done2Mem;
 sem_t m_sem_dma_frame_done2fpga;
 sem_t m_sem_memcpy_frame_done;
 /*-----------------------------------*/
-sem_t m_sem_fpga_circle_start;
-sem_t m_sem_fpga_circle_done;
+static  sem_t m_sem_fpga_circle_start;
 /*-----------------------------------*/
 volatile int FRAME_IDX=0;
 /*-----------------------------------*/
@@ -43,8 +42,7 @@ sem_t* SEM[]={&m_sem_fpga_frame_done,
 				&m_sem_dma_frame_done2Mem,
 				&m_sem_dma_frame_done2fpga,
 				&m_sem_memcpy_frame_done,
-				&m_sem_fpga_circle_start,
-				&m_sem_fpga_circle_done
+				&m_sem_fpga_circle_start
 };
 /*-----------------------------------*/
 /**
@@ -314,9 +312,19 @@ int printf_dbg_fpga_param()
  *
  */
 /*-----------------------------------*/
-int  post_Start_sig()
+int  post_fpga_start_sig()
 {
 	return  sem_post(&m_sem_fpga_circle_start);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int wait_fpga_start_sig()
+{
+	int result_t=sem_wait(&m_sem_fpga_circle_start);
+	return result_t;
 }
 /*-----------------------------------*/
 /**
@@ -354,7 +362,7 @@ int  StartFpgaCircle(int _WorkMode,unsigned int _seq)
 		set_task_circle_start();
 		SetFpgaCircleWorkMode(_WorkMode);
 		SetFrameCircleSeq(_seq);
-		result_t= post_Start_sig();
+		result_t= post_fpga_start_sig();
 	}
 
 	assert(printf_dbg_fpga_param());
@@ -417,32 +425,6 @@ void setFpgaCircleCmd(const CMD_CTRL* const _cmd_ctrl)
 			assert(0);
 		}
 
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-
-
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-int Wait4StartFpgaCircle()
-{
-	int result_t=sem_wait_infinite(&m_sem_fpga_circle_start);
-	return result_t;
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-int Wait4FpgaCircleDone()
-{
-	return sem_wait_infinite(&m_sem_fpga_circle_done);
 }
 /*-----------------------------------*/
 /**

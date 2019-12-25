@@ -41,11 +41,10 @@ int wait4FpgaStart()
 {
 	PRINTF_DBG_EX("FPGA Cvt >>wait for start cmd ! \n");
 
-	if(Wait4StartFpgaCircle()==SUCCESS){
+	if(SUCCESS==wait_fpga_start_sig()){
 		return TRUE;
 	}else{
-		ExitFpgaThread();
-		exit(-1);
+		PRINTF_DBG_EX("FPGA Cvt >>sem error! \n");
 	}
 
 	return FALSE;
