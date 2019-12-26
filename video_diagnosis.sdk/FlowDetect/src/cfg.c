@@ -157,3 +157,19 @@ unsigned int GetFrameIdxMax()
  *
  */
 /*-----------------------------------*/
+int IsFrameCollect(const unsigned int _current_idx)
+{
+
+	if(_current_idx<GetFrameIdxMax()){
+		return TRUE;
+	}else{
+		return FALSE;
+	}
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+

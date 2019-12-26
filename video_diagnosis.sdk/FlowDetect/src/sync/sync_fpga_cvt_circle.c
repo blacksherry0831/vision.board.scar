@@ -1,8 +1,8 @@
-#include "task_sync_fpga_cvt.h"
+#include "sync_fpga_cvt_circle.h"
 /*-----------------------------------*/
-volatile int G_FPGA_CIRCLE_TASK_RUNNING[2]={0};
-volatile int G_FPGA_CIRCLE_TASK_1st_START[2]={0};
-volatile int G_FPGA_CIRCLE_TASK_2nd_START[2]={0};
+static volatile int G_FPGA_CIRCLE_TASK_RUNNING[2]={0};
+static volatile int G_FPGA_CIRCLE_TASK_1st_START[2]={0};
+static volatile int G_FPGA_CIRCLE_TASK_2nd_START[2]={0};
 /*-----------------------------------*/
 
 /*-----------------------------------*/
@@ -191,6 +191,7 @@ void init_task_circle_flag()
 		set_task_circle_flag(i,0);
 	}
 }
+
 /*-----------------------------------*/
 /**
  *

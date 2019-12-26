@@ -1,18 +1,17 @@
-#ifndef FLOW_SYNC_SCAR_H
-#define FLOW_SYNC_SCAR_H
-
-#include "../linux_header.h"
-#include  "../def.h"
-#include "modules_ex/type.h"
+#include "sync_global.h"
+/*-----------------------------------*/
+static const volatile int G_Thread_Run=1;
 /*-----------------------------------*/
 /**
  *
  */
 /*-----------------------------------*/
-
+int IsRun()
+{
+	return G_Thread_Run;
+}
 /*-----------------------------------*/
 /**
  *
  */
 /*-----------------------------------*/
-#endif

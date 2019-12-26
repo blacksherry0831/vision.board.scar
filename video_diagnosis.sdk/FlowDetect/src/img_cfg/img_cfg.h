@@ -16,6 +16,8 @@
 /*-----------------------------------*/
 #include "scar_cfg.h"
 /*-----------------------------------*/
+#include "modules_ex/def_work_mode.h"
+/*-----------------------------------*/
 struct ViewInfo{
 
 	int SpaceCh;/**<*/

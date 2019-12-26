@@ -29,7 +29,7 @@ void *inner_transfer_image(void* _pdata)
 
 
 		}else{
-			sleep(1);
+			sleep_1ms();
 		}
 
 	}

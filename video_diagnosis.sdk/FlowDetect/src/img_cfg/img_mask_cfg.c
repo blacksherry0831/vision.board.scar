@@ -29,8 +29,8 @@ unsigned int 	Get_PL_MEM_MaskImage_PhyAddr(
 		const int _space_ch,
 		const int _space_frame)
 {
-			assert(_space_ch<SCAR_IMG_MASK_CHANNEL_MAX);
-			assert(_space_frame<SCAR_IMG_MASK_FRAME_MAX);
+			assert(_space_ch>=0 	&&	_space_ch<SCAR_IMG_MASK_CHANNEL_MAX);
+			assert(_space_frame>=0	&&	_space_frame<SCAR_IMG_MASK_FRAME_MAX);
 
 			const unsigned int  PhyChBaseAddr=PL_MEM_getChStartPhyAddr(_space_ch);
 			const unsigned int  PhyChFrameOffsetAddr=Get_PL_MEM_MaskImage_PhyAddr_offset(_space_frame);

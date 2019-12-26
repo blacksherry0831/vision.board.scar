@@ -68,11 +68,9 @@ int set_socket_buf_size(int sockfd,const int send_buf_size)
 
 	int buf_size_get=get_socket_buf_size(sockfd);
 
-
-
+#if 0
 	PRINTF_DBG_EX("SO_SNDBUF: %d(default)\n",buf_size_get);
-
-
+#endif
 
 	int err =  setsockopt(sockfd, SOL_SOCKET, SO_SNDBUF, (const void *)&send_buf_size, optlen);
 
@@ -83,11 +81,10 @@ int set_socket_buf_size(int sockfd,const int send_buf_size)
 
 	buf_size_get=get_socket_buf_size(sockfd);
 
-
 	if(send_buf_size!=buf_size_get){
-
+#if 0
 		PRINTF_DBG_EX("SO_SNDBUF: %d,but set value is %d\n",buf_size_get,send_buf_size);
-
+#endif
 	}
 
 	return err;
@@ -534,6 +531,7 @@ void sleep_1ms()
  *
  */
 /*-----------------------------------*/
+#if 0
 int sem_wait_infinite(sem_t  *__sem)
 {
 	const long timeout_ms=3*1000;
@@ -568,6 +566,7 @@ int sem_wait_infinite(sem_t  *__sem)
 
 	return reslut_t;
 }
+#endif
 /*-----------------------------------*/
 /**
  *

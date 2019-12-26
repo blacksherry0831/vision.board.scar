@@ -1,8 +1,8 @@
 #include "init_destory.h"
 /*-----------------------------------*/
-unsigned char G_MAC_ADDR[6]={0};
-unsigned char G_IP_ADDR[4]={0};
-const char G_ETH[]="eth0";
+static unsigned char G_MAC_ADDR[6]={0};
+static unsigned char G_IP_ADDR[4]={0};
+static const char G_ETH[]="eth0";
 /*-----------------------------------*/
 /**
  *
@@ -150,7 +150,6 @@ void init_param()
 /*-----------------------------------*/
 void init_once()
 {
-	signal(SIGINT,StopRun);
 	MakeProjectDirectory();
 }
 /*-----------------------------------*/
@@ -229,24 +228,22 @@ int main_ring()
 			test();
 #endif
 
+#if TRUE
+			create_server_timers();
+#endif
 			pthread_t thread_task_inner_rcv=inner_image_buff_trans_server(NULL);
 			pthread_t thread_task_tcp_rcv=tcp_image_buff_trans_server(NULL);
 
 			sleep(1);//let tcp data trans thread start first
 
-				pthread_t thread_task_tcp_flow=task_flow_ctrl_server();
+			pthread_t thread_task_tcp_flow=task_flow_ctrl_server();
 
 
-				pthread_t thread_task_fpga_cvt=init_fpga_cvt_server(NULL);
-				pthread_t thread_task_dma=init_dma_server(NULL);
-				pthread_t thread_task_memcpy=init_memcpy_server(NULL);
+			pthread_t thread_task_fpga_cvt=init_fpga_cvt_server(NULL);
+			pthread_t thread_task_dma=init_dma_server(NULL);
+			pthread_t thread_task_memcpy=init_memcpy_server(NULL);
 
-
-#if TRUE
-				create_server_timers();
-#endif
 			run_main();
-
 
 			destory();
 

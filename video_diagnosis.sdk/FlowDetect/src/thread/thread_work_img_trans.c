@@ -33,13 +33,7 @@ int SendHeartbeatCmd_Ex(
 void EnterTcpTransImageThread(int _socket)
 {
 	PRINTF_DBG_EX("pthread start>> [tcp image transfer thread]\n");
-
-	SetTcpTransImageThreadRunning(TRUE);
-
-	setCurrentThreadHighPriority(1);
-
 	set_socket_buf_size(_socket,16*1024*1024);
-
 	IncTcpTransImgThreads();
 }
 /*-----------------------------------*/
@@ -50,7 +44,6 @@ void EnterTcpTransImageThread(int _socket)
 void ExitTcpTransImageThread()
 {
 	PRINTF_DBG_EX("pthread close>> [tcp image transfer thread]\n");
-	SetTcpTransImageThreadRunning(FALSE);
 	DecTcpTransImgThreads();
 	pthread_exit(NULL);
 }
@@ -75,7 +68,7 @@ void* tcp_data_transfer_image(void *_data)
 	EnterTcpTransImageThread(sock_server);
 
 	/*-----------------------------------*/
-		while(IsTcpTransImageRun() && socket_status){
+		while(IsRun() && socket_status){
 
 									MESSAGE msg=rcv_queue_img_buff();
 

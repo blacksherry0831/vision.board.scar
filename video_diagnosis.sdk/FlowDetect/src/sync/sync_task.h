@@ -1,15 +1,19 @@
-#ifndef  THREAD_WORK_CTRL_H
-#define  THREAD_WORK_CTRL_H
+#ifndef _SYNC_TASK_H_
+#define _SYNC_TASK_H_
 /*-----------------------------------*/
-#include "../linux_header.h"
+/**
+ *
+ */
 /*-----------------------------------*/
-#include "module_zynq7000_hi3516/axi_base.h"
-
+#include "linux_c_def.h"
 /*-----------------------------------*/
-#include "sync/sync_dma.h"
+#include "modules/printf_log/printf_log.h"
 /*-----------------------------------*/
-#include "modules_ex/tcp_server.h"
+#include "modules_ex/def_frame.h"
+#include "modules_ex/def_work_mode.h"
 /*-----------------------------------*/
-pthread_t task_flow_ctrl_server();
+/**
+ *
+ */
 /*-----------------------------------*/
 #endif

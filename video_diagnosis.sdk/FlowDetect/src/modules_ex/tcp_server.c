@@ -42,6 +42,18 @@ union position{
 	unsigned long lpos;
 	unsigned char cpos[4];
 	}pos;
+
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void ExitTcpServer(int socket_fd,int server_port)
+{
+	close(socket_fd);
+	PRINTF_DBG_EX("pthread close>> [TcpServer:%d]\n",server_port);
+	pthread_exit(NULL);
+}
 /*-----------------------------------*/
 /**
  *

@@ -1,12 +1,17 @@
-#ifndef THREAD_FPGA_CVT_H
-#define THREAD_FPGA_CVT_H
+#ifndef _SEM_SYNC_H_
+#define _SEM_SYNC_H_
 /*-----------------------------------*/
-#include "linux_c_def.h"
+/**
+ *
+ */
 /*-----------------------------------*/
-#include "sync/sync_fpga_cvt.h"
+#include <pthread.h>
+#include <semaphore.h>
 /*-----------------------------------*/
 #include "modules/printf_log/printf_log.h"
 /*-----------------------------------*/
-pthread_t init_fpga_cvt_server(void *_data);
+/**
+ *
+ */
 /*-----------------------------------*/
 #endif

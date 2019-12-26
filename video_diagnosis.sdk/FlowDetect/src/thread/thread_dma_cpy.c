@@ -1,6 +1,16 @@
 #include "thread_dma_cpy.h"
 /*-----------------------------------*/
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void ExitDmaThread()
+{
+	 PRINTF_DBG_EX("pthread close>> [dma thread]\n");
 
+	 pthread_exit(NULL);
+}
 /*-----------------------------------*/
 /**
  *
@@ -12,41 +22,42 @@ void *dma_work_server(void* _pdata)
 	//const unsigned time_ms=30*1000;
 	static int DMA_COUNT=0;
 
-	while(IsDMARun())
+	while(IsRun())
 	{
 
-								if(sem_wait_infinite(&m_sem_fpga_frame_done)!=SUCCESS) break;
+					if(wait_fpga_cvt_down_sig()==SUCCESS)
+					{
 
-								if(pthread_mutex_lock(&FPGA_mutex_cvt)==SUCCESS){
+									if(pthread_mutex_lock(&FPGA_mutex_cvt)==SUCCESS){
 
-												if(pthread_mutex_lock(&DMA_mutex_trans0)==SUCCESS){
+														if(pthread_mutex_lock(&DMA_mutex_trans0)==SUCCESS){
 
-																	TIME_START();
+																			TIME_START();
 
-																		dmac_trans_all_frame();
+																				dmac_trans_all_frame();
 
-																	PRINTF_DBG_EX("DMA:%d___",DMA_COUNT++);
+																			PRINTF_DBG_EX("DMA:%d___",DMA_COUNT++);
 
-																	TIME_END("2> DMA cpy cost time");
+																			TIME_END("2> DMA cpy cost time");
 
-																	if(pthread_mutex_unlock(&DMA_mutex_trans0)==SUCCESS){
+																			if(pthread_mutex_unlock(&DMA_mutex_trans0)==SUCCESS){
 
-																			if(pthread_mutex_unlock(&FPGA_mutex_cvt)==SUCCESS){
+																						if(pthread_mutex_unlock(&FPGA_mutex_cvt)==SUCCESS){
 
-																						sem_post(&m_sem_dma_frame_done2Mem);
-																						sem_post(&m_sem_dma_frame_done2fpga);
-																						sched_yield();
-																						sem_wait_infinite(&m_sem_memcpy_frame_done);
+																							post_dma_cpy_down_sig_2_fpga();
+																							post_dma_cpy_down_sig_2_memcpy();
+																							wait_mem_cpy_down_sig();
 
+																						}
+																			}
 
-																		}
-																	}
+														}
 
-												}
-
-								}
+									}
 
 
+
+					}
 
 	}
 

@@ -10,14 +10,7 @@
 /*-----------------------------------*/
 #define STRUCT_UNION_SIZE	(ALIGN_SIZE_T*64)
 /*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-#define FRAME_IDX_TYPE_FIRST_IMG 	(1)
-#define FRAME_IDX_TYPE_START 		(0)
-#define FRAME_IDX_TYPE_STOP 		(-1)
-#define FRAME_IDX_TYPE_HEARBEAT 	(-2)
+#include "def_frame.h"
 /*-----------------------------------*/
 /**
  *
@@ -115,16 +108,7 @@ enum CMD_TYPE_02_I_SIGMA{
  *
  */
 /*-----------------------------------*/
-enum WorkMode
-{
-	WM_SIZE_FULL=0x80,
-	WM_SIZE_CUT=0x40,
-	WM_ORG_IMG=0x20,
-	WM_DIFF_IMG=0x10,
-	WM_SIGMA_IMG=0x10,
-	RESP=0x01
 
-};
 /*-----------------------------------*/
 /**
  *

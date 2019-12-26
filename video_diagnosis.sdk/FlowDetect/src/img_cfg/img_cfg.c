@@ -315,9 +315,9 @@ CvRect GetRectSpaceChannelFrame(const int _si,const int _fi)
 {
 	 CvRect rect_t;
 
-	 		 if((GetFpgaCircleWorkMode()&WM_SIZE_FULL)==WM_SIZE_FULL){
+	 		 if((getFpgaCircleWorkMode()&WM_SIZE_FULL)==WM_SIZE_FULL){
 	 			 rect_t=image_size_org(_si,_fi);
-	 		 }else if((GetFpgaCircleWorkMode()&WM_SIZE_CUT)==WM_SIZE_CUT){
+	 		 }else if((getFpgaCircleWorkMode()&WM_SIZE_CUT)==WM_SIZE_CUT){
 	 			 rect_t=image_size_cut(_si,_fi);
 	 		 }
 

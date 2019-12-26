@@ -7,7 +7,7 @@
 #include "cfg.h"
 #include "status.h"
 /*-----------------------------------*/
-#include "task/task_sync.h"
+
 
 #include "modules/uCOS/mem_pool_fixed.h"
 

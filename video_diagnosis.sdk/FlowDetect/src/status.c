@@ -10,7 +10,7 @@ static int SENSOR_STAT=0;
 /*-----------------------------------*/
 static const  short unsigned int VER_MAJOR=0;
 static const  short unsigned int VER_MINOR=9;
-static const  short unsigned int VER_SUBMINOR=2;
+static const  short unsigned int VER_SUBMINOR=3;
 /*-----------------------------------*/
 static volatile enum ProjectRun gProjectCurrentRunning=outside08;
 /*-----------------------------------*/
@@ -141,7 +141,7 @@ void PrintBuildTime()
 #ifdef _DEBUG
 	debug_assert_ver();
 #endif
-	printf("version	>> d%.d%.d%	\n",VER_MAJOR,VER_MINOR,VER_SUBMINOR);
+	printf("version	>> %hd.%hd.%hd	\n",VER_MAJOR,VER_MINOR,VER_SUBMINOR);
 	printf("build time >> data: %s		time: %s \n",__DATE__,__TIME__);
 }
 /*-----------------------------------*/

@@ -2,7 +2,7 @@
 /*-----------------------------------*/
 #include "axi_fpga_ctrl.h"
 /*-----------------------------------*/
-#include "task/task_sync.h"
+
 /*-----------------------------------*/
 #include "def_hw_zynq7000_hi3516_axi_scar.h"
 /*-----------------------------------*/
@@ -152,29 +152,6 @@ int fpga_scar_is_busy()
  *
  */
 /*-----------------------------------*/
-int wait4FpgaScarConvertDone()
-{
-    int result_t=FALSE;
-
-		while(IsRun()){
-
-			if(fpga_scar_is_busy()==TRUE){
-
-				sleep_1ms();
-			}else{
-				result_t=TRUE;//now free
-				break;
-			}
-
-		}
-
-	return result_t;
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
 void set_mask_seq_param(const int _fi)
 {
 
@@ -213,28 +190,6 @@ void set_mask_seq_param(const int _fi)
 				fpga_img_scar_detect_mode(0);
 		}
 
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-void scar_cvt(int _org,const int _fi)
-{
-	wait4FpgaScarConvertDone();
-	{
-		fpga_img_scar_detect_reset();
-
-			if(_org){
-				fpga_img_scar_detect_mode(0);
-				fpga_img_scar_detect_set_mask_addr_1(0);
-			}else{
-				set_mask_seq_param(_fi);
-			}
-
-		fpga_img_scar_detect_start_en();
-	}
-	wait4FpgaScarConvertDone();
 }
 /*-----------------------------------*/
 /**

@@ -1,6 +1,54 @@
-
 #include "thread_fpga_cvt.h"
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void ExitFpgaThread()
+{
+	 PRINTF_DBG_EX("pthread close>> [fpga thread]\n");
 
+	 pthread_exit(NULL);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void *fpga_cvt_server(void* _pdata)
+{
+
+	int init_stat;
+	/*-----------------------------------*/
+	while(IsRun()){
+
+		init_stat=init_fpga();
+		if(init_stat==TRUE){
+			break;
+		}else{
+			sleep(1);
+		}
+
+	}
+	/*-----------------------------------*/
+	while(IsRun()){
+
+			if(wait4FpgaStart()){
+
+					startThisCircle();
+
+						theFirstCircleScar();
+
+						theSecondCircleScar();
+
+					stopThisCircle();
+			}
+	}
+
+
+	ExitFpgaThread();
+
+}
 /*-----------------------------------*/
 /**
  *

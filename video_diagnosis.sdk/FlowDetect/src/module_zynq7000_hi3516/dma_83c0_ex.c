@@ -101,9 +101,9 @@ int SetDmaFrameByWorkMode(int _wm)
 							image_enable_output_frame_only_1();
 			}else if(GetProjectRun()==inside08){
 
-						if(WM_ORG_IMG==(GetFpgaCircleWorkMode()&WM_ORG_IMG)){
+						if(WM_ORG_IMG==(getFpgaCircleWorkMode()&WM_ORG_IMG)){
 							image_enable_output_frame_only_1();
-						}else if(WM_DIFF_IMG==(GetFpgaCircleWorkMode()&WM_DIFF_IMG)){
+						}else if(WM_DIFF_IMG==(getFpgaCircleWorkMode()&WM_DIFF_IMG)){
 							image_enable_output_frame_only_2();
 						}else{
 

@@ -8,6 +8,7 @@
 void init_1st_2nd_circle_flag();
 void init_1st_2nd_task_circle_flag();
 /*-----------------------------------*/
+int IsCircleTaskRunning();
 int IsCircleTaskRunning_FpgaCvt();
 /*-----------------------------------*/
 void set_task_circle_start();

@@ -4,34 +4,11 @@
  *
  */
 /*-----------------------------------*/
-pthread_mutex_t MEM_mutex_cpy = PTHREAD_MUTEX_INITIALIZER;
-pthread_cond_t  MEM_cond_cpy=PTHREAD_COND_INITIALIZER;
-unsigned int    MEM_CpyDone=FALSE;
-
-volatile unsigned int    MEM_CpyDone00=FALSE;
-volatile unsigned int    MEM_CpyDone01=FALSE;
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-void MemCpyDone()
+void ExitMemCpyThread()
 {
-	pthread_mutex_lock(&MEM_mutex_cpy);//
-	MEM_CpyDone=TRUE;
-	pthread_cond_broadcast(&MEM_cond_cpy);
-	pthread_mutex_unlock(&MEM_mutex_cpy);//
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-int Wait4MemCpyDone(long timeout_ms)
-{
-	int reslut_t=Wait4Signal(timeout_ms,&MEM_mutex_cpy,&MEM_cond_cpy);
+	PRINTF_DBG_EX("pthread close>> [memcpy thread]\n");
 
-	return reslut_t;
+	pthread_exit(NULL);
 }
 /*-----------------------------------*/
 /**
@@ -41,16 +18,12 @@ int Wait4MemCpyDone(long timeout_ms)
 int memcpyDMA2Mem_send2MsgQ(CMD_CTRL* _img,const  int _space_ch,const int _space_fr)
 {
 
-
-
 			if(_img!=NULL){
 				  memcpyDMA2MemChEx(_img,_space_ch,_space_fr);
 
 				  snd_queue_img_buff(_img);
 				  return 1;
 			}
-
-
 
 		return 0;
 }
@@ -66,11 +39,10 @@ void *memcpy_work_server(void* _pdata)
 	CMD_CTRL*  image[SPACE_CHANNEL_NUM][SPACE_FRAME_NUM];
 	memset(image,0,sizeof(image));
 
-	setCurrentThreadHighPriority(1);
 
-	while(IsMemCpyRun()){
+	while(IsRun()){
 
-			if(sem_wait_infinite(&m_sem_dma_frame_done2Mem)==SUCCESS){
+			if(SUCCESS==wait_dma_cpy_down_sig_4_memcpy()){
 
 							if(pthread_mutex_lock(&DMA_mutex_trans0)==SUCCESS){
 
@@ -110,7 +82,10 @@ void *memcpy_work_server(void* _pdata)
 												PRINTF_DBG_EX("MEMCPY:%d___",MEMCPY_COUNT++);
 										 TIME_END("3>MEM cpy cost time");
 
-										 sem_post(&m_sem_memcpy_frame_done);
+										 post_mem_cpy_down_sig();
+
+
+
 										 pthread_mutex_unlock(&DMA_mutex_trans0);
 
 

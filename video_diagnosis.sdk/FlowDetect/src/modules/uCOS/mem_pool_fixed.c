@@ -188,17 +188,17 @@ void* mem_malloc(const int _size)
 
 	if(_size<=BLK_1K_SIZE){
 
-		 sem_wait_infinite(&m_sem_1K_buff);
+		 sem_wait(&m_sem_1K_buff);
 		 data = (unsigned char *)OSMemGet(&m_os_1k_mem, &m_os_err);
 
 	}else if(_size>BLK_1K_SIZE && _size<=BLK_SIZE_2M){
 
-		 sem_wait_infinite(&m_sem_2m_buff);
+		 sem_wait(&m_sem_2m_buff);
 		 data = (unsigned char *)OSMemGet(&m_os_2m_mem, &m_os_err);
 
 	}else if(_size>BLK_SIZE_2M && _size<=BLK_SIZE_4M){
 
-		sem_wait_infinite(&m_sem_4m_buff);
+		sem_wait(&m_sem_4m_buff);
 		 data = (unsigned char *)OSMemGet(&m_os_4m_mem, &m_os_err);
 
 	}else{

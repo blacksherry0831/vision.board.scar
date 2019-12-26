@@ -14,7 +14,7 @@
 
 #include "status.h"
 
-#include "task/task_sync.h"
+
 /*-----------------------------------*/
 void outside_second_sync(int frame);
 /*-----------------------------------*/

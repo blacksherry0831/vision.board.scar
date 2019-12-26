@@ -52,6 +52,7 @@ void dmac_83c1_trans_mask_img_cmd_ctrl(CMD_CTRL*  _cmd)
 
 		dmac_83c1_trans_mask_img_ch_fr(ch_space,ch_frame,image_size);
 
+		PRINTF_DBG_EX("mask scar>>w:%d,h:%d,space:%d,frame:%d \n",width,height,ch_space,ch_frame);
 }
 /*-----------------------------------*/
 /**

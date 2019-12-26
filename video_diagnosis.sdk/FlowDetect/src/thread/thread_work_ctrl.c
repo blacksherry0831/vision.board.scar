@@ -26,7 +26,7 @@ int process_cmd_ctrl(CMD_CTRL*  _cmd,int* _resp_cmd_02,unsigned int* _resp_body)
 
 					if(isStartCmd(_cmd)){
 
-						setFpgaCircleCmd(_cmd);
+						setFpgaCircleCmdScar(_cmd);
 						*_resp_cmd_02=CT_OK;
 
 					}else if(isHeartbeatCmd(_cmd)){
@@ -196,6 +196,27 @@ int process_cmd_ctrl(CMD_CTRL*  _cmd,int* _resp_cmd_02,unsigned int* _resp_body)
 					}
 
 					return TRUE;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void EnterTaskFlowCtrl()
+{
+	init_1st_2nd_task_circle_flag();
+	PRINTF_DBG_EX("pthread start >>[task flow ctrl]\n");
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void ExitTaskFlowCtrl()
+{
+	init_1st_2nd_task_circle_flag();
+	PRINTF_DBG_EX("pthread close >>[task flow ctrl]\n");
+	pthread_exit(NULL);
 }
 /*-----------------------------------*/
 /**
