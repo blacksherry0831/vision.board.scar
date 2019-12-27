@@ -4,66 +4,6 @@
  *
  */
 /*-----------------------------------*/
-int wait4FpgaScarConvertDone()
-{
-    int result_t=FALSE;
-
-#ifdef _DEBUG
-    struct timeval startTime,endTime;
-    float Timeuse=0;
-    int print_count=1;
-    gettimeofday(&startTime,NULL);
-#endif
-		while(IsCircleTaskRunning()){
-
-			if(fpga_scar_is_busy()==TRUE){
-
-				sleep_1ms();
-			}else{
-				result_t=TRUE;//now free
-				break;
-			}
-#ifdef _DEBUG
-			gettimeofday(&endTime,NULL);
-			Timeuse = 1000000*(endTime.tv_sec - startTime.tv_sec) + (endTime.tv_usec - startTime.tv_usec);
-
-			float TimeuseMs=Timeuse/1000;
-			if(TimeuseMs>1000*print_count){
-				print_count++;
-				PRINTF_DBG_EX("FPGA CVT>>wait busy cost time: %f ms\n",TimeuseMs);
-			}
-#endif
-		}
-
-	return result_t;
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-void scar_cvt(int _org,const int _fi)
-{
-	wait4FpgaScarConvertDone();
-	{
-		fpga_img_scar_detect_reset();
-
-			if(_org){
-				fpga_img_scar_detect_mode(0);
-				fpga_img_scar_detect_set_mask_addr_1(0);
-			}else{
-				set_mask_seq_param(_fi);
-			}
-
-		fpga_img_scar_detect_start_en();
-	}
-	wait4FpgaScarConvertDone();
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
 void printf_dbg_fpga_scar_param()
 {
 
@@ -196,51 +136,6 @@ void theFirstCircleScar()
 			}
 
 			PRINTF_DBG_EX("FPGA>>stop cmd 00 ! \n");
-
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-void scar_second_sync(int _frame_idx,const int _org,const int _fi)
-{
-	static int FPGA_COUNT=0;
-	if(pthread_mutex_lock(&FPGA_mutex_cvt)==SUCCESS){
-
-				TIME_START();
-
-					scar_cvt(_org,_fi);
-
-					PRINTF_DBG_EX("FPGA:%d___",FPGA_COUNT++);
-
-				TIME_END("1> FPGA Convert cost time : ");
-
-				if(pthread_mutex_unlock(&FPGA_mutex_cvt)==SUCCESS){
-						post_fpga_cvt_down_sig();
-						wait_dma_cpy_down_sig_4_fpga();
-
-				}
-	}
-
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-void CvtFrameScar(unsigned int _base_idx,unsigned int current_idx,const int _org,const int _fi)
-{
-	const unsigned int relative_idx=current_idx-_base_idx;
-
-	if(		(relative_idx>=GetFrameIdxMin())&&
-			(relative_idx<=GetFrameIdxMax())
-			){
-			scar_second_sync(current_idx,_org,_fi);
-	}else{
-			sleepMS(100);
-			IncFrameIdx();
-	}
 
 }
 /*-----------------------------------*/

@@ -101,32 +101,6 @@ int sensor_state()
 		return sensor_state_1();
 	}
 }
-
-
-
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-int wait4FpgaConvertDone()
-{
-    int result_t=FALSE;
-
-		while(IsRun()){
-
-			if(fpga_is_busy()==TRUE){
-
-				sleep_1ms();
-			}else{
-				result_t=TRUE;//now free
-				break;
-			}
-
-		}
-
-	return result_t;
-}
 /*-----------------------------------*/
 /**
  *FPGA初始化
@@ -149,19 +123,6 @@ int init_fpga()
  *
  */
 /*-----------------------------------*/
-//**********************************************
-// 第一圈 -  求均值图
-//**********************************************
-void outside_first(int DATA_MODE)
-{
-	fpga_set_outside_first(DATA_MODE);
-	wait4FpgaConvertDone();
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
 void outside08_first_ex(int DATA_MODE)
 {
 	TIME_START();
@@ -169,37 +130,6 @@ void outside08_first_ex(int DATA_MODE)
 		outside_first(DATA_MODE);
 	}
 	TIME_END("outside cost time :");
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-//**********************************************
-// 第二圈 -  求奇异值图
-//**********************************************
-void outside_second()
-{
-
-
-	wait4FpgaConvertDone();
-
-	fpga_set_second_part();
-
-	fpga_set_sigma_up(GetSigmaUp());
-	fpga_set_sigma_down(GetSigmaDown());
-
-//**********************************************
-// 5 - 触发工作 （脉冲）
-//**********************************************
-	fpga_start();
-
-
-	wait4FpgaConvertDone();
-
-
-
-	return;
 }
 /*-----------------------------------*/
 /**

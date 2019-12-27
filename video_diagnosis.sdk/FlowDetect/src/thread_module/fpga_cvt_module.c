@@ -1,37 +1,5 @@
 #include "fpga_cvt_module.h"
 /*-----------------------------------*/
-int FRAME_IDX_FIRST=0;
-/*-----------------------------------*/
-int FRAME_IDX_SECOND=0;
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-int wait4fpgaCvtDone()
-{
-	while(IsRun()&&IsCircleTaskRunning_FpgaCvt()==TRUE){
-		PRINTF_DBG_EX("FPGA CIRCLE TASK IS RUNNING NOW,wait for fpga circle done ! \n");
-		init_1st_2nd_task_circle_flag();
-		sleepMS(100);
-	}
-	return TRUE;
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-int SetFpgaCircleWorkMode(int _wm)
-{
-
-	setFpgaCircleWorkMode(_wm);
-
-	SetDmaFrameByWorkMode(_wm);
-
-	return 1;
-}
-/*-----------------------------------*/
 /**
  *
  */
@@ -73,15 +41,6 @@ void startThisCircle()
 	sleepMS(100);
 	sendImageMask();
 	PRINTF_DBG_EX("FPGA>>Send Mask Image \n");
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-int IsCircleTaskRunning()
-{
-	return IsCircleTaskRunning_FpgaCvt() && IsRun();
 }
 /*-----------------------------------*/
 /**

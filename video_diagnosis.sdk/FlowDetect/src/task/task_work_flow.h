@@ -1,24 +1,25 @@
-#ifndef _SYNC_TASK_H_
-#define _SYNC_TASK_H_
+#ifndef 	_TASK_WORK_FLOW_H_
+#define 	TASK_WORK_FLOW_H_
 /*-----------------------------------*/
-/**
- *
- */
+#include <stdio.h>
+#include <time.h>
+/*-----------------------------------*/
+#include <sys/time.h>    // for gettimeofday()
 /*-----------------------------------*/
 #include "linux_c_def.h"
 /*-----------------------------------*/
 #include "modules/printf_log/printf_log.h"
 /*-----------------------------------*/
-#include "modules_ex/def_frame.h"
-#include "modules_ex/def_work_mode.h"
+#include "modules_ex/type.h"
 /*-----------------------------------*/
-extern int FRAME_IDX_FIRST;
+#include "sync/sync_fpga_cvt.h"
 /*-----------------------------------*/
-extern int FRAME_IDX_SECOND;
+#include "sync/sync_task.h"
 /*-----------------------------------*/
+#include "status.h"
 /*-----------------------------------*/
-/**
- *
- */
+#include "task_circle.h"
+/*-----------------------------------*/
+#include "module_zynq7000_hi3516/axi_fpga_ctrl_img.h"
 /*-----------------------------------*/
 #endif

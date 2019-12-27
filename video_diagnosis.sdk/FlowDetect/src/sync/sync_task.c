@@ -4,6 +4,10 @@ static volatile int FRAME_IDX=0;
 static volatile unsigned int FRAME_CIRCLE_SEQ=0;
 static volatile int FPGA_CIRCLE_WORK_MODE=WM_SIZE_FULL|WM_ORG_IMG;
 /*-----------------------------------*/
+int FRAME_IDX_FIRST=0;
+/*-----------------------------------*/
+int FRAME_IDX_SECOND=0;
+/*-----------------------------------*/
 /**
  *
  */

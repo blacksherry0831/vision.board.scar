@@ -4,10 +4,24 @@
  *
  */
 /*-----------------------------------*/
+int wait4fpgaCvtDoneScar()
+{
+	while(IsRun()&&IsCircleTaskRunning_FpgaCvt()==TRUE){
+		PRINTF_DBG_EX("FPGA CIRCLE TASK IS RUNNING NOW,wait for fpga circle done ! \n");
+		init_1st_2nd_task_circle_flag();
+		sleepMS(100);
+	}
+	return TRUE;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 int  StartFpgaCircleScar(int _WorkMode,unsigned int _seq)
 {
 
-	wait4fpgaCvtDone();
+	wait4fpgaCvtDoneScar();
 
 	int result_t=-1;
 
