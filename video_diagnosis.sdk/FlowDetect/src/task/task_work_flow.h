@@ -1,5 +1,5 @@
 #ifndef 	_TASK_WORK_FLOW_H_
-#define 	TASK_WORK_FLOW_H_
+#define 	_TASK_WORK_FLOW_H_
 /*-----------------------------------*/
 #include <stdio.h>
 #include <time.h>
@@ -12,7 +12,7 @@
 /*-----------------------------------*/
 #include "modules_ex/type.h"
 /*-----------------------------------*/
-#include "sync/sync_fpga_cvt.h"
+#include "sync/sync_pl_mem_4_8_lock.h"
 /*-----------------------------------*/
 #include "sync/sync_task.h"
 /*-----------------------------------*/

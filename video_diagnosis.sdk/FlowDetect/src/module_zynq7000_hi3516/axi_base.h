@@ -28,8 +28,7 @@ int init_fpga();
 int GetSensorStat();
 int SetSensorStat(int _sensor_stat);
 /*-----------------------------------*/
-pthread_mutex_t FPGA_mutex_cvt;
-pthread_cond_t  FPGA_cond_cvt;
+
 /*-----------------------------------*/
 void SetoutsideSigma(int _sigma);
 void SetinsideSigma(int _sigma);

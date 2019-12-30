@@ -28,34 +28,33 @@ void *dma_work_server(void* _pdata)
 					if(wait_fpga_cvt_down_sig()==SUCCESS)
 					{
 
-									if(pthread_mutex_lock(&FPGA_mutex_cvt)==SUCCESS){
+									if(SUCCESS==PL_MEM_48_Lock()){
 
-														if(pthread_mutex_lock(&DMA_mutex_trans0)==SUCCESS){
+																		if(SUCCESS==PS_MEM_04_Lock()){
 
-																			TIME_START();
+																							TIME_START();
 
-																				dmac_trans_all_frame();
+																								dmac_trans_all_frame();
 
-																			PRINTF_DBG_EX("DMA:%d___",DMA_COUNT++);
+																							PRINTF_DBG_EX("DMA:%d___",DMA_COUNT++);
 
-																			TIME_END("2> DMA cpy cost time");
+																							TIME_END("2> DMA cpy cost time");
 
-																			if(pthread_mutex_unlock(&DMA_mutex_trans0)==SUCCESS){
+																		if(SUCCESS==PS_MEM_04_Unlock()){
 
-																						if(pthread_mutex_unlock(&FPGA_mutex_cvt)==SUCCESS){
 
-																							post_dma_cpy_down_sig_2_fpga();
-																							post_dma_cpy_down_sig_2_memcpy();
-																							wait_mem_cpy_down_sig();
+																		}
 
-																						}
-																			}
+																		}
+										if(SUCCESS==PL_MEM_48_Unlock()){
 
-														}
+											post_dma_cpy_down_sig_2_fpga();
+											post_dma_cpy_down_sig_2_memcpy();
+											wait_mem_cpy_down_sig();
+
+										}
 
 									}
-
-
 
 					}
 

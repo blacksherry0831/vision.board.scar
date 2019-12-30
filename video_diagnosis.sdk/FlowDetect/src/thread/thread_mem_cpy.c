@@ -44,7 +44,7 @@ void *memcpy_work_server(void* _pdata)
 
 			if(SUCCESS==wait_dma_cpy_down_sig_4_memcpy()){
 
-							if(pthread_mutex_lock(&DMA_mutex_trans0)==SUCCESS){
+							if(SUCCESS==PS_MEM_04_Lock()){
 
 										TIME_START();
 														IncFrameIdx();
@@ -84,9 +84,9 @@ void *memcpy_work_server(void* _pdata)
 
 										 post_mem_cpy_down_sig();
 
+										 if(PS_MEM_04_Unlock()){
 
-
-										 pthread_mutex_unlock(&DMA_mutex_trans0);
+										 }
 
 
 							}

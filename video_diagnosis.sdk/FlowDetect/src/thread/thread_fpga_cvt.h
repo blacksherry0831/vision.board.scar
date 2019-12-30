@@ -3,7 +3,7 @@
 /*-----------------------------------*/
 #include "linux_c_def.h"
 /*-----------------------------------*/
-#include "sync/sync_fpga_cvt.h"
+#include "sync/sync_pl_mem_4_8_lock.h"
 /*-----------------------------------*/
 #include "modules/printf_log/printf_log.h"
 /*-----------------------------------*/

@@ -4,6 +4,39 @@
  *
  */
 /*-----------------------------------*/
+void dmac_83c1_trans_mask_img_cmd_ctrl_sync(CMD_CTRL*  _cmd)
+{
+
+	if(SUCCESS==PL_MEM_48_Lock()){
+
+										if(SUCCESS==PS_MEM_04_Lock()){
+
+															TIME_START();
+
+															dmac_83c1_trans_mask_img_cmd_ctrl(_cmd);
+
+															TIME_END("DMA83c1 mask image ");
+
+										if(SUCCESS==PS_MEM_04_Unlock()){
+
+
+										}
+
+										}
+	if(SUCCESS==PL_MEM_48_Unlock()){
+
+
+
+	}
+
+	}
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 int IsImgMaskValid_Scar(const CMD_CTRL* const  _cmd)
 {
 	const int UCHAR_SIZE=8;
@@ -113,7 +146,7 @@ void Read_And_Dma_ImageMask_Scar(CMD_CTRL*  _cmd)
 	if(IsImgMaskValid_Scar(_cmd)){
 
 			if(ReadImgMaskMatrix_Scar(_cmd)){
-				dmac_83c1_trans_mask_img_cmd_ctrl(_cmd);
+				dmac_83c1_trans_mask_img_cmd_ctrl_sync(_cmd);
 			}
 
 	}
@@ -127,7 +160,7 @@ void Save_And_Dma_ImageMask_Scar(CMD_CTRL*  _cmd)
 {
 	if(IsImgMaskValid_Scar(_cmd)){
 			SaveImgMaskMatrix_Scar(_cmd);
-			dmac_83c1_trans_mask_img_cmd_ctrl(_cmd);
+			dmac_83c1_trans_mask_img_cmd_ctrl_sync(_cmd);
 	}
 }
 /*-----------------------------------*/
@@ -139,7 +172,7 @@ void Clear_And_Dma_ImageMask_Scar(CMD_CTRL*  _cmd)
 {
 	if(IsImgMaskValid_Scar(_cmd)){
 			DeleteImgMaskMatrix_Scar(_cmd);
-			dmac_83c1_trans_mask_img_cmd_ctrl(_cmd);
+			dmac_83c1_trans_mask_img_cmd_ctrl_sync(_cmd);
 	}
 }
 /*-----------------------------------*/

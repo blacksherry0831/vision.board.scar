@@ -24,7 +24,7 @@ int  initFirstMode()
 void scar_second_sync(int _frame_idx,const int _org,const int _fi)
 {
 	static int FPGA_COUNT=0;
-	if(pthread_mutex_lock(&FPGA_mutex_cvt)==SUCCESS){
+	if(SUCCESS==PL_MEM_48_Lock()){
 
 				TIME_START();
 
@@ -34,7 +34,7 @@ void scar_second_sync(int _frame_idx,const int _org,const int _fi)
 
 				TIME_END("1> FPGA Convert cost time : ");
 
-				if(pthread_mutex_unlock(&FPGA_mutex_cvt)==SUCCESS){
+				if(SUCCESS==PL_MEM_48_Unlock()){
 						post_fpga_cvt_down_sig();
 						wait_dma_cpy_down_sig_4_fpga();
 

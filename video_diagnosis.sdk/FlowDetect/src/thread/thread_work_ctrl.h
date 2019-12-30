@@ -4,9 +4,8 @@
 #include "../linux_header.h"
 /*-----------------------------------*/
 #include "module_zynq7000_hi3516/axi_base.h"
-
 /*-----------------------------------*/
-#include "sync/sync_dma.h"
+
 /*-----------------------------------*/
 #include "modules_ex/tcp_server.h"
 /*-----------------------------------*/
