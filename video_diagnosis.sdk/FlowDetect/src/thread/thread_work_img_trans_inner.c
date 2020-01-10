@@ -18,9 +18,12 @@ void *inner_transfer_image(void* _pdata)
 
 					CMD_CTRL *img_data=msg._data;
 					{
-							IplImageU* imgU=(IplImageU*)img_data;
-							const int ch=imgU->IpAddrChannel[0];
-							PRINTF_DBG_EX("inner rcv a image Channel:%d\n",ch);
+						if(IsImageFrame(img_data)){
+								IplImageU* imgU=GetIplImageUx(img_data);
+								IplImage* imgcv=GetIplImage(img_data);
+								const int ch=imgU->IpAddrChannel[0];
+								PRINTF_DBG_EX("inner rcv a image Channel:%d\n",ch);
+						}
 					}
 					ReleaseCmdCtrl(&img_data);
 				}
