@@ -864,34 +864,48 @@ CMD_CTRL* CreateCmdCtrl(int body_size)
  *
  */
 /*-----------------------------------*/
+int IsCmdCtrlHeader(const CMD_CTRL* cmd_t)
+{
+	if(	cmd_t->f_header.f_header[0]=='Y' &&
+		cmd_t->f_header.f_header[1]=='j' &&
+		cmd_t->f_header.f_header[2]=='k' &&
+		cmd_t->f_header.f_header[3]=='j' ){
+					return TRUE;
+	}
+	return FALSE;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 int IsCmdCtrl(const CMD_CTRL* cmd_t)
 {
 
-	if(	cmd_t->f_header.f_header[0]=='Y' &&
+	if(IsCmdCtrlHeader(cmd_t) ){
+					if(MemPoolAddrZone(cmd_t)!=-1){
 
-		cmd_t->f_header.f_header[1]=='j' &&
+								if(MemPoolAddrZone(cmd_t->f_data)!=-1){
 
-		cmd_t->f_header.f_header[2]=='k' &&
-
-		cmd_t->f_header.f_header[3]=='j' ){
-
-
-			if(MemPoolAddrZone(cmd_t)!=-1){
-
-				if(MemPoolAddrZone(cmd_t->f_data)!=-1){
-
-							return TRUE;
-				}
-			}
-
+											return TRUE;
+								}
+					}
+	}
+	return FALSE;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void ReleaseCmdCtrlEx(CMD_CTRL** _cmd_ctrl)
+{
+	if(IsCmdCtrlHeader(*_cmd_ctrl))
+	{
+		ReleaseCmdCtrl(_cmd_ctrl);
 	}
 
-	return FALSE;
-
-
 }
-
-
 /*-----------------------------------*/
 /**
  *

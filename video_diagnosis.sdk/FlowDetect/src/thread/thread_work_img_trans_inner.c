@@ -17,12 +17,13 @@ void *inner_transfer_image(void* _pdata)
 				}else{
 
 					CMD_CTRL *img_data=msg._data;
-					{
+					if(IsCmdCtrl(img_data)){
 							IplImageU* imgU=(IplImageU*)img_data;
 							const int ch=imgU->IpAddrChannel[0];
 							PRINTF_DBG_EX("inner rcv a image Channel:%d\n",ch);
+							ReleaseCmdCtrl(&img_data);
 					}
-					ReleaseCmdCtrl(&img_data);
+
 				}
 
 
