@@ -8,30 +8,33 @@ void *inner_transfer_image(void* _pdata)
 {
 	while(IsRun()){
 
-		if(0==GetTcpTransImgThreads()){
+				if(0==GetTcpTransImgThreads()){
 
-				MESSAGE msg=rcv_queue_img_buff();
+								MESSAGE msg=rcv_queue_img_buff();
 
-				if(msg.message_type==ENOMSG){
-					usleep(10);
+								if(msg.message_type==ENOMSG){
+									usleep(10);
+								}else{
+
+											CMD_CTRL *img_data=msg._data;
+
+											if(IsCmdCtrl(img_data)){
+
+														if(IsImageFrame(img_data)){
+																IplImageU* imgU=GetIplImageUx(img_data);
+																IplImage* imgcv=GetIplImage(img_data);
+																const int ch=imgU->IpAddrChannel[0];
+																PRINTF_DBG_EX("inner rcv a image Channel:%d\n",ch);
+														}
+
+														ReleaseCmdCtrl(&img_data);
+
+											}
+								}
+
 				}else{
-
-					CMD_CTRL *img_data=msg._data;
-					if(IsCmdCtrl(img_data)){
-							IplImageU* imgU=(IplImageU*)img_data;
-							const int ch=imgU->IpAddrChannel[0];
-							PRINTF_DBG_EX("inner rcv a image Channel:%d\n",ch);
-							ReleaseCmdCtrl(&img_data);
-					}
-
+					sleep_1ms();
 				}
-
-
-
-
-		}else{
-			sleep_1ms();
-		}
 
 	}
 
