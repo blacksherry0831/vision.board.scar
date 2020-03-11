@@ -18,7 +18,7 @@ void *inner_transfer_image(void* _pdata)
 
 											CMD_CTRL *img_data=msg._data;
 
-											if(IsCmdCtrlHeader(img_data)){
+											if(IsCmdCtrl(img_data)){
 
 														if(IsImageFrame(img_data)){
 																IplImageU* imgU=GetIplImageUx(img_data);

@@ -1,0 +1,187 @@
+16:38:54 **** Incremental Build of configuration Debug for project opencv.test.sample ****
+make all 
+'Building file: ../src/hough_test.c'
+'Invoking: ARM Linux gcc compiler'
+arm-xilinx-linux-gnueabi-g++ -Wall -O0 -g3 -I"V:\opencv_3.3.0.arm.linux\include" -I"E:\sjts_flame_monitoring\flame_monitoring_source\vision.board.flame.monitoring\video_diagnosis.sdk\opencv.test.sample\src" -c -fmessage-length=0 -MT"src/hough_test.o" -MMD -MP -MF"src/hough_test.d" -MT"src/hough_test.d" -o "src/hough_test.o" "../src/hough_test.c"
+../src/hough_test.c:2:0: warning: "_GNU_SOURCE" redefined
+ #define _GNU_SOURCE
+ ^
+<command-line>:0:0: note: this is the location of the previous definition
+In file included from d:\xilinx\sdk\2015.4\gnu\arm\nt\arm-xilinx-linux-gnueabi\libc\usr\include\assert.h:35:0,
+                 from ../src/hough_test.c:4:
+d:\xilinx\sdk\2015.4\gnu\arm\nt\arm-xilinx-linux-gnueabi\libc\usr\include\features.h:148:3: warning: #warning "_BSD_SOURCE and _SVID_SOURCE are deprecated, use _DEFAULT_SOURCE" [-Wcpp]
+ # warning "_BSD_SOURCE and _SVID_SOURCE are deprecated, use _DEFAULT_SOURCE"
+   ^
+'Finished building: ../src/hough_test.c'
+' '
+'Building target: opencv.test.sample.elf'
+'Invoking: ARM Linux gcc linker'
+arm-xilinx-linux-gnueabi-g++ -s -L"V:\opencv_3.3.0.arm.linux\lib" -L"V:\opencv_3.3.0.arm.linux\lib\gstreamer-1.0" -L"V:\opencv_3.3.0.arm.linux\lib\gtk-3.0\3.0.0\printbackends" -L"V:\opencv_3.3.0.arm.linux\lib\gdk-pixbuf-2.0\2.10.0\loaders" -L"V:\opencv_3.3.0.arm.linux\lib\cairo" -o "opencv.test.sample.elf"  ./src/hough_test.o   -lpthread -lrt -lm -lasprintf -latk-1.0 -lavcodec -lavdevice -lavfilter -lavformat -lavutil -lblkid -lcairo -lcairo-gobject -lcairo-script-interpreter -lcairo-trace -ldc1394 -lexif -lffi -lfontconfig -lfreetype -lfribidi -lgailutil-3 -lgdk_pixbuf-2.0 -lgdk-3 -lgettextlib-0.19.8 -lgettextpo -lgettextsrc-0.19.8 -lgio-2.0 -lglib-2.0 -lgmodule-2.0 -lgobject-2.0 -lgphoto2 -lgphoto2_port -lgstallocators-1.0 -lgstapp-1.0 -lgstaudio-1.0 -lgstbase-1.0 -lgstcheck-1.0 -lgstcontroller-1.0 -lgstcoreelements -lgstcoretracers -lgstfft-1.0 -lgstnet-1.0 -lgstpbutils-1.0 -lgstreamer-1.0 -lgstriff-1.0 -lgstrtp-1.0 -lgstrtsp-1.0 -lgstsdp-1.0 -lgsttag-1.0 -lgstvideo-1.0 -lgthread-2.0 -lgtk-3 -lharfbuzz -ljpeg -lltdl -lmount -lopencv_calib3d -lopencv_core -lopencv_dnn -lopencv_features2d -lopencv_flann -lopencv_highgui -lopencv_imgcodecs -lopencv_imgproc -lopencv_ml -lopencv_objdetect -lopencv_photo -lopencv_shape -lopencv_stitching -lopencv_superres -lopencv_video -lopencv_videoio -lopencv_videostab -lpango-1.0 -lpangocairo-1.0 -lpangoft2-1.0 -lpcre -lpcrecpp -lpcreposix -lpixbufloader-ani -lpixbufloader-bmp -lpixbufloader-gif -lpixbufloader-icns -lpixbufloader-ico -lpixbufloader-jpeg -lpixbufloader-png -lpixbufloader-pnm -lpixbufloader-qtif -lpixbufloader-tga -lpixbufloader-tiff -lpixbufloader-xbm -lpixbufloader-xpm -lpixman-1 -lpng16 -lpostproc -lprintbackend-file -lprintbackend-lpr -lswresample -lswscale -ltiff -ltiffxx -lusb-1.0 -luuid -lX11 -lX11-xcb -lx264 -lXau -lxcb -lxcb-composite -lxcb-damage -lxcb-dpms -lxcb-dri2 -lxcb-dri3 -lxcb-glx -lxcb-present -lxcb-randr -lxcb-record -lxcb-render -lxcb-res -lxcb-screensaver -lxcb-shape -lxcb-shm -lxcb-sync -lxcb-xf86dri -lxcb-xfixes -lxcb-xinerama -lxcb-xinput -lxcb-xkb -lxcb-xtest -lxcb-xv -lxcb-xvmc -lXcursor -lXext -lXfixes -lXi -lxml2 -lXrender -lxvidcore -lz
+'Finished building target: opencv.test.sample.elf'
+' '
+'Invoking: ARM Linux Print Size'
+arm-xilinx-linux-gnueabi-size opencv.test.sample.elf  |tee "opencv.test.sample.elf.size"
+   text	   data	    bss	    dec	    hex	filename
+  32344	   1528	    400	  34272	   85e0	opencv.test.sample.elf
+'Finished building: opencv.test.sample.elf.size'
+' '
+15:36:39 **** Build of configuration Debug for project FlowDetect ****
+make all 
+make: Nothing to be done for `all'.
+15:36:45 **** Build of configuration Debug for project dma.test.sample ****
+make all 
+make: Nothing to be done for `all'.
+15:40:42 **** Incremental Build of configuration Debug for project FlowDetect ****
+make all 
+make: Nothing to be done for `all'.
+15:43:26 **** Incremental Build of configuration Debug for project FlowDetect ****
+make all 
+make: Nothing to be done for `all'.
+15:51:56 **** Incremental Build of configuration Debug for project opencv.test.sample ****
+make all 
+make: Nothing to be done for `all'.
+15:52:20 **** Incremental Build of configuration Debug for project opencv.test.sample ****
+make all 
+make: Nothing to be done for `all'.
+15:53:00 **** Incremental Build of configuration Debug for project opencv.test.sample ****
+make all 
+make: Nothing to be done for `all'.
+16:09:02 **** Auto Build of configuration Debug for project FlowDetect ****
+make all 
+'Building file: ../src/thread/thread_work_img_trans_inner.c'
+'Invoking: ARM Linux gcc compiler'
+arm-xilinx-linux-gnueabi-gcc -D_DEBUG -Wall -O0 -g3 -I"E:\sjts_flame_monitoring\flame_monitoring_source\vision.board.flame.monitoring\video_diagnosis.sdk\FlowDetect\src" -I"E:\sjts_flame_monitoring\flame_monitoring_source\vision.board.flame.monitoring\video_diagnosis.sdk\FlowDetect\src\modules\uCOS" -c -fmessage-length=0 -MT"src/thread/thread_work_img_trans_inner.o" -MMD -MP -MF"src/thread/thread_work_img_trans_inner.d" -MT"src/thread/thread_work_img_trans_inner.d" -o "src/thread/thread_work_img_trans_inner.o" "../src/thread/thread_work_img_trans_inner.c"
+../src/thread/thread_work_img_trans_inner.c: In function 'inner_transfer_image':
+../src/thread/thread_work_img_trans_inner.c:9:2: warning: implicit declaration of function 'IsRun' [-Wimplicit-function-declaration]
+  while(IsRun()){
+  ^
+../src/thread/thread_work_img_trans_inner.c:11:5: warning: implicit declaration of function 'GetTcpTransImgThreads' [-Wimplicit-function-declaration]
+     if(0==GetTcpTransImgThreads()){
+     ^
+../src/thread/thread_work_img_trans_inner.c:21:12: warning: implicit declaration of function 'IsCmdCtrlHeader' [-Wimplicit-function-declaration]
+            if(IsCmdCtrlHeader(img_data)){
+            ^
+../src/thread/thread_work_img_trans_inner.c:25:27: warning: unused variable 'imgcv' [-Wunused-variable]
+                 IplImage* imgcv=GetIplImage(img_data);
+                           ^
+In file included from E:\sjts_flame_monitoring\flame_monitoring_source\vision.board.flame.monitoring\video_diagnosis.sdk\FlowDetect\src/modules_ex/opencv_base.h:8:0,
+                 from E:\sjts_flame_monitoring\flame_monitoring_source\vision.board.flame.monitoring\video_diagnosis.sdk\FlowDetect\src/modules_ex/type.h:7,
+                 from E:\sjts_flame_monitoring\flame_monitoring_source\vision.board.flame.monitoring\video_diagnosis.sdk\FlowDetect\src/module_zynq7000_hi3516/axi_base.h:7,
+                 from ../src/thread/thread_work_img_trans_inner.h:8,
+                 from ../src/thread/thread_work_img_trans_inner.c:1:
+../src/thread/thread_work_img_trans_inner.c: At top level:
+E:\sjts_flame_monitoring\flame_monitoring_source\vision.board.flame.monitoring\video_diagnosis.sdk\FlowDetect\src/modules/opencv2/core/types_c.h:379:17: warning: 'cvFloor' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvFloor( double value )
+                 ^
+E:\sjts_flame_monitoring\flame_monitoring_source\vision.board.flame.monitoring\video_diagnosis.sdk\FlowDetect\src/modules/opencv2/core/types_c.h:396:17: warning: 'cvCeil' defined but not used [-Wunused-function]
+ CV_INLINE  int  cvCeil( double value )
+                 ^
+E:\sjts_flame_monitoring\flame_monitoring_source\vision.board.flame.monitoring\video_diagnosis.sdk\FlowDetect\src/modules/opencv2/core/types_c.h:415:15: warning: 'cvIsNaN' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsNaN( double value )
+               ^
+E:\sjts_flame_monitoring\flame_monitoring_source\vision.board.flame.monitoring\video_diagnosis.sdk\FlowDetect\src/modules/opencv2/core/types_c.h:424:15: warning: 'cvIsInf' defined but not used [-Wunused-function]
+ CV_INLINE int cvIsInf( double value )
+               ^
+E:\sjts_flame_monitoring\flame_monitoring_source\vision.board.flame.monitoring\video_diagnosis.sdk\FlowDetect\src/modules/opencv2/core/types_c.h:439:17: warning: 'cvRNG' defined but not used [-Wunused-function]
+ CV_INLINE CvRNG cvRNG( int64 seed CV_DEFAULT(-1))
+                 ^
+E:\sjts_flame_monitoring\flame_monitoring_source\vision.board.flame.monitoring\video_diagnosis.sdk\FlowDetect\src/modules/opencv2/core/types_c.h:455:18: warning: 'cvRandReal' defined but not used [-Wunused-function]
+ CV_INLINE double cvRandReal( CvRNG* rng )
+                  ^
+E:\sjts_flame_monitoring\flame_monitoring_source\vision.board.flame.monitoring\video_diagnosis.sdk\FlowDetect\src/modules/opencv2/core/types_c.h:769:17: warning: 'cvMat' defined but not used [-Wunused-function]
+ CV_INLINE CvMat cvMat( int rows, int cols, int type, void* data CV_DEFAULT(NULL))
+                 ^
+E:\sjts_flame_monitoring\flame_monitoring_source\vision.board.flame.monitoring\video_diagnosis.sdk\FlowDetect\src/modules/opencv2/core/types_c.h:799:20: warning: 'cvmGet' defined but not used [-Wunused-function]
+ CV_INLINE  double  cvmGet( const CvMat* mat, int row, int col )
+                    ^
+E:\sjts_flame_monitoring\flame_monitoring_source\vision.board.flame.monitoring\video_diagnosis.sdk\FlowDetect\src/modules/opencv2/core/types_c.h:817:18: warning: 'cvmSet' defined but not used [-Wunused-function]
+ CV_INLINE  void  cvmSet( CvMat* mat, int row, int col, double value )
+                  ^
+E:\sjts_flame_monitoring\flame_monitoring_source\vision.board.flame.monitoring\video_diagnosis.sdk\FlowDetect\src/modules/opencv2/core/types_c.h:834:15: warning: 'cvIplDepth' defined but not used [-Wunused-function]
+ CV_INLINE int cvIplDepth( int type )
+               ^
+E:\sjts_flame_monitoring\flame_monitoring_source\vision.board.flame.monitoring\video_diagnosis.sdk\FlowDetect\src/modules/opencv2/core/types_c.h:1009:20: warning: 'cvRectToROI' defined but not used [-Wunused-function]
+ CV_INLINE  IplROI  cvRectToROI( CvRect rect, int coi )
+                    ^
+E:\sjts_flame_monitoring\flame_monitoring_source\vision.board.flame.monitoring\video_diagnosis.sdk\FlowDetect\src/modules/opencv2/core/types_c.h:1022:20: warning: 'cvROIToRect' defined but not used [-Wunused-function]
+ CV_INLINE  CvRect  cvROIToRect( IplROI roi )
+                    ^
+E:\sjts_flame_monitoring\flame_monitoring_source\vision.board.flame.monitoring\video_diagnosis.sdk\FlowDetect\src/modules/opencv2/core/types_c.h:1043:28: warning: 'cvTermCriteria' defined but not used [-Wunused-function]
+ CV_INLINE  CvTermCriteria  cvTermCriteria( int type, int max_iter, double epsilon )
+                            ^
+E:\sjts_flame_monitoring\flame_monitoring_source\vision.board.flame.monitoring\video_diagnosis.sdk\FlowDetect\src/modules/opencv2/core/types_c.h:1065:21: warning: 'cvPoint' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPoint( int x, int y )
+                     ^
+E:\sjts_flame_monitoring\flame_monitoring_source\vision.board.flame.monitoring\video_diagnosis.sdk\FlowDetect\src/modules/opencv2/core/types_c.h:1095:26: warning: 'cvPointTo32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D32f  cvPointTo32f( CvPoint point )
+                          ^
+E:\sjts_flame_monitoring\flame_monitoring_source\vision.board.flame.monitoring\video_diagnosis.sdk\FlowDetect\src/modules/opencv2/core/types_c.h:1101:21: warning: 'cvPointFrom32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint  cvPointFrom32f( CvPoint2D32f point )
+                     ^
+E:\sjts_flame_monitoring\flame_monitoring_source\vision.board.flame.monitoring\video_diagnosis.sdk\FlowDetect\src/modules/opencv2/core/types_c.h:1120:26: warning: 'cvPoint3D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D32f  cvPoint3D32f( double x, double y, double z )
+                          ^
+E:\sjts_flame_monitoring\flame_monitoring_source\vision.board.flame.monitoring\video_diagnosis.sdk\FlowDetect\src/modules/opencv2/core/types_c.h:1140:26: warning: 'cvPoint2D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint2D64f  cvPoint2D64f( double x, double y )
+                          ^
+E:\sjts_flame_monitoring\flame_monitoring_source\vision.board.flame.monitoring\video_diagnosis.sdk\FlowDetect\src/modules/opencv2/core/types_c.h:1160:26: warning: 'cvPoint3D64f' defined but not used [-Wunused-function]
+ CV_INLINE  CvPoint3D64f  cvPoint3D64f( double x, double y, double z )
+                          ^
+E:\sjts_flame_monitoring\flame_monitoring_source\vision.board.flame.monitoring\video_diagnosis.sdk\FlowDetect\src/modules/opencv2/core/types_c.h:1181:20: warning: 'cvSize' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize  cvSize( int width, int height )
+                    ^
+E:\sjts_flame_monitoring\flame_monitoring_source\vision.board.flame.monitoring\video_diagnosis.sdk\FlowDetect\src/modules/opencv2/core/types_c.h:1199:25: warning: 'cvSize2D32f' defined but not used [-Wunused-function]
+ CV_INLINE  CvSize2D32f  cvSize2D32f( double width, double height )
+                         ^
+E:\sjts_flame_monitoring\flame_monitoring_source\vision.board.flame.monitoring\video_diagnosis.sdk\FlowDetect\src/modules/opencv2/core/types_c.h:1244:21: warning: 'cvSlice' defined but not used [-Wunused-function]
+ CV_INLINE  CvSlice  cvSlice( int start, int end )
+                     ^
+E:\sjts_flame_monitoring\flame_monitoring_source\vision.board.flame.monitoring\video_diagnosis.sdk\FlowDetect\src/modules/opencv2/core/types_c.h:1265:22: warning: 'cvScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalar( double val0, double val1 CV_DEFAULT(0),
+                      ^
+E:\sjts_flame_monitoring\flame_monitoring_source\vision.board.flame.monitoring\video_diagnosis.sdk\FlowDetect\src/modules/opencv2/core/types_c.h:1275:22: warning: 'cvRealScalar' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvRealScalar( double val0 )
+                      ^
+E:\sjts_flame_monitoring\flame_monitoring_source\vision.board.flame.monitoring\video_diagnosis.sdk\FlowDetect\src/modules/opencv2/core/types_c.h:1283:22: warning: 'cvScalarAll' defined but not used [-Wunused-function]
+ CV_INLINE  CvScalar  cvScalarAll( double val0123 )
+                      ^
+E:\sjts_flame_monitoring\flame_monitoring_source\vision.board.flame.monitoring\video_diagnosis.sdk\FlowDetect\src/modules/opencv2/core/types_c.h:1798:22: warning: 'cvAttrList' defined but not used [-Wunused-function]
+ CV_INLINE CvAttrList cvAttrList( const char** attr CV_DEFAULT(NULL),
+                      ^
+'Finished building: ../src/thread/thread_work_img_trans_inner.c'
+' '
+'Building target: FlowDetect.elf'
+'Invoking: ARM Linux gcc linker'
+arm-xilinx-linux-gnueabi-gcc  -o "FlowDetect.elf"  ./src/thread_module/fpga_cmd_scar_module.o ./src/thread_module/fpga_cvt_crack_module.o ./src/thread_module/fpga_cvt_module.o ./src/thread_module/fpga_cvt_scar_module.o  ./src/thread/thread_dma_cpy.o ./src/thread/thread_fpga_cvt.o ./src/thread/thread_mem_cpy.o ./src/thread/thread_work_ctrl.o ./src/thread/thread_work_img_trans.o ./src/thread/thread_work_img_trans_inner.o  ./src/task/task_circle.o ./src/task/task_cmd.o ./src/task/task_work_flow.o  ./src/sync/sem_sync.o ./src/sync/sync_fpga_cvt_circle.o ./src/sync/sync_global.o ./src/sync/sync_img_msg_q.o ./src/sync/sync_pl_mem_4_8_lock.o ./src/sync/sync_ps_mem_0_4_lock.o ./src/sync/sync_task.o  ./src/msg_queue/msg_queue.o ./src/msg_queue/msg_sysV_queue.o  ./src/modules_up/png_up.o  ./src/modules_ex/base.o ./src/modules_ex/cmd_crack1_8.o ./src/modules_ex/cmd_file.o ./src/modules_ex/cmd_scar.o ./src/modules_ex/fs_base.o ./src/modules_ex/opencv_base.o ./src/modules_ex/tcp_server.o ./src/modules_ex/type.o  ./src/modules_58/cetc_flash.o ./src/modules_58/life_cycle.o ./src/modules_58/timer.o  ./src/modules/uCOS/cpu.o ./src/modules/uCOS/mem_pool_fixed.o ./src/modules/uCOS/os_mem.o  ./src/modules/printf_log/printf_log.o  ./src/modules/lodepng/lodepng.o  ./src/modules/cJSON/cJSON.o ./src/modules/cJSON/cJSON_Utils.o  ./src/module_zynq7000_hi3516/axi_base.o ./src/module_zynq7000_hi3516/axi_fpga_ctrl.o ./src/module_zynq7000_hi3516/axi_fpga_ctrl_img.o ./src/module_zynq7000_hi3516/axi_fpga_ctrl_img_scar.o ./src/module_zynq7000_hi3516/def_hw_zynq7000_hi3516.o ./src/module_zynq7000_hi3516/def_hw_zynq7000_hi3516_PL_MEM.o ./src/module_zynq7000_hi3516/def_hw_zynq7000_hi3516_axi.o ./src/module_zynq7000_hi3516/def_hw_zynq7000_hi3516_axi_scar.o ./src/module_zynq7000_hi3516/def_hw_zynq7000_hi3516_dmac.o ./src/module_zynq7000_hi3516/def_img_space_scar.o ./src/module_zynq7000_hi3516/dma_83c0.o ./src/module_zynq7000_hi3516/dma_83c0_ex.o ./src/module_zynq7000_hi3516/dma_83c1.o ./src/module_zynq7000_hi3516/dma_83c1_ex.o ./src/module_zynq7000_hi3516/dma_83c4.o ./src/module_zynq7000_hi3516/dma_83c4_ex.o ./src/module_zynq7000_hi3516/dma_hw_base.o ./src/module_zynq7000_hi3516/mem_pl.o  ./src/linux_cfg/linux_cfg.o  ./src/img_cfg/img_cfg.o ./src/img_cfg/img_cfg_scar.o ./src/img_cfg/img_mask_cfg.o ./src/img_cfg/scar_cfg.o  ./src/hw_module_base/axi_api.o  ./src/fpga_second/fpga_second.o  ./src/fpga_first/fpga_first.o  ./src/fpga_base/fpga_base.o  ./src/cfg.o ./src/init_destory.o ./src/main.o ./src/status.o   -lpthread -lrt -lm
+'Finished building target: FlowDetect.elf'
+' '
+'Invoking: ARM Linux Print Size'
+arm-xilinx-linux-gnueabi-size FlowDetect.elf  |tee "FlowDetect.elf.size"
+   text	   data	    bss	    dec	    hex	filename
+ 396533	   2352	202059632	202458517	c114595	FlowDetect.elf
+'Finished building: FlowDetect.elf.size'
+' '
+16:33:06 **** Incremental Build of configuration Debug for project opencv.test.sample ****
+make all 
+make: Nothing to be done for `all'.
+16:33:23 **** Incremental Build of configuration Debug for project opencv.test.sample ****
+make all 
+make: Nothing to be done for `all'.
+16:34:06 **** Incremental Build of configuration Debug for project opencv.test.sample ****
+make all 
+make: Nothing to be done for `all'.
+16:36:13 **** Incremental Build of configuration Debug for project FlowDetect ****
+make all 
+make: Nothing to be done for `all'.
+16:39:56 **** Incremental Build of configuration Debug for project FlowDetect ****
+make all 
+make: Nothing to be done for `all'.
+16:39:59 **** Incremental Build of configuration Debug for project dma.test.sample ****
+make all 
+make: Nothing to be done for `all'.
+16:40:02 **** Incremental Build of configuration Debug for project opencv.test.sample ****
+make all 
+make: Nothing to be done for `all'.
+16:41:03 **** Incremental Build of configuration Debug for project FlowDetect ****
+make all 
+make: Nothing to be done for `all'.
