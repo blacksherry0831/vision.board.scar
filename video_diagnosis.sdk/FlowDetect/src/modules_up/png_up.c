@@ -1,7 +1,7 @@
 #include "png_up.h"
 /*-----------------------------------*/
 /**
- *
+ *将image编码成png图片并保存
  */
 /*-----------------------------------*/
 void encodeWithState(
@@ -15,23 +15,23 @@ void encodeWithState(
 	size_t pngsize;
 	LodePNGState state;
 
-	lodepng_state_init(&state);
+	lodepng_state_init(&state);  //png初始化
   /*optionally customize the state*/
 
-	state.info_raw.colortype=LCT_GREY;
+	state.info_raw.colortype=LCT_GREY;  //色彩模式
 
-	error = lodepng_encode(&png, &pngsize, image, width, height, &state);
-	if(!error) lodepng_save_file(png, pngsize, filename);
+	error = lodepng_encode(&png, &pngsize, image, width, height, &state);  //将原始的像素数据编码成一张PNG图像
+	if(!error) lodepng_save_file(png, pngsize, filename);  //保存png图片
 
 	/*if there's an error, display it*/
 	if(error) printf("error %u: %s\n", error, lodepng_error_text(error));
 
-	lodepng_state_cleanup(&state);
+	lodepng_state_cleanup(&state);  //清空
 	free(png);
 }
 /*-----------------------------------*/
 /**
- *
+ *将png图片解码为像素数据
  */
 /*-----------------------------------*/
 int decodeWithState(const char* filename,char* dst,int _width,int _height,int _nChannels)
@@ -72,7 +72,7 @@ int decodeWithState(const char* filename,char* dst,int _width,int _height,int _n
 }
 /*-----------------------------------*/
 /**
- *
+ *将cmd中的image编码成png图片并保存
  */
 /*-----------------------------------*/
 void encodeWithState_cmd_ctrl(
@@ -85,11 +85,11 @@ void encodeWithState_cmd_ctrl(
 	const int width=UChar2Int(imgU->width,UCHAR_SIZE);
 	const int height=UChar2Int(imgU->height,UCHAR_SIZE);
 	unsigned char* data_t=(unsigned char*)GetIplImageImageData(_cmd);
-	encodeWithState(_filename,data_t,width,height);
+	encodeWithState(_filename,data_t,width,height);  //将image编码成png图片并保存
 }
 /*-----------------------------------*/
 /**
- *
+ *解码png图片为像素数据，并保存至cmd中
  */
 /*-----------------------------------*/
 int decodeWithState_cmd_ctrl(

@@ -5,7 +5,7 @@ static unsigned char G_IP_ADDR[4]={0};
 static const char G_ETH[]="eth0";
 /*-----------------------------------*/
 /**
- *
+ *打印IP
  */
 /*-----------------------------------*/
 int init_ip_addr(const char *ifname)
@@ -57,12 +57,12 @@ int init_ip_addr(const char *ifname)
 }
 /*-----------------------------------*/
 /**
- *
+ *打印mac地址
  */
 /*-----------------------------------*/
 int init_mac_addr(const char *ifname)
 {
-	 	struct ifreq ifreq;
+	 	struct ifreq ifreq;  //ifreq用来配置ip地址，激活接口，配置MTU等接口信息的
 	    int sock = 0;
 	    char mac[32] = "";
 
@@ -74,7 +74,7 @@ int init_mac_addr(const char *ifname)
 	    }
 
 	    strcpy(ifreq.ifr_name,ifname);
-	    if(ioctl(sock,SIOCGIFHWADDR,&ifreq) < 0)
+	    if(ioctl(sock,SIOCGIFHWADDR,&ifreq) < 0)  //运行终端口命令 eth0
 	    {
 	        perror("error ioctl");
 	        return 3;
@@ -92,23 +92,23 @@ int init_mac_addr(const char *ifname)
 }
 /*-----------------------------------*/
 /**
- *
+ *测试打印1个bit的长度
  */
 /*-----------------------------------*/
 void test_bitwidth()
 {
 	const int BITWIDTH=sizeof(void*);
-		  PRINTF_DBG_EX("bit Width is :%d !\n",BITWIDTH*8);
+	PRINTF_DBG_EX("bit Width is :%d !\n",BITWIDTH*8);
 }
 /*-----------------------------------*/
 /**
- *
+ *测试mac地址和ip
  */
 /*-----------------------------------*/
 void test_mac_addr()
 {
-	init_mac_addr(G_ETH);
-	init_ip_addr(G_ETH);
+	init_mac_addr(G_ETH);  //打印mac地址
+	init_ip_addr(G_ETH);   //打印IP
 
 	if(G_MAC_ADDR[5]!=G_IP_ADDR[3]){
 		  PRINTF_DBG_EX("must G_MAC_ADDR[5]==G_IP_ADDR[3] !\n");
@@ -118,50 +118,50 @@ void test_mac_addr()
 
 /*-----------------------------------*/
 /**
- *
+ *测试
  */
 /*-----------------------------------*/
 void test()
 {
-	test_bitwidth();
-	test_mac_addr();
-	test_life_cycle();
+	test_bitwidth();  //测试打印1个bit的长度
+	test_mac_addr();  //测试mac地址和ip
+	test_life_cycle();  //测试产品剩余服务期限
 }
 /*-----------------------------------*/
 /**
- *
+ *读取项目配置文件img.cfg.json.txt的参数，并记录至项目变量中且发送至FPGA
  */
 /*-----------------------------------*/
 void init_param()
 {
 
-	LoadImgCfgJson();
+	LoadImgCfgJson();  //读取项目配置文件img.cfg.json.txt的JSON数据，并将相关参数记录至项目变量中且发送至FPGA
 
 	if(GetProjectRun()==inside08){
 
-		fpga_img_svm_enable(0);
+		fpga_img_svm_enable(0);  //向FPGA使能SVM
 	}
 
 }
 /*-----------------------------------*/
 /**
- *
+ *初始化并创建项目配置文件目录：/media/sdcard/project.cfg./项目运行模式
  */
 /*-----------------------------------*/
 void init_once()
 {
-	MakeProjectDirectory();
+	MakeProjectDirectory(); //初始化并创建项目配置文件目录：/media/sdcard/project.cfg./项目运行模式
 }
 /*-----------------------------------*/
 /**
- *
+ *初始化设备（重置启动FPGA+读取已存蒙板数据+读取配置文件中参数并设置）
  */
 /*-----------------------------------*/
 void init_device()
 {
-	fpga_img_scar_reset();
-	InitMaskImage_scar();
-	init_param();
+	fpga_img_scar_reset();  //重置启动FPGA 向FPGA发送命令0和1
+	InitMaskImage_scar();   //初始化0号和已保存在sd卡中的蒙板数据，并进行dma数据交互
+	init_param();  //读取项目配置文件img.cfg.json.txt的参数，并记录至项目变量中且发送至FPGA
 }
 /*-----------------------------------*/
 /**
@@ -195,15 +195,15 @@ void uninstall()
 }
 /*-----------------------------------*/
 /**
- *
+ *程序初始化（初始化内存池+重置启动FPGA+读取已存蒙板数据+读取配置文件中参数并设置）
  */
 /*-----------------------------------*/
 void init()
 {
-	PrintBuildTime();
-	init_once();
-	install();
-	init_device();
+	PrintBuildTime();  //打印版本号和编译时间
+	init_once();  //初始化并创建项目配置文件目录：/media/sdcard/project.cfg./项目运行模式
+	install();  //创建并初始化内存池
+	init_device();  //初始化设备（重置启动FPGA+读取已存蒙板数据+读取配置文件中参数并设置）
 }
 /*-----------------------------------*/
 /**
@@ -217,45 +217,42 @@ void destory()
 }
 /*-----------------------------------*/
 /**
- *
+ *主处理函数
  */
 /*-----------------------------------*/
 int main_ring()
 {
-
-			init();
+	init();  //程序初始化（初始化内存池+重置启动FPGA+读取已存蒙板数据+读取配置文件中参数并设置）
 #ifdef _DEBUG
-			test();
+	test();  //测试
 #endif
 
 #if TRUE
-			create_server_timers();
+	create_server_timers();  //定时刷新和校验已服务时间和剩余服务期
 #endif
-			pthread_t thread_task_inner_rcv=inner_image_buff_trans_server(NULL);
-			pthread_t thread_task_tcp_rcv=tcp_image_buff_trans_server(NULL);
 
-			sleep(1);//let tcp data trans thread start first
+	pthread_t thread_task_inner_rcv=inner_image_buff_trans_server(NULL);
+	pthread_t thread_task_tcp_rcv=tcp_image_buff_trans_server(NULL);
 
-			pthread_t thread_task_tcp_flow=task_flow_ctrl_server();
+	sleep(1);//let tcp data trans thread start first 让TCP数据交互线程先启动
 
+	pthread_t thread_task_tcp_flow=task_flow_ctrl_server();
 
-			pthread_t thread_task_fpga_cvt=init_fpga_cvt_server(NULL);
-			pthread_t thread_task_dma=init_dma_server(NULL);
-			pthread_t thread_task_memcpy=init_memcpy_server(NULL);
+	pthread_t thread_task_fpga_cvt=init_fpga_cvt_server(NULL);
+	pthread_t thread_task_dma=init_dma_server(NULL);
+	pthread_t thread_task_memcpy=init_memcpy_server(NULL);
 
-			run_main();
+	run_main();
+	destory();
 
-			destory();
+	pthread_join(thread_task_inner_rcv,NULL);
+	pthread_join(thread_task_tcp_flow,NULL);
+	pthread_join(thread_task_tcp_rcv,NULL);
+	pthread_join(thread_task_fpga_cvt,NULL);
+	pthread_join(thread_task_dma,NULL);
+	pthread_join(thread_task_memcpy,NULL);
 
-			pthread_join(thread_task_inner_rcv,NULL);
-			pthread_join(thread_task_tcp_flow,NULL);
-			pthread_join(thread_task_tcp_rcv,NULL);
-			pthread_join(thread_task_fpga_cvt,NULL);
-			pthread_join(thread_task_dma,NULL);
-			pthread_join(thread_task_memcpy,NULL);
-
-			return EXIT_SUCCESS;
-
+	return EXIT_SUCCESS;
 }
 /*-----------------------------------*/
 /**
@@ -278,7 +275,7 @@ void run_main()
 }
 /*-----------------------------------*/
 /**
- *
+ *判断项目运行模式：外圆？内圆？单目
  */
 /*-----------------------------------*/
 int IsCmdProject(const struct cmd_param _cmd_param,enum ProjectRun _project )
@@ -291,7 +288,7 @@ int IsCmdProject(const struct cmd_param _cmd_param,enum ProjectRun _project )
 }
 /*-----------------------------------*/
 /**
- *
+ *根据argv参数判断并设定项目运行模式：外圆？内圆？单目
  */
 /*-----------------------------------*/
 void setProjectMode(const struct cmd_param _cmd_param)

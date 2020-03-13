@@ -75,7 +75,7 @@ const char* COLOR_LAB_m				=	"m";
 static struct ViewInfo  G_View[SPACE_CHANNEL_NUM][SPACE_FRAME_NUM];
 /*-----------------------------------*/
 /**
- *
+ *设置_space_ch号摄像机_space_frame区图像的展示属性
  */
 /*-----------------------------------*/
 void image_View_output(int _space_ch,int _space_frame)
@@ -102,7 +102,7 @@ CvRect image_size_cut(int _space_ch,int _space_frame)
 }
 /*-----------------------------------*/
 /**
- *
+ *清空并初始化视频图像相关变量static struct ViewInfo  G_View[SPACE_CHANNEL_NUM][SPACE_FRAME_NUM]
  */
 /*-----------------------------------*/
 void ClearViewInfo()
@@ -127,7 +127,7 @@ void ClearViewInfo()
 }
 /*-----------------------------------*/
 /**
- *
+ *初始化摄像头信息by内置参数
  */
 /*-----------------------------------*/
 void initViewInfo_1_sensor_default_intrinsics_distortion(
@@ -149,7 +149,7 @@ void initViewInfo_1_sensor_default_intrinsics_distortion(
 }
 /*-----------------------------------*/
 /**
- *
+ *初始化摄像机参数（切割区域，通道数，色彩模式，图像序号）
  */
 /*-----------------------------------*/
 void initViewInfo_1_sensor_default(const int _si,
@@ -177,7 +177,7 @@ void initViewInfo_1_sensor_default(const int _si,
 
 	G_View[_si][_fi].ViewCh=_si;
 
-	initViewInfo_1_sensor_default_intrinsics_distortion(_si,_fi);
+	initViewInfo_1_sensor_default_intrinsics_distortion(_si,_fi);  //初始化摄像头信息by内置参数
 
 }
 /*-----------------------------------*/
@@ -250,7 +250,7 @@ void image_enable_output_frame_only_2()
 }
 /*-----------------------------------*/
 /**
- *
+ *初始化所用到的摄像机的基本参数（切割区域，通道数，色彩模式，图像序号）
  */
 /*-----------------------------------*/
 void initViewInfo_img_basic(const int _width,const int _height)
@@ -262,20 +262,17 @@ void initViewInfo_img_basic(const int _width,const int _height)
 
 	for(si=0;si<SensorMAX;si++){
 
-		if(GetGlobalSensorMask(si)){
+		if(GetGlobalSensorMask(si)){  //判断argv参数中是否启用相应的摄像头 si为摄像头编号
 
-			initViewInfo_1_sensor_default(si,0,1920,1080);
+			initViewInfo_1_sensor_default(si,0,1920,1080);  //初始化摄像机参数（切割区域，通道数，色彩模式，图像序号）
 			initViewInfo_1_sensor_default(si,1,_width,_height);
 			initViewInfo_1_sensor_default(si,2,_width,_height);
-
 		}
-
 	}
-
 }
 /*-----------------------------------*/
 /**
- *
+ *设置用到的_space_ch号摄像机_space_frame区图像的展示属性
  */
 /*-----------------------------------*/
 void initViewInfo_output_basic(const int _space_frame)
@@ -286,25 +283,24 @@ void initViewInfo_output_basic(const int _space_frame)
 
 	for(si=0;si<SensorMAX;si++){
 
-		if(GetGlobalSensorMask(si)){
-				image_View_output(si,_space_frame);
+		if(GetGlobalSensorMask(si)){   //判断argv参数中是否启用相应的摄像头
+				image_View_output(si,_space_frame);  //设置_space_ch号摄像机_space_frame区图像的展示属性
 		}
 
 	}
-
 }
 /*-----------------------------------*/
 /**
- *
+ *初始化摄像头参数和图像处理参数
  */
 /*-----------------------------------*/
 void initViewInfo_basic(const int _width,const int _height,const int _space_frame)
 {
-	ClearViewInfo();
-	initViewInfo_img_basic(_width,_height);
-	initViewInfo_output_basic(_space_frame);
+	ClearViewInfo();  //清空并初始化视频图像相关变量G_View
+	initViewInfo_img_basic(_width,_height);  //初始化所用到的摄像机的基本参数（切割区域，通道数，色彩模式，图像序号）
+	initViewInfo_output_basic(_space_frame);  //设置用到的_space_ch号摄像机_space_frame区图像的展示属性（是否展示）
 
-	saveImgCfgJsonDefault();
+	saveImgCfgJsonDefault();   //保存（默认的）JSON格式的图像处理参数至配置文件中
 }
 /*-----------------------------------*/
 /**
@@ -841,103 +837,89 @@ unsigned int image_frame_fpga_ps_offset(const int _space_ch,const int _space_fra
 }
 /*-----------------------------------*/
 /**
- *
+ *解析蒙板图片JSON数据（扫描模式和阈值）并记录至项目变量且发生至FPGA
  */
 /*-----------------------------------*/
 void* ParseScarImgCfgItem(cJSON*	_cfg_json)
 {
-				 cJSON *scar_img_cfg_json  = cJSON_GetObjectItemCaseSensitive(_cfg_json, KEY_SCAR_IMG_CFG);
+	cJSON *scar_img_cfg_json  = cJSON_GetObjectItemCaseSensitive(_cfg_json, KEY_SCAR_IMG_CFG);
+	cJSON *work_mode  = cJSON_GetObjectItemCaseSensitive(scar_img_cfg_json,  KEY_SCAR_IMG_CFG_WORK_MODE);
+	cJSON *th_global_up  = cJSON_GetObjectItemCaseSensitive(scar_img_cfg_json,  KEY_SCAR_IMG_CFG_TH_GLOBAL_UP );
+	cJSON *th_global_down  = cJSON_GetObjectItemCaseSensitive(scar_img_cfg_json, KEY_SCAR_IMG_CFG_TH_GLOBAL_DOWN);
+	cJSON *th_row_up  =  cJSON_GetObjectItemCaseSensitive(scar_img_cfg_json, KEY_SCAR_IMG_CFG_TH_ROW_UP);
+	cJSON *th_row_down  = cJSON_GetObjectItemCaseSensitive(scar_img_cfg_json, KEY_SCAR_IMG_CFG_TH_ROW_DOWN);
+	cJSON *th_col_up  = cJSON_GetObjectItemCaseSensitive(scar_img_cfg_json, KEY_SCAR_IMG_CFG_TH_COL_UP);
+	cJSON *th_col_down  = cJSON_GetObjectItemCaseSensitive(scar_img_cfg_json, KEY_SCAR_IMG_CFG_TH_COL_DOWN);
 
-				 cJSON *work_mode  = cJSON_GetObjectItemCaseSensitive(scar_img_cfg_json,  KEY_SCAR_IMG_CFG_WORK_MODE);
+	SetScarWorkMode2FPGA(work_mode->valueint);
+	SetScarGlobalThresholdUp2FPGA(th_global_up->valueint);
+	SetScarGlobalThresholdDown2FPGA(th_global_down->valueint);
+	SetScarRowThresholdUp2FPGA(th_row_up->valueint);
+	SetScarRowThresholdDown2FPGA(th_row_down->valueint);
+	SetScarColThresholdUp2FPGA(th_col_up->valueint);
+	SetScarColThresholdDown2FPGA(th_col_down->valueint);
 
-				 cJSON *th_global_up  = cJSON_GetObjectItemCaseSensitive(scar_img_cfg_json,  KEY_SCAR_IMG_CFG_TH_GLOBAL_UP );
-				 cJSON *th_global_down  = cJSON_GetObjectItemCaseSensitive(scar_img_cfg_json, KEY_SCAR_IMG_CFG_TH_GLOBAL_DOWN);
-
-				 cJSON *th_row_up  =  cJSON_GetObjectItemCaseSensitive(scar_img_cfg_json, KEY_SCAR_IMG_CFG_TH_ROW_UP);
-				 cJSON *th_row_down  = cJSON_GetObjectItemCaseSensitive(scar_img_cfg_json, KEY_SCAR_IMG_CFG_TH_ROW_DOWN);
-
-				 cJSON *th_col_up  = cJSON_GetObjectItemCaseSensitive(scar_img_cfg_json, KEY_SCAR_IMG_CFG_TH_COL_UP);
-				 cJSON *th_col_down  = cJSON_GetObjectItemCaseSensitive(scar_img_cfg_json, KEY_SCAR_IMG_CFG_TH_COL_DOWN);
-
-				 SetScarWorkMode2FPGA(work_mode->valueint);
-				 SetScarGlobalThresholdUp2FPGA(th_global_up->valueint);
-				 SetScarGlobalThresholdDown2FPGA(th_global_down->valueint);
-				 SetScarRowThresholdUp2FPGA(th_row_up->valueint);
-				 SetScarRowThresholdDown2FPGA(th_row_down->valueint);
-				 SetScarColThresholdUp2FPGA(th_col_up->valueint);
-				 SetScarColThresholdDown2FPGA(th_col_down->valueint);
-
-				 return NULL;
+	return NULL;
 
 }
 /*-----------------------------------*/
 /**
- *
+ *解析已被使用的摄像机分区JSON数据，并保存至系统变量（视频通道序号，剪切区域，图像色彩通道，是否展示等）
  */
 /*-----------------------------------*/
 void* ParseSpaceUsedItem(cJSON*	_cfg_json)
 {
 	 cJSON *space_used_json  = cJSON_GetObjectItemCaseSensitive(_cfg_json, KEY_SPACE_USED_CHANNELS);
-		    cJSON *one_space_used_json;
+	 cJSON *one_space_used_json;
 
-		    cJSON_ArrayForEach(one_space_used_json, space_used_json)
-		       {
-		    	 cJSON *one_frame_used_json;
+	 cJSON_ArrayForEach(one_space_used_json, space_used_json)
+	 {
+		 cJSON *one_frame_used_json;
+		 cJSON_ArrayForEach(one_frame_used_json, one_space_used_json)
+		 {
+			 /**<----------------------------------------------------------------*/
+			 cJSON* SpaceCh  =	cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_SPACE_CH);
+			 cJSON* SpaceFrame 	=	cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_SPACE_FRAME);
+			 /**<----------------------------------------------------------------*/
+			 cJSON* SpaceUsed = cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_SPACE_USED);
+			 cJSON* ViewCh = cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_VIEW_CH);
+			 cJSON* ViewOutput = cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_VIEW_OUTPUT);
+			 cJSON* nChannels = cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_N_CHANNELS);
 
-		    	 	 	 cJSON_ArrayForEach(one_frame_used_json, one_space_used_json)
-		    		       {
+			 cJSON* CutSize_x = cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_CUT_SIZE_X);
+			 cJSON* CutSize_y = cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_CUT_SIZE_Y);
+			 cJSON* CutSize_width = cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_CUT_SIZE_WIDTH);
+			 cJSON* CutSize_height= cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_CUT_SIZE_HEIGHT);
 
-																				 /**<----------------------------------------------------------------*/
-																					cJSON* SpaceCh 		=	cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_SPACE_CH);
-																					cJSON* SpaceFrame 	=	cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_SPACE_FRAME);
-																					/**<----------------------------------------------------------------*/
-			 	 	 																cJSON* SpaceUsed = 		cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_SPACE_USED);
-				    	 	 														cJSON* ViewCh = 		cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_VIEW_CH);
-				    	 	 														cJSON* ViewOutput = 	cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_VIEW_OUTPUT);
-				    	 	 														cJSON* nChannels = 		cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_N_CHANNELS);
+			 cJSON* OrgSize_width = cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_ORG_SIZE_WIDTH);
+			 cJSON* OrgSize_height = cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_ORG_SIZE_HEIGHT);
+			 cJSON* colorMode = cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_COLOR_MODE);
+			 /**<----------------------------------------------------------------*/
 
-				    	 	 														cJSON* CutSize_x = 		cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_CUT_SIZE_X);
-				    	 	 														cJSON* CutSize_y = 		cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_CUT_SIZE_Y);
-				    	 	 														cJSON* CutSize_width= 	cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_CUT_SIZE_WIDTH);
-				    	 	 														cJSON* CutSize_height= 	cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_CUT_SIZE_HEIGHT);
+			 const int schi=SpaceCh->valueint;
+			 const int sfri=SpaceFrame->valueint;
 
-				    	 	 														cJSON* OrgSize_width = 	cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_ORG_SIZE_WIDTH);
-				    	 	 														cJSON* OrgSize_height= 	cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_ORG_SIZE_HEIGHT);
-				    	 	 														cJSON* colorMode= 		cJSON_GetObjectItemCaseSensitive(one_frame_used_json, KEY_COLOR_MODE);
-																				/**<----------------------------------------------------------------*/
-																					const int schi=SpaceCh->valueint;
-																					const int sfri=SpaceFrame->valueint;
+			 assert(schi==G_View[schi][sfri].SpaceCh);
+			 assert(sfri==G_View[schi][sfri].SpaceFrame);
 
-																					assert(schi==G_View[schi][sfri].SpaceCh);
-																					assert(sfri==G_View[schi][sfri].SpaceFrame);
+			 G_View[schi][sfri].SpaceUsed=SpaceUsed->valueint;
+			 G_View[schi][sfri].ViewCh=ViewCh->valueint;
+			 G_View[schi][sfri].ViewOutput=ViewOutput->valueint;
+			 G_View[schi][sfri].nChannels=nChannels->valueint;
+			 G_View[schi][sfri].CutSize.x=CutSize_x->valueint;
+			 G_View[schi][sfri].CutSize.width=CutSize_width->valueint;
+			 G_View[schi][sfri].CutSize.height=CutSize_height->valueint;
+			 G_View[schi][sfri].OrgSize.width=OrgSize_width->valueint;
+			 G_View[schi][sfri].OrgSize.height=OrgSize_height->valueint;
+			 strcpy(G_View[schi][sfri].colorModel,colorMode->valuestring);
+			 /**<----------------------------------------------------------------*/
 
-
-																					G_View[schi][sfri].SpaceUsed=SpaceUsed->valueint;
-																					G_View[schi][sfri].ViewCh=ViewCh->valueint;
-
-																					G_View[schi][sfri].ViewOutput=ViewOutput->valueint;
-																					G_View[schi][sfri].nChannels=nChannels->valueint;
-																					G_View[schi][sfri].CutSize.x=CutSize_x->valueint;
-																					G_View[schi][sfri].CutSize.y=CutSize_y->valueint;
-
-																					G_View[schi][sfri].CutSize.width=CutSize_width->valueint;
-
-																					G_View[schi][sfri].CutSize.height=CutSize_height->valueint;
-																					G_View[schi][sfri].OrgSize.width=OrgSize_width->valueint;
-																					G_View[schi][sfri].OrgSize.height=OrgSize_height->valueint;
-
-																					strcpy(G_View[schi][sfri].colorModel,colorMode->valuestring);
-
-																				/**<----------------------------------------------------------------*/
-
-		    		       }
-
-		       }
-
+		 }
+	 }
 }
 /*-----------------------------------*/
 /**
- *
+ *读取项目配置JSON数据，并将相关参数记录至项目变量中且发送至FPGA
  */
 /*-----------------------------------*/
 void ParseImgCfgJsonStr(const char* _str)
@@ -946,7 +928,7 @@ void ParseImgCfgJsonStr(const char* _str)
 	    cJSON *cfg_json = cJSON_Parse(_str);
 	    if (cfg_json == NULL){
 
-	        const char *error_ptr = cJSON_GetErrorPtr();
+	    	const char *error_ptr = cJSON_GetErrorPtr();
 	        if (error_ptr != NULL)
 	        {
 	            fprintf(stderr, "Error before: %s\n", error_ptr);
@@ -959,11 +941,11 @@ void ParseImgCfgJsonStr(const char* _str)
 	    cJSON *sigma_up  = cJSON_GetObjectItemCaseSensitive(cfg_json, KEY_SIGMA_UP);
 	    cJSON *sigma_down  = cJSON_GetObjectItemCaseSensitive(cfg_json, KEY_SIGMA_DOWN);
 
-	    SetSigmaUp2FPGA(sigma_up->valueint);
-	    SetSigmaDown2FPGA(sigma_down->valueint);
+	    SetSigmaUp2FPGA(sigma_up->valueint);  //向FPGA设置上限阈值
+	    SetSigmaDown2FPGA(sigma_down->valueint);  //向FPGA设置下限阈值
 
-	    ParseSpaceUsedItem(cfg_json);
-	    ParseScarImgCfgItem(cfg_json);
+	    ParseSpaceUsedItem(cfg_json);  //解析已被使用的摄像机分区JSON数据，并保存至系统变量（视频通道序号，剪切区域，图像色彩通道，是否展示等）
+	    ParseScarImgCfgItem(cfg_json);  //解析蒙板图片JSON数据（扫描模式和阈值）并记录至项目变量且发生至FPGA
 
 	end:
 	    cJSON_Delete(cfg_json);
@@ -971,7 +953,7 @@ void ParseImgCfgJsonStr(const char* _str)
 }
 /*-----------------------------------*/
 /**
- *
+ *加入图像扫描模式和阈值参数至JSON
  */
 /*-----------------------------------*/
 void* AddScarImgCfgItem(cJSON*	_root)
@@ -984,53 +966,54 @@ void* AddScarImgCfgItem(cJSON*	_root)
 	  	cJSON_AddItemToObject(_root, KEY_SCAR_IMG_CFG, scar_img_cfg);
 	/**<----------------------------------------------------------------*/
 	  	{
-	  												cJSON* scar_work_mode = cJSON_CreateNumber(GetScarWorkMode());
-	  												 if (scar_work_mode == NULL){
-	  													 return NULL;
-	  												}
-	  												cJSON_AddItemToObject(scar_img_cfg, KEY_SCAR_IMG_CFG_WORK_MODE, scar_work_mode);
-	  												/**<----------------------------------------------------------------*/
-	  												cJSON*  scar_th_global_up = cJSON_CreateNumber(GetScarGlobalThresholdUp());
-	  												 if (scar_th_global_up == NULL){
-	  													return NULL;
-	  												}
-	  												cJSON_AddItemToObject(scar_img_cfg, KEY_SCAR_IMG_CFG_TH_GLOBAL_UP, scar_th_global_up);
-	  												/**<----------------------------------------------------------------*/
-	  												cJSON* scar_th_global_down = cJSON_CreateNumber(GetScarGlobalThresholdDown());
-	  												 if (scar_th_global_down == NULL){
-	  													 return NULL;
-	  												}
-	  												cJSON_AddItemToObject(scar_img_cfg, KEY_SCAR_IMG_CFG_TH_GLOBAL_DOWN, scar_th_global_down);
-	  												/**<----------------------------------------------------------------*/
-	  												cJSON*  scar_th_row_up = cJSON_CreateNumber(GetScarRowThresholdUp());
-	  												 if (scar_th_row_up == NULL){
-	  													 return NULL;
-	  												}
-	  												cJSON_AddItemToObject(scar_img_cfg, KEY_SCAR_IMG_CFG_TH_ROW_UP, scar_th_row_up);
-	  												/**<----------------------------------------------------------------*/
-	  												cJSON* scar_th_row_down = cJSON_CreateNumber(GetScarRowThresholdDown());
-	  												 if (scar_th_row_down == NULL){
-	  													 return NULL;
-	  												}
-	  												cJSON_AddItemToObject(scar_img_cfg, KEY_SCAR_IMG_CFG_TH_ROW_DOWN, scar_th_row_down);
-	  												/**<----------------------------------------------------------------*/
-	  												cJSON*  scar_th_col_up = cJSON_CreateNumber(GetScarColThresholdUp());
-	  												 if (scar_th_col_up == NULL){
-	  													 return NULL;
-	  												}
-	  												cJSON_AddItemToObject(scar_img_cfg, KEY_SCAR_IMG_CFG_TH_COL_UP, scar_th_col_up);
-	  												/**<----------------------------------------------------------------*/
-	  												cJSON* scar_th_col_down = cJSON_CreateNumber(GetScarColThresholdDown());
-	  												 if (scar_th_col_down == NULL){
-	  													 return NULL;
-	  												}
-	  												cJSON_AddItemToObject(scar_img_cfg, KEY_SCAR_IMG_CFG_TH_COL_DOWN, scar_th_col_down);
+	  		cJSON* scar_work_mode = cJSON_CreateNumber(GetScarWorkMode());
+	  		if (scar_work_mode == NULL){
+	  			return NULL;
+	  		}
+	  		cJSON_AddItemToObject(scar_img_cfg, KEY_SCAR_IMG_CFG_WORK_MODE, scar_work_mode);
+	  		/**<----------------------------------------------------------------*/
+	  		cJSON*  scar_th_global_up = cJSON_CreateNumber(GetScarGlobalThresholdUp());
+	  		if (scar_th_global_up == NULL){
+	  			return NULL;
+	  		}
+	  		cJSON_AddItemToObject(scar_img_cfg, KEY_SCAR_IMG_CFG_TH_GLOBAL_UP, scar_th_global_up);
+	  		/**<----------------------------------------------------------------*/
+	  		cJSON* scar_th_global_down = cJSON_CreateNumber(GetScarGlobalThresholdDown());
+	  		if (scar_th_global_down == NULL){
+	  			return NULL;
+	  		}
+	  		cJSON_AddItemToObject(scar_img_cfg, KEY_SCAR_IMG_CFG_TH_GLOBAL_DOWN, scar_th_global_down);
+	  		/**<----------------------------------------------------------------*/
+	  		cJSON*  scar_th_row_up = cJSON_CreateNumber(GetScarRowThresholdUp());
+	  		if (scar_th_row_up == NULL){
+	  			return NULL;
+	  		}
+	  		cJSON_AddItemToObject(scar_img_cfg, KEY_SCAR_IMG_CFG_TH_ROW_UP, scar_th_row_up);
+	  		/**<----------------------------------------------------------------*/
+	  		cJSON* scar_th_row_down = cJSON_CreateNumber(GetScarRowThresholdDown());
+	  		if (scar_th_row_down == NULL){
+	  			return NULL;
+	  		}
+	  		cJSON_AddItemToObject(scar_img_cfg, KEY_SCAR_IMG_CFG_TH_ROW_DOWN, scar_th_row_down);
+	  		/**<----------------------------------------------------------------*/
+	  		cJSON*  scar_th_col_up = cJSON_CreateNumber(GetScarColThresholdUp());
+	  		if (scar_th_col_up == NULL){
+	  			return NULL;
+	  		}
+	  		cJSON_AddItemToObject(scar_img_cfg, KEY_SCAR_IMG_CFG_TH_COL_UP, scar_th_col_up);
+	  		/**<----------------------------------------------------------------*/
+	  		cJSON* scar_th_col_down = cJSON_CreateNumber(GetScarColThresholdDown());
+	  		if (scar_th_col_down == NULL){
+	  			return NULL;
+	  		}
+	  		cJSON_AddItemToObject(scar_img_cfg, KEY_SCAR_IMG_CFG_TH_COL_DOWN, scar_th_col_down);
 	  												/**<----------------------------------------------------------------*/
 	  	}
 		/**<----------------------------------------------------------------*/
 		return scar_img_cfg;
 
 }
+
 /*-----------------------------------*/
 /**
  *
@@ -1162,13 +1145,13 @@ void* AddSpaceUsedItem(cJSON*	_root)
 }
 /*-----------------------------------*/
 /**
- *
+ *获取JSON字符串格式的图像处理参数（阈值、扫描模式等）
  */
 /*-----------------------------------*/
 char* GetImgCfgJsonStr()
 {
 	     /**<----------------------------------------------------------------*/
-	    cJSON *root = cJSON_CreateObject();
+	    cJSON *root = cJSON_CreateObject();  //创建JSON对象
 	    if (root == NULL)
 	    {
 	        goto end;
@@ -1202,17 +1185,17 @@ char* GetImgCfgJsonStr()
 	  	    }
 	  	 cJSON_AddItemToObject(root, KEY_PROJECT, project);
 		 /**<----------------------------------------------------------------*/
-	  	 cJSON* scar_img_cfg =AddScarImgCfgItem(root);
+	  	 cJSON* scar_img_cfg =AddScarImgCfgItem(root); // 加入图像扫描模式和阈值参数至JSON
 	  		 if (scar_img_cfg == NULL){
 	  		 	goto end;
 	  		 }
 	    /**<----------------------------------------------------------------*/
-	   	 cJSON* space_used_all = AddSpaceUsedItem(root);
+	   	 cJSON* space_used_all = AddSpaceUsedItem(root);  //加入已用通道数
 	   	    if (space_used_all == NULL){
 	   	        goto end;
 	   	    }
 	   	  /**<----------------------------------------------------------------*/
-		    char* string = cJSON_Print(root);
+		    char* string = cJSON_Print(root);  //打印JSON至string
 	    	    if (string == NULL)
 	    	    {
 	    	        fprintf(stderr, "Failed to print monitor.\n");
@@ -1224,39 +1207,39 @@ end:
 }
 /*-----------------------------------*/
 /**
- *
+ *初始化项目配置文件路径：/media/sdcard/project.cfg./项目运行模式/img.cfg.json.default.txt
  */
 /*-----------------------------------*/
 void initImgCfgJsonFileDefault(char* _cfg_json_file)
 {
 	char path_cfg[1024]={0};
-		initProjectCfgDirPath_Separator(path_cfg);
+	initProjectCfgDirPath_Separator(path_cfg);  //初始化项目配置文件目录：/media/sdcard/project.cfg./项目运行模式/
 	sprintf(_cfg_json_file,"%s%s",path_cfg,IMG_CFG_JSON_DEFAULT);
 }
 /*-----------------------------------*/
 /**
- *
+ *获取项目配置文件路径：/media/sdcard/project.cfg./项目运行模式/img.cfg.json.txt
  */
 /*-----------------------------------*/
 void initImgCfgJsonFileEx(char* _cfg_json_file)
 {
 	char path_cfg[1024]={0};
-	initProjectCfgDirPath_Separator(path_cfg);
+	initProjectCfgDirPath_Separator(path_cfg);  //初始化项目配置文件目录：/media/sdcard/project.cfg./项目运行模式/
 	sprintf(_cfg_json_file,"%s%s",path_cfg,IMG_CFG_JSON);
 }
 /*-----------------------------------*/
 /**
- *
+ *保存JSON格式的图像处理参数至配置文件中
  */
 /*-----------------------------------*/
 void saveImgCfgJsonDefault()
 {
 	char cfg_json_file[256];
-	initImgCfgJsonFileDefault(cfg_json_file);
+	initImgCfgJsonFileDefault(cfg_json_file);  //初始化项目配置文件路径：/media/sdcard/project.cfg./项目运行模式/img.cfg.json.default.txt
 
-	char* cfg_json=GetImgCfgJsonStr();
-			fs_store_txt(cfg_json_file,cfg_json);
-	cJSON_free(cfg_json);
+	char* cfg_json=GetImgCfgJsonStr();  //获取JSON字符串格式的图像处理参数（阈值、扫描模式等）
+	fs_store_txt(cfg_json_file,cfg_json);  //将参数记录到配置文件中
+	cJSON_free(cfg_json);  //释放空间
 }
 /*-----------------------------------*/
 /**
@@ -1274,28 +1257,28 @@ void StoreImgCfgJson()
 }
 /*-----------------------------------*/
 /**
- *
+ *读取项目配置文件img.cfg.json.txt的JSON数据，并将相关参数记录至项目变量中且发送至FPGA
  */
 /*-----------------------------------*/
 void LoadImgCfgJson()
 {
 
 	char cfg_json_file[256];
-	initImgCfgJsonFileEx(cfg_json_file);
+	initImgCfgJsonFileEx(cfg_json_file);  //获取项目配置文件路径：/media/sdcard/project.cfg./项目运行模式/img.cfg.json.txt
 
 	if(fs_is_file_exist(cfg_json_file)==SUCCESS){
 
-				int file_size=fs_file_size(cfg_json_file);
+		int file_size=fs_file_size(cfg_json_file);
 
-				char *buffer=malloc(file_size+1);
-				{
-								if(fs_load_txt(cfg_json_file,buffer)==SUCCESS){
-										ParseImgCfgJsonStr(buffer);
-								}
-
+		char *buffer=malloc(file_size+1);
+		{
+			if(fs_load_txt(cfg_json_file,buffer)==SUCCESS){  //读取文件内容
+				ParseImgCfgJsonStr(buffer);  //读取项目配置JSON数据，并将相关参数记录至项目变量中且发送至FPGA
 				}
-				free(buffer);
-				buffer=NULL;
+		}
+
+		free(buffer);
+		buffer=NULL;
 
 	}
 

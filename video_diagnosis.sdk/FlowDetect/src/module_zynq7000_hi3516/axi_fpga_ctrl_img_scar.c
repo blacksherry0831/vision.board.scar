@@ -115,7 +115,7 @@ int fpga_img_scar_detect_set_col_th_down(int _th)
 }
 /*-----------------------------------*/
 /**
- *
+ *重置启动FPGA 向FPGA发送命令0和1
  */
 /*-----------------------------------*/
 int fpga_img_scar_reset()

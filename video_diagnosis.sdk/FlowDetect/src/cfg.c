@@ -27,7 +27,7 @@ int GetSigmaDown()
 }
 /*-----------------------------------*/
 /**
- *
+ *记录上限阈值
  */
 /*-----------------------------------*/
 void SetSigmaUp(int _sigma)
@@ -36,17 +36,17 @@ void SetSigmaUp(int _sigma)
 }
 /*-----------------------------------*/
 /**
- *
+ *向FPGA设置上限阈值
  */
 /*-----------------------------------*/
 void SetSigmaUp2FPGA(int _sigma)
 {
-	SetSigmaUp(_sigma);
-	fpga_set_sigma_up(G_Sigma_Up);
+	SetSigmaUp(_sigma);  //记录上限阈值
+	fpga_set_sigma_up(G_Sigma_Up); //向FPGA设置上限阈值
 }
 /*-----------------------------------*/
 /**
- *
+ *记录下限阈值
  */
 /*-----------------------------------*/
 void SetSigmaDown(int _sigma)
@@ -55,13 +55,13 @@ void SetSigmaDown(int _sigma)
 }
 /*-----------------------------------*/
 /**
- *
+ *向FPGA设置下限阈值
  */
 /*-----------------------------------*/
 void SetSigmaDown2FPGA(int _sigma)
 {
-	SetSigmaDown(_sigma);
-	fpga_set_sigma_down(G_Sigma_Down);
+	SetSigmaDown(_sigma);  //记录下限阈值
+	fpga_set_sigma_down(G_Sigma_Down);  //向FPGA设置下限阈值
 }
 /*-----------------------------------*/
 /**
@@ -85,7 +85,7 @@ void SetinsideSigma()
 }
 /*-----------------------------------*/
 /**
- *
+ *设置摄像机通道序号
  */
 /*-----------------------------------*/
 void SetGlobalSensor(unsigned int _channel)
@@ -103,18 +103,16 @@ unsigned int GetGlobalSensor()
 }
 /*-----------------------------------*/
 /**
- *
+ *判断argv参数中是否启用相应的摄像头
  */
 /*-----------------------------------*/
 unsigned int GetGlobalSensorMask(const int _ch)
 {
-
-			if(G_SENSOR & (0x01<<_ch)){
-				return TRUE;
-			}else{
-				return FALSE;
-			}
-
+	if(G_SENSOR & (0x01<<_ch)){
+		return TRUE;
+	}else{
+		return FALSE;
+	}
 }
 /*-----------------------------------*/
 /**

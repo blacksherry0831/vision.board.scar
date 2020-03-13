@@ -10,7 +10,7 @@
 #define SEC_TO_US 1000000LL
 /*-----------------------------------*/
  /* *
-  *
+  *刷新已服务时间和剩余服务期
  */
 /*-----------------------------------*/
 static void
@@ -20,7 +20,7 @@ server_timer_proc_flash(TimerClientData client_data, struct timeval *nowP)
 #if 1
 
     if(cetc_update_flash() < 0) {
-        printf("updatedeadline fail\n");
+        printf("update deadline fail\n");
         exit(1);
     }
 
@@ -29,22 +29,21 @@ server_timer_proc_flash(TimerClientData client_data, struct timeval *nowP)
 }
 /*-----------------------------------*/
  /* *
-  *
+  *定时刷新和校验已服务时间和剩余服务期
  */
 /*-----------------------------------*/
-int
-create_server_timers()
+int create_server_timers()
 {
     struct timeval now;
     TimerClientData cd;
     static Timer   *timer;
 
-    if (gettimeofday(&now, NULL) < 0) {
+    if (gettimeofday(&now, NULL) < 0) {  //获取当前系统时间
     	return -1;
     }
     cd.p = &now;
 
-    timer = tmr_create(&now, server_timer_proc_flash, cd,  DEADLINE_SEC * SEC_TO_US, 1);
+    timer = tmr_create(&now, server_timer_proc_flash, cd,  DEADLINE_SEC * SEC_TO_US, 1);  //定时器：定时刷新已服务时间和剩余服务期
     if (timer == NULL) {
         return -1;
     }
@@ -53,7 +52,7 @@ create_server_timers()
 }
 /*-----------------------------------*/
  /* *
-  *
+  *测试产品剩余服务期限
  */
 /*-----------------------------------*/
 void test_life_cycle()

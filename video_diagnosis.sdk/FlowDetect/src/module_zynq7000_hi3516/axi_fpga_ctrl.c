@@ -37,7 +37,7 @@ void FPGA_CTRL_destory()
 }
 /*-----------------------------------*/
 /**
- *
+ *判断FPGA是否初始化
  */
 /*-----------------------------------*/
 int is_FPGA_CTRL_init()
@@ -84,7 +84,7 @@ void FPGA_CTRL_unmmap()
 }
 /*-----------------------------------*/
 /**
- *
+ *向FPGA发送命令 （向指定地址写入数据）
  */
 /*-----------------------------------*/
 int FPGA_CTRL_send(unsigned int _addr, int* pidata)
@@ -92,9 +92,9 @@ int FPGA_CTRL_send(unsigned int _addr, int* pidata)
 
 		if(is_FPGA_CTRL_init()){
 
-
 				if( pthread_mutex_lock(&MAP_PL_PARA.lock)==SUCCESS){
 
+						//向指定地址内存写入数据
 						 AXILitetoUser(MAP_PL_PARA.virtual_addr+_addr,
 								PL_PARA_ADDR_BASE+_addr/4,
 								(unsigned char *)pidata,
@@ -112,7 +112,7 @@ int FPGA_CTRL_send(unsigned int _addr, int* pidata)
 }
 /*-----------------------------------*/
 /**
- *
+ **向FPGA发送命令 （向指定地址写入（整数型）数据）
  */
 /*-----------------------------------*/
 int FPGA_CTRL_send_int(unsigned int _addr,const  int _data)
@@ -126,7 +126,7 @@ int FPGA_CTRL_send_int(unsigned int _addr,const  int _data)
 }
 /*-----------------------------------*/
 /**
- *
+ *向FPGA发送命令1和0 （向指定地址写入（整数型）数据）
  */
 /*-----------------------------------*/
 int FPGA_CTRL_send_int_1_0(unsigned int _addr)

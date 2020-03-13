@@ -14,3 +14,7 @@
 09:20:38 INFO  : XSDB server has started successfully.
 16:43:06 INFO  : Launching XSDB server: xsdb.bat D:/xilinx/SDK/2015.4/scripts/xsdb/xsdb/xsdb-server.tcl
 16:43:17 INFO  : XSDB server has started successfully.
+09:48:26 INFO  : Launching XSDB server: xsdb.bat D:/software/xilinx/install/SDK/2015.4/scripts/xsdb/xsdb/xsdb-server.tcl
+09:48:29 INFO  : XSDB server has started successfully.
+09:12:21 INFO  : Launching XSDB server: xsdb.bat D:/software/xilinx/install/SDK/2015.4/scripts/xsdb/xsdb/xsdb-server.tcl
+09:12:24 INFO  : XSDB server has started successfully.

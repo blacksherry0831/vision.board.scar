@@ -8,11 +8,11 @@
 /*-----------------------------------*/
 struct cmd_param
 {
-  char project[32];
-  int  width_param;
-  int height_param;
-  int space_frame;
-  int sensor;
+  char project[32];  //项目名
+  int  width_param;  //宽
+  int height_param;  //长
+  int space_frame;   //图像号
+  int sensor;        //摄像机数
 };
 /*-----------------------------------*/
 void SetFrameIdxMax(unsigned int _max);

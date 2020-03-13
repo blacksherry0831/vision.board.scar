@@ -72,7 +72,7 @@ void SetSensorStatus(CMD_CTRL* _cmd,int _status,int _channel)
 }
 /*-----------------------------------*/
 /**
- *
+ *设置图片的色彩通道数
  */
 /*-----------------------------------*/
 void SetNchannels(CMD_CTRL* _cmd,int _nChannels)
@@ -237,7 +237,7 @@ unsigned int GetCmdFrameSeq(const CMD_CTRL* const _cmd_ctrl)
 }
 /*-----------------------------------*/
 /**
- *
+ *设置命令序列号
  */
 /*-----------------------------------*/
 void SetCmdFrameSeq(CMD_CTRL*  _cmd_ctrl,unsigned int _cmd_idx)
@@ -276,7 +276,7 @@ int isHeartbeatCmd(const CMD_CTRL* _cmd_ctrl)
 }
 /*-----------------------------------*/
 /**
- *
+ *将命令设为图片命令（图片I）
  */
 /*-----------------------------------*/
 int SetImageCmd(CMD_CTRL* _cmd_ctrl,const unsigned char _flag)
@@ -559,7 +559,7 @@ int socket_write_1_cmd_raw_release(int _sockfd,CMD_CTRL*  _cmd_ptr)
 }
 /*-----------------------------------*/
 /**
- *
+ *释放命令控制数据实体空间
  */
 /*-----------------------------------*/
 void FreeCmdBody(CMD_CTRL*  _cmd_ptr)
@@ -600,13 +600,13 @@ void initIplimageHeader(IplImage * _img,
 }
 /*-----------------------------------*/
 /**
- *
+ *将命令设为图片命令，并将图片相关参数记录到命令中
  */
 /*-----------------------------------*/
 void InitImageCfg(CMD_CTRL* cmd_t,const int _ch,int _frame,int _width,int _height)
 {
 
-	SetImageCmd(cmd_t,CT_IMG_FRAME);
+	SetImageCmd(cmd_t,CT_IMG_FRAME);  //将命令设为图片命令
 
 	IplImageU *image=GetIplImageUx(cmd_t);
 	IplImage *Iplimg=GetIplImage(cmd_t);
@@ -637,7 +637,7 @@ void InitImageCfg(CMD_CTRL* cmd_t,const int _ch,int _frame,int _width,int _heigh
 
 	char* data_t=GetIplImageImageData(cmd_t);
 
-	initIplimageHeader(Iplimg,data_t,_width,_height,1);
+	initIplimageHeader(Iplimg,data_t,_width,_height,1); //初始化图片相关参数
 
 }
 /*-----------------------------------*/
@@ -694,7 +694,7 @@ void InitImageRoiRR(CMD_CTRL* cmd_t,int _ch,CvRect _rect_org,CvRect _rect_roi)
 }
 /*-----------------------------------*/
 /**
- *
+ *设置命令实体控制数据长度，并申请空间
  */
 /*-----------------------------------*/
 void CreateCmdBody(CMD_CTRL* cmd_t,unsigned int body_size)
@@ -728,7 +728,7 @@ void CreateCmdBody(CMD_CTRL* cmd_t,unsigned int body_size)
 }
 /*-----------------------------------*/
 /**
- *
+ *填充图片内容数据
  */
 /*-----------------------------------*/
 void FillImageCtrl(CMD_CTRL* _cmd,const int _data)
@@ -744,7 +744,7 @@ void FillImageCtrl(CMD_CTRL* _cmd,const int _data)
 }
 /*-----------------------------------*/
 /**
- *
+ *创建并初始化图片命令（cmd_ctrl）
  */
 /*-----------------------------------*/
 CMD_CTRL* CreateImageCtrl(const int _ch,int _frame,int _width,int _height,int _nChs, int _seq)
@@ -761,11 +761,11 @@ CMD_CTRL* CreateImageCtrl(const int _ch,int _frame,int _width,int _height,int _n
 
 	assert(UnionSize<=STRUCT_UNION_SIZE);
 
-	CMD_CTRL*  cmd_t=CreateCmdCtrl(body_size);
+	CMD_CTRL*  cmd_t=CreateCmdCtrl(body_size);  //申请命令空间，并设置命令头和命令控制数据实体长度
 	if(cmd_t!=NULL){
-		InitImageCfg(cmd_t,_ch,_frame,_width,_height);
-		SetNchannels(cmd_t,_nChs);
-		SetCmdFrameSeq(cmd_t,_seq);
+		InitImageCfg(cmd_t,_ch,_frame,_width,_height);  //将命令设为图片命令，并将图片相关参数记录到命令中
+		SetNchannels(cmd_t,_nChs);  //设置图片的色彩通道数
+		SetCmdFrameSeq(cmd_t,_seq);  //设置命令序列号
 
 	}
 
@@ -828,7 +828,7 @@ CMD_CTRL* CreateImageHeartbeat(
 }
 /*-----------------------------------*/
 /**
- *
+ *申请命令空间，并设置命令头和命令控制数据实体长度
  */
 /*-----------------------------------*/
 CMD_CTRL* CreateCmdCtrl(int body_size)
@@ -846,11 +846,11 @@ CMD_CTRL* CreateCmdCtrl(int body_size)
 		cmd_t->f_header.f_header[3]='j';
 		cmd_t->f_data=NULL;
 		cmd_t->f_data_size=0;
-		CreateCmdBody(cmd_t,body_size);
+		CreateCmdBody(cmd_t,body_size);  //设置命令实体控制数据长度，并申请空间
 		if(cmd_t->f_data!=NULL){
 
 		}else{
-			ReleaseCmdCtrl(&cmd_t);
+			ReleaseCmdCtrl(&cmd_t);  //释放命令空间
 		}
 
 	}
@@ -908,14 +908,14 @@ void ReleaseCmdCtrlEx(CMD_CTRL** _cmd_ctrl)
 }
 /*-----------------------------------*/
 /**
- *
+ * 释放命令空间
  */
 /*-----------------------------------*/
 void ReleaseCmdCtrl(CMD_CTRL** _cmd_ctrl)
 {
 	if(*_cmd_ctrl){
-			FreeCmdBody(*_cmd_ctrl);
-			mem_free_clr((void**)_cmd_ctrl);
+			FreeCmdBody(*_cmd_ctrl);  //释放命令控制数据实体空间
+			mem_free_clr((void**)_cmd_ctrl);  //释放命令空间
 
 	}
 }

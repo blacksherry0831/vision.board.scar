@@ -38,16 +38,16 @@ int SetSensorStat_T(const int _s)
 }
 /*-----------------------------------*/
 /**
- *
+ *设置项目运行模式：单目？外圆？内圆
  */
 /*-----------------------------------*/
 void SetProjecRun(enum ProjectRun _pr)
 {
-	gProjectCurrentRunning=_pr;
+	gProjectCurrentRunning=_pr;  //项目运行模式
 }
 /*-----------------------------------*/
 /**
- *
+ *获取项目运行模式：单目？外圆？内圆
  */
 /*-----------------------------------*/
 enum ProjectRun GetProjectRun()
@@ -58,7 +58,7 @@ enum ProjectRun GetProjectRun()
 }
 /*-----------------------------------*/
 /**
- *
+ *获取项目运行模式：单目？外圆？内圆
  */
 /*-----------------------------------*/
 const char * GetProjectRunStr()
@@ -80,7 +80,7 @@ const char * GetProjectRunStr()
 }
 /*-----------------------------------*/
 /**
- *
+ *初始化项目配置文件目录：project.cfg./项目运行模式
  */
 /*-----------------------------------*/
 void initProjectCfgDir(char *_path)
@@ -89,7 +89,7 @@ void initProjectCfgDir(char *_path)
 }
 /*-----------------------------------*/
 /**
- *
+ *初始化项目配置文件目录：/media/sdcard/project.cfg./项目运行模式
  */
 /*-----------------------------------*/
 void initProjectCfgDirPath(char *_path)
@@ -100,24 +100,24 @@ void initProjectCfgDirPath(char *_path)
 }
 /*-----------------------------------*/
 /**
- *
+ *初始化项目配置文件目录：/media/sdcard/project.cfg./项目运行模式/
  */
 /*-----------------------------------*/
 void initProjectCfgDirPath_Separator(char *_path)
 {
 	char filename[1024]={0};
-	initProjectCfgDir(filename);
+	initProjectCfgDir(filename);  //初始化项目配置文件目录：project.cfg./项目运行模式
 	sprintf(_path,"%s%s%s",PATH_SDCARD,filename,"/");
 }
 /*-----------------------------------*/
 /**
- *
+ *初始化并创建项目配置文件目录：/media/sdcard/project.cfg./项目运行模式
  */
 /*-----------------------------------*/
 int MakeProjectDirectory()
 {
 	char filefullpath[1024]={0};
-	initProjectCfgDirPath(filefullpath);
+	initProjectCfgDirPath(filefullpath);  //初始化项目配置文件目录：/media/sdcard/project.cfg./项目运行模式
 	return mkdir(filefullpath,0777);
 }
 /*-----------------------------------*/
@@ -133,7 +133,7 @@ void debug_assert_ver()
 }
 /*-----------------------------------*/
 /**
- *
+ *打印版本号和编译时间
  */
 /*-----------------------------------*/
 void PrintBuildTime()

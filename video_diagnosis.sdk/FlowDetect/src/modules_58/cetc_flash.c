@@ -355,12 +355,15 @@ u_int32_t flash_get_magic_inter()
     return flash_get_data(MAGIC_OFFSET);
 }
 
+//获取服务期校验日期
 void cetc_get_check(struct check *data)
 {
     data->magic = flash_get_magic_inter();
     data->online = flash_get_online();
     data->deadline = flash_get_deadline();
 }
+
+//刷新已服务时间和剩余服务期
 int flash_set_data(off_t offset, char *data, u_int32_t len)
 {
 	int err = 0, fd = 0;
@@ -402,6 +405,7 @@ void cetc_set_check(struct check *data)
 
 }
 
+//刷新已服务时间和剩余服务期
 int cetc_update_flash()
 {
     struct check data;
@@ -425,5 +429,5 @@ int cetc_update_flash()
     data.deadline--;
     data.online++;
 
-    return flash_set_data(MAGIC_OFFSET, &data, sizeof(struct check));
+    return flash_set_data(MAGIC_OFFSET, &data, sizeof(struct check));  //刷新已服务时间和剩余服务期
 }

@@ -1,6 +1,16 @@
-16:39:59 **** Incremental Build of configuration Debug for project dma.test.sample ****
+09:48:26 **** Build of configuration Debug for project dma.test.sample ****
 make all 
-make: Nothing to be done for `all'.
+'Building target: dma.test.sample.elf'
+'Invoking: ARM Linux gcc linker'
+arm-xilinx-linux-gnueabi-gcc  -o "dma.test.sample.elf"  ./src/dma_test.o   -lpthread -lrt -lm
+'Finished building target: dma.test.sample.elf'
+' '
+'Invoking: ARM Linux Print Size'
+arm-xilinx-linux-gnueabi-size dma.test.sample.elf  |tee "dma.test.sample.elf.size"
+   text	   data	    bss	    dec	    hex	filename
+   5617	    368	    112	   6097	   17d1	dma.test.sample.elf
+'Finished building: dma.test.sample.elf.size'
+' '
 
-16:40:00 Build Finished (took 338ms)
+09:48:31 Build Finished (took 4s.346ms)
 

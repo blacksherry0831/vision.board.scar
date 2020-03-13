@@ -2,10 +2,10 @@
 <?scdStore version="2"?><scannerInfo id="org.eclipse.cdt.make.core.discoveredScannerInfo">
 <instance id="xilinx.gnu.armlinux.exe.debug.231880465;xilinx.gnu.armlinux.exe.debug.231880465.">
 <collector id="org.eclipse.cdt.make.core.PerProjectSICollector">
-<includePath path="d:\xilinx\sdk\2015.4\gnu\arm\nt\bin\../lib/gcc/arm-xilinx-linux-gnueabi/4.9.2/include"/>
-<includePath path="d:\xilinx\sdk\2015.4\gnu\arm\nt\bin\../lib/gcc/arm-xilinx-linux-gnueabi/4.9.2/include-fixed"/>
-<includePath path="d:\xilinx\sdk\2015.4\gnu\arm\nt\bin\../lib/gcc/arm-xilinx-linux-gnueabi/4.9.2/../../../../arm-xilinx-linux-gnueabi/include"/>
-<includePath path="d:\xilinx\sdk\2015.4\gnu\arm\nt\bin\../arm-xilinx-linux-gnueabi/libc/usr/include"/>
+<includePath path="d:\software\xilinx\install\sdk\2015.4\gnu\arm\nt\bin\../lib/gcc/arm-xilinx-linux-gnueabi/4.9.2/include"/>
+<includePath path="d:\software\xilinx\install\sdk\2015.4\gnu\arm\nt\bin\../lib/gcc/arm-xilinx-linux-gnueabi/4.9.2/include-fixed"/>
+<includePath path="d:\software\xilinx\install\sdk\2015.4\gnu\arm\nt\bin\../lib/gcc/arm-xilinx-linux-gnueabi/4.9.2/../../../../arm-xilinx-linux-gnueabi/include"/>
+<includePath path="d:\software\xilinx\install\sdk\2015.4\gnu\arm\nt\bin\../arm-xilinx-linux-gnueabi/libc/usr/include"/>
 <definedSymbol symbol="__STDC__=1"/>
 <definedSymbol symbol="__STDC_HOSTED__=1"/>
 <definedSymbol symbol="__GNUC__=4"/>
@@ -379,10 +379,10 @@
 </instance>
 <instance id="xilinx.gnu.armlinux.exe.release.657480594;xilinx.gnu.armlinux.exe.release.657480594.">
 <collector id="org.eclipse.cdt.make.core.PerProjectSICollector">
-<includePath path="d:\xilinx\sdk\2015.4\gnu\arm\nt\bin\../lib/gcc/arm-xilinx-linux-gnueabi/4.9.2/include"/>
-<includePath path="d:\xilinx\sdk\2015.4\gnu\arm\nt\bin\../lib/gcc/arm-xilinx-linux-gnueabi/4.9.2/include-fixed"/>
-<includePath path="d:\xilinx\sdk\2015.4\gnu\arm\nt\bin\../lib/gcc/arm-xilinx-linux-gnueabi/4.9.2/../../../../arm-xilinx-linux-gnueabi/include"/>
-<includePath path="d:\xilinx\sdk\2015.4\gnu\arm\nt\bin\../arm-xilinx-linux-gnueabi/libc/usr/include"/>
+<includePath path="d:\software\xilinx\install\sdk\2015.4\gnu\arm\nt\bin\../lib/gcc/arm-xilinx-linux-gnueabi/4.9.2/include"/>
+<includePath path="d:\software\xilinx\install\sdk\2015.4\gnu\arm\nt\bin\../lib/gcc/arm-xilinx-linux-gnueabi/4.9.2/include-fixed"/>
+<includePath path="d:\software\xilinx\install\sdk\2015.4\gnu\arm\nt\bin\../lib/gcc/arm-xilinx-linux-gnueabi/4.9.2/../../../../arm-xilinx-linux-gnueabi/include"/>
+<includePath path="d:\software\xilinx\install\sdk\2015.4\gnu\arm\nt\bin\../arm-xilinx-linux-gnueabi/libc/usr/include"/>
 <definedSymbol symbol="__STDC__=1"/>
 <definedSymbol symbol="__STDC_HOSTED__=1"/>
 <definedSymbol symbol="__GNUC__=4"/>
@@ -756,10 +756,10 @@
 </instance>
 <instance id="xilinx.gnu.armlinux.exe.debug.231880465;xilinx.gnu.armlinux.exe.debug.231880465.;xilinx.gnu.armlinux.c.toolchain.compiler.debug.1459204547;xilinx.gnu.armlinux.c.compiler.input.37243273">
 <collector id="org.eclipse.cdt.make.core.PerProjectSICollector">
-<includePath path="d:\xilinx\sdk\2015.4\gnu\arm\nt\bin\../lib/gcc/arm-xilinx-linux-gnueabi/4.9.2/include"/>
-<includePath path="d:\xilinx\sdk\2015.4\gnu\arm\nt\bin\../lib/gcc/arm-xilinx-linux-gnueabi/4.9.2/include-fixed"/>
-<includePath path="d:\xilinx\sdk\2015.4\gnu\arm\nt\bin\../lib/gcc/arm-xilinx-linux-gnueabi/4.9.2/../../../../arm-xilinx-linux-gnueabi/include"/>
-<includePath path="d:\xilinx\sdk\2015.4\gnu\arm\nt\bin\../arm-xilinx-linux-gnueabi/libc/usr/include"/>
+<includePath path="d:\software\xilinx\install\sdk\2015.4\gnu\arm\nt\bin\../lib/gcc/arm-xilinx-linux-gnueabi/4.9.2/include"/>
+<includePath path="d:\software\xilinx\install\sdk\2015.4\gnu\arm\nt\bin\../lib/gcc/arm-xilinx-linux-gnueabi/4.9.2/include-fixed"/>
+<includePath path="d:\software\xilinx\install\sdk\2015.4\gnu\arm\nt\bin\../lib/gcc/arm-xilinx-linux-gnueabi/4.9.2/../../../../arm-xilinx-linux-gnueabi/include"/>
+<includePath path="d:\software\xilinx\install\sdk\2015.4\gnu\arm\nt\bin\../arm-xilinx-linux-gnueabi/libc/usr/include"/>
 <definedSymbol symbol="__STDC__=1"/>
 <definedSymbol symbol="__STDC_HOSTED__=1"/>
 <definedSymbol symbol="__GNUC__=4"/>

@@ -24,7 +24,7 @@
 <booleanAttribute key="com.xilinx.sdk.tcf.debug.uireset.system" value="false"/>
 <stringAttribute key="com.xilinx.sdk.tcf.debug.uitarget.peer" value="192.168.100.150"/>
 <booleanAttribute key="org.eclipse.tcf.debug.AttachChildren" value="true"/>
-<stringAttribute key="org.eclipse.tcf.debug.LocalProgramFile" value="E:\sjts_flame_monitoring\flame_monitoring_source\vision.board.flame.monitoring\video_diagnosis.sdk\opencv.test.sample\Debug\opencv.test.sample.elf"/>
+<stringAttribute key="org.eclipse.tcf.debug.LocalProgramFile" value="D:\sjts_flame_monitoring\source\vision.board.flame.monitoring\video_diagnosis.sdk\opencv.test.sample\Debug\opencv.test.sample.elf"/>
 <stringAttribute key="org.eclipse.tcf.debug.ProgramFile" value="/media/sdcard/project.run/opencv.test.sample.elf"/>
 <stringAttribute key="org.eclipse.tcf.debug.ProjectName" value="opencv.test.sample"/>
 <booleanAttribute key="org.eclipse.tcf.debug.StopAtEntry" value="false"/>

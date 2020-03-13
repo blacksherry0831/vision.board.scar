@@ -94,7 +94,7 @@ void  fpga_set_sigma(const int _sigma_square)
 }
 /*-----------------------------------*/
 /**
- *
+ *向FPGA设置上限阈值
  */
 /*-----------------------------------*/
 void  fpga_set_sigma_up(const int _sigma_square)
@@ -103,7 +103,7 @@ void  fpga_set_sigma_up(const int _sigma_square)
 }
 /*-----------------------------------*/
 /**
- *
+ *向FPGA设置下限阈值
  */
 /*-----------------------------------*/
 void  fpga_set_sigma_down(const int _sigma_square)

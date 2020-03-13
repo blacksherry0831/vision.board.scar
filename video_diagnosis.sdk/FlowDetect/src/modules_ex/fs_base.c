@@ -1,7 +1,7 @@
 #include "fs_base.h"
 /*-----------------------------------*/
 /**
- *
+ *判断文件是否存在
  */
 /*-----------------------------------*/
 int fs_is_file_exist(const char * file_path)
@@ -44,12 +44,12 @@ void fs_store_txt(const char *filepath, const char *data)
 }
 /*-----------------------------------*/
 /**
- *
+ *读取文件内容
  */
 /*-----------------------------------*/
 int  fs_load_txt(const char *filepath,char* const buffer)
 {
-	  const  int string_size=fs_file_size(filepath);
+	  const  int string_size=fs_file_size(filepath);  //获取文件数据长度
 
 	  int  read_size=0;
 
@@ -79,7 +79,7 @@ int  fs_load_txt(const char *filepath,char* const buffer)
 }
 /*-----------------------------------*/
 /**
- *
+ *获取文件数据长度
  */
 /*-----------------------------------*/
 int fs_file_size(const char *filepath)

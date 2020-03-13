@@ -210,14 +210,14 @@ unsigned int* ParseMaskSeq_Ptr(const CMD_CTRL* const _cmd_ctrl)
 }
 /*-----------------------------------*/
 /**
- *
+ *创建并初始化蒙板图片命令
  */
 /*-----------------------------------*/
 CMD_CTRL* CreateImageMask_Scar(const int _ch,const int _w,const int _h,unsigned int _seq)
 {
 	const int nChs=1;
-	CMD_CTRL*  cmd_t=CreateImageCtrl(_ch,FRAME_IDX_TYPE_START,_w,_h,nChs,_seq);//4 byte align
-	SetImageCmd(cmd_t,CT_IMG_MASK_SET_SCAR);
+	CMD_CTRL*  cmd_t=CreateImageCtrl(_ch,FRAME_IDX_TYPE_START,_w,_h,nChs,_seq);//4 byte align  创建并初始化图片命令（cmd_ctrl）
+	SetImageCmd(cmd_t,CT_IMG_MASK_SET_SCAR);  //将此图片命令设为蒙板命令
 	return cmd_t;
 }
 /*-----------------------------------*/
