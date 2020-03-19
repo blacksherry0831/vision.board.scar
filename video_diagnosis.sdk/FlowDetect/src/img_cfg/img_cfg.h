@@ -6,7 +6,7 @@
 /*-----------------------------------*/
 #include "modules_ex/type.h"
 /*-----------------------------------*/
-#include <modules/opencv2/core/types_c.h>
+#include <opencv2/core/types_c.h>
 /*-----------------------------------*/
 #include <modules_up/png_up.h>
 /*-----------------------------------*/
@@ -17,6 +17,11 @@
 #include "scar_cfg.h"
 /*-----------------------------------*/
 #include "modules_ex/def_work_mode.h"
+
+#include "sync/sync_task.h"
+#include "modules_ex/type.h"
+#include "img_cfg/img_cfg.h"
+#include "status.h"
 /*-----------------------------------*/
 struct ViewInfo{
 
@@ -71,4 +76,17 @@ void LoadImgCfgJson();
 /*-----------------------------------*/
 int GetMaskChannel_Number();
 /*-----------------------------------*/
+
+int img_space_frame_output_num();
+void  MallocImageBuff4ViewOutput(CMD_CTRL** _buff,const int _seq,const int _img_frame);
+void StoreImgCfgJson();
+
+int image_view_channel(int _space_ch,int _space_frame);
+int ReadImgMaskMatrix(const CMD_CTRL* _cmd);
+unsigned int image_frame_fpga_ps_offset(const int _space_ch,const int _space_frame);
+void image_enable_output_frame_only_1();
+void image_enable_output_frame_only_2();
+void CopyImage(void* const buff_src,CMD_CTRL* img_dst,const  int _space_ch,const int _space_fr);
+void initViewInfo_basic(const int _width,const int _height,const int _space_frame);
+
 #endif

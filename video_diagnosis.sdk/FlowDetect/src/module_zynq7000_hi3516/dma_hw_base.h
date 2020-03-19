@@ -1,6 +1,7 @@
 #ifndef DMA_HW_BASE_H
 #define DMA_HW_BASE_H
 /*-----------------------------------*/
+#include "linux_header.h"
 #include <stdint.h>
 #include <fcntl.h>
 /*-----------------------------------*/
@@ -36,7 +37,10 @@ typedef struct _DMA_PS_PL_OBJECT
 /*-----------------------------------*/
 int dmac_addr_mmap_hw_base(DMA_PS_PL_OBJ* _dma_obj);
 int dmac_addr_unmap_hw_base(DMA_PS_PL_OBJ* _dma_obj);
-int dmac_config_and_transfer_base();
+int dmac_config_and_transfer_base(DMA_PS_PL_OBJ* 	_dma_obj,
+		unsigned int dst_phyaddr,
+		unsigned int src_phyaddr,
+		unsigned int len);
 /*-----------------------------------*/
 /**
  *

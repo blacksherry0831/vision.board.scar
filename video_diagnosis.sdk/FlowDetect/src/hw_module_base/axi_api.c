@@ -135,7 +135,7 @@ int AXILitemmapExS(MAP_OBJ* mapObj)
         return -1;
     }
     // 按页存储，不能超过4k（1页），（ 0x1000）
-   mapObj->virtual_addr = mmap(NULL, mapObj->SIZE , PROT_READ | PROT_WRITE, MAP_SHARED, mapObj->fd, mapObj->ADDR);
+   mapObj->virtual_addr = (unsigned char*)mmap(NULL, mapObj->SIZE , PROT_READ | PROT_WRITE, MAP_SHARED, mapObj->fd, mapObj->ADDR);
 
     if(mapObj->virtual_addr == NULL)
     {

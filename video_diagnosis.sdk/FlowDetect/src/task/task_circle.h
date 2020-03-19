@@ -15,6 +15,8 @@
 
 /*-----------------------------------*/
 #include "sync/sync_task.h"
+#include "sync/sync_fpga_cvt_circle.h"
+#include "sync/sync_global.h"
 /*-----------------------------------*/
 #include "status.h"
 /*-----------------------------------*/

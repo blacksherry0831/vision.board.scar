@@ -1,4 +1,5 @@
 #include "axi_base.h"
+#include "fpga_first/fpga_first.h"
 /*-----------------------------------*/
 /**
  *
@@ -127,7 +128,9 @@ void outside08_first_ex(int DATA_MODE)
 {
 	TIME_START();
 	if(GetProjectRun()==outside08){
+
 		outside_first(DATA_MODE);
+
 	}
 	TIME_END("outside cost time :");
 }

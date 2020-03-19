@@ -19,5 +19,9 @@
 #include "status.h"
 /*-----------------------------------*/
 int SetFpgaCircleWorkMode(int _wm);
+
+int setFpgaCircleWorkMode(int _wm);  //设置FPGA的工作模式（原图？原尺寸）
+
+int SetDmaFrameByWorkMode(int _wm);
 /*-----------------------------------*/
 #endif

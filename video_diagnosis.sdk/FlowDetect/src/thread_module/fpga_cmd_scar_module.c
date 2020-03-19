@@ -1,38 +1,38 @@
 #include "fpga_cmd_scar_module.h"
 /*-----------------------------------*/
 /**
- *
+ *等待FPGA一轮数据计算完成
  */
 /*-----------------------------------*/
 int wait4fpgaCvtDoneScar()
 {
 	while(IsRun()&&IsCircleTaskRunning_FpgaCvt()==TRUE){
 		PRINTF_DBG_EX("FPGA CIRCLE TASK IS RUNNING NOW,wait for fpga circle done ! \n");
-		init_1st_2nd_task_circle_flag();
+		init_1st_2nd_task_circle_flag();  //初始化任务标志为0
 		sleepMS(100);
 	}
 	return TRUE;
 }
 /*-----------------------------------*/
 /**
- *
+ *开启FPGA计算任务
  */
 /*-----------------------------------*/
 int  StartFpgaCircleScar(int _WorkMode,unsigned int _seq)
 {
 
-	wait4fpgaCvtDoneScar();
+	wait4fpgaCvtDoneScar();  //等待FPGA一轮数据计算完成
 
 	int result_t=-1;
 
 	assert(FALSE==IsCircleTaskRunning_FpgaCvt());
 
-	if(FALSE==IsCircleTaskRunning_FpgaCvt()){
-		init_1st_2nd_task_circle_flag();
-		set_task_circle_start();
-		SetFpgaCircleWorkMode(_WorkMode);
-		SetFrameCircleSeq(_seq);
-		result_t= post_fpga_start_sig();
+	if(FALSE==IsCircleTaskRunning_FpgaCvt()){  //FPGA数据计算是否正在进行
+		init_1st_2nd_task_circle_flag();  //初始化任务标志为0
+		set_task_circle_start();  //开启一轮计算任务 CT_FPGA_START
+		SetFpgaCircleWorkMode(_WorkMode);  //设置FPGA和DMA的工作模式（原图？原尺寸）
+		SetFrameCircleSeq(_seq);  //设置序列号
+		result_t= post_fpga_start_sig();  //m_sem_fpga_circle_start信号量加1
 	}
 
 	assert(printf_dbg_fpga_param());
@@ -42,19 +42,19 @@ int  StartFpgaCircleScar(int _WorkMode,unsigned int _seq)
 
 /*-----------------------------------*/
 /**
- *
+ *依据cmd设置任务圈标志
  */
 /*-----------------------------------*/
 void setFpgaCircleCmdScar(const CMD_CTRL* const _cmd_ctrl)
 {
-	const int StartParam=GetStartCmdParam(_cmd_ctrl);
-	const int StartCmd01=GetCmdCmd01(_cmd_ctrl);
-	const unsigned int StartSeq=GetCmdFrameSeq(_cmd_ctrl);
+	const int StartParam=GetStartCmdParam(_cmd_ctrl);  //获取startCmd的控制数据实体
+	const int StartCmd01=GetCmdCmd01(_cmd_ctrl);  //获取_cmd的命令类型
+	const unsigned int StartSeq=GetCmdFrameSeq(_cmd_ctrl);  //获取cmd序列号
 
 		if(StartCmd01 == CT_START){
 
 			PRINTF_DBG_EX("workflow@Rcv Start CMD \n");
-			StartFpgaCircleScar(StartParam,StartSeq);
+			StartFpgaCircleScar(StartParam,StartSeq);  //开启FPGA计算任务
 
 		}else if(StartCmd01==CT_START_00){
 

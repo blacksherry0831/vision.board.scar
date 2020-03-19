@@ -7,7 +7,7 @@
 #include "modules_ex/type.h"
 #include "modules_ex/cmd_scar.h"
 /*-----------------------------------*/
-#include <modules/opencv2/core/types_c.h>
+
 /*-----------------------------------*/
 #include <modules_up/png_up.h>
 /*-----------------------------------*/
@@ -17,6 +17,8 @@
 #include "module_zynq7000_hi3516/dma_83c1_ex.h"
 /*-----------------------------------*/
 #include "scar_cfg.h"
+#include "sync/sync_pl_mem_4_8_lock.h"
+#include "sync/sync_ps_mem_0_4_lock.h"
 /*-----------------------------------*/
 void sendImageStart_DetectSno(
 		const int _frame_total,
@@ -26,5 +28,7 @@ void Save_And_Dma_ImageMask_Scar(CMD_CTRL*  _cmd);
 /*-----------------------------------*/
 void Clear_And_Dma_ImageMask_Scar(CMD_CTRL*  _cmd);
 /*-----------------------------------*/
+
+void  InitMaskImage_scar();
 
 #endif

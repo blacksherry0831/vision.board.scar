@@ -237,7 +237,7 @@ CMD_CTRL* CreateFileCtrlEx(
 
 			const int file_size=fs_file_size(_fileName);
 
-			char *buffer=mem_malloc(file_size+1);
+			char *buffer=(char *)mem_malloc(file_size+1);
 			 size_t size;
 			 mode_t mode;
 
@@ -341,7 +341,7 @@ void send_dir(char* _path)
 /*-----------------------------------*/
 int IsFileNameOnly(const char* _file)
 {
-	char* idx=strchr(_file,'/');
+	const char* idx=strchr(_file,'/');
 	if(idx==NULL){
 		return TRUE;
 	}else{

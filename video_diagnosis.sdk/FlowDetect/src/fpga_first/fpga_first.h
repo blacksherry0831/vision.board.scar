@@ -1,5 +1,5 @@
-#ifndef AXI_BASE_H
-#define AXI_BASE_H
+#ifndef _FPGA_FIRST_H_
+#define _FPGA_FIRST_H_
 /*-----------------------------------*/
 #include "linux_header.h"
 /*-----------------------------------*/
@@ -14,5 +14,6 @@
 
 #include "status.h"
 
+void outside_first(int DATA_MODE);
 
 #endif

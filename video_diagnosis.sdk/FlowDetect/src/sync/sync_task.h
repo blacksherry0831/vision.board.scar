@@ -21,4 +21,15 @@ extern int FRAME_IDX_SECOND;
  *
  */
 /*-----------------------------------*/
+
+void SetFrameCircleSeq(unsigned int _seq);
+int printf_dbg_fpga_param();
+int getFpgaCircleWorkMode();
+int IsWorkMode_DiffImg();
+int IsWorkMode_OrgImg();
+void IncFrameIdx();
+int getFrameIdx();
+unsigned int GetFrameCircleSeq();
+int initFrameIdx();
+
 #endif

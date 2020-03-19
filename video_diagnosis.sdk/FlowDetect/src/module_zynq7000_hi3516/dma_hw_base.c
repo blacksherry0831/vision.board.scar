@@ -19,7 +19,7 @@ int dmac_addr_mmap_hw_base(DMA_PS_PL_OBJ* _dma_obj)
         return -1;
     }
 
-    _dma_obj->DMA_Base_Addr_Virtual = mmap(
+    _dma_obj->DMA_Base_Addr_Virtual =(unsigned char*) mmap(
     		NULL,
     		_dma_obj->DMA_Space_size ,
     		PROT_READ | PROT_WRITE,
@@ -41,12 +41,13 @@ int dmac_addr_mmap_hw_base(DMA_PS_PL_OBJ* _dma_obj)
 
 
 
-    _dma_obj->MEM_PS_Base_Addr_Virtual = mmap(NULL,
+    _dma_obj->MEM_PS_Base_Addr_Virtual = (unsigned char*) mmap(NULL,
     		_dma_obj->MEM_PS_Space_size,
     		PROT_READ | PROT_WRITE,
     		MAP_SHARED,
     		fd,
     		_dma_obj->MEM_PS_Base_Addr_Phy);
+
 
     if(_dma_obj->MEM_PS_Base_Addr_Virtual == NULL)
     {
@@ -138,21 +139,21 @@ int dmac_config_and_transfer_base(
 {
     uint32_t reg_val;
     pl_dma_write_base(_dma_obj,AXI_DMAC_REG_CTRL, 0x0);
-    pl_dma_write_base(_dma_obj,AXI_DMAC_REG_CTRL, AXI_DMAC_CTRL_ENABLE);
+    pl_dma_write_base(_dma_obj,AXI_DMAC_REG_CTRL, (uint32_t*)AXI_DMAC_CTRL_ENABLE);
     pl_dma_write_base(_dma_obj,AXI_DMAC_REG_IRQ_MASK, 0x0);
     pl_dma_read_base(_dma_obj,AXI_DMAC_REG_TRANSFER_ID, &_dma_obj->transfer_id);
 
     pl_dma_read_base(_dma_obj,AXI_DMAC_REG_IRQ_PENDING, &reg_val);
-    pl_dma_write_base(_dma_obj,AXI_DMAC_REG_IRQ_PENDING, reg_val);
+    pl_dma_write_base(_dma_obj,AXI_DMAC_REG_IRQ_PENDING, &reg_val);
 
-    pl_dma_write_base(_dma_obj,AXI_DMAC_REG_DEST_ADDRESS, dst_phyaddr);
-    pl_dma_write_base(_dma_obj,AXI_DMAC_REG_SRC_ADDRESS, src_phyaddr);
+    pl_dma_write_base(_dma_obj,AXI_DMAC_REG_DEST_ADDRESS, (uint32_t*)dst_phyaddr);
+    pl_dma_write_base(_dma_obj,AXI_DMAC_REG_SRC_ADDRESS, (uint32_t*)src_phyaddr);
 
     pl_dma_write_base(_dma_obj,AXI_DMAC_REG_DEST_STRIDE, 0x0);
-    pl_dma_write_base(_dma_obj,AXI_DMAC_REG_X_LENGTH, len - 1);
+    pl_dma_write_base(_dma_obj,AXI_DMAC_REG_X_LENGTH, (uint32_t*)(len - 1));
     pl_dma_write_base(_dma_obj,AXI_DMAC_REG_Y_LENGTH, 0x0);
 
-    pl_dma_write_base(_dma_obj,AXI_DMAC_REG_START_TRANSFER, 0x1);
+    pl_dma_write_base(_dma_obj,AXI_DMAC_REG_START_TRANSFER, (uint32_t*)0x1);
 
     /* Wait until the new transfer is queued. */
     do
@@ -166,7 +167,7 @@ int dmac_config_and_transfer_base(
         pl_dma_read_base(_dma_obj,AXI_DMAC_REG_IRQ_PENDING, &reg_val);
     }while(reg_val != (AXI_DMAC_IRQ_SOT | AXI_DMAC_IRQ_EOT));
 
-    pl_dma_write_base(_dma_obj,AXI_DMAC_REG_IRQ_PENDING, reg_val); /*clear interrupt*/
+    pl_dma_write_base(_dma_obj,AXI_DMAC_REG_IRQ_PENDING, (uint32_t*)reg_val); /*clear interrupt*/
 
     return 0;
 }

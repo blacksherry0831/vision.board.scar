@@ -1,4 +1,6 @@
 #include "init_destory.h"
+#include "flame_monitor.h"
+#include "img_cfg/img_cfg_scar.h"
 /*-----------------------------------*/
 static unsigned char G_MAC_ADDR[6]={0};
 static unsigned char G_IP_ADDR[4]={0};
@@ -16,6 +18,9 @@ int init_ip_addr(const char *ifname)
 	        struct ifreq ifr;
 	        memset(&ifr, 0, sizeof(struct ifreq));
 
+	        char mask[16] = { 0 };
+	        char ipv4[16] = { 0 };
+
 	        /* 0. create a socket */
 	        int fd = socket(AF_INET, SOCK_DGRAM, IPPROTO_IP);
 	        if (fd == -1)
@@ -31,7 +36,6 @@ int init_ip_addr(const char *ifname)
 	        if ((rc = ioctl(fd, SIOCGIFADDR, &ifr)) != 0)
 	                goto done;
 
-	        char ipv4[16] = { 0 };
 	        addr = (struct sockaddr_in *)&ifr.ifr_addr;
 	        strncpy(ipv4, inet_ntoa(addr->sin_addr), sizeof(ipv4));
 
@@ -41,7 +45,7 @@ int init_ip_addr(const char *ifname)
 	        if ((rc = ioctl(fd, SIOCGIFNETMASK, &ifr)) != 0)
 	                goto done;
 
-	        char mask[16] = { 0 };
+
 	        addr = (struct sockaddr_in *)&ifr.ifr_addr;
 	        strncpy(mask, inet_ntoa(addr->sin_addr), sizeof(mask));
 
@@ -231,16 +235,16 @@ int main_ring()
 	create_server_timers();  //定时刷新和校验已服务时间和剩余服务期
 #endif
 
-	pthread_t thread_task_inner_rcv=inner_image_buff_trans_server(NULL);
-	pthread_t thread_task_tcp_rcv=tcp_image_buff_trans_server(NULL);
+	pthread_t thread_task_inner_rcv=inner_image_buff_trans_server(NULL); //（若无客户端相连）图片数据交互线程  从图片消息队列中读取图片，并释放空间
+	pthread_t thread_task_tcp_rcv=tcp_image_buff_trans_server(NULL);   //创建与IPC-图片交互的服务端线程
 
 	sleep(1);//let tcp data trans thread start first 让TCP数据交互线程先启动
 
-	pthread_t thread_task_tcp_flow=task_flow_ctrl_server();
+	pthread_t thread_task_tcp_flow=task_flow_ctrl_server();   //创建与IPC-cmd交互的服务端线程
 
-	pthread_t thread_task_fpga_cvt=init_fpga_cvt_server(NULL);
-	pthread_t thread_task_dma=init_dma_server(NULL);
-	pthread_t thread_task_memcpy=init_memcpy_server(NULL);
+	pthread_t thread_task_fpga_cvt=init_fpga_cvt_server(NULL);  //fpga
+	pthread_t thread_task_dma=init_dma_server(NULL);  //dma
+	pthread_t thread_task_memcpy=init_memcpy_server(NULL);  //内存块
 
 	run_main();
 	destory();

@@ -3,6 +3,7 @@
 /*-----------------------------------*/
 #include "dma_83c1.h"
 #include "def_img_space_scar.h"
+#include "img_cfg/img_mask_cfg.h"
 /*-----------------------------------*/
 /**
  *

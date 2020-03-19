@@ -41,9 +41,12 @@
 *********************************************************************************************************
 */
 
-#ifndef  CPU_MODULE_PRESENT
-#define  CPU_MODULE_PRESENT
 
+
+#include "critical_section.h"
+
+#ifndef  CPU_CFG_MODULE_PRESENT
+#define  CPU_CFG_MODULE_PRESENT
 
 /*
 *********************************************************************************************************
@@ -295,37 +298,6 @@ typedef  CPU_INT32U                 CPU_SR;                     /* Defines   CPU
 #endif
 
 
-#if 0
-
-		#define  CPU_INT_DIS()     asm {PUSHF; CLI}                             /* Disable interrupts*/
-		#define  CPU_INT_EN()      asm  POPF                                    /* Enable  interrupts*/
-#else
-
-		#define  CPU_INT_DIS()	CPU_IntDis()						/* Disable interrupts   */
-		#define  CPU_INT_EN()   CPU_IntEn()							/* Enable  interrupts  */
-
-#endif 
-
-
-                       
-
-
-#ifdef   CPU_CFG_INT_DIS_MEAS_EN
-                                                                        /* Disable interrupts, ...                      */
-                                                                        /* & start interrupts disabled time measurement.*/
-#define  CPU_CRITICAL_ENTER()  do { CPU_INT_DIS();         \
-                                    CPU_IntDisMeasStart(); }  while (0)
-                                                                        /* Stop & measure   interrupts disabled time,   */
-                                                                        /* ...  & re-enable interrupts.                 */
-#define  CPU_CRITICAL_EXIT()   do { CPU_IntDisMeasStop();  \
-                                    CPU_INT_EN();          }  while (0)
-
-#else
-
-#define  CPU_CRITICAL_ENTER()  do { CPU_INT_DIS(); } while (0)          /* Disable   interrupts.                        */
-#define  CPU_CRITICAL_EXIT()   do { CPU_INT_EN();  } while (0)          /* Re-enable interrupts.                        */
-
-#endif
 
 
 /*$PAGE*/
@@ -344,10 +316,13 @@ typedef  CPU_INT32U                 CPU_SR;                     /* Defines   CPU
 *               See also 'cpu_core.h  FUNCTION PROTOTYPES  Note #2'.
 *********************************************************************************************************
 */
+#ifndef __cplusplus
+#error 亲，您当前使用的不是C++编译器噢！
+#endif
 
-void        CPU_IntDis       (void);
-void        CPU_IntEn        (void);
-void        CPU_IntDestory	 (void);
+extern void        CPU_IntDis(void);
+extern void        CPU_IntEn(void);
+extern void        CPU_IntDestory (void);
 
 void        CPU_IntSrcDis    (CPU_INT08U  pos);
 void        CPU_IntSrcEn     (CPU_INT08U  pos);
@@ -377,6 +352,42 @@ void        CPU_BitBandClr   (CPU_ADDR    addr,
                               CPU_INT08U  bit_nbr);
 void        CPU_BitBandSet   (CPU_ADDR    addr,
                               CPU_INT08U  bit_nbr);
+
+
+
+
+#if 0
+
+		#define  CPU_INT_DIS()     asm {PUSHF; CLI}                             /* Disable interrupts*/
+		#define  CPU_INT_EN()      asm  POPF                                    /* Enable  interrupts*/
+#else
+
+		#define  CPU_INT_DIS()	do{ CPU_IntDis();}while(0)						/* Disable interrupts   */
+		#define  CPU_INT_EN()   do{ CPU_IntEn();}while(0)						/* Enable  interrupts  */
+
+#endif
+
+
+
+
+
+#ifdef   CPU_CFG_INT_DIS_MEAS_EN
+                                                                        /* Disable interrupts, ...                      */
+                                                                        /* & start interrupts disabled time measurement.*/
+#define  CPU_CRITICAL_ENTER()  do { CPU_INT_DIS();         \
+                                    CPU_IntDisMeasStart(); }  while (0)
+                                                                        /* Stop & measure   interrupts disabled time,   */
+                                                                        /* ...  & re-enable interrupts.                 */
+#define  CPU_CRITICAL_EXIT()   do { CPU_IntDisMeasStop();  \
+                                    CPU_INT_EN();          }  while (0)
+
+#else
+
+#define  CPU_CRITICAL_ENTER()  do { CPU_IntDis(); } while (0)          /* Disable   interrupts.                        */
+#define  CPU_CRITICAL_EXIT()   do { CPU_IntEn();  } while (0)          /* Re-enable interrupts.                        */
+
+#endif
+
 
 /*$PAGE*/
 /*
@@ -473,4 +484,5 @@ void        CPU_BitBandSet   (CPU_ADDR    addr,
 */
 
 #endif                                                          /* End of CPU module include.                           */
+
 

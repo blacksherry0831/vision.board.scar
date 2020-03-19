@@ -3,16 +3,16 @@
 volatile int G_TCP_TRANS_THREADS=0;
 /*-----------------------------------*/
 /**
- *
+ *获取客户端交互线程数
  */
 /*-----------------------------------*/
 int GetTcpTransImgThreads()
 {
-	return G_TCP_TRANS_THREADS;
+	return G_TCP_TRANS_THREADS;  //与服务端连接的客户端交互线程数
 }
 /*-----------------------------------*/
 /**
- *
+ *客户端交互线程数 加1
  */
 /*-----------------------------------*/
 void IncTcpTransImgThreads()
@@ -21,7 +21,7 @@ void IncTcpTransImgThreads()
 }
 /*-----------------------------------*/
 /**
- *
+ *客户端交互线程数 加1
  */
 /*-----------------------------------*/
 void DecTcpTransImgThreads()

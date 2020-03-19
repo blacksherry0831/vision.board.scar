@@ -22,10 +22,10 @@ extern void *tcp_cfg_server(void *_data);
  */
 /*-----------------------------------*/
 typedef struct {
-	int port;
-	int svr_fd;
-	int client_fd;
-	void* (*pfunClient)(void*);
+	int port;  //端口号
+	int svr_fd; //服务器端描述符
+	int client_fd;  //客户端描述符
+	void* (*pfunClient)(void*);  //客户端线程调用的函数
 
 }TCP_SERVER;
 /*-----------------------------------*/

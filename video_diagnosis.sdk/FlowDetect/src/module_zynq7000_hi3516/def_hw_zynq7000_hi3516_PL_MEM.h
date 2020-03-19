@@ -29,4 +29,5 @@
 /*-----------------------------------*/
 #define  		SENSOR_MAX_NUM		(8)
 /*-----------------------------------*/
+extern const unsigned int CHANNEL_BLOCK_SIZE;
 #endif

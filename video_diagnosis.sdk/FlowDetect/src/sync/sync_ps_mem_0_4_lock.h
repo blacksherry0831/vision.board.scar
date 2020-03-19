@@ -1,5 +1,5 @@
-#ifndef _SYNC_PS_MEM_0X00000000_0X3FFFFFFF_LOCK_H_
-#define _SYNC_PS_MEM_0X00000000_0X3FFFFFFF_LOCK_H_
+#ifndef _SYNC_PS_MEM_0_4_LOCK_H_
+#define _SYNC_PS_MEM_0_4_LOCK_H_
 /*-----------------------------------*/
 #include <pthread.h>
 /*-----------------------------------*/

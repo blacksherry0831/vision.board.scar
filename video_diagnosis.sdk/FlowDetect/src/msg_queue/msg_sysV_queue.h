@@ -6,6 +6,9 @@
  */
 /*-----------------------------------*/
 #include "linux_header.h"
+#include "def.h"
+#include "modules_ex/tcp_server.h"
+#include "opencv2/opencv.hpp"
 /*-----------------------------------*/
 /**
  *
@@ -25,6 +28,7 @@ typedef struct {
 /*-----------------------------------*/
 int  get_queue_img_buff();
 int  remove_queue_img_buff();
+int  snd_queue_img_buff(void * _data);
 /*-----------------------------------*/
 /**
  *
@@ -37,6 +41,8 @@ int  snd_queue_img_buff(void * _data);
  */
 /*-----------------------------------*/
 MESSAGE  rcv_queue_img_buff();
+
+MESSAGE  rcv_queue_img_buff_ex();
 /*-----------------------------------*/
 int msgTypeImage();
 /*-----------------------------------*/

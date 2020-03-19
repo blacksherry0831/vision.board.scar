@@ -9,8 +9,9 @@
 /*-----------------------------------*/
 #include "modules/printf_log/printf_log.h"
 /*-----------------------------------*/
-int
-create_server_timers();
+int create_server_timers();
+
+void test_life_cycle();
 /*-----------------------------------*/
 #endif
 

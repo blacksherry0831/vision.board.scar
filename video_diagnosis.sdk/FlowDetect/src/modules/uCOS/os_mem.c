@@ -33,6 +33,10 @@
 #define   MICRIUM_SOURCE
 #include  <os.h>
 
+#include "critical_section.h"
+
+#include "cpu.h"
+
 #ifdef VSC_INCLUDE_SOURCE_FILE_NAMES
 const  CPU_CHAR  *os_mem__c = "$Id: $";
 #endif

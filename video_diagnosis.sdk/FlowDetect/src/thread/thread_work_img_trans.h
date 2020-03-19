@@ -14,6 +14,10 @@
 #include "msg_queue/msg_sysV_queue.h"
 /*-----------------------------------*/
 #include "sync/sync_img_msg_q.h"
+
+#include "sync/sync_task.h"
+#include "sync/sync_global.h"
+#include "sync/sync_task.h"
 /*-----------------------------------*/
 pthread_t tcp_image_buff_trans_server(void *_data);
 /*-----------------------------------*/

@@ -146,7 +146,7 @@ void fs_readfile(const char *fname, char *buffer, size_t *size, mode_t *mode)
 /*-----------------------------------*/
 const char *fs_find_file_name(const char *name)
 {
-	char *name_start = NULL;
+	const char *name_start = NULL;
 	int sep = '/';
 	if (NULL == name) {
 			PRINTF_DBG_EX("the path name is NULL\n");
@@ -250,7 +250,7 @@ int fs_count_files(const char *path)
                 ++count;
                 break;
             case DT_DIR:
-                npath=malloc(strlen(path)+strlen(direntp->d_name)+2);
+                npath=(char*)malloc(strlen(path)+strlen(direntp->d_name)+2);
                 sprintf(npath,"%s/%s",path, direntp->d_name);
                 count += fs_count_files(npath);
                 free(npath);

@@ -324,7 +324,7 @@ u_int32_t flash_get_data(off_t offset)
         return -1;
     }
     
-	err = flash_read(fd, offset, sizeof(data), &data);
+	err = flash_read(fd, offset, sizeof(data), (char*)&data);
     if(err == 1)
     {
         printf("flash_read fail\n");
@@ -429,5 +429,5 @@ int cetc_update_flash()
     data.deadline--;
     data.online++;
 
-    return flash_set_data(MAGIC_OFFSET, &data, sizeof(struct check));  //刷新已服务时间和剩余服务期
+    return flash_set_data(MAGIC_OFFSET, (char*)&data, sizeof(struct check));  //刷新已服务时间和剩余服务期
 }

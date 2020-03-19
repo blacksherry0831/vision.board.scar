@@ -16,5 +16,7 @@ int FPGA_CTRL_send_int(unsigned int _addr,const  int _data);
 int FPGA_CTRL_send_int_1_0(unsigned int _addr);
 int FPGA_CTRL_read(unsigned int _addr, int* pidata);
 int FPGA_CTRL_send_unit(unsigned int _addr,unsigned int* pidata);
+
+void fpga_set_second_part();
 /*-----------------------------------*/
 #endif

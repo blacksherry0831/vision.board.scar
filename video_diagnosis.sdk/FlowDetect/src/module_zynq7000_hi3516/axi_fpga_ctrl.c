@@ -95,7 +95,7 @@ int FPGA_CTRL_send(unsigned int _addr, int* pidata)
 				if( pthread_mutex_lock(&MAP_PL_PARA.lock)==SUCCESS){
 
 						//向指定地址内存写入数据
-						 AXILitetoUser(MAP_PL_PARA.virtual_addr+_addr,
+						 AXILitetoUser((unsigned int)(MAP_PL_PARA.virtual_addr+_addr),
 								PL_PARA_ADDR_BASE+_addr/4,
 								(unsigned char *)pidata,
 								sizeof(int));
@@ -147,7 +147,7 @@ int FPGA_CTRL_send_unit(unsigned int _addr,unsigned int* pidata)
 
 				if( pthread_mutex_lock(&MAP_PL_PARA.lock)==SUCCESS){
 
-						 AXILitetoUser(MAP_PL_PARA.virtual_addr+_addr,
+						 AXILitetoUser((unsigned int)(MAP_PL_PARA.virtual_addr+_addr),
 								PL_PARA_ADDR_BASE+_addr/4,
 								(unsigned char *)pidata,
 								sizeof(unsigned int));
@@ -174,7 +174,7 @@ int FPGA_CTRL_read(unsigned int _addr, int* pidata)
 
 				if( pthread_mutex_lock(&MAP_PL_PARA.lock)==SUCCESS){
 
-					UsertoAXILite(MAP_PL_PARA.virtual_addr+_addr,
+					UsertoAXILite((unsigned int)(MAP_PL_PARA.virtual_addr+_addr),
 										PL_PARA_ADDR_BASE+_addr/4,
 										(unsigned char*)pidata,
 										sizeof(int));

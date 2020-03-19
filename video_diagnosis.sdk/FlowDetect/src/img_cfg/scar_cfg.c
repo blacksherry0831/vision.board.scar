@@ -1,15 +1,16 @@
 #include "scar_cfg.h"
 /*-----------------------------------*/
-static SCAR_PARAM  G_SCAR_PARAM={
+static SCAR_THRESHOLD G_SCAR_THRESHOLD_T={
 		0,
 		1,
 		2,
 		3,
 		4,
-		5,
-		6,
-		0,
-		1};
+		5};
+/*-----------------------------------*/
+static SCAR_PARAM  G_SCAR_PARAM={
+		G_SCAR_THRESHOLD_T,
+		0};
 /*-----------------------------------*/
 SCAR_MASK_SEQ_MULTI	G_MASK_SEQ_MULTI;
 /*-----------------------------------*/

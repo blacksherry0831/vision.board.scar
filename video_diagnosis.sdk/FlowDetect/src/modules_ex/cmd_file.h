@@ -15,6 +15,8 @@
 #include "modules_ex/fs_base.h"
 /*-----------------------------------*/
 #include "module_zynq7000_hi3516/def_hw_zynq7000_hi3516.h"
+
+#include "status.h"
 /*-----------------------------------*/
 /**
  *
@@ -45,7 +47,7 @@ typedef struct _FileTrans
 	unsigned char nSize[ALIGN_SIZE_T];//this struct size
 	char prefix[ALIGN_SIZE_T];
 	char fileFullPath[ALIGN_SIZE_T*16];
-	char fileSize[ALIGN_SIZE_T];
+	unsigned char fileSize[ALIGN_SIZE_T];
 } FileTrans;
 /*-----------------------------------*/
 /**
@@ -75,8 +77,6 @@ void deleteFile_SdCard(const CMD_CTRL* _cmd);
 /*-----------------------------------*/
 const char* GetCmdCtrl_File_FullName(const CMD_CTRL* _cmd);
 /*-----------------------------------*/
-/**
- *
- */
+const char* GetProjectConfigPathPrefix();
 /*-----------------------------------*/
 #endif

@@ -55,11 +55,11 @@ void dmac_trans_space_ch_fr(int _space_ch,int _space_frame)
 					dmac_83c0_config_and_transfer(ps_phy_addr_dma,phy_addr_img, dma_size_t);
 
 					if(dmac_83c0_pthread_mutex_unlock()==SUCCESS){
-						return TRUE;
+						return ;
 					}
 
 		 }
-				return FALSE;
+				return ;
 
 }
 /*-----------------------------------*/
@@ -91,7 +91,7 @@ void dmac_trans_all_frame()
 /*-----------------------------------*/
 /*-----------------------------------*/
 /**
- *
+ *设置DMA的工作模式（原图？原尺寸）
  */
 /*-----------------------------------*/
 int SetDmaFrameByWorkMode(int _wm)

@@ -926,6 +926,7 @@ void ParseImgCfgJsonStr(const char* _str)
 {
 	    int status = 0;
 	    cJSON *cfg_json = cJSON_Parse(_str);
+
 	    if (cfg_json == NULL){
 
 	    	const char *error_ptr = cJSON_GetErrorPtr();
@@ -934,7 +935,9 @@ void ParseImgCfgJsonStr(const char* _str)
 	            fprintf(stderr, "Error before: %s\n", error_ptr);
 	        }
 	        status = 0;
-	        goto end;
+
+	        cJSON_Delete(cfg_json);
+	        return ;
 
 	    }
 
@@ -947,9 +950,9 @@ void ParseImgCfgJsonStr(const char* _str)
 	    ParseSpaceUsedItem(cfg_json);  //解析已被使用的摄像机分区JSON数据，并保存至系统变量（视频通道序号，剪切区域，图像色彩通道，是否展示等）
 	    ParseScarImgCfgItem(cfg_json);  //解析蒙板图片JSON数据（扫描模式和阈值）并记录至项目变量且发生至FPGA
 
-	end:
 	    cJSON_Delete(cfg_json);
-	    return status;
+	    //return status;
+	    return ;
 }
 /*-----------------------------------*/
 /**
@@ -1152,56 +1155,64 @@ char* GetImgCfgJsonStr()
 {
 	     /**<----------------------------------------------------------------*/
 	    cJSON *root = cJSON_CreateObject();  //创建JSON对象
+
 	    if (root == NULL)
 	    {
-	        goto end;
+	    	cJSON_Delete(root);
+	    	return "";
 	    }
 	    /**<----------------------------------------------------------------*/
 	    cJSON * space_used_config = cJSON_CreateString(NOTE_SPACE_USED_CFG);
 	    if (space_used_config == NULL)
 	    {
-	        goto end;
+	    	cJSON_Delete(root);
+	    	return "";
 	    }
 	    cJSON_AddItemToObject(root, KEY_SPACE_USED_CFG,space_used_config);
 	    /**<----------------------------------------------------------------*/
 	    cJSON * sigma_up =  cJSON_CreateNumber(GetSigmaUp());
 	    if (sigma_up == NULL)
 	    {
-	        goto end;
+	    	cJSON_Delete(root);
+	    	return "";
 	    }
 	    cJSON_AddItemToObject(root, KEY_SIGMA_UP, sigma_up);
 	    /**<----------------------------------------------------------------*/
 	    cJSON * sigma_down =  cJSON_CreateNumber(GetSigmaDown());
 	    if (sigma_down == NULL)
 	    {
-	        goto end;
+	    	cJSON_Delete(root);
+	    	return "";
 	    }
 	    cJSON_AddItemToObject(root, KEY_SIGMA_DOWN, sigma_down);
 	    /**<----------------------------------------------------------------*/
 	    cJSON * project =  cJSON_CreateString(GetProjectRunStr());
 	  	    if (project == NULL)
 	  	    {
-	  	        goto end;
+	  	    	cJSON_Delete(root);
+	  	    	return "";
 	  	    }
 	  	 cJSON_AddItemToObject(root, KEY_PROJECT, project);
 		 /**<----------------------------------------------------------------*/
-	  	 cJSON* scar_img_cfg =AddScarImgCfgItem(root); // 加入图像扫描模式和阈值参数至JSON
+	  	 cJSON* scar_img_cfg = (cJSON*)AddScarImgCfgItem(root); // 加入图像扫描模式和阈值参数至JSON
 	  		 if (scar_img_cfg == NULL){
-	  		 	goto end;
+	  			cJSON_Delete(root);
+	  			return "";
 	  		 }
 	    /**<----------------------------------------------------------------*/
-	   	 cJSON* space_used_all = AddSpaceUsedItem(root);  //加入已用通道数
+	   	 cJSON* space_used_all = (cJSON*)AddSpaceUsedItem(root);  //加入已用通道数
 	   	    if (space_used_all == NULL){
-	   	        goto end;
+	   	    	cJSON_Delete(root);
+	   	    	return "";
 	   	    }
 	   	  /**<----------------------------------------------------------------*/
-		    char* string = cJSON_Print(root);  //打印JSON至string
+	   	   char* string = cJSON_Print(root);  //打印JSON至string
 	    	    if (string == NULL)
 	    	    {
 	    	        fprintf(stderr, "Failed to print monitor.\n");
 	    	    }
 	   /**<----------------------------------------------------------------*/
-end:
+
 	    cJSON_Delete(root);
 	    return string;
 }
@@ -1270,7 +1281,7 @@ void LoadImgCfgJson()
 
 		int file_size=fs_file_size(cfg_json_file);
 
-		char *buffer=malloc(file_size+1);
+		char *buffer=(char*)malloc(file_size+1);
 		{
 			if(fs_load_txt(cfg_json_file,buffer)==SUCCESS){  //读取文件内容
 				ParseImgCfgJsonStr(buffer);  //读取项目配置JSON数据，并将相关参数记录至项目变量中且发送至FPGA

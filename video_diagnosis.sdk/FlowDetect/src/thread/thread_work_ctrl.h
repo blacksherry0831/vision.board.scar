@@ -8,6 +8,10 @@
 
 /*-----------------------------------*/
 #include "modules_ex/tcp_server.h"
+
+#include "thread_module/fpga_cmd_scar_module.h"
+#include "modules_ex/type.h"
+#include "img_cfg/img_cfg.h"
 /*-----------------------------------*/
 pthread_t task_flow_ctrl_server();
 /*-----------------------------------*/

@@ -4,7 +4,7 @@ static DMA_PS_PL_OBJ DMA_PL2PS_83c4;
 /*-----------------------------------*/
 unsigned char *dmac_83c4_get_mem_ps_phy_base_addr()
 {
-	return DMA_PL2PS_83c4.MEM_PS_Base_Addr_Phy;
+	return (unsigned char *)DMA_PL2PS_83c4.MEM_PS_Base_Addr_Phy;
 }
 /*-----------------------------------*/
 unsigned char *dmac_83c4_get_mem_ps_virtual_base_addr()

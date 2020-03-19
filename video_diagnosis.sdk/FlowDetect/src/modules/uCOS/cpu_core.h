@@ -803,9 +803,9 @@ CPU_INT64U  CPU_TS64_to_uSec(CPU_TS64  ts_cnts);
 */
 
 #ifndef  CPU_CFG_NAME_EN
-#error  "CPU_CFG_NAME_EN                       not #define'd in 'cpu_cfg.h'"
-#error  "                                [MUST be  DEF_ENABLED ]           "
-#error  "                                [     ||  DEF_DISABLED]           "
+//#error  "CPU_CFG_NAME_EN not #define'd in 'cpu_cfg.h'"
+//#error  "[MUST be  DEF_ENABLED ]"
+//#error  "[     ||  DEF_DISABLED]"
 
 #elif  ((CPU_CFG_NAME_EN != DEF_ENABLED ) && \
         (CPU_CFG_NAME_EN != DEF_DISABLED))
@@ -835,9 +835,9 @@ CPU_INT64U  CPU_TS64_to_uSec(CPU_TS64  ts_cnts);
 
 
 #ifndef  CPU_CFG_TS_32_EN
-#error  "CPU_CFG_TS_32_EN                      not #define'd in 'cpu_cfg.h'"
-#error  "                                [MUST be  DEF_DISABLED]           "
-#error  "                                [     ||  DEF_ENABLED ]           "
+//#error  "CPU_CFG_TS_32_EN                      not #define'd in 'cpu_cfg.h'"
+//#error  "                                [MUST be  DEF_DISABLED]           "
+//#error  "                                [     ||  DEF_ENABLED ]           "
 
 #elif  ((CPU_CFG_TS_32_EN != DEF_DISABLED) && \
         (CPU_CFG_TS_32_EN != DEF_ENABLED ))
@@ -849,9 +849,9 @@ CPU_INT64U  CPU_TS64_to_uSec(CPU_TS64  ts_cnts);
 
 
 #ifndef  CPU_CFG_TS_64_EN
-#error  "CPU_CFG_TS_64_EN                      not #define'd in 'cpu_cfg.h'"
-#error  "                                [MUST be  DEF_DISABLED]           "
-#error  "                                [     ||  DEF_ENABLED ]           "
+//#error  "CPU_CFG_TS_64_EN                      not #define'd in 'cpu_cfg.h'"
+//#error  "                                [MUST be  DEF_DISABLED]           "
+//#error  "                                [     ||  DEF_ENABLED ]           "
 
 #elif  ((CPU_CFG_TS_64_EN != DEF_DISABLED) && \
         (CPU_CFG_TS_64_EN != DEF_ENABLED ))

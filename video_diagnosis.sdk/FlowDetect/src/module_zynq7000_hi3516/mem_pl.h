@@ -1,5 +1,5 @@
-#ifndef DMA_83C0_H
-#define DMA_83C0_H
+#ifndef _MEM_PL_H
+#define _MEM_PL_H
 /*-----------------------------------*/
 #include "../linux_header.h"
 #include "def_hw_zynq7000_hi3516.h"

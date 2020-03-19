@@ -45,7 +45,7 @@ union position{
 
 /*-----------------------------------*/
 /**
- *
+ *关闭并退出服务端线程
  */
 /*-----------------------------------*/
 void ExitTcpServer(int socket_fd,int server_port)
@@ -56,36 +56,34 @@ void ExitTcpServer(int socket_fd,int server_port)
 }
 /*-----------------------------------*/
 /**
- *
+ *服务端线程-起始函数
  */
 /*-----------------------------------*/
 void *tcp_server(void* _data)
 {
 	assert(_data!=NULL);
-    struct sockaddr_in *server = (struct sockaddr_in *)mem_malloc(socket_struct_len);
-    struct sockaddr_in *client = (struct sockaddr_in *)mem_malloc(socket_struct_len);
+    struct sockaddr_in *server = (struct sockaddr_in *)mem_malloc(socket_struct_len);  //申请空间
+    struct sockaddr_in *client = (struct sockaddr_in *)mem_malloc(socket_struct_len);  //申请空间
     const  unsigned int client_size = sizeof(*client);
 
     int sockfd=-1;
     int err=-1;
     int tmp = 1;
-
     const int send_buf_size = 16*1024*1024;
-
     TCP_SERVER* tcp_server=(TCP_SERVER*)_data;
     const int server_port=tcp_server->port;
-    /*设置服务器地址*/
-    server->sin_family = AF_INET;
 
-    server->sin_port = htons( tcp_server->port);
+    server->sin_family = AF_INET;  //协议族类型 IPv4
+    server->sin_port = htons( tcp_server->port);  //端口
+    server->sin_addr.s_addr = inet_addr("0.0.0.0");  // ip，INADDR_ANY为通配地址其值为0
 
-    server->sin_addr.s_addr = inet_addr("0.0.0.0");
     /*建立一个流式套接字*/
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
 
-    int sock_flags = fcntl(sockfd, F_GETFL, 0);
+    //socket设置为非阻塞方式
+    int sock_flags = fcntl(sockfd, F_GETFL, 0);  //读取socket描述符状态
     printf("sock_flag 0x%x\n",sock_flags);
-    err = fcntl(sockfd, F_SETFL,sock_flags|O_NONBLOCK);
+    err = fcntl(sockfd, F_SETFL,sock_flags|O_NONBLOCK);  //socket设置为非阻塞方式
     if(err < 0){
     	 printf_error();
     	 goto EXIT_TCP_SERVER;
@@ -97,34 +95,38 @@ void *tcp_server(void* _data)
     	 printf_error();
     	 goto EXIT_TCP_SERVER;
     }
+
 #if 1
+    //设置socket的发送缓冲区大小
     err = set_socket_buf_size(sockfd,send_buf_size);
     if(err < 0){
     	 printf_error();
     	 goto EXIT_TCP_SERVER;
     }
 #endif
+
+    //服务器监听地址
     err = bind(sockfd, (struct sockaddr*)server, sizeof(*server));
     if(err==-1){
     	 printf_error();
     	 goto EXIT_TCP_SERVER;
     }
-    /*监听端口*/
+
+    //服务器监听端口
     listen(sockfd, SOMAXCONN);/*侦听队列长度*/
 
     do{
-
-    	   err =SelectAccept(sockfd,30);
+    	err =SelectAccept(sockfd,30);  //判断set集合中描述符socketfd是否准备好可读
     	   if(err==0){
     		   continue;//time out
     	   }else if(err==-1){
     		   break;//fali
-    	   }else if(err==1){
+    	   }else if(err==1){  //准备好了
 
 #if 1
 		pthread_t _thread_ap_id;
-		int* volatile _clientfd_ptr=mem_malloc(sizeof(int));
-		*_clientfd_ptr = accept(sockfd, (struct sockaddr*)client, &client_size);
+		int* volatile _clientfd_ptr=(int*)mem_malloc(sizeof(int));
+		*_clientfd_ptr = accept(sockfd, (struct sockaddr*)client, (socklen_t*)&client_size);  //接受客户端的连接 返回客户端连接的描述符
 
 		if (*_clientfd_ptr < 0 ){
 			PRINTF_DBG_EX("listen socket error: %s(errno: %d)\n",strerror(errno),errno);
@@ -132,11 +134,11 @@ void *tcp_server(void* _data)
 		}else{
 			if(IsRun()){
 				PRINTF_DBG_EX("Connected to %s:%u\n",inet_ntoa(client->sin_addr),ntohs(client->sin_port));
-					if(pthread_create(&_thread_ap_id,NULL,tcp_server->pfunClient,_clientfd_ptr) == -1){
+					if(pthread_create(&_thread_ap_id,NULL,tcp_server->pfunClient,_clientfd_ptr) == -1){  //创建与客户端的交互线程
 						 fprintf(stderr,"pthread_create error!\n");
 					}
 			}else{
-				close(*_clientfd_ptr);
+				close(*_clientfd_ptr);  //关闭客户端交互线程
 			}
 		}
 #endif
@@ -151,11 +153,11 @@ void *tcp_server(void* _data)
 
 EXIT_TCP_SERVER:
 
-	mem_free_clr(&server);
-    mem_free_clr(&client);
+	mem_free_clr((void**)&server);
+    mem_free_clr((void**)&client);
     mem_free_clr(&_data);
 
-    ExitTcpServer(sockfd,server_port);
+    ExitTcpServer(sockfd,server_port);  //关闭并退出服务端线程
 }
 /*-----------------------------------*/
 /**

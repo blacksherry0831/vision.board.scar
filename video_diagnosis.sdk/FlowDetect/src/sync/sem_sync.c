@@ -69,13 +69,13 @@ int destorySemSignal()
 }
 /*-----------------------------------*/
 /**
- *
+ *m_sem_fpga_circle_start信号量加1
  */
 /*-----------------------------------*/
 int  post_fpga_start_sig()
 {
-	const int result_t=sem_post(&m_sem_fpga_circle_start);
-	sched_yield();
+	const int result_t=sem_post(&m_sem_fpga_circle_start);  //信号量加1
+	sched_yield();  //使另一个级别等于或高于当前线程的线程先运行
 	return result_t;
 }
 /*-----------------------------------*/

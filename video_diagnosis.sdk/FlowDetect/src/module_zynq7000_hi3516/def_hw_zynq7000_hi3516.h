@@ -1,5 +1,5 @@
-#ifndef DEF_HW_ZYNQ7000_HI3516_H
-#define DEF_HW_ZYNQ7000_HI3516_H
+#ifndef _DEF_HW_ZYNQ7000_HI3516_H
+#define _DEF_HW_ZYNQ7000_HI3516_H
 /*-----------------------------------*/
 #include "def_hw_zynq7000_hi3516_PL_MEM.h"
 #include "def_hw_zynq7000_hi3516_axi.h"

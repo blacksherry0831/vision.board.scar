@@ -11,6 +11,8 @@
 #define STRUCT_UNION_SIZE	(ALIGN_SIZE_T*64)
 /*-----------------------------------*/
 #include "def_frame.h"
+
+#include "modules_ex/base.h"
 /*-----------------------------------*/
 /**
  *
@@ -153,7 +155,7 @@ typedef struct _IplImageU
 typedef union _IplImageUI
 {
 	unsigned char buff[STRUCT_UNION_SIZE];
-	IplImageU iplImgU;
+	//IplImageU iplImgU;
 }IplImageUI;
 /*-----------------------------------*/
 /**
@@ -296,5 +298,12 @@ int GetCmdImgViewChannel(const CMD_CTRL* const _cmd_ctrl);
 int IsCmdCtrl_Debug(const CMD_CTRL* _cmd,const char* msg);
 /*-----------------------------------*/
 int isVersionCmd(const CMD_CTRL* _cmd_ctrl);
+
+int isLifeCircleDeadlineCmd(const CMD_CTRL* _cmd_ctrl);
+int IsCmdCtrlHeader(const CMD_CTRL* cmd_t);
+
+CMD_CTRL* CreateImageMask(const int _ch,const int _w,const int _h,unsigned int _seq);
+void InitImageColorMode(CMD_CTRL* cmd_t,const char* _color_mode);
+void InitImageRoiRR(CMD_CTRL* cmd_t,int _ch,CvRect _rect_org,CvRect _rect_roi);
 /*-----------------------------------*/
 #endif

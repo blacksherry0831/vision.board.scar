@@ -29,6 +29,9 @@
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="4"/>
 </listAttribute>
+<mapAttribute key="org.eclipse.debug.core.environmentVariables">
+<mapEntry key="LD_LIBRARY_PATH" value="/lib:/usr/lib:/media/opencv:/media/opencv/cairo:/media/opencv/gstreamer-1.0:/media/opencv/gdk-pixbuf-2.0/2.10.0/loaders:/media/opencv/gtk-3.0/3.0.0/printbackends"/>
+</mapAttribute>
 <booleanAttribute key="org.eclipse.tcf.debug.AttachChildren" value="true"/>
 <stringAttribute key="org.eclipse.tcf.debug.LocalProgramFile" value="Debug/FlowDetect.elf"/>
 <stringAttribute key="org.eclipse.tcf.debug.ProgramArguments" value="-s 1 -w 1920 -h 1080 -p scar_detect_01 -f 0 -D"/>

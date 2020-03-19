@@ -24,7 +24,7 @@ void set_cpu_mask(int _cpu)
     if(ret != 0)
     {
         printf("sched_setaffinity[%d] error\n", pthread_self());
-        return -1;
+        return ;
     }
 #endif
 

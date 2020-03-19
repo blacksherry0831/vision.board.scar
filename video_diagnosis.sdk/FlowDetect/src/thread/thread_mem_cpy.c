@@ -54,7 +54,7 @@ void *memcpy_work_server(void* _pdata)
 														const int CIRCLE_SEQ=GetFrameCircleSeq();
 														const int ViewOutputNum=img_space_frame_output_num();
 
-														MallocImageBuff4ViewOutput(image,CIRCLE_SEQ,IMG_FRAME_IDX);
+														MallocImageBuff4ViewOutput(&image[0][0],CIRCLE_SEQ,IMG_FRAME_IDX);
 
 #if 1
 															int schi=0;
@@ -97,6 +97,8 @@ void *memcpy_work_server(void* _pdata)
 	}
 
 	ExitMemCpyThread();
+
+	return EXIT_SUCCESS;
 
 }
 

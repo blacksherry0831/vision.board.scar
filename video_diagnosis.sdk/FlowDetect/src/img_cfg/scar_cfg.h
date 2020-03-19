@@ -92,4 +92,14 @@ void SetScarCurrentSerialNumber(
 /*-----------------------------------*/
 void SetScarCurrentSerialNumber_default();
 /*-----------------------------------*/
+
+int GetMaskSeqChannel(const int _idx);
+int GetMaskSeq_work_mode(const int _idx);
+int GetMaskSeq_g_th_up(const int _idx);
+int GetMaskSeq_g_th_down(const int _idx);
+int GetMaskSeq_row_th_up(const int _idx);
+int GetMaskSeq_row_th_down(const int _idx);
+int GetMaskSeq_col_th_up(const int _idx);
+int GetMaskSeq_col_th_down(const int _idx);
+
 #endif

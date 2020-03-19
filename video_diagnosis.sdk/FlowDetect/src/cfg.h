@@ -5,6 +5,8 @@
 #include "def.h"
 /*-----------------------------------*/
 #include "modules_ex/base.h"
+
+#include "module_zynq7000_hi3516/axi_fpga_ctrl_img.h"
 /*-----------------------------------*/
 struct cmd_param
 {
@@ -29,5 +31,9 @@ void SetSigmaUp2FPGA(int _sigma);
 void SetSigmaDown2FPGA(int _sigma);
 void SetSigmaUp(int _sigma);
 void SetSigmaDown(int _sigma);
+
+int IsFrameCollect(const unsigned int _current_idx);
+unsigned int GetGlobalSensor();
+void SetGlobalSensor(unsigned int _channel);
 /*-----------------------------------*/
 #endif

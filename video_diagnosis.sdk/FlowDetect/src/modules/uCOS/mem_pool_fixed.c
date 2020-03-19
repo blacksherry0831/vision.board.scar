@@ -1,4 +1,7 @@
 #include "mem_pool_fixed.h"
+#include "cpu.h"
+#include <stdlib.h>
+
 /*-----------------------------------*/
 #define BLK_SIZE_4M (4194304)
 #define BLK_NUM_4M  (16)
@@ -17,7 +20,7 @@ static OS_MEM  m_os_4m_mem={0};
 static OS_MEM  m_os_2m_mem={0};
 static OS_MEM  m_os_1k_mem={0};
 /*-----------------------------------*/
-static OS_ERR  m_os_err={0};
+static OS_ERR  m_os_err={OS_ERR_NONE};
 /*-----------------------------------*/
 static sem_t   m_sem_4m_buff;
 static sem_t   m_sem_2m_buff;
@@ -62,10 +65,10 @@ static  sem_t*   			p_pool_sem[]={
 #define PRINTF_MEM_USAGE	(0)
 /*-----------------------------------*/
 /**
- *
+ *¼ì²éÄÚ´æµØÖ·£¿
  */
 /*-----------------------------------*/
-int MemPoolAddrZone(void * _mem)
+int MemPoolAddrZone(const void * _mem)
 {
 
 		const CPU_ADDR _mem_addr=(CPU_ADDR)_mem;
@@ -79,8 +82,8 @@ int MemPoolAddrZone(void * _mem)
 		const CPU_ADDR mem_4m_start=(CPU_ADDR) (BUFF_4M);
 		const CPU_ADDR mem_4m_end=(CPU_ADDR)  ((void *) &BUFF_4M[BLK_NUM_4M-1][BLK_SIZE_4M-1]);
 
-			if(			(_mem_addr >= mem_1K_start )&&
-						(_mem_addr <= mem_1K_end )){
+			if(		(_mem_addr >= mem_1K_start )&&
+					(_mem_addr <= mem_1K_end )){
 
 					return BLK_1K_SIZE;
 

@@ -1,13 +1,13 @@
 #include "base.h"
 /*-----------------------------------*/
 /**
- *
+ *从socket读取数据
  */
 /*-----------------------------------*/
 ssize_t readn(const int fd, void* const buf, const size_t n)
 {
 	size_t nleft = n;   // left的意思是“剩下”, 而非“左边”
-	char *bufptr = buf;
+	char *bufptr = (char*)buf;
 	ssize_t nread;
 
 	while(nleft > 0)
@@ -37,7 +37,7 @@ ssize_t readn(const int fd, void* const buf, const size_t n)
 }
 /*-----------------------------------*/
 /**
- *
+ * 获取socket的发送缓冲区大小
  */
 /*-----------------------------------*/
 int get_socket_buf_size(int sockfd)
@@ -46,6 +46,7 @@ int get_socket_buf_size(int sockfd)
 	socklen_t optlen=sizeof(int);
 	int send_buf_size=0;
 
+	//getsockopt-获取与某个套接字关联的选项  获取socket的发送缓冲区大小
 	int gerr=getsockopt(sockfd,SOL_SOCKET,SO_SNDBUF,&send_buf_size,&optlen);
 
 	if(gerr < 0){
@@ -58,7 +59,7 @@ int get_socket_buf_size(int sockfd)
 }
 /*-----------------------------------*/
 /**
- *
+ *设置socket的发送缓冲区大小
  */
 /*-----------------------------------*/
 int set_socket_buf_size(int sockfd,const int send_buf_size)
@@ -66,20 +67,20 @@ int set_socket_buf_size(int sockfd,const int send_buf_size)
 
 	socklen_t optlen=sizeof(int);
 
-	int buf_size_get=get_socket_buf_size(sockfd);
+	int buf_size_get=get_socket_buf_size(sockfd);  // 获取socket的发送缓冲区大小
 
 #if 0
 	PRINTF_DBG_EX("SO_SNDBUF: %d(default)\n",buf_size_get);
 #endif
 
-	int err =  setsockopt(sockfd, SOL_SOCKET, SO_SNDBUF, (const void *)&send_buf_size, optlen);
+	int err =  setsockopt(sockfd, SOL_SOCKET, SO_SNDBUF, (const void *)&send_buf_size, optlen);  //设置socket的发送缓冲区大小
 
 	if(err < 0){
 			 printf_error();
 
 	}
 
-	buf_size_get=get_socket_buf_size(sockfd);
+	buf_size_get=get_socket_buf_size(sockfd);  // 获取socket的发送缓冲区大小
 
 	if(send_buf_size!=buf_size_get){
 #if 0
@@ -92,16 +93,16 @@ int set_socket_buf_size(int sockfd,const int send_buf_size)
 }
 /*-----------------------------------*/
 /**
- *
+ *向socket连接写入数据
  */
 /*-----------------------------------*/
 ssize_t writen(const int fd, const void* const  buf, const size_t n)
 {
-	signal(SIGPIPE, SIG_IGN);//ignore sig pipe
+	signal(SIGPIPE, SIG_IGN);//ignore sig pipe  为了避免因对端的关闭导致本进程退出,故可以捕获SIGPIPE信号, 并忽略它,
 
-	size_t nleft = n;
-	const char *bufptr = buf;
-	ssize_t nwrite;
+	size_t nleft = n;  //剩余的字节数
+	const char *bufptr = (char *)buf;
+	ssize_t nwrite;  //单次写入的字节数
 
 	while(nleft > 0)
 	{
@@ -109,9 +110,9 @@ ssize_t writen(const int fd, const void* const  buf, const size_t n)
 
 		if((nwrite = write(fd, bufptr, nleft )) <= 0)
 		{
-			if(errno == EINTR){
+			if(errno == EINTR){  //当阻塞于某个慢系统调用的一个进程捕获某个信号且相应信号处理函数,即遇到中断
 				nwrite = 0;
-			}else if(errno==SIGPIPE){
+			}else if(errno==SIGPIPE){  //对端即客户端关闭
 				printf_error();
 				return -1;
 			}else{
@@ -136,7 +137,7 @@ ssize_t writen(const int fd, const void* const  buf, const size_t n)
  *
  */
 /*-----------------------------------*/
-void SetInt2Char(const int _value,char* _data,int _size)
+void SetInt2Char(const int _value,unsigned char* _data,int _size)
 {
 	_data[0]= _value%256;
 	_data[1]= _value/256%256;
@@ -195,7 +196,7 @@ int UChar2Int(const unsigned char* _data,const int _size)
  *
  */
 /*-----------------------------------*/
-int Char2Int(const  char* _data,const int _size)
+int Char2Int(const  unsigned char* _data,const int _size)
 {
 	return UChar2Int((const unsigned char*) _data,_size);
 }
@@ -275,28 +276,30 @@ int AcceptSocketRequestInSelect(int sock_descriptor)
 }
 /*-----------------------------------*/
 /**
- *
+ *判断set集合中描述符socketfd是否准备好
  */
 /*-----------------------------------*/
 int SelectAccept(int sockfd,int _sec)
 {
 	 struct timeval tv;
-		   tv.tv_sec =_sec;
-		   tv.tv_usec = 0;
+	 tv.tv_sec =_sec;
+	 tv.tv_usec = 0;
 
-	 fd_set rfds;
-		   FD_ZERO(&rfds);
-		   FD_SET(sockfd, &rfds);
+	 fd_set rfds;  //描述符集合
+	 FD_ZERO(&rfds);    //将set初始化为空集NULL
+	 FD_SET(sockfd, &rfds);  //向集合添加描述符sockfd
 
+	 //参数为集合中所有文件描述符的范围，可读描述符，可写描述符，等待错误检查的描述符，时间
+	 //select()调用返回处于就绪状态并且已经包含在fd_set结构中的描述字总数
 	int err=select(sockfd + 1, &rfds, (fd_set *) 0, (fd_set *) 0, &tv);
 
-	if(err == 0){
+	if(err == 0){  //超时
 		 //PRINTF_DBG("socket tcp select> time out!\n");
-	} else if(err == -1){
+	} else if(err == -1){  //报错
 		 PRINTF_DBG_EX("socket tcp select> fail!\n");
 	}else{
 
-		if(FD_ISSET(sockfd,&rfds)){
+		if(FD_ISSET(sockfd,&rfds)){   //判断set集合中描述符fd是否准备好
 			return 1;//can read
 		}else{
 			return -2;//error

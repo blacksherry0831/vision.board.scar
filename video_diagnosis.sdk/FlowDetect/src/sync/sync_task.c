@@ -108,7 +108,7 @@ int getFpgaCircleWorkMode()
 }
 /*-----------------------------------*/
 /**
- *
+ *设置FPGA工作模式（原图？原尺寸）
  */
 /*-----------------------------------*/
 void setFpgaCircleWorkMode(const int _wm)

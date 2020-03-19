@@ -18,6 +18,13 @@
 /*-----------------------------------*/
 #include "fpga_cvt_module.h"
 /*-----------------------------------*/
-
+#include "sync/sync_global.h"
+#include "sync/sync_fpga_cvt_circle.h"
+#include "task/task_cmd.h"
+#include "sync/sync_task.h"
+#include "sync/sem_sync.h"
 /*-----------------------------------*/
+
+void setFpgaCircleCmdScar(const CMD_CTRL* const _cmd_ctrl);
+
 #endif

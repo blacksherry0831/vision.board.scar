@@ -17,7 +17,20 @@
 #include "status.h"
 /*-----------------------------------*/
 #include "fpga_cvt_module.h"
+
+#include "sync/sync_task.h"
+#include "sync/sync_global.h"
+#include "sync/sync_task.h"
+#include "thread_module/fpga_cvt_module.h"
+#include "thread_module/fpga_cvt_module.h"
+#include "status.h"
+#include "img_cfg/img_cfg_scar.h"
+#include "cfg.h"
+#include "task/task_work_flow.h"
 /*-----------------------------------*/
+
+void theFirstCircleScar();
+void theSecondCircleScar();
 
 /*-----------------------------------*/
 #endif

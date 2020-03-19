@@ -7,7 +7,7 @@ static volatile int G_FPGA_CIRCLE_TASK_2nd_START[2]={0};
 
 /*-----------------------------------*/
 /**
- *
+ *设置第一圈的标志
  */
 /*-----------------------------------*/
 void set_1st_circle_flag(const int _idx,const int _v)
@@ -62,7 +62,7 @@ int get_1st_circle_running()
 }
 /*-----------------------------------*/
 /**
- *
+ *设置第2圈标志
  */
 /*-----------------------------------*/
 void set_2nd_circle_flag(const int _idx,const int _v)
@@ -117,7 +117,7 @@ int get_2nd_circle_running()
 }
 /*-----------------------------------*/
 /**
- *
+ *初始化第一圈标志为0
  */
 /*-----------------------------------*/
 void init_1st_circle_flag()
@@ -130,7 +130,7 @@ void init_1st_circle_flag()
 }
 /*-----------------------------------*/
 /**
- *
+ *初始化第2圈标志为0
  */
 /*-----------------------------------*/
 void init_2nd_circle_flag()
@@ -153,7 +153,7 @@ int IsFpgaCvtCircleTaskRunning()
 }
 /*-----------------------------------*/
 /**
- *
+ *设置总任务圈标志
  */
 /*-----------------------------------*/
 void set_task_circle_flag(const int _idx,const int _v)
@@ -180,7 +180,7 @@ void set_task_circle_end()
 }
 /*-----------------------------------*/
 /**
- *
+ *初始总任务圈标志为0
  */
 /*-----------------------------------*/
 void init_task_circle_flag()
@@ -194,7 +194,7 @@ void init_task_circle_flag()
 
 /*-----------------------------------*/
 /**
- *
+ *FPGA数据计算是否正在进行
  */
 /*-----------------------------------*/
 int IsCircleTaskRunning_FpgaCvt()
@@ -214,14 +214,14 @@ void init_1st_2nd_circle_flag()
 }
 /*-----------------------------------*/
 /**
- *
+ *初始化任务标志为0
  */
 /*-----------------------------------*/
 void init_1st_2nd_task_circle_flag()
 {
-	init_1st_circle_flag();
-	init_2nd_circle_flag();
-	init_task_circle_flag();
+	init_1st_circle_flag();  //初始化第一圈标志为0
+	init_2nd_circle_flag();  //初始化第二圈标志为0
+	init_task_circle_flag(); //初始总任务圈标志为0
 }
 /*-----------------------------------*/
 /**

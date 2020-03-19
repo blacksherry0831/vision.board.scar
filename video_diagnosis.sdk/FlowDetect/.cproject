@@ -19,11 +19,11 @@
 						<toolChain id="xilinx.gnu.armlinux.exe.debug.toolchain.965133107" name="Xilinx ARM GNU/Linux Toolchain" superClass="xilinx.gnu.armlinux.exe.debug.toolchain">
 							<targetPlatform binaryParser="com.xilinx.sdk.managedbuilder.XELF.armlinux" id="xilinx.armlinux.target.gnu.base.debug.2092499661" isAbstract="false" name="Debug Platform" superClass="xilinx.armlinux.target.gnu.base.debug"/>
 							<builder buildPath="${workspace_loc:/FlowDetect}/Debug" enableAutoBuild="true" id="xilinx.gnu.armlinux.toolchain.builder.debug.1599900848" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="GNU make" superClass="xilinx.gnu.armlinux.toolchain.builder.debug"/>
-							<tool id="xilinx.gnu.armlinux.c.toolchain.assembler.debug.930056336" name="ARM Linux gcc assembler" superClass="xilinx.gnu.armlinux.c.toolchain.assembler.debug">
+							<tool command="arm-xilinx-linux-gnueabi-g++" id="xilinx.gnu.armlinux.c.toolchain.assembler.debug.930056336" name="ARM Linux gcc assembler" superClass="xilinx.gnu.armlinux.c.toolchain.assembler.debug">
 								<option id="xilinx.gnu.both.asm.option.include.paths.665848362" name="Include Paths (-I)" superClass="xilinx.gnu.both.asm.option.include.paths"/>
 								<inputType id="xilinx.gnu.assembler.input.874501217" superClass="xilinx.gnu.assembler.input"/>
 							</tool>
-							<tool id="xilinx.gnu.armlinux.c.toolchain.compiler.debug.1459204547" name="ARM Linux gcc compiler" superClass="xilinx.gnu.armlinux.c.toolchain.compiler.debug">
+							<tool command="arm-xilinx-linux-gnueabi-g++" id="xilinx.gnu.armlinux.c.toolchain.compiler.debug.1459204547" name="ARM Linux gcc compiler" superClass="xilinx.gnu.armlinux.c.toolchain.compiler.debug">
 								<option defaultValue="gnu.c.optimization.level.none" id="xilinx.gnu.compiler.option.optimization.level.1905551346" name="Optimization Level" superClass="xilinx.gnu.compiler.option.optimization.level" value="gnu.c.optimization.level.none" valueType="enumerated"/>
 								<option id="xilinx.gnu.compiler.option.debugging.level.231040784" name="Debug Level" superClass="xilinx.gnu.compiler.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="xilinx.gnu.compiler.symbols.defined.64794949" name="Defined symbols (-D)" superClass="xilinx.gnu.compiler.symbols.defined" valueType="definedSymbols">
@@ -31,6 +31,7 @@
 								</option>
 								<option id="xilinx.gnu.compiler.misc.other.116870587" name="Other flags" superClass="xilinx.gnu.compiler.misc.other" value="-c -fmessage-length=0 -MT&quot;$@&quot; " valueType="string"/>
 								<option id="xilinx.gnu.compiler.dircategory.includes.1003081670" name="Include Paths" superClass="xilinx.gnu.compiler.dircategory.includes" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;V:\opencv_3.3.0.arm.linux\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/modules/uCOS}&quot;"/>
 								</option>
@@ -41,11 +42,155 @@
 								<option id="xilinx.gnu.compiler.option.debugging.level.245244521" name="Debug Level" superClass="xilinx.gnu.compiler.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 							</tool>
 							<tool id="xilinx.gnu.armlinux.toolchain.archiver.1293065439" name="ARM Linux archiver" superClass="xilinx.gnu.armlinux.toolchain.archiver"/>
-							<tool id="xilinx.gnu.armlinux.c.toolchain.linker.debug.1490564727" name="ARM Linux gcc linker" superClass="xilinx.gnu.armlinux.c.toolchain.linker.debug">
+							<tool command="arm-xilinx-linux-gnueabi-g++" id="xilinx.gnu.armlinux.c.toolchain.linker.debug.1490564727" name="ARM Linux gcc linker" superClass="xilinx.gnu.armlinux.c.toolchain.linker.debug">
 								<option id="xilinx.gnu.c.link.option.libs.771512684" name="Libraries (-l)" superClass="xilinx.gnu.c.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="pthread"/>
 									<listOptionValue builtIn="false" value="rt"/>
 									<listOptionValue builtIn="false" value="m"/>
+									<listOptionValue builtIn="false" value="asprintf"/>
+									<listOptionValue builtIn="false" value="atk-1.0"/>
+									<listOptionValue builtIn="false" value="avcodec"/>
+									<listOptionValue builtIn="false" value="avdevice"/>
+									<listOptionValue builtIn="false" value="avfilter"/>
+									<listOptionValue builtIn="false" value="avformat"/>
+									<listOptionValue builtIn="false" value="avutil"/>
+									<listOptionValue builtIn="false" value="blkid"/>
+									<listOptionValue builtIn="false" value="cairo"/>
+									<listOptionValue builtIn="false" value="cairo-gobject"/>
+									<listOptionValue builtIn="false" value="cairo-script-interpreter"/>
+									<listOptionValue builtIn="false" value="cairo-trace"/>
+									<listOptionValue builtIn="false" value="dc1394"/>
+									<listOptionValue builtIn="false" value="exif"/>
+									<listOptionValue builtIn="false" value="ffi"/>
+									<listOptionValue builtIn="false" value="fontconfig"/>
+									<listOptionValue builtIn="false" value="freetype"/>
+									<listOptionValue builtIn="false" value="fribidi"/>
+									<listOptionValue builtIn="false" value="gailutil-3"/>
+									<listOptionValue builtIn="false" value="gdk_pixbuf-2.0"/>
+									<listOptionValue builtIn="false" value="gdk-3"/>
+									<listOptionValue builtIn="false" value="gettextlib-0.19.8"/>
+									<listOptionValue builtIn="false" value="gettextpo"/>
+									<listOptionValue builtIn="false" value="gettextsrc-0.19.8"/>
+									<listOptionValue builtIn="false" value="gio-2.0"/>
+									<listOptionValue builtIn="false" value="glib-2.0"/>
+									<listOptionValue builtIn="false" value="gmodule-2.0"/>
+									<listOptionValue builtIn="false" value="gobject-2.0"/>
+									<listOptionValue builtIn="false" value="gphoto2"/>
+									<listOptionValue builtIn="false" value="gphoto2_port"/>
+									<listOptionValue builtIn="false" value="gstallocators-1.0"/>
+									<listOptionValue builtIn="false" value="gstapp-1.0"/>
+									<listOptionValue builtIn="false" value="gstaudio-1.0"/>
+									<listOptionValue builtIn="false" value="gstbase-1.0"/>
+									<listOptionValue builtIn="false" value="gstcheck-1.0"/>
+									<listOptionValue builtIn="false" value="gstcontroller-1.0"/>
+									<listOptionValue builtIn="false" value="gstcoreelements"/>
+									<listOptionValue builtIn="false" value="gstcoretracers"/>
+									<listOptionValue builtIn="false" value="gstfft-1.0"/>
+									<listOptionValue builtIn="false" value="gstnet-1.0"/>
+									<listOptionValue builtIn="false" value="gstpbutils-1.0"/>
+									<listOptionValue builtIn="false" value="gstreamer-1.0"/>
+									<listOptionValue builtIn="false" value="gstriff-1.0"/>
+									<listOptionValue builtIn="false" value="gstrtp-1.0"/>
+									<listOptionValue builtIn="false" value="gstrtsp-1.0"/>
+									<listOptionValue builtIn="false" value="gstsdp-1.0"/>
+									<listOptionValue builtIn="false" value="gsttag-1.0"/>
+									<listOptionValue builtIn="false" value="gstvideo-1.0"/>
+									<listOptionValue builtIn="false" value="gthread-2.0"/>
+									<listOptionValue builtIn="false" value="gtk-3"/>
+									<listOptionValue builtIn="false" value="harfbuzz"/>
+									<listOptionValue builtIn="false" value="jpeg"/>
+									<listOptionValue builtIn="false" value="ltdl"/>
+									<listOptionValue builtIn="false" value="mount"/>
+									<listOptionValue builtIn="false" value="opencv_calib3d"/>
+									<listOptionValue builtIn="false" value="opencv_core"/>
+									<listOptionValue builtIn="false" value="opencv_dnn"/>
+									<listOptionValue builtIn="false" value="opencv_features2d"/>
+									<listOptionValue builtIn="false" value="opencv_flann"/>
+									<listOptionValue builtIn="false" value="opencv_highgui"/>
+									<listOptionValue builtIn="false" value="opencv_imgcodecs"/>
+									<listOptionValue builtIn="false" value="opencv_imgproc"/>
+									<listOptionValue builtIn="false" value="opencv_ml"/>
+									<listOptionValue builtIn="false" value="opencv_objdetect"/>
+									<listOptionValue builtIn="false" value="opencv_photo"/>
+									<listOptionValue builtIn="false" value="opencv_shape"/>
+									<listOptionValue builtIn="false" value="opencv_stitching"/>
+									<listOptionValue builtIn="false" value="opencv_superres"/>
+									<listOptionValue builtIn="false" value="opencv_video"/>
+									<listOptionValue builtIn="false" value="opencv_videoio"/>
+									<listOptionValue builtIn="false" value="opencv_videostab"/>
+									<listOptionValue builtIn="false" value="pango-1.0"/>
+									<listOptionValue builtIn="false" value="pangocairo-1.0"/>
+									<listOptionValue builtIn="false" value="pangoft2-1.0"/>
+									<listOptionValue builtIn="false" value="pcre"/>
+									<listOptionValue builtIn="false" value="pcrecpp"/>
+									<listOptionValue builtIn="false" value="pcreposix"/>
+									<listOptionValue builtIn="false" value="pixbufloader-ani"/>
+									<listOptionValue builtIn="false" value="pixbufloader-bmp"/>
+									<listOptionValue builtIn="false" value="pixbufloader-gif"/>
+									<listOptionValue builtIn="false" value="pixbufloader-icns"/>
+									<listOptionValue builtIn="false" value="pixbufloader-ico"/>
+									<listOptionValue builtIn="false" value="pixbufloader-jpeg"/>
+									<listOptionValue builtIn="false" value="pixbufloader-png"/>
+									<listOptionValue builtIn="false" value="pixbufloader-pnm"/>
+									<listOptionValue builtIn="false" value="pixbufloader-qtif"/>
+									<listOptionValue builtIn="false" value="pixbufloader-tga"/>
+									<listOptionValue builtIn="false" value="pixbufloader-tiff"/>
+									<listOptionValue builtIn="false" value="pixbufloader-xbm"/>
+									<listOptionValue builtIn="false" value="pixbufloader-xpm"/>
+									<listOptionValue builtIn="false" value="pixman-1"/>
+									<listOptionValue builtIn="false" value="png16"/>
+									<listOptionValue builtIn="false" value="postproc"/>
+									<listOptionValue builtIn="false" value="printbackend-file"/>
+									<listOptionValue builtIn="false" value="printbackend-lpr"/>
+									<listOptionValue builtIn="false" value="swresample"/>
+									<listOptionValue builtIn="false" value="swscale"/>
+									<listOptionValue builtIn="false" value="tiff"/>
+									<listOptionValue builtIn="false" value="tiffxx"/>
+									<listOptionValue builtIn="false" value="usb-1.0"/>
+									<listOptionValue builtIn="false" value="uuid"/>
+									<listOptionValue builtIn="false" value="X11"/>
+									<listOptionValue builtIn="false" value="X11-xcb"/>
+									<listOptionValue builtIn="false" value="x264"/>
+									<listOptionValue builtIn="false" value="Xau"/>
+									<listOptionValue builtIn="false" value="xcb"/>
+									<listOptionValue builtIn="false" value="xcb-composite"/>
+									<listOptionValue builtIn="false" value="xcb-damage"/>
+									<listOptionValue builtIn="false" value="xcb-dpms"/>
+									<listOptionValue builtIn="false" value="xcb-dri2"/>
+									<listOptionValue builtIn="false" value="xcb-dri3"/>
+									<listOptionValue builtIn="false" value="xcb-glx"/>
+									<listOptionValue builtIn="false" value="xcb-present"/>
+									<listOptionValue builtIn="false" value="xcb-randr"/>
+									<listOptionValue builtIn="false" value="xcb-record"/>
+									<listOptionValue builtIn="false" value="xcb-render"/>
+									<listOptionValue builtIn="false" value="xcb-res"/>
+									<listOptionValue builtIn="false" value="xcb-screensaver"/>
+									<listOptionValue builtIn="false" value="xcb-shape"/>
+									<listOptionValue builtIn="false" value="xcb-shm"/>
+									<listOptionValue builtIn="false" value="xcb-sync"/>
+									<listOptionValue builtIn="false" value="xcb-xf86dri"/>
+									<listOptionValue builtIn="false" value="xcb-xfixes"/>
+									<listOptionValue builtIn="false" value="xcb-xinerama"/>
+									<listOptionValue builtIn="false" value="xcb-xinput"/>
+									<listOptionValue builtIn="false" value="xcb-xkb"/>
+									<listOptionValue builtIn="false" value="xcb-xtest"/>
+									<listOptionValue builtIn="false" value="xcb-xv"/>
+									<listOptionValue builtIn="false" value="xcb-xvmc"/>
+									<listOptionValue builtIn="false" value="Xcursor"/>
+									<listOptionValue builtIn="false" value="Xext"/>
+									<listOptionValue builtIn="false" value="Xfixes"/>
+									<listOptionValue builtIn="false" value="Xi"/>
+									<listOptionValue builtIn="false" value="xml2"/>
+									<listOptionValue builtIn="false" value="Xrender"/>
+									<listOptionValue builtIn="false" value="xvidcore"/>
+									<listOptionValue builtIn="false" value="z"/>
+								</option>
+								<option id="xilinx.gnu.c.link.option.paths.358646173" name="Library search path (-L)" superClass="xilinx.gnu.c.link.option.paths" valueType="libPaths">
+									<listOptionValue builtIn="false" value="&quot;V:\opencv_3.3.0.arm.linux\lib&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;V:\opencv_3.3.0.arm.linux\lib\gstreamer-1.0&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;V:\opencv_3.3.0.arm.linux\lib\gtk-3.0\3.0.0\printbackends&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;V:\opencv_3.3.0.arm.linux\lib\gdk-pixbuf-2.0\2.10.0\loaders&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;V:\opencv_3.3.0.arm.linux\lib\cairo&quot;"/>
 								</option>
 								<inputType id="xilinx.gnu.linker.input.1185252591" superClass="xilinx.gnu.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>

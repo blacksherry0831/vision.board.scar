@@ -6,7 +6,7 @@ const int ALIGN_BYTE=4;
 void InitImageRoiRR(CMD_CTRL* cmd_t,int _ch,CvRect _rect_org,CvRect _rect_roi);
 /*-----------------------------------*/
 /**
- *
+ *设置控制数据实体
  */
 /*-----------------------------------*/
 int SetCmdParam(
@@ -24,7 +24,7 @@ int SetCmdParam(
 }
 /*-----------------------------------*/
 /**
- *
+ *判断_cmd类型
  */
 /*-----------------------------------*/
 int IsCmdCtrlCmd(
@@ -142,7 +142,7 @@ int isDoneCmd(const CMD_CTRL* const _cmd_ctrl)
 }
 /*-----------------------------------*/
 /**
- *
+ *判断是否为start命令
  */
 /*-----------------------------------*/
 int isStartCmd(const CMD_CTRL* const _cmd_ctrl)
@@ -167,7 +167,7 @@ int isStartCmd(const CMD_CTRL* const _cmd_ctrl)
 }
 /*-----------------------------------*/
 /**
- *
+ *获取cmd控制数据实体
  */
 /*-----------------------------------*/
 int GetCmdParam(const CMD_CTRL* const _cmd_ctrl)
@@ -194,7 +194,7 @@ int GetCmdCmd01(const CMD_CTRL* const _cmd_ctrl)
 }
 /*-----------------------------------*/
 /**
- *
+ *获取startCmd的控制数据实体
  */
 /*-----------------------------------*/
 int GetStartCmdParam(const CMD_CTRL* const _cmd_ctrl)
@@ -223,7 +223,7 @@ int GetCmdImgViewChannel(const CMD_CTRL* const _cmd_ctrl)
 }
 /*-----------------------------------*/
 /**
- *
+ *获取cmd序列号
  */
 /*-----------------------------------*/
 unsigned int GetCmdFrameSeq(const CMD_CTRL* const _cmd_ctrl)
@@ -267,7 +267,7 @@ int isVersionCmd(const CMD_CTRL* _cmd_ctrl)
 }
 /*-----------------------------------*/
 /**
- *
+ *判断是否为心跳包cmd
  */
 /*-----------------------------------*/
 int isHeartbeatCmd(const CMD_CTRL* _cmd_ctrl)
@@ -301,12 +301,12 @@ void SetHeartbeatCmd(CMD_CTRL* cmd,int _need_resp)
 }
 /*-----------------------------------*/
 /**
- *
+ *判断是否为图片命令
  */
 /*-----------------------------------*/
 int IsImageFrame(const CMD_CTRL* _cmd_ctrl)
 {
-	return IsCmdCtrlCmd(_cmd_ctrl,CT_IMG,CT_IMG_FRAME);
+	return IsCmdCtrlCmd(_cmd_ctrl,CT_IMG,CT_IMG_FRAME);  //判断是否为图片命令
 }
 /*-----------------------------------*/
 /**
@@ -373,7 +373,7 @@ int IsImageQuerySigmaDown(const CMD_CTRL* _cmd_ctrl)
 }
 /*-----------------------------------*/
 /**
- *
+ *从socket读取一条cmd数据
  */
 /*-----------------------------------*/
 int socket_read_1_cmd(int _sockfd,CMD_CTRL*  _cmd_ptr)
@@ -390,7 +390,7 @@ int socket_read_1_cmd(int _sockfd,CMD_CTRL*  _cmd_ptr)
 
 	 assert(BODY_SIZE>=2);
 
-	 CreateCmdBody(_cmd_ptr,BODY_SIZE);
+	 CreateCmdBody(_cmd_ptr,BODY_SIZE);  //设置命令实体控制数据长度，并申请空间
 
 
 	 if(readn(_sockfd,_cmd_ptr->f_data,BODY_SIZE)!=BODY_SIZE)
@@ -405,7 +405,7 @@ int socket_read_1_cmd(int _sockfd,CMD_CTRL*  _cmd_ptr)
 
 /*-----------------------------------*/
 /**
- *
+ *向socket写入一条cmd
  */
 /*-----------------------------------*/
 int socket_write_1_cmd(int _sockfd,CMD_CTRL*  _cmd_ptr)
@@ -414,13 +414,13 @@ int socket_write_1_cmd(int _sockfd,CMD_CTRL*  _cmd_ptr)
 #ifdef _DEBUG
 
 	static int image_frame_idx=0;
-	if(IsImageFrame( _cmd_ptr)){
+	if(IsImageFrame( _cmd_ptr)){  //判断是否为图片命令
 		image_frame_idx++;
 	}
 
 #endif
 
-	if(IsCmdCtrl(_cmd_ptr)==FALSE){
+	if(IsCmdCtrl(_cmd_ptr)==FALSE){  //验证cmd的头，并？检测cmd的内存地址
 
 		return FALSE;
 	}
@@ -429,20 +429,20 @@ int socket_write_1_cmd(int _sockfd,CMD_CTRL*  _cmd_ptr)
 	const int BODY_SIZE=_cmd_ptr->f_data_size;
 
 
-	w_size_t=writen(_sockfd,&(_cmd_ptr->f_header),sizeof(CMD_CTRL_HEADER));
+	w_size_t=writen(_sockfd,&(_cmd_ptr->f_header),sizeof(CMD_CTRL_HEADER));  //向socket连接写入数据--cmd的头
 
 	if(w_size_t!=sizeof(CMD_CTRL_HEADER)){
 		return FALSE;
 	}
 
-	 w_size_t=writen(_sockfd,_cmd_ptr->f_data,BODY_SIZE);
+	 w_size_t=writen(_sockfd,_cmd_ptr->f_data,BODY_SIZE);  //向socket连接写入数据--cmd的实体数据
 
 	 if(w_size_t!=BODY_SIZE){
 		 return FALSE;
 	 }
 
 
-	 w_size_t=writen(_sockfd,&(_cmd_ptr->f_crc),1);
+	 w_size_t=writen(_sockfd,&(_cmd_ptr->f_crc),1);  //校验码
 
 	 if(w_size_t!=1){
 		 return FALSE;
@@ -503,7 +503,7 @@ int  TestCmdCtrl(CMD_CTRL*  _cmd_ptr)
 }
 /*-----------------------------------*/
 /**
- *
+ *向socket写入一条cmd并释放空间
  */
 /*-----------------------------------*/
 int socket_write_1_cmd_release(int _sockfd,CMD_CTRL*  _cmd_ptr)
@@ -512,9 +512,9 @@ int socket_write_1_cmd_release(int _sockfd,CMD_CTRL*  _cmd_ptr)
 
 	if(IsCmdCtrl(_cmd_ptr)){
 
-			status=socket_write_1_cmd(_sockfd,_cmd_ptr);
+			status=socket_write_1_cmd(_sockfd,_cmd_ptr);  //向socket写入一条cmd
 			assert(TestCmdCtrl(_cmd_ptr));
-			ReleaseCmdCtrl(&_cmd_ptr);
+			ReleaseCmdCtrl(&_cmd_ptr);  //释放cmd空间
 
 
 	}else{
@@ -527,7 +527,7 @@ int socket_write_1_cmd_release(int _sockfd,CMD_CTRL*  _cmd_ptr)
 }
 /*-----------------------------------*/
 /**
- *
+ *向socket写入一条cmd并释放空间，并计时
  */
 /*-----------------------------------*/
 int socket_write_1_cmd_release_time_cost(
@@ -539,7 +539,7 @@ int socket_write_1_cmd_release_time_cost(
 		assert(_status!=NULL);
 		*_status=FALSE;
 		TIME_START();
-		*_status=socket_write_1_cmd_release(_socketfd,_cmd_ptr);
+		*_status=socket_write_1_cmd_release(_socketfd,_cmd_ptr);  //向socket写入一条cmd并释放空间
 		TIME_END(_msg);
 		return *_status;
 
@@ -705,7 +705,7 @@ void CreateCmdBody(CMD_CTRL* cmd_t,unsigned int body_size)
 		FreeCmdBody(cmd_t);
 	}
 
-	cmd_t->f_data=mem_malloc(body_size);
+	cmd_t->f_data=(unsigned char*)mem_malloc(body_size);
 
 	if(cmd_t->f_data!=NULL){
 
@@ -813,7 +813,7 @@ CMD_CTRL* CreateImageStop(int _ch,unsigned int _seq)
 }
 /*-----------------------------------*/
 /**
- *
+ *创建心跳包命令
  */
 /*-----------------------------------*/
 CMD_CTRL* CreateImageHeartbeat(
@@ -821,9 +821,9 @@ CMD_CTRL* CreateImageHeartbeat(
 		const unsigned int _need_resp,
 		const int _seq)
 {
-	CMD_CTRL*  cmd_t=CreateImageCtrl(_ch,FRAME_IDX_TYPE_HEARBEAT,ALIGN_BYTE,1,1,_seq);//4 byte align
-	SetHeartbeatCmd(cmd_t, _need_resp);
-	SetCmdParam(cmd_t,_need_resp);
+	CMD_CTRL*  cmd_t=CreateImageCtrl(_ch,FRAME_IDX_TYPE_HEARBEAT,ALIGN_BYTE,1,1,_seq);//4 byte align 创建并初始化图片命令（cmd_ctrl）
+	SetHeartbeatCmd(cmd_t, _need_resp);  //将cmd_t设为心跳包命令
+	SetCmdParam(cmd_t,_need_resp);  //设置控制数据实体
 	return cmd_t;
 }
 /*-----------------------------------*/
@@ -833,7 +833,7 @@ CMD_CTRL* CreateImageHeartbeat(
 /*-----------------------------------*/
 CMD_CTRL* CreateCmdCtrl(int body_size)
 {
-	CMD_CTRL*  cmd_t=mem_malloc(sizeof(CMD_CTRL));
+	CMD_CTRL*  cmd_t=(CMD_CTRL*)mem_malloc(sizeof(CMD_CTRL));
 
 	if(cmd_t!=NULL){
 
@@ -876,20 +876,18 @@ int IsCmdCtrlHeader(const CMD_CTRL* cmd_t)
 }
 /*-----------------------------------*/
 /**
- *
+ *验证cmd的头，并？检测cmd的内存地址
  */
 /*-----------------------------------*/
 int IsCmdCtrl(const CMD_CTRL* cmd_t)
 {
 
 	if(IsCmdCtrlHeader(cmd_t) ){
-					if(MemPoolAddrZone(cmd_t)!=-1){
-
-								if(MemPoolAddrZone(cmd_t->f_data)!=-1){
-
-											return TRUE;
-								}
-					}
+		if(MemPoolAddrZone(cmd_t)!=-1){
+			if(MemPoolAddrZone(cmd_t->f_data)!=-1){
+				return TRUE;
+			}
+		}
 	}
 	return FALSE;
 }
@@ -933,7 +931,7 @@ void initRespCmd(CMD_CTRL* cmd,int _ok)
 }
 /*-----------------------------------*/
 /**
- *
+ *发响应命令
  */
 /*-----------------------------------*/
 int SendRespCmd(int _socketfd,int _ok,const unsigned int _body)
@@ -948,7 +946,7 @@ int SendRespCmd(int _socketfd,int _ok,const unsigned int _body)
 }
 /*-----------------------------------*/
 /**
- *
+ *向socket写入心跳包命令并发送
  */
 /*-----------------------------------*/
 int SendHeartbeatCmd(
@@ -957,9 +955,9 @@ int SendHeartbeatCmd(
 		const int _seq)
 {
 
-	CMD_CTRL* cmd=CreateImageHeartbeat(0,_need_resp,_seq);
+	CMD_CTRL* cmd=CreateImageHeartbeat(0,_need_resp,_seq);  //创建心跳包命令
 
-	return socket_write_1_cmd_release(_socketfd,cmd);
+	return socket_write_1_cmd_release(_socketfd,cmd);  //向socket写入一条cmd并释放空间
 
 
 }

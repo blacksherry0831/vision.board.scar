@@ -12,7 +12,7 @@ int dmac_83c4_trans_mask_img_ch_fr(int _space_ch,int _space_frame,const int _sz)
 
 		 	 	 	unsigned int pl_mask_PhyAddr=Get_PL_MEM_MaskImage_PhyAddr(_space_ch,_space_frame);
 
-					const unsigned int ps_phy_addr_dma=dmac_83c4_get_mem_ps_phy_base_addr();
+					const unsigned int ps_phy_addr_dma=(const unsigned int)dmac_83c4_get_mem_ps_phy_base_addr();
 
 					dmac_83c4_config_and_transfer(pl_mask_PhyAddr,ps_phy_addr_dma, _sz);
 
