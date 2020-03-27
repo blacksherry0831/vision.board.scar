@@ -22,6 +22,7 @@
 #include "modules_ex/type.h"
 #include "img_cfg/img_cfg.h"
 #include "status.h"
+#include "flame_monitor.h"
 /*-----------------------------------*/
 struct ViewInfo{
 

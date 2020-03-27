@@ -1,4 +1,4 @@
-17:02:16 **** Auto Build of configuration Debug for project dma.test.sample ****
+12:32:32 **** Auto Build of configuration Debug for project dma.test.sample ****
 make all 
 'Building file: ../src/dma_test.c'
 'Invoking: ARM Linux gcc compiler'
@@ -47,5 +47,5 @@ arm-xilinx-linux-gnueabi-size dma.test.sample.elf  |tee "dma.test.sample.elf.siz
 'Finished building: dma.test.sample.elf.size'
 ' '
 
-17:02:19 Build Finished (took 2s.795ms)
+12:32:34 Build Finished (took 2s.63ms)
 

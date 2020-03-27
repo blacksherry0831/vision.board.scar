@@ -72,6 +72,9 @@ const char* COLOR_LAB_L				=	"lab_l";
 const char* COLOR_LAB_theta			=	"lab_theta";
 const char* COLOR_LAB_m				=	"m";
 /*-----------------------------------*/
+const char* KEY_FLAME_AREA		=	"flame.area";
+const char* KEY_FLAME_DIFFERENCE		=	"flame.difference";
+/*-----------------------------------*/
 static struct ViewInfo  G_View[SPACE_CHANNEL_NUM][SPACE_FRAME_NUM];
 /*-----------------------------------*/
 /**
@@ -943,9 +946,13 @@ void ParseImgCfgJsonStr(const char* _str)
 
 	    cJSON *sigma_up  = cJSON_GetObjectItemCaseSensitive(cfg_json, KEY_SIGMA_UP);
 	    cJSON *sigma_down  = cJSON_GetObjectItemCaseSensitive(cfg_json, KEY_SIGMA_DOWN);
-
 	    SetSigmaUp2FPGA(sigma_up->valueint);  //向FPGA设置上限阈值
 	    SetSigmaDown2FPGA(sigma_down->valueint);  //向FPGA设置下限阈值
+
+	    cJSON *flame_area  = cJSON_GetObjectItemCaseSensitive(cfg_json, KEY_FLAME_AREA);
+	    cJSON *flame_difference  = cJSON_GetObjectItemCaseSensitive(cfg_json, KEY_FLAME_DIFFERENCE);
+	    set_thresholde_area(flame_area->valueint);  //设火焰监测-面积阈值
+	    set_thresholde_difference(flame_difference->valueint / 100.0 );  //设火焰监测-差分阈值
 
 	    ParseSpaceUsedItem(cfg_json);  //解析已被使用的摄像机分区JSON数据，并保存至系统变量（视频通道序号，剪切区域，图像色彩通道，是否展示等）
 	    ParseScarImgCfgItem(cfg_json);  //解析蒙板图片JSON数据（扫描模式和阈值）并记录至项目变量且发生至FPGA
@@ -1194,6 +1201,22 @@ char* GetImgCfgJsonStr()
 	  	    }
 	  	 cJSON_AddItemToObject(root, KEY_PROJECT, project);
 		 /**<----------------------------------------------------------------*/
+	  	 cJSON * flame_area =  cJSON_CreateNumber(get_thresholde_area());
+	  		    if (flame_area == NULL)
+	  		    {
+	  		    	cJSON_Delete(root);
+	  		    	return "";
+	  		    }
+	  		    cJSON_AddItemToObject(root, KEY_FLAME_AREA, flame_area);
+	  	/**<----------------------------------------------------------------*/
+	  	cJSON * flame_difference =  cJSON_CreateNumber(get_thresholde_difference()*100);
+	  		if (flame_difference == NULL)
+	  		{
+	  			cJSON_Delete(root);
+	  			return "";
+	  		}
+	  	cJSON_AddItemToObject(root, KEY_FLAME_DIFFERENCE, flame_difference);
+	  	/**<----------------------------------------------------------------*/
 	  	 cJSON* scar_img_cfg = (cJSON*)AddScarImgCfgItem(root); // 加入图像扫描模式和阈值参数至JSON
 	  		 if (scar_img_cfg == NULL){
 	  			cJSON_Delete(root);
@@ -1263,7 +1286,7 @@ void StoreImgCfgJson()
 	initImgCfgJsonFileEx(cfg_json_file);
 
 	char* cfg_json=GetImgCfgJsonStr();
-			fs_store_txt(cfg_json_file,cfg_json);
+	fs_store_txt(cfg_json_file,cfg_json);
 	cJSON_free(cfg_json);
 }
 /*-----------------------------------*/

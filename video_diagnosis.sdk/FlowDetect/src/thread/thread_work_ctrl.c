@@ -7,6 +7,8 @@
 #include "modules_ex/cmd_scar.h"
 #include "modules_ex/cmd_crack1_8.h"
 #include "modules_ex/cmd_file.h"
+#include "modules_ex/cmd_flame.h"
+#include "flame_monitor.h"
 /*-----------------------------------*/
 #include "modules_58/cetc_flash.h"
 /*-----------------------------------*/
@@ -208,6 +210,28 @@ int process_cmd_ctrl(CMD_CTRL*  _cmd,int* _resp_cmd_02,unsigned int* _resp_body)
 
 		deleteFile_SdCard(_cmd);
 
+	}else if(IsFlameMonitorCmd(_cmd)){  //设是否进行火焰监测
+
+		set_flame_monitor_flag(CmdParam_t);
+
+	}else if(IsFlameAreaSetCmd(_cmd)){  //设火焰监测-面积阈值
+
+		set_thresholde_area(CmdParam_t);
+		StoreImgCfgJson();
+
+	}else if(IsFlameAreaQueryCmd(_cmd)){  //查询火焰监测-面积阈值
+
+		*_resp_body = get_thresholde_area();
+
+	}else if(IsFlameDifferenceSetCmd(_cmd)){  //设火焰监测-差分阈值
+
+		set_thresholde_difference(CmdParam_t/100.0);
+		StoreImgCfgJson();
+
+	}else if(IsFlameDifferenceQueryCmd(_cmd)){  //查询火焰监测-差分阈值
+
+		*_resp_body = get_thresholde_difference() * 100;
+
 	}else{  //其他未知命令
 
 		assert(0);
@@ -226,7 +250,7 @@ int process_cmd_ctrl(CMD_CTRL*  _cmd,int* _resp_cmd_02,unsigned int* _resp_body)
 /*-----------------------------------*/
 void EnterTaskFlowCtrl()
 {
-	init_1st_2nd_task_circle_flag();  //初始化任务标志为0
+	//init_1st_2nd_task_circle_flag();  //初始化任务标志为0
 	PRINTF_DBG_EX("pthread start >>[task flow ctrl]\n");
 }
 /*-----------------------------------*/
@@ -236,7 +260,7 @@ void EnterTaskFlowCtrl()
 /*-----------------------------------*/
 void ExitTaskFlowCtrl()
 {
-	init_1st_2nd_task_circle_flag();  //初始化任务标志为0
+	//init_1st_2nd_task_circle_flag();  //初始化任务标志为0
 	PRINTF_DBG_EX("pthread close >>[task flow ctrl]\n");
 	pthread_exit(NULL);
 }

@@ -1,0 +1,25 @@
+1. 安装xilinx软件，安装说明见安装包内说明，xilinx安装包已在硬盘备份；
+2. 导入项目至xilinx，项目已在github；
+   补充：arm中opencv的demo，源码见此文件夹下-opencv.test.sample
+3. 在windows系统内新建出一块大小为10G的单独磁盘空间，解压opencv_3.3.0.arm.linux至此磁盘；
+   补充：opencv_3.3.0.arm.linux为arm中的opencv库
+4. 初始化SD卡，从系统镜像文件中恢复系统；
+   补充：opencv.sd文件下opencv.330.linux.os.2019-12-23.1712.img.tar为系统镜像文件，opencv的sd卡备份为系统源码；
+         opencv.sd文件下系统文件为安装了arm_opencv的linux系统；
+5. 安装ftpd64
+6. 打开ftpd 设置本地Tcp服务器的当前文件路径，将需上传的文件放置此路径
+7. 打开Xshell 登陆板中SD卡中的Linux系统
+8. Xshell: tftp -gr top.bit.ch1.scar.v101 ftp服务器ip 将fpga文件下载至板中
+9  Xshell: cp top.bit.ch1.scar.v101 /media/sdcard/  将fpga拷贝至sd卡
+10. Xshell: cp top.bit.ch1.scar.v101 top.bit  覆盖原top.bit文件
+11. Xshell: reboot 重启，后重新登陆
+12. xilinx.SDK->打开项目文件->Debug Configurations 进行调试配置
+    1）Target Setup: Debuf Type->Linux Application Debug , connection:主板ip
+    2) Project Name:项目名 , Local File Path:本地项目源码路径.elf , Remote File Path:/media/sdcard/project.run/项目名.elf
+    3) Arguments:-s 1 -w 1920 -h 1080 -p scar_detect_01 -f 0 -D  项目参数意义详见README.md
+13. debuger->run  运行程序并调试
+14. ok 已完成
+15 opecv的demo 参考8-14步
+16 补充：tftp -pl xxx.png ftp服务器ip  将xxx.png文件上传至服务器ip中
+17 补充：可登陆板中系统，直接运行./项目名.elf 以运行程序
+18. ok 已完成

@@ -23,6 +23,7 @@
 #include "task/task_cmd.h"
 #include "sync/sync_task.h"
 #include "sync/sem_sync.h"
+#include "flame_monitor.h"
 /*-----------------------------------*/
 
 void setFpgaCircleCmdScar(const CMD_CTRL* const _cmd_ctrl);

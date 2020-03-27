@@ -2,22 +2,23 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="outside_first" key="selection"/>
+		<item value="PRINTF_DBG_EX" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="true" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="true" key="wholeword"/>
 		<list key="findhistory">
-			<item value="outside_first"/>
-			<item value="SetFrameCircleSeq"/>
-			<item value="cv_v"/>
-			<item value="IsCmdCtrlHeader"/>
-			<item value="#include &quot;linux_header.h&quot;"/>
-			<item value="bool"/>
-			<item value="get_queue_img_buff"/>
-			<item value="m_msgid_img_buff"/>
+			<item value="printf"/>
+			<item value="255"/>
+			<item value="igniter_status"/>
+			<item value="KEY_FLAME_DIFFERENCE"/>
+			<item value="process_cmd_ctrl"/>
+			<item value="SYS_CFG_FILES"/>
+			<item value="im"/>
+			<item value="imag"/>
 		</list>
 		<list key="replacehistory">
+			<item value="PRINTF_DBG_EX"/>
 			<item value="int"/>
 		</list>
 	</section>

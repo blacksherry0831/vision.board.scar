@@ -34,6 +34,9 @@ void set_fire_on(int _v);
 int get_fire_on();
 void set_fire_off(int _v);
 int get_fire_off();
+int get_cnt_i();
+void inc_cnt_i();
+int is_up_to_thresholde_difference();
 
 int init_socket_client(int* _scli);
 void check_socket_client(int* _scli);

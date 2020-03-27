@@ -1,4 +1,4 @@
-17:02:19 **** Auto Build of configuration Debug for project opencv.test.sample ****
+12:32:34 **** Auto Build of configuration Debug for project opencv.test.sample ****
 make all 
 'Building file: ../src/hough_test.c'
 'Invoking: ARM Linux gcc compiler'
@@ -30,5 +30,5 @@ arm-xilinx-linux-gnueabi-size opencv.test.sample.elf  |tee "opencv.test.sample.e
 'Finished building: opencv.test.sample.elf.size'
 ' '
 
-17:02:22 Build Finished (took 3s.47ms)
+12:32:39 Build Finished (took 4s.727ms)
 

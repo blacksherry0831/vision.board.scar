@@ -241,6 +241,7 @@ int main_ring()
 	sleep(1);//let tcp data trans thread start first 让TCP数据交互线程先启动
 
 	pthread_t thread_task_tcp_flow=task_flow_ctrl_server();   //创建与IPC-cmd交互的服务端线程
+	pthread_t thread_task_tcp_igniter=connect_to_igniter();   //点火器
 
 	pthread_t thread_task_fpga_cvt=init_fpga_cvt_server(NULL);  //fpga
 	pthread_t thread_task_dma=init_dma_server(NULL);  //dma
@@ -252,6 +253,7 @@ int main_ring()
 	pthread_join(thread_task_inner_rcv,NULL);
 	pthread_join(thread_task_tcp_flow,NULL);
 	pthread_join(thread_task_tcp_rcv,NULL);
+	pthread_join(thread_task_tcp_igniter,NULL);
 	pthread_join(thread_task_fpga_cvt,NULL);
 	pthread_join(thread_task_dma,NULL);
 	pthread_join(thread_task_memcpy,NULL);
