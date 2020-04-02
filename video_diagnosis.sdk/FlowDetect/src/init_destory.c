@@ -306,7 +306,10 @@ void setProjectMode(const struct cmd_param _cmd_param)
 	 		  SetProjecRun(inside08);
 	  }else	  if(IsCmdProject(_cmd_param,outside08)){
 	 		  SetProjecRun(outside08);
-	  }else{
+	  }else	  if(IsCmdProject(_cmd_param,flame_monitor)){
+ 		  	  SetProjecRun(flame_monitor);
+	  }
+	  else{
 		  assert(0);
 		  PRINTF_DBG_EX("no in,no out ! \n");
 	  }

@@ -15,7 +15,10 @@
 #include <arpa/inet.h>
 #include <sys/types.h>
 #include <netinet/tcp.h>
+#include <poll.h>
 #include "sync/sync_global.h"
+#include "modules_ex/base.h"
+#include "flame/flame_sync.h"
 
 void init_fire();
 void set_flame_monitor_flag(int _v);

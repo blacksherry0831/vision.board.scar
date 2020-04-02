@@ -17,7 +17,8 @@ static volatile enum ProjectRun gProjectCurrentRunning=outside08;
 const char* ProjectName[]={
 		"scar_detect_01",
 		"inside08",
-		"outside08"};
+		"outside08",
+		"flame_monitor"};
 /*-----------------------------------*/
 /**
  *
@@ -67,7 +68,8 @@ const char * GetProjectRunStr()
 
 	if(		project_t==inside08  	||
 			project_t==outside08	||
-			project_t==scar_detect_01){
+			project_t==scar_detect_01 ||
+			project_t==flame_monitor){
 
 		return	ProjectName[project_t];
 

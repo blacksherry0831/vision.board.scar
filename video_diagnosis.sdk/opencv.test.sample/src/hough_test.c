@@ -191,8 +191,7 @@ int main(int argc, char** argv)
 	            if(FD_ISSET(sock_cli,&rfds))
 	            {
 	                unsigned char recvbuf[BUFFER_SIZE];
-	                int len;
-	                len = recv(sock_cli, recvbuf, sizeof(recvbuf),0);
+	                int len = recv(sock_cli, recvbuf, sizeof(recvbuf),0);
 	                for(int i = 0;i < 7;i++)
 	                {
 	                   printf("%X,",recvbuf[i]);

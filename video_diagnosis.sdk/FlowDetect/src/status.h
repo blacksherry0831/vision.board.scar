@@ -9,7 +9,8 @@
 enum ProjectRun{
 	scar_detect_01=0,
 	inside08,
-	outside08};
+	outside08,
+    flame_monitor};
 /*-----------------------------------*/
 extern const char* ProjectName[];
 /*-----------------------------------*/

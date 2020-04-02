@@ -1,27 +1,16 @@
-#ifndef MSG_QUEUE_H
-#define MSG_QUEUE_H
-/*-----------------------------------*/
-/**
- *
- */
+#ifndef _MSG_SYSV_QUEUE_H
+#define _MSG_SYSV_QUEUE_H
 /*-----------------------------------*/
 #include "linux_header.h"
 #include "def.h"
+/*-----------------------------------*/
+#include "msg_sysV_q.h"
+/*-----------------------------------*/
 #include "modules_ex/tcp_server.h"
 #include "opencv2/opencv.hpp"
 #include "flame_monitor.h"
 /*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
-typedef struct {
-
-	long int message_type;
-
-	void* _data;
-
-}MESSAGE;
+#include "flame/flame_sync.h"
 /*-----------------------------------*/
 /**
  *

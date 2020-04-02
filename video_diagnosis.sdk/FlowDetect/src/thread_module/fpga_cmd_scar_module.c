@@ -1,5 +1,7 @@
 #include "fpga_cmd_scar_module.h"
 /*-----------------------------------*/
+extern MsgQueueFlame gFlameCmdQueue;
+/*-----------------------------------*/
 /**
  *等待FPGA一轮数据计算完成
  */
@@ -61,8 +63,10 @@ void setFpgaCircleCmdScar(const CMD_CTRL* const _cmd_ctrl)
 				init_fire();
 
 				//点火
-				set_fire_off(0);
-				set_fire_on(1);
+				//set_fire_off(0);
+				//set_fire_on(1);
+
+				gFlameCmdQueue.snd_queue_flame(1,0);
 			}
 
 		}else if(StartCmd01==CT_START_00){
@@ -91,8 +95,10 @@ void setFpgaCircleCmdScar(const CMD_CTRL* const _cmd_ctrl)
 			set_task_circle_end();
 
 			//熄火
-			set_fire_on(0);
-			set_fire_off(1);
+			//set_fire_on(0);
+			//set_fire_off(1);
+
+			gFlameCmdQueue.snd_queue_flame(0,1);
 
 		}else{
 

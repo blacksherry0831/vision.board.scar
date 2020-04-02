@@ -1,79 +1,8 @@
 #include "msg_sysV_queue.h"
 #include<stdio.h>
 #include <stdlib.h>
-/*-----------------------------------*/
- /**
-  *
- */
-/*-----------------------------------*/
 
-int get_queue(key_t _key)
-{
-
-	/* First, we set up the message queue. */
-
-    int msgid = msgget(_key, 0666 | IPC_CREAT);
-
-    if (msgid == -1) {
-        fprintf(stderr, "msgget failed with error: %d\n", errno);
-        exit(EXIT_FAILURE);
-    }
-    return msgid;
-}
-/*-----------------------------------*/
- /* *
-  *
- */
-/*-----------------------------------*/
-int snd_queue(int _msgid,int _type,void* _data)
-{
-	MESSAGE msg;
-	msg.message_type=_type;
-	msg._data=_data;
-	 if (msgsnd(_msgid,&msg,sizeof(void*), 0) == -1) {
-		            fprintf(stderr, "msg queue [snd] failed\n");
-		          return 0;
-	 }
-	 return 1;
-}
-/*-----------------------------------*/
- /* *
-  *从_msgid消息队列中读取（第一个类型等于_type）消息
- */
-/*-----------------------------------*/
-MESSAGE rcv_queue(int _msgid,int _type)
-{
-	MESSAGE msg={0,NULL};
-
-	//msgrcv 从消息队列读取消息；参数以此为消息队列标识符，存放消息的结构体，要接收消息的大小，接收第一个消息或第一个等于_type的消息，如果没有返回条件的消息调用立即返回
-	ssize_t result_t=msgrcv(_msgid, (void *)&msg, sizeof(void*),_type,
-
-#if 1
-				IPC_NOWAIT
-#else
-				0
-#endif
-			);
-
-	//从消息队列读取消息-失败
-	if ( result_t== -1) {
-
-		if(ENOMSG==errno){  //若 消息队列中无消息可读
-			msg._data=NULL;
-			msg.message_type=ENOMSG;
-		}else if(EIDRM==errno){  //若 标识符为msqid的消息队列已被删除
-			msg._data=NULL;
-			msg.message_type=EIDRM;
-		}else{  //其它未知错误
-			    fprintf(stderr, "msgrcv failed with error: %d\n", errno);
-			    exit(EXIT_FAILURE);
-		}
-
-     }
-	return msg;
-}
-
-
+extern MsgQueueFlame gFlameCmdQueue;
 
 /*-----------------------------------*/
  /* *
@@ -189,8 +118,10 @@ MESSAGE  rcv_queue_img_buff_ex()
 							if(get_igniter_status())  //点火器处于点火状态
 							{
 								//灭火
-								set_fire_on(0);
-								set_fire_off(1);
+								//set_fire_on(0);
+								//set_fire_off(1);
+
+								gFlameCmdQueue.snd_queue_flame(0,1);
 
 								//cvCircle(img_temp,cvPoint(100,100), 50,CV_RGB(250,250,250),3);
 							}
@@ -202,8 +133,10 @@ MESSAGE  rcv_queue_img_buff_ex()
 							if(!get_igniter_status())  //点火器不处于点火状态
 							{
 								//点火
-								set_fire_off(0);
-								set_fire_on(1);
+								//set_fire_off(0);
+								//set_fire_on(1);
+
+								gFlameCmdQueue.snd_queue_flame(1,0);
 
 								//cvLine(img_temp,cvPoint(0,0),cvPoint(150,150),CV_RGB(250,250,250),3);
 								//cvLine(img_temp,cvPoint(0,150),cvPoint(150,0),CV_RGB(250,250,250),3);
@@ -285,8 +218,10 @@ MESSAGE  rcv_queue_img_buff_ex_inner()
 							if(get_igniter_status())  //点火器处于点火状态
 							{
 								//灭火
-								set_fire_on(0);
-								set_fire_off(1);
+								//set_fire_on(0);
+								//set_fire_off(1);
+
+								gFlameCmdQueue.snd_queue_flame(0,1);
 							}
 						}
 						else  //火焰不稳定
@@ -294,8 +229,10 @@ MESSAGE  rcv_queue_img_buff_ex_inner()
 							if(!get_igniter_status())  //点火器不处于点火状态
 							{
 								//点火
-								set_fire_off(0);
-								set_fire_on(1);
+								//set_fire_off(0);
+								//set_fire_on(1);
+
+								gFlameCmdQueue.snd_queue_flame(1,0);
 							}
 						}
 					}

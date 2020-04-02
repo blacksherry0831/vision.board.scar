@@ -109,7 +109,7 @@ int SetDmaFrameByWorkMode(int _wm)
 
 						}
 
-			}else if(GetProjectRun()==scar_detect_01){
+			}else if(GetProjectRun()==scar_detect_01 || GetProjectRun()==flame_monitor){
 
 						if(IsWorkMode_OrgImg()){
 							image_enable_output_frame_only_1();
