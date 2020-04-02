@@ -1,0 +1,38 @@
+#pragma once
+#ifndef _MSG_QUEUE_H_
+#define _MSG_QUEUE_H_
+/*-----------------------------------*/
+#include<stdio.h>
+#include <stdlib.h>
+/*-----------------------------------*/
+#include "linux_header.h"
+#include "def.h"
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+typedef struct {
+
+	long int message_type;
+
+	void* _data;
+
+}MESSAGE;
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+class MsgQueue
+{
+private:
+	key_t 	mQueueKKey;
+	int 	mQueueid;
+public:
+	MsgQueue();
+	~MsgQueue();
+private:
+	void init();
+};
+#endif

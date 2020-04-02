@@ -1,0 +1,30 @@
+#include "MsgQueueFlame.h"
+/*-----------------------------------*/
+ /**
+  *
+ */
+/*-----------------------------------*/
+int  MsgQueueFlame::snd_queue_flame(const int _on,const int _off)
+{
+	int *_data=new int[2];
+
+	data[0]=_on;
+	data[1]=_off;
+
+	return 	1;
+}
+/*-----------------------------------*/
+ /**
+  *
+ */
+/*-----------------------------------*/
+int  MsgQueueFlame::rcv_queue_flame(int* _on,int* _off)
+{
+
+	return 1;
+}
+/*-----------------------------------*/
+ /**
+  *
+ */
+/*-----------------------------------*/
