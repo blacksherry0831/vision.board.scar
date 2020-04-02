@@ -8,29 +8,37 @@ ssize_t readn(const int fd, void* const buf, const size_t n)
 {
 	size_t nleft = n;   // left的意思是“剩下”, 而非“左边”
 	char *bufptr = (char*)buf;
-	ssize_t nread;
-
+	ssize_t nread=0;
+	int r_timeout=0;
 	while(nleft > 0)
 	{
-		if((nread = read(fd, bufptr, nleft)) < 0)
+		nread = read(fd, bufptr, nleft);
+		if(nread < 0)
 		{
 			if(errno == EINTR) 	// 遇到中断
 			{
 				nread = 0;
 				continue;   // 或者用 nread = 0;
-			}
-			else
-			{
+			}else if(EAGAIN==errno){
+				r_timeout++;
+			}else if(EWOULDBLOCK==errno){
+				r_timeout++;
+			}else{
+				printf_error();
 				return -1;  // 真正错误
 			}
 
-		}else if(nread == 0) // 对端关闭
-		{
+		}else if(nread == 0) {
 			break;
+		}else{
+			nleft -= nread;
+			bufptr += nread;
 		}
 
-		nleft -= nread;
-		bufptr += nread;
+		if(r_timeout>=2){
+			return -1;
+		}
+
 	}
 
 	return (n - nleft);
@@ -102,16 +110,25 @@ ssize_t writen(const int fd, const void* const  buf, const size_t n)
 
 	size_t nleft = n;  //剩余的字节数
 	const char *bufptr = (char *)buf;
-	ssize_t nwrite;  //单次写入的字节数
+	ssize_t nwrite=0;  //单次写入的字节数
+
+	int w_timeout=0;
 
 	while(nleft > 0)
 	{
-		//assert(bufptr<(unsigned char *)buf+n);
 
-		if((nwrite = write(fd, bufptr, nleft )) <= 0)
+		nwrite = write(fd, bufptr, nleft );
+
+		if(nwrite <= 0)
 		{
 			if(errno == EINTR){  //当阻塞于某个慢系统调用的一个进程捕获某个信号且相应信号处理函数,即遇到中断
 				nwrite = 0;
+			}else if(EAGAIN==errno){
+				nwrite = 0;
+				w_timeout++;
+			}else if(EWOULDBLOCK==errno){
+				nwrite = 0;
+				w_timeout++;
 			}else if(errno==SIGPIPE){  //对端即客户端关闭
 				printf_error();
 				return -1;
@@ -120,15 +137,17 @@ ssize_t writen(const int fd, const void* const  buf, const size_t n)
 				return -1;
 			}
 
+		}else{
+			assert(nwrite>=0);
+			nleft -= nwrite;
+			bufptr += nwrite;
 		}
 
-		assert(nwrite>=0);
+		if(w_timeout>=2){
+			return -1;
+		}
 
-		nleft -= nwrite;
-		bufptr += nwrite;
 	}
-
-	assert(nleft==0);
 
 	return (n-nleft);
 }

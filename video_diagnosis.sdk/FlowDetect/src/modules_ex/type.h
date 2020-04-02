@@ -119,7 +119,7 @@ enum CMD_TYPE_02_I_SIGMA{
 enum HearBeatResp
 {
 	HB_RESP='r',
-	HB_NONE='n',
+
 };
 /*-----------------------------------*/
 /**

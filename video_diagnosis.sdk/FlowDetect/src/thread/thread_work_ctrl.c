@@ -34,13 +34,8 @@ int process_cmd_ctrl(CMD_CTRL*  _cmd,int* _resp_cmd_02,unsigned int* _resp_body)
 
 		const int hb_resp=CmdParam_t;
 
-		if(hb_resp==HB_RESP){
-			*_resp_cmd_02=CT_OK;
-		}else if(hb_resp==HB_NONE){
-			*_resp_cmd_02=CT_OK;
-		}else{
-			assert(0);
-		}
+		*_resp_cmd_02=CT_OK;
+
 
 #if	PRINTF_HB
 		PRINTF_DBG_EX("Ctrl@Rcv hearbeat !\n");
@@ -279,13 +274,12 @@ void* task_flow_ctrl_server_client(void *_data)
 	int socket_send_stat=TRUE;
 	int cmd_resp_status=FALSE;
 	unsigned int cmd_resp_body =0;
-	int fpga_ctrl_stat=SUCCESS;
 
 	EnterTaskFlowCtrl();  //进入cmd-客户端交互线程的准备
 
 	CMD_CTRL*  cmd_t=CreateCmdCtrl(2);  //申请命令空间，并设置命令头和命令控制数据实体长度
 /*-----------------------------------*/
-	while(IsRun() && socket_read_stat && socket_send_stat && (fpga_ctrl_stat==SUCCESS)){
+	while(IsRun() && socket_read_stat && socket_send_stat){
 		cmd_resp_status=CT_NONE;
 		cmd_resp_body=0;
 		socket_read_stat=socket_read_1_cmd(sock_server,cmd_t);  //从socket读取一条cmd数据

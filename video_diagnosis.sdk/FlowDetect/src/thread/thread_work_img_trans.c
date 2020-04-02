@@ -30,10 +30,9 @@ int SendHeartbeatCmd_Ex(
  *进入客户端交互线程的准备
  */
 /*-----------------------------------*/
-void EnterTcpTransImageThread(int _socket)
+void EnterTcpTransImageThread()
 {
 	PRINTF_DBG_EX("pthread start>> [tcp image transfer thread]\n");
-	set_socket_buf_size(_socket,16*1024*1024);
 	IncTcpTransImgThreads();  //客户端交互线程数 加1
 }
 /*-----------------------------------*/
@@ -55,8 +54,9 @@ void ExitTcpTransImageThread()
 void* tcp_data_transfer_image(void *_data)
 {
 	int *_clientfd_p=(int*)_data;  //客户端交互线程描述符
-	int sock_server=*_clientfd_p;
+	const int sock_server=*_clientfd_p;
 	int socket_status=TRUE;
+	int socket_read_stat=TRUE;
 	//const int time_us=0;
 	time_t seconds_old = time(NULL);
 	const int time_step=HEART_BEAT_FREQUENCY;
@@ -64,10 +64,11 @@ void* tcp_data_transfer_image(void *_data)
 	//float Timeuse;
 	mem_free_clr(&_data);
 
-	EnterTcpTransImageThread(sock_server);  //进入客户端交互线程的准备
+	CMD_CTRL*  cmd_resp_t=CreateCmdCtrl(2);
+	EnterTcpTransImageThread();  //进入客户端交互线程的准备
 
 	/*-----------------------------------*/
-	while(IsRun() && socket_status){
+	while(IsRun() && socket_status && socket_read_stat){
 		MESSAGE msg=rcv_queue_img_buff_ex();  //从图片消息队列中，读取第一个图片数据
 
 		CMD_CTRL *img_data=(CMD_CTRL *) msg._data;
@@ -86,9 +87,13 @@ void* tcp_data_transfer_image(void *_data)
 			SendHeartbeatCmd_Ex(
 					sock_server,
 					&socket_status,
-					HB_NONE,
+					HB_RESP,
 					GetFrameCircleSeq(),
 					"DATA@ TCP SEND Heartbeat cost :");
+
+			socket_read_stat=socket_read_1_cmd(sock_server,cmd_resp_t);  //从socket读取一条cmd数据
+
+
 			}
 
 			sleep_1ms();

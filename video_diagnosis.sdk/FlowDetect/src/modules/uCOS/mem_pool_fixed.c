@@ -4,13 +4,13 @@
 
 /*-----------------------------------*/
 #define BLK_SIZE_4M (4194304)
-#define BLK_NUM_4M  (16)
+#define BLK_NUM_4M  (8)
 /*-----------------------------------*/
 #define BLK_SIZE_2M (2097152)
-#define BLK_NUM_2M  (64)
+#define BLK_NUM_2M  (32)
 /*-----------------------------------*/
 #define BLK_1K_SIZE (1024)
-#define BLK_1K_NUM  (BLK_NUM_2M*2+256)
+#define BLK_1K_NUM  (256)
 /*-----------------------------------*/
 static unsigned char    BUFF_4M[BLK_NUM_4M][BLK_SIZE_4M];
 static unsigned char    BUFF_2M[BLK_NUM_2M][BLK_SIZE_2M];
