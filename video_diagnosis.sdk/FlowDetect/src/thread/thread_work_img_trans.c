@@ -62,6 +62,10 @@ void* tcp_data_transfer_image(void *_data)
 	const int time_step=HEART_BEAT_FREQUENCY;
 	//struct timeval startTime,endTime;
 	//float Timeuse;
+	struct timeval oldTime,newTime;
+	gettimeofday(&oldTime, NULL);
+	int oldTime_ms = (double)oldTime.tv_sec * 1000 + (double)oldTime.tv_usec / 1000;
+
 	mem_free_clr(&_data);
 
 	CMD_CTRL*  cmd_resp_t=CreateCmdCtrl(2);
@@ -74,14 +78,25 @@ void* tcp_data_transfer_image(void *_data)
 		CMD_CTRL *img_data=(CMD_CTRL *) msg._data;
 
 		if(msg.message_type==ENOMSG){  //队列中无数据
-			time_t seconds_new = time(NULL);
+			//time_t seconds_new = time(NULL);
+			gettimeofday(&newTime, NULL);
+			int newTime_ms = (double)newTime.tv_sec * 1000 + (double)newTime.tv_usec / 1000;
 
 			//5秒发送一次心跳包
-			if(seconds_new-seconds_old>time_step){
+			//if(seconds_new-seconds_old>time_step){
+			int heart_beat_time = GetHeartBeatTime();
+			if(heart_beat_time <= 0)
+			{
+				heart_beat_time = 5000;
+				SetHeartBeatTime(heart_beat_time);
+				StoreImgCfgJson();
+			}
 
-				seconds_old=time(NULL);
+			if(newTime_ms-oldTime_ms>heart_beat_time){
+				//seconds_old=time(NULL);
+				oldTime_ms = newTime_ms;
 #if PRINTF_HB
-				PRINTF_DBG_EX("DATA@ hearbeat freq(s): %d ",time_step);
+				PRINTF_DBG_EX("DATA@ hearbeat freq(ms): %d ",heart_beat_time);
 #endif
 			//向socket写入心跳包命令并发送
 			SendHeartbeatCmd_Ex(
@@ -115,6 +130,7 @@ void* tcp_data_transfer_image(void *_data)
 	/*-----------------------------------*/
 
 	close(sock_server);
+	ReleaseCmdCtrl(&cmd_resp_t);
 	ExitTcpTransImageThread();  //退出客户端交互线程的清理
 
 }

@@ -5,9 +5,10 @@
 #include "def.h"
 #include "base.h"
 
+#include "cfg.h"
+#include "img_cfg/img_cfg.h"
 
 #include "tcp_server.h"
-
 
 /*-----------------------------------*/
 extern pthread_t init_tcp_server(void *_data);

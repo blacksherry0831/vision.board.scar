@@ -85,9 +85,21 @@ int set_keepalive(const int fd)
 void setSockSndTimeOut_5s(const int _sock_fd)
 {
 
+	//struct timeval tv;
+	//	tv.tv_sec = 5;
+	//	tv.tv_usec = 0;
+
+	int network_chek_time = GetNetworkCheckTime();
+	if(network_chek_time <= 0)
+	{
+		network_chek_time = 5000;
+		SetNetworkCheckTime(network_chek_time);
+		StoreImgCfgJson();
+	}
+
 	struct timeval tv;
-		tv.tv_sec = 5;
-		tv.tv_usec = 0;
+	tv.tv_sec = network_chek_time/1000;
+	tv.tv_usec = (network_chek_time%1000)*1000;
 
 	setsockopt(_sock_fd, SOL_SOCKET, SO_SNDTIMEO, &tv, sizeof(tv));
 
@@ -100,9 +112,21 @@ void setSockSndTimeOut_5s(const int _sock_fd)
 void setSockRcvTimeOut_5s(const int _sock_fd)
 {
 
+	//struct timeval tv;
+	//	tv.tv_sec = 5;
+	//	tv.tv_usec = 0;
+
+	int network_chek_time = GetNetworkCheckTime();
+	if(network_chek_time <= 0)
+	{
+		network_chek_time = 5000;
+		SetNetworkCheckTime(network_chek_time);
+		StoreImgCfgJson();
+	}
+
 	struct timeval tv;
-		tv.tv_sec = 5;
-		tv.tv_usec = 0;
+	tv.tv_sec = network_chek_time/1000;
+	tv.tv_usec = (network_chek_time%1000)*1000;
 
 	setsockopt(_sock_fd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
 

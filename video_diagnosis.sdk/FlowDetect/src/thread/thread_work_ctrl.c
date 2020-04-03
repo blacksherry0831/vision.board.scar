@@ -8,6 +8,7 @@
 #include "modules_ex/cmd_crack1_8.h"
 #include "modules_ex/cmd_file.h"
 #include "modules_ex/cmd_flame.h"
+#include "modules_ex/cmd_heart_time.h"
 #include "flame_monitor.h"
 /*-----------------------------------*/
 #include "modules_58/cetc_flash.h"
@@ -226,6 +227,24 @@ int process_cmd_ctrl(CMD_CTRL*  _cmd,int* _resp_cmd_02,unsigned int* _resp_body)
 	}else if(IsFlameDifferenceQueryCmd(_cmd)){  //查询火焰监测-差分阈值
 
 		*_resp_body = get_thresholde_difference() * 100;
+
+	}else if(IsHeartBeatTimeSetCmd(_cmd)){  //设心跳包时间间隔
+
+		SetHeartBeatTime(CmdParam_t);
+		StoreImgCfgJson();
+
+	}else if(IsHeartBeatTimeQueryCmd(_cmd)){  //查心跳包时间间隔
+
+		*_resp_body = GetHeartBeatTime();
+
+	}else if(IsNetworkCheckTimeSetCmd(_cmd)){  //设网络检测时间间隔
+
+		SetNetworkCheckTime(CmdParam_t);
+		StoreImgCfgJson();
+
+	}else if(IsNetworkCheckTimeQueryCmd(_cmd)){  //查网络检测时间间隔
+
+		*_resp_body = GetNetworkCheckTime();
 
 	}else{  //其他未知命令
 

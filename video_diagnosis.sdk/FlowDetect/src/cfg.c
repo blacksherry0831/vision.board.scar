@@ -8,6 +8,9 @@ static volatile unsigned int G_FRAME_IDX_MIN=0;
 /*-----------------------------------*/
 static volatile unsigned int G_SENSOR=0xff;
 /*-----------------------------------*/
+static int G_Heart_Beat_Time=5000;
+static int G_NetWork_Check_Time=5000;
+/*-----------------------------------*/
 /**
  *
  */
@@ -164,6 +167,42 @@ int IsFrameCollect(const unsigned int _current_idx)
 		return FALSE;
 	}
 
+}
+/*-----------------------------------*/
+/**
+ *记录心跳包时间间隔
+ */
+/*-----------------------------------*/
+void SetHeartBeatTime(int _v)
+{
+	G_Heart_Beat_Time = _v;
+}
+/*-----------------------------------*/
+/**
+ *记录网络检测时间间隔
+ */
+/*-----------------------------------*/
+void SetNetworkCheckTime(int _v)
+{
+	G_NetWork_Check_Time = _v;
+}
+/*-----------------------------------*/
+/**
+ *获取心跳包时间间隔
+ */
+/*-----------------------------------*/
+int GetHeartBeatTime()
+{
+	return G_Heart_Beat_Time;
+}
+/*-----------------------------------*/
+/**
+ *记录网络检测时间间隔
+ */
+/*-----------------------------------*/
+int GetNetworkCheckTime()
+{
+	return G_NetWork_Check_Time;
 }
 /*-----------------------------------*/
 /**

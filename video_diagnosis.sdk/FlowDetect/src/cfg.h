@@ -35,5 +35,10 @@ void SetSigmaDown(int _sigma);
 int IsFrameCollect(const unsigned int _current_idx);
 unsigned int GetGlobalSensor();
 void SetGlobalSensor(unsigned int _channel);
+
+void SetHeartBeatTime(int _v);
+void SetNetworkCheckTime(int _v);
+int GetHeartBeatTime();
+int GetNetworkCheckTime();
 /*-----------------------------------*/
 #endif

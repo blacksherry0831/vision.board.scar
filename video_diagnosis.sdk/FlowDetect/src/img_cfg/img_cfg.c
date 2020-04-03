@@ -75,6 +75,9 @@ const char* COLOR_LAB_m				=	"m";
 const char* KEY_FLAME_AREA		=	"flame.area";
 const char* KEY_FLAME_DIFFERENCE		=	"flame.difference";
 /*-----------------------------------*/
+const char* KEY_HEART_BEAT_TIME		=	"heartBeat.time";
+const char* KEY_NETWORK_CHECK_TIME		=	"networkCheck.time";
+/*-----------------------------------*/
 static struct ViewInfo  G_View[SPACE_CHANNEL_NUM][SPACE_FRAME_NUM];
 /*-----------------------------------*/
 /**
@@ -954,6 +957,11 @@ void ParseImgCfgJsonStr(const char* _str)
 	    set_thresholde_area(flame_area->valueint);  //设火焰监测-面积阈值
 	    set_thresholde_difference(flame_difference->valueint / 100.0 );  //设火焰监测-差分阈值
 
+	    cJSON *heart_beat_time  = cJSON_GetObjectItemCaseSensitive(cfg_json, KEY_HEART_BEAT_TIME);
+	    cJSON *network_check_time  = cJSON_GetObjectItemCaseSensitive(cfg_json, KEY_NETWORK_CHECK_TIME);
+	    SetHeartBeatTime(heart_beat_time->valueint);
+	    SetNetworkCheckTime(network_check_time->valueint);
+
 	    ParseSpaceUsedItem(cfg_json);  //解析已被使用的摄像机分区JSON数据，并保存至系统变量（视频通道序号，剪切区域，图像色彩通道，是否展示等）
 	    ParseScarImgCfgItem(cfg_json);  //解析蒙板图片JSON数据（扫描模式和阈值）并记录至项目变量且发生至FPGA
 
@@ -1217,6 +1225,22 @@ char* GetImgCfgJsonStr()
 	  		}
 	  	cJSON_AddItemToObject(root, KEY_FLAME_DIFFERENCE, flame_difference);
 	  	/**<----------------------------------------------------------------*/
+	 	cJSON * heart_beat_time =  cJSON_CreateNumber(GetHeartBeatTime());
+		  		if (heart_beat_time == NULL)
+		  		{
+		  			cJSON_Delete(root);
+		  			return "";
+		  		}
+		cJSON_AddItemToObject(root, KEY_HEART_BEAT_TIME, heart_beat_time);
+		/**<----------------------------------------------------------------*/
+		cJSON * network_check_time =  cJSON_CreateNumber(GetNetworkCheckTime());
+				if (network_check_time == NULL)
+				{
+					cJSON_Delete(root);
+					return "";
+				}
+		cJSON_AddItemToObject(root, KEY_NETWORK_CHECK_TIME, network_check_time);
+		/**<----------------------------------------------------------------*/
 	  	 cJSON* scar_img_cfg = (cJSON*)AddScarImgCfgItem(root); // 加入图像扫描模式和阈值参数至JSON
 	  		 if (scar_img_cfg == NULL){
 	  			cJSON_Delete(root);
