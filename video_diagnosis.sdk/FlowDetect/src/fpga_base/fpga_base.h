@@ -13,8 +13,18 @@
 #include "img_cfg/img_cfg.h"
 #include "task/task_circle.h"
 #include "status.h"
-
+/*-----------------------------------*/
+enum FPGA_STATUS{
+	FPGA_NO_ERR		=0x0000,
+	FPGA_ERR_SENSOR	=0x0001,
+	FPGA_ERR_BUSY	=0x0002,
+	FPGA_ERR_OTHER	=0x8000,
+};
+/*-----------------------------------*/
+unsigned int GetFpgaError();
+unsigned int SetFpgaError(const unsigned int _err,const unsigned int _sensor);
+/*-----------------------------------*/
 int wait4FpgaConvertDone();
-int wait4FpgaScarConvertDone();
+/*-----------------------------------*/
 
 #endif

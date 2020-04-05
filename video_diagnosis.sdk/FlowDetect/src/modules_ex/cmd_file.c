@@ -405,7 +405,7 @@ void deleteFile_SdCard(const CMD_CTRL* _cmd)
 
 	const FileTrans* data_t=GetFileTrans_const(_cmd);
 	const char*		filefullname_t=data_t->fileFullPath;
-	const int		filesize_t= Char2Int(data_t->fileSize,sizeof(int));
+	const int		filesize_t= UChar2Int(data_t->fileSize,sizeof(int));
 	assert(filesize_t==0);
 
 	char filefullpath[MAX_PATH_LEN]={0};
@@ -426,7 +426,7 @@ void sendFile2Queue_filetran(const CMD_CTRL* _cmd)
 
 	const FileTrans* data_t=GetFileTrans_const(_cmd);
 	const char*		filefullname_t=data_t->fileFullPath;
-	const int		filesize_t= Char2Int(data_t->fileSize,sizeof(int));
+	const int		filesize_t= UChar2Int(data_t->fileSize,sizeof(int));
 	assert(filesize_t==0);
 
 	char filefullpath[MAX_PATH_LEN]={0};
@@ -482,7 +482,7 @@ void SaveFile2SdCard_filetran(const CMD_CTRL* _cmd)
 {
 	const FileTrans* data_t=GetFileTrans_const(_cmd);
 	const char*		filefullname_t=data_t->fileFullPath;
-	const int		filesize_t= Char2Int(data_t->fileSize,sizeof(int)) ;
+	const int		filesize_t= UChar2Int(data_t->fileSize,sizeof(int)) ;
 	const char*		buffer_t=GetFileData_const(_cmd);
 
 	char filefullpath[MAX_PATH_LEN]={0};

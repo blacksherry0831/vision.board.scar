@@ -141,7 +141,7 @@ typedef struct _IplImageU
 	unsigned char x_roi[ALIGN_SIZE_T];
 	unsigned char y_roi[ALIGN_SIZE_T];
 
-	unsigned char sensor_stat[ALIGN_SIZE_T];
+	unsigned char fpga_stat[ALIGN_SIZE_T];
 	unsigned char nChannels[ALIGN_SIZE_T];
 	char colorModel[ALIGN_SIZE_T*8];/**<*/
 
@@ -277,7 +277,8 @@ int SetCmdParam(
 		const CMD_CTRL* const _cmd_ctrl,
 		const unsigned int _param);
 /*-----------------------------------*/
-void SetSensorStatus(CMD_CTRL* _cmd,int _status,int _channel);
+void	SetFpgaStatus(CMD_CTRL* _cmd,const int _status,const int _channel);
+int		GetFpgaStatus(CMD_CTRL* _cmd);
 /*-----------------------------------*/
 void init_cmd_buff_size(int nSemaphoreCount);
 /*-----------------------------------*/

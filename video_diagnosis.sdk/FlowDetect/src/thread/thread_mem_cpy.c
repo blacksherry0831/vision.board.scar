@@ -50,7 +50,7 @@ void *memcpy_work_server(void* _pdata)
 														IncFrameIdx();
 
 														const unsigned int IMG_FRAME_IDX=getFrameIdx();
-														const int SENSOR_STATUS=GetSensorStat_T();
+														const int FPGA_ERR=GetFpgaError();
 														const int CIRCLE_SEQ=GetFrameCircleSeq();
 														const int ViewOutputNum=img_space_frame_output_num();
 
@@ -68,8 +68,7 @@ void *memcpy_work_server(void* _pdata)
 																					if(cmd_ctrl_pt!=NULL){
 
 																							const int view_ch=GetCmdImgViewChannel(cmd_ctrl_pt);
-
-																							SetSensorStatus(cmd_ctrl_pt,SENSOR_STATUS,view_ch);
+																							SetFpgaStatus(cmd_ctrl_pt,FPGA_ERR,view_ch);
 																							memcpyDMA2Mem_send2MsgQ(cmd_ctrl_pt,schi,sfri);
 																					}
 																			 /*****************************/

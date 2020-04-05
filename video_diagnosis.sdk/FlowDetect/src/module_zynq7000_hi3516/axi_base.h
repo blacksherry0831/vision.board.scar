@@ -14,6 +14,7 @@
 
 #include "status.h"
 #include "cfg.h"
+#include "fpga_base/fpga_base.h"
 #include "fpga_first/fpga_first.h"
 #include "sync/sync_task.h"
 #include "img_cfg/img_cfg.h"

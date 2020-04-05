@@ -34,7 +34,7 @@ void outside_second()
 /*-----------------------------------*/
 void scar_cvt(int _org,const int _fi)
 {
-	wait4FpgaScarConvertDone();
+	wait4FpgaConvertDone();
 	{
 		fpga_img_scar_detect_reset();
 
@@ -47,7 +47,7 @@ void scar_cvt(int _org,const int _fi)
 
 		fpga_img_scar_detect_start_en();
 	}
-	wait4FpgaScarConvertDone();
+	wait4FpgaConvertDone();
 }
 /*-----------------------------------*/
 /**

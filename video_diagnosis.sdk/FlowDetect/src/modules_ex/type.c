@@ -49,26 +49,24 @@ int IsCmdCtrlCmd(
  *
  */
 /*-----------------------------------*/
-int GetSensorStatus(CMD_CTRL* _cmd)
+int GetFpgaStatus(CMD_CTRL* _cmd)
 {
 	IplImageU *image=(IplImageU *)_cmd->f_data;
 
-	return UChar2Int(image->sensor_stat,sizeof(int));
+	return UChar2Int(image->fpga_stat,sizeof(int));
 }
 /*-----------------------------------*/
 /**
  *
  */
 /*-----------------------------------*/
-void SetSensorStatus(CMD_CTRL* _cmd,int _status,int _channel)
+void SetFpgaStatus(CMD_CTRL* _cmd,const int _status,const int _channel)
 {
 	if(_cmd==NULL) return;
 
 	IplImageU *image=(IplImageU *)_cmd->f_data;
 
-	const int SENSOR_STATUS=_status & (1<<_channel);
-
-	SetInt2Char(SENSOR_STATUS,image->sensor_stat,ALIGN_SIZE_T-1);
+	SetInt2UChar(_status,image->fpga_stat,ALIGN_SIZE_T-1);
 }
 /*-----------------------------------*/
 /**

@@ -215,15 +215,6 @@ int UChar2Int(const unsigned char* _data,const int _size)
  *
  */
 /*-----------------------------------*/
-int Char2Int(const  unsigned char* _data,const int _size)
-{
-	return UChar2Int((const unsigned char*) _data,_size);
-}
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/
 int NativesAcceptClient(int s, int timeout)
 {
    int iResult;

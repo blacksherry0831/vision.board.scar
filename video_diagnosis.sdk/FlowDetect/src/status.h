@@ -14,10 +14,6 @@ enum ProjectRun{
 /*-----------------------------------*/
 extern const char* ProjectName[];
 /*-----------------------------------*/
-int GetSensorStat_T();
-/*-----------------------------------*/
-int SetSensorStat_T(const int _s);
-/*-----------------------------------*/
 const char * GetProjectRunStr();
 /*-----------------------------------*/
 int MakeProjectDirectory();
