@@ -52,7 +52,7 @@ int sensor_state_8()
 
 			printf_binary(STAT,8);
 
-			if(STAT8!=0xff){
+			if(STAT!=0xff){
 				return SetFpgaError(FPGA_ERR_SENSOR , STAT);
 			}else{
 				return SetFpgaError(FPGA_NO_ERR , STAT);

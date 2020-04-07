@@ -34,7 +34,7 @@
 </mapAttribute>
 <booleanAttribute key="org.eclipse.tcf.debug.AttachChildren" value="true"/>
 <stringAttribute key="org.eclipse.tcf.debug.LocalProgramFile" value="Debug/FlowDetect.elf"/>
-<stringAttribute key="org.eclipse.tcf.debug.ProgramArguments" value="-s 1 -w 1920 -h 1080 -p scar_detect_01 -f 0 -D"/>
+<stringAttribute key="org.eclipse.tcf.debug.ProgramArguments" value="-s 1 -w 1920 -h 1080 -p flame_monitor -f 0 -D"/>
 <stringAttribute key="org.eclipse.tcf.debug.ProgramFile" value="/media/sdcard/project.run/FlowDetect.Flame.elf"/>
 <stringAttribute key="org.eclipse.tcf.debug.ProjectName" value="FlowDetect"/>
 <booleanAttribute key="org.eclipse.tcf.debug.StopAtEntry" value="false"/>

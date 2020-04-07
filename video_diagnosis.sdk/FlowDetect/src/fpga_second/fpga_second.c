@@ -34,6 +34,7 @@ void outside_second()
 /*-----------------------------------*/
 void scar_cvt(int _org,const int _fi)
 {
+	sensor_state();
 	wait4FpgaConvertDone();
 	{
 		fpga_img_scar_detect_reset();

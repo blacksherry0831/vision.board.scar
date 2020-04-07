@@ -20,6 +20,7 @@ void *fpga_cvt_server(void* _pdata)
 
 	int init_stat;
 	/*-----------------------------------*/
+	int count_t=0;
 	while(IsRun()){
 
 		init_stat=init_fpga();
@@ -28,7 +29,10 @@ void *fpga_cvt_server(void* _pdata)
 		}else{
 			sleep(1);
 		}
-
+		if(count_t++>10)
+		{
+			break;
+		}
 	}
 	/*-----------------------------------*/
 	while(IsRun()){

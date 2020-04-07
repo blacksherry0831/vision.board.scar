@@ -1,5 +1,5 @@
-#ifndef AXI_BASE_H
-#define AXI_BASE_H
+#ifndef FPGA_SECOND_H
+#define FPGA_SECOND_H
 /*-----------------------------------*/
 #include "linux_header.h"
 /*-----------------------------------*/
@@ -16,4 +16,7 @@
 #include "status.h"
 
 #include "fpga_base/fpga_base.h"
+
+#include "module_zynq7000_hi3516/axi_base.h"
+
 #endif
