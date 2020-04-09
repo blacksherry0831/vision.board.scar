@@ -151,7 +151,17 @@ void  image_proc_project(const MESSAGE _msg,const int _draw)
 void  image_proc(const MESSAGE _msg,const int _draw)
 {
 	if(IsMessageImageFrame(_msg)){
+
+#ifdef _DEBUG
+	TIME_START();
+#endif
+
 		image_proc_project(_msg,_draw);
+
+#ifdef _DEBUG
+	TIME_END("image process : ");
+#endif
+
 	}
 }
 /*-----------------------------------*/

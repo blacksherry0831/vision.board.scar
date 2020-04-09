@@ -248,7 +248,7 @@ int process_cmd_ctrl(CMD_CTRL*  _cmd,int* _resp_cmd_02,unsigned int* _resp_body)
 
 	}else{  //ÆäËûÎ´ÖªÃüÁî
 
-		assert(0);
+		//assert(0);
 		*_resp_cmd_02=CT_ERROR;
 		PRINTF_DBG_EX("cmd error !!!");
 		return FALSE;

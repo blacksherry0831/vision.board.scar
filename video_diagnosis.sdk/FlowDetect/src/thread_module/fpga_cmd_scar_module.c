@@ -58,15 +58,14 @@ void setFpgaCircleCmdScar(const CMD_CTRL* const _cmd_ctrl)
 			PRINTF_DBG_EX("workflow@Rcv Start CMD \n");
 			StartFpgaCircleScar(StartParam,StartSeq);  //开启FPGA计算任务
 
-			if(get_flame_monitor_flag())
+			if(IsProjectRun(flame_monitor))
 			{
-				init_fire();
+				if(get_flame_monitor_flag())
+				{
+					init_fire();
 
-				//点火
-				//set_fire_off(0);
-				//set_fire_on(1);
-
-				gFlameCmdQueue.snd_queue_flame(1,0);
+					gFlameCmdQueue.snd_queue_flame(1,0);  //点火
+				}
 			}
 
 		}else if(StartCmd01==CT_START_00){
@@ -94,11 +93,10 @@ void setFpgaCircleCmdScar(const CMD_CTRL* const _cmd_ctrl)
 			PRINTF_DBG_EX("workflow@Rcv Stop CMD \n");
 			set_task_circle_end();
 
-			//熄火
-			//set_fire_on(0);
-			//set_fire_off(1);
-
-			gFlameCmdQueue.snd_queue_flame(0,1);
+			if(IsProjectRun(flame_monitor))
+			{
+				gFlameCmdQueue.snd_queue_flame(0,1);  //灭火
+			}
 
 		}else{
 

@@ -1,0 +1,62 @@
+{
+	"space_used_config":	"this is fpga && dma  && image cfg",
+	"sigma.up":	6,
+	"sigma.down":	6,
+	"project":	"flame_monitor",
+	"flame.area":	8000,
+	"flame.difference":	10,
+	"heartBeat.time":	500,
+	"networkCheck.time":	500,
+	"scar.img.cfg":	{
+		"work.mode":	0,
+		"global.up":	0,
+		"global.down":	1,
+		"row.up":	2,
+		"row.down":	3,
+		"col.up":	4,
+		"col.down":	5
+	},
+	"space_used_channels":	[[{
+				"SpaceCh":	0,
+				"SpaceFrame":	0,
+				"SpaceUsed":	1,
+				"ViewCh":	0,
+				"ViewOutput":	0,
+				"nChannels":	8,
+				"CutSize_x":	0,
+				"CutSize_y":	0,
+				"CutSize_width":	1920,
+				"CutSize_height":	1080,
+				"OrgSize_width":	1920,
+				"OrgSize_height":	1080,
+				"colorMode":	"gray.avg"
+			}, {
+				"SpaceCh":	0,
+				"SpaceFrame":	1,
+				"SpaceUsed":	1,
+				"ViewCh":	0,
+				"ViewOutput":	0,
+				"nChannels":	1,
+				"CutSize_x":	0,
+				"CutSize_y":	0,
+				"CutSize_width":	1920,
+				"CutSize_height":	1080,
+				"OrgSize_width":	1920,
+				"OrgSize_height":	1080,
+				"colorMode":	"gray"
+			}, {
+				"SpaceCh":	0,
+				"SpaceFrame":	2,
+				"SpaceUsed":	1,
+				"ViewCh":	0,
+				"ViewOutput":	1,
+				"nChannels":	1,
+				"CutSize_x":	0,
+				"CutSize_y":	0,
+				"CutSize_width":	1920,
+				"CutSize_height":	1080,
+				"OrgSize_width":	1920,
+				"OrgSize_height":	1080,
+				"colorMode":	"gray"
+			}], [], [], [], [], [], [], []]
+}
