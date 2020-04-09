@@ -12,6 +12,8 @@
 /*-----------------------------------*/
 #include "flame/flame_sync.h"
 /*-----------------------------------*/
+#include "image_process.h"
+/*-----------------------------------*/
 /**
  *
  */
@@ -32,9 +34,7 @@ int  snd_queue_img_buff(void * _data);
 /*-----------------------------------*/
 MESSAGE  rcv_queue_img_buff();
 
-MESSAGE  rcv_queue_img_buff_ex();
-
-MESSAGE  rcv_queue_img_buff_ex_inner();
+MESSAGE  rcv_queue_img_buff_image_process(const int _draw);
 /*-----------------------------------*/
 int msgTypeImage();
 /*-----------------------------------*/

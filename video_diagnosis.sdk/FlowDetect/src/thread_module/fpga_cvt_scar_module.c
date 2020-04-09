@@ -186,7 +186,7 @@ void theSecondCircleScar()
 
 	if(wait4Circle2nd()){
 		PRINTF_DBG_EX("FPGA>>start cmd 01 ! \n");
-				if(GetProjectRun()==scar_detect_01 || GetProjectRun()==flame_monitor){
+				if(IsProjectRun(scar_detect_01) || IsProjectRun(flame_monitor)){
 
 								int fi=0;
 								for(	fi=0,FRAME_IDX_SECOND=FRAME_IDX_FIRST;

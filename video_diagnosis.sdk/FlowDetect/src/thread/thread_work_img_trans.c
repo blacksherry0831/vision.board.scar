@@ -73,7 +73,7 @@ void* tcp_data_transfer_image(void *_data)
 
 	/*-----------------------------------*/
 	while(IsRun() && socket_status && socket_read_stat){
-		MESSAGE msg=rcv_queue_img_buff_ex();  //从图片消息队列中，读取第一个图片数据
+		MESSAGE msg=rcv_queue_img_buff_image_process(1);  //从图片消息队列中，读取第一个图片数据
 
 		CMD_CTRL *img_data=(CMD_CTRL *) msg._data;
 

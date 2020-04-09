@@ -12,7 +12,7 @@ static const  short unsigned int VER_MAJOR=0;
 static const  short unsigned int VER_MINOR=9;
 static const  short unsigned int VER_SUBMINOR=3;
 /*-----------------------------------*/
-static volatile enum ProjectRun gProjectCurrentRunning=outside08;
+static volatile enum ProjectRun gProjectCurrentRunning=scar_detect_01;
 /*-----------------------------------*/
 const char* ProjectName[]={
 		"scar_detect_01",
@@ -37,6 +37,17 @@ enum ProjectRun GetProjectRun()
 {
 
 	return gProjectCurrentRunning;
+
+}
+/*-----------------------------------*/
+/**
+ *获取项目运行模式：单目？外圆？内圆
+ */
+/*-----------------------------------*/
+int IsProjectRun(const enum ProjectRun _p)
+{
+
+	return gProjectCurrentRunning==_p;
 
 }
 /*-----------------------------------*/

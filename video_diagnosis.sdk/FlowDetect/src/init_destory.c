@@ -235,29 +235,45 @@ int main_ring()
 	create_server_timers();  //定时刷新和校验已服务时间和剩余服务期
 #endif
 
+	pthread_t thread_task_tcp_igniter;
+
 	pthread_t thread_task_inner_rcv=inner_image_buff_trans_server(NULL); //（若无客户端相连）图片数据交互线程  从图片消息队列中读取图片，并释放空间
 	pthread_t thread_task_tcp_rcv=tcp_image_buff_trans_server(NULL);   //创建与IPC-图片交互的服务端线程
 
 	sleep(1);//let tcp data trans thread start first 让TCP数据交互线程先启动
 
 	pthread_t thread_task_tcp_flow=task_flow_ctrl_server();   //创建与IPC-cmd交互的服务端线程
-	pthread_t thread_task_tcp_igniter=connect_to_igniter();   //点火器
-
 	pthread_t thread_task_fpga_cvt=init_fpga_cvt_server(NULL);  //fpga
 	pthread_t thread_task_dma=init_dma_server(NULL);  //dma
 	pthread_t thread_task_memcpy=init_memcpy_server(NULL);  //内存块
 
+	if(IsProjectRun(flame_monitor)){
+		thread_task_tcp_igniter=connect_to_igniter();   //点火器
+	}else if(IsProjectRun(scar_detect_01)){
+
+	}else{
+			assert(0);
+	}
+
 	run_main();
 	destory();
-
+#if 1
 	pthread_join(thread_task_inner_rcv,NULL);
 	pthread_join(thread_task_tcp_flow,NULL);
 	pthread_join(thread_task_tcp_rcv,NULL);
-	pthread_join(thread_task_tcp_igniter,NULL);
 	pthread_join(thread_task_fpga_cvt,NULL);
 	pthread_join(thread_task_dma,NULL);
 	pthread_join(thread_task_memcpy,NULL);
 
+	if(IsProjectRun(flame_monitor)){
+		pthread_join(thread_task_tcp_igniter,NULL);
+	}else if(IsProjectRun(scar_detect_01)){
+
+	}else{
+		assert(0);
+	}
+
+#endif
 	return EXIT_SUCCESS;
 }
 /*-----------------------------------*/

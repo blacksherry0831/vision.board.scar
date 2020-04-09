@@ -10,7 +10,7 @@ void *inner_transfer_image(void* _pdata)
 
 		if(0==GetTcpTransImgThreads()){  //若无客户端相连
 
-			MESSAGE msg=rcv_queue_img_buff_ex_inner();  //从图片消息队列中读取图片数据
+			MESSAGE msg=rcv_queue_img_buff_image_process(0);  //从图片消息队列中读取图片数据
 
 			if(msg.message_type==ENOMSG){  //若 消息队列中无消息可读
 				usleep(10);

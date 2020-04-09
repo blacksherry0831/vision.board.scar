@@ -15,26 +15,36 @@ void ExitFpgaThread()
  *
  */
 /*-----------------------------------*/
+void CheckFpgaStatus()
+{
+		int init_stat;
+		int count_t=0;
+
+		while(IsRun()){
+
+			init_stat=init_fpga();
+			if(init_stat==TRUE){
+				break;
+			}else{
+				sleep(1);
+			}
+			if(count_t++>10)
+			{
+				break;
+			}
+		}
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 void *fpga_cvt_server(void* _pdata)
 {
 
-	int init_stat;
-	/*-----------------------------------*/
-	int count_t=0;
-	while(IsRun()){
+	CheckFpgaStatus();
 
-		init_stat=init_fpga();
-		if(init_stat==TRUE){
-			break;
-		}else{
-			sleep(1);
-		}
-		if(count_t++>10)
-		{
-			break;
-		}
-	}
-	/*-----------------------------------*/
 	while(IsRun()){
 
 			if(wait4FpgaStart()){

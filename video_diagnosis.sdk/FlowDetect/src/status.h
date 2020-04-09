@@ -25,6 +25,7 @@ void PrintBuildTime();
 short unsigned int GetVersion();
 
 enum ProjectRun GetProjectRun();
+int IsProjectRun(const enum ProjectRun _p);
 /*-----------------------------------*/
 const char * GetProjectRunStr();
 
