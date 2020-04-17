@@ -38,6 +38,22 @@ const char* KEY_SCAR_IMG_CFG_TH_ROW_DOWN	=	"row.down";
 const char* KEY_SCAR_IMG_CFG_TH_COL_UP		=	"col.up";
 const char* KEY_SCAR_IMG_CFG_TH_COL_DOWN	=	"col.down";
 /*-----------------------------------*/
+const char* KEY_ARM_IMG_PROC = "arm.img.proc";
+const char* KEY_ARM_IMG_PROC_IS_BINARY = "is.binary";
+const char* KEY_ARM_IMG_PROC_IS_DENOISE = "is.denoise";
+const char* KEY_ARM_IMG_PROC_IS_BLACKSKIN = "is.blackSkin";
+const char* KEY_ARM_IMG_PROC_IS_HOUGH = "is.hough";
+const char* KEY_ARM_IMG_PROC_IS_MORPHOLOGY = "is.morphology";
+const char* KEY_ARM_IMG_PROC_IS_SHOW_RESULT = "is.show.result";
+const char* KEY_ARM_IMG_PROC_HOUGH_THRESOLD = "hough.thresold";
+const char* KEY_ARM_IMG_PROC_HOUGH_MIN_LENGTH = "hough.min.length";
+const char* KEY_ARM_IMG_PROC_HOUGH_MAX_GAP = "hough.max.gap";
+const char* KEY_ARM_IMG_PROC_HOUGH_MAX_ANGLE = "hough.max.angle";
+const char* KEY_ARM_IMG_PROC_CRACK_MIN_AREA = "crack.min.area";
+const char* KEY_ARM_IMG_PROC_CRACK_ASPECT_RATIO = "crack.aspect.ratio";
+const char* KEY_ARM_IMG_PROC_CRACK_AREA_RATIO = "crack.area.ratio";
+const char* KEY_ARM_IMG_PROC_BLACKSKIN_MIN_AREA = "blackSkin.min.area";
+/*-----------------------------------*/
 const char* KEY_SPACE_USED_CFG	=	"space_used_config";
 const char* NOTE_SPACE_USED_CFG	=	"this is fpga && dma  && image cfg";
 /*-----------------------------------*/
@@ -870,6 +886,46 @@ void* ParseScarImgCfgItem(cJSON*	_cfg_json)
 }
 /*-----------------------------------*/
 /**
+ *解析arm图像处理参数--JSON数据并记录至项目变量
+ */
+/*-----------------------------------*/
+void* ParseArmImgProcItem(cJSON*	_cfg_json)
+{
+	cJSON *arm_img_proc_json  = cJSON_GetObjectItemCaseSensitive(_cfg_json, KEY_ARM_IMG_PROC);
+	cJSON *is_binary  = cJSON_GetObjectItemCaseSensitive(arm_img_proc_json,  KEY_ARM_IMG_PROC_IS_BINARY);
+	cJSON *is_denoise  = cJSON_GetObjectItemCaseSensitive(arm_img_proc_json,  KEY_ARM_IMG_PROC_IS_DENOISE);
+	cJSON *is_blackskin  = cJSON_GetObjectItemCaseSensitive(arm_img_proc_json,  KEY_ARM_IMG_PROC_IS_BLACKSKIN);
+	cJSON *is_hough = cJSON_GetObjectItemCaseSensitive(arm_img_proc_json,  KEY_ARM_IMG_PROC_IS_HOUGH);
+	cJSON *is_morphology = cJSON_GetObjectItemCaseSensitive(arm_img_proc_json,  KEY_ARM_IMG_PROC_IS_MORPHOLOGY);
+	cJSON *is_show_result = cJSON_GetObjectItemCaseSensitive(arm_img_proc_json,  KEY_ARM_IMG_PROC_IS_SHOW_RESULT);
+	cJSON *hough_thresold = cJSON_GetObjectItemCaseSensitive(arm_img_proc_json, KEY_ARM_IMG_PROC_HOUGH_THRESOLD);
+	cJSON *hough_min_length = cJSON_GetObjectItemCaseSensitive(arm_img_proc_json, KEY_ARM_IMG_PROC_HOUGH_MIN_LENGTH);
+	cJSON *hough_max_gap = cJSON_GetObjectItemCaseSensitive(arm_img_proc_json, KEY_ARM_IMG_PROC_HOUGH_MAX_GAP);
+	cJSON *hough_max_angle = cJSON_GetObjectItemCaseSensitive(arm_img_proc_json, KEY_ARM_IMG_PROC_HOUGH_MAX_ANGLE);
+	cJSON *crack_min_area = cJSON_GetObjectItemCaseSensitive(arm_img_proc_json, KEY_ARM_IMG_PROC_CRACK_MIN_AREA);
+	cJSON *crack_aspect_ratio = cJSON_GetObjectItemCaseSensitive(arm_img_proc_json, KEY_ARM_IMG_PROC_CRACK_ASPECT_RATIO);
+	cJSON *crack_area_ratio = cJSON_GetObjectItemCaseSensitive(arm_img_proc_json, KEY_ARM_IMG_PROC_CRACK_AREA_RATIO);
+	cJSON *blackskin_min_area = cJSON_GetObjectItemCaseSensitive(arm_img_proc_json, KEY_ARM_IMG_PROC_BLACKSKIN_MIN_AREA);
+
+	set_is_binary(is_binary->valueint);  //二值化
+	set_is_denoise(is_denoise->valueint);  //去噪
+	set_is_blackSkin(is_blackskin->valueint);  //黑皮
+	set_is_hough(is_hough->valueint);  //hough
+	set_is_morphology(is_morphology->valueint);  //形态学
+	set_is_showResult(is_show_result->valueint);  //结果展示
+	set_blaskSkin_min_area(blackskin_min_area->valueint);  //黑皮最小面积
+	set_hough_thresold(hough_thresold->valueint); //hough点数阈值
+	set_hough_min_length(hough_min_length->valueint);  //hough最小线段长度
+	set_hough_max_gap(hough_max_gap->valueint); //hough最大线段间距
+	set_hough_max_angle(hough_max_angle->valueint);  //hough最大角度
+	set_crack_min_area(crack_min_area->valueint);  //裂纹最小面积
+	set_crack_aspect_ratio(crack_aspect_ratio->valueint);  //裂纹长宽比
+	set_crack_area_ratio(crack_area_ratio->valueint);  //裂纹面积比
+
+	return NULL;
+}
+/*-----------------------------------*/
+/**
  *解析已被使用的摄像机分区JSON数据，并保存至系统变量（视频通道序号，剪切区域，图像色彩通道，是否展示等）
  */
 /*-----------------------------------*/
@@ -962,6 +1018,7 @@ void ParseImgCfgJsonStr(const char* _str)
 	    SetHeartBeatTime(heart_beat_time->valueint);
 	    SetNetworkCheckTime(network_check_time->valueint);
 
+	    ParseArmImgProcItem(cfg_json);  //解析arm图像处理参数--JSON数据并记录至项目变量
 	    ParseSpaceUsedItem(cfg_json);  //解析已被使用的摄像机分区JSON数据，并保存至系统变量（视频通道序号，剪切区域，图像色彩通道，是否展示等）
 	    ParseScarImgCfgItem(cfg_json);  //解析蒙板图片JSON数据（扫描模式和阈值）并记录至项目变量且发生至FPGA
 
@@ -1030,6 +1087,111 @@ void* AddScarImgCfgItem(cJSON*	_root)
 		/**<----------------------------------------------------------------*/
 		return scar_img_cfg;
 
+}
+
+/*-----------------------------------*/
+/**
+ *加入opencv图像处理参数至JSON
+ */
+/*-----------------------------------*/
+void* AddArmImgProcItem(cJSON*	_root)
+{
+	/**<----------------------------------------------------------------*/
+	cJSON *arm_img_proc =cJSON_CreateObject();
+	 if (arm_img_proc == NULL){
+		return NULL;
+	 }
+	cJSON_AddItemToObject(_root, KEY_ARM_IMG_PROC, arm_img_proc);
+	/**<----------------------------------------------------------------*/
+	{
+		/**<----------------------------------------------------------------*/
+		cJSON* arm_is_binary = cJSON_CreateNumber(get_is_binary());
+		if (arm_is_binary == NULL){
+			return NULL;
+		}
+		cJSON_AddItemToObject(arm_img_proc,  KEY_ARM_IMG_PROC_IS_BINARY, arm_is_binary);
+		/**<----------------------------------------------------------------*/
+		cJSON* arm_is_denoise = cJSON_CreateNumber(get_is_denoise());
+		if (arm_is_denoise == NULL){
+			return NULL;
+		}
+		cJSON_AddItemToObject(arm_img_proc,  KEY_ARM_IMG_PROC_IS_DENOISE, arm_is_denoise);
+		/**<----------------------------------------------------------------*/
+		cJSON* arm_is_blackSkin = cJSON_CreateNumber(get_is_blackSkin());
+		if (arm_is_blackSkin == NULL){
+			return NULL;
+		}
+		cJSON_AddItemToObject(arm_img_proc,  KEY_ARM_IMG_PROC_IS_BLACKSKIN, arm_is_blackSkin);
+		/**<----------------------------------------------------------------*/
+		cJSON* arm_is_hough = cJSON_CreateNumber(get_is_hough());
+		if (arm_is_hough == NULL){
+			return NULL;
+		}
+		cJSON_AddItemToObject(arm_img_proc,  KEY_ARM_IMG_PROC_IS_HOUGH, arm_is_hough);
+		/**<----------------------------------------------------------------*/
+		cJSON* arm_is_morphology = cJSON_CreateNumber(get_is_morphology());
+		if (arm_is_morphology == NULL){
+			return NULL;
+		}
+		cJSON_AddItemToObject(arm_img_proc,  KEY_ARM_IMG_PROC_IS_MORPHOLOGY, arm_is_morphology);
+		/**<----------------------------------------------------------------*/
+		cJSON* arm_is_show_result = cJSON_CreateNumber(get_is_showResult());
+		if (arm_is_show_result == NULL){
+			return NULL;
+		}
+		cJSON_AddItemToObject(arm_img_proc,  KEY_ARM_IMG_PROC_IS_SHOW_RESULT, arm_is_show_result);
+		/**<----------------------------------------------------------------*/
+		cJSON* arm_hough_thresold = cJSON_CreateNumber(get_hough_thresold());
+		if (arm_hough_thresold == NULL){
+			return NULL;
+		}
+		cJSON_AddItemToObject(arm_img_proc,  KEY_ARM_IMG_PROC_HOUGH_THRESOLD, arm_hough_thresold);
+		/**<----------------------------------------------------------------*/
+		cJSON* arm_hough_min_length = cJSON_CreateNumber(get_hough_min_length());
+		if (arm_hough_min_length == NULL){
+			return NULL;
+		}
+		cJSON_AddItemToObject(arm_img_proc,  KEY_ARM_IMG_PROC_HOUGH_MIN_LENGTH, arm_hough_min_length);
+		/**<----------------------------------------------------------------*/
+		cJSON* arm_hough_max_gap = cJSON_CreateNumber(get_hough_max_gap());
+		if (arm_hough_max_gap == NULL){
+			return NULL;
+		}
+		cJSON_AddItemToObject(arm_img_proc,  KEY_ARM_IMG_PROC_HOUGH_MAX_GAP, arm_hough_max_gap);
+		/**<----------------------------------------------------------------*/
+		cJSON* arm_hough_max_angle = cJSON_CreateNumber(get_hough_max_angle());
+		if (arm_hough_max_angle == NULL){
+			return NULL;
+		}
+		cJSON_AddItemToObject(arm_img_proc,  KEY_ARM_IMG_PROC_HOUGH_MAX_ANGLE, arm_hough_max_angle);
+		/**<----------------------------------------------------------------*/
+		cJSON* arm_crack_min_area = cJSON_CreateNumber(get_crack_min_area());
+		if (arm_crack_min_area  == NULL){
+			return NULL;
+		}
+		cJSON_AddItemToObject(arm_img_proc,  KEY_ARM_IMG_PROC_CRACK_MIN_AREA, arm_crack_min_area );
+		/**<----------------------------------------------------------------*/
+		cJSON* arm_arack_area_ratio= cJSON_CreateNumber(get_crack_area_ratio());
+		if (arm_arack_area_ratio == NULL){
+			return NULL;
+		}
+		cJSON_AddItemToObject(arm_img_proc,  KEY_ARM_IMG_PROC_CRACK_AREA_RATIO, arm_arack_area_ratio);
+		/**<----------------------------------------------------------------*/
+		cJSON* arm_crack_aspect_ratio = cJSON_CreateNumber(get_crack_aspect_ratio());
+		if (arm_crack_aspect_ratio == NULL){
+			return NULL;
+		}
+		cJSON_AddItemToObject(arm_img_proc,  KEY_ARM_IMG_PROC_CRACK_ASPECT_RATIO, arm_crack_aspect_ratio);
+		/**<----------------------------------------------------------------*/
+		cJSON* arm_blackSkin_min_area = cJSON_CreateNumber(get_blaskSkin_min_area());
+		if (arm_blackSkin_min_area == NULL){
+			return NULL;
+		}
+		cJSON_AddItemToObject(arm_img_proc,  KEY_ARM_IMG_PROC_BLACKSKIN_MIN_AREA, arm_blackSkin_min_area);
+		/**<----------------------------------------------------------------*/
+	}
+
+	return arm_img_proc;
 }
 
 /*-----------------------------------*/
@@ -1202,62 +1364,68 @@ char* GetImgCfgJsonStr()
 	    cJSON_AddItemToObject(root, KEY_SIGMA_DOWN, sigma_down);
 	    /**<----------------------------------------------------------------*/
 	    cJSON * project =  cJSON_CreateString(GetProjectRunStr());
-	  	    if (project == NULL)
-	  	    {
-	  	    	cJSON_Delete(root);
-	  	    	return "";
-	  	    }
+		if (project == NULL)
+		{
+			cJSON_Delete(root);
+			return "";
+		}
 	  	 cJSON_AddItemToObject(root, KEY_PROJECT, project);
-		 /**<----------------------------------------------------------------*/
-	  	 cJSON * flame_area =  cJSON_CreateNumber(get_thresholde_area());
-	  		    if (flame_area == NULL)
-	  		    {
-	  		    	cJSON_Delete(root);
-	  		    	return "";
-	  		    }
-	  		    cJSON_AddItemToObject(root, KEY_FLAME_AREA, flame_area);
+		/**<----------------------------------------------------------------*/
+	  	cJSON * flame_area =  cJSON_CreateNumber(get_thresholde_area());
+		if (flame_area == NULL)
+		{
+			cJSON_Delete(root);
+			return "";
+		}
+		cJSON_AddItemToObject(root, KEY_FLAME_AREA, flame_area);
 	  	/**<----------------------------------------------------------------*/
 	  	cJSON * flame_difference =  cJSON_CreateNumber(get_thresholde_difference()*100);
-	  		if (flame_difference == NULL)
-	  		{
-	  			cJSON_Delete(root);
-	  			return "";
-	  		}
+		if (flame_difference == NULL)
+		{
+			cJSON_Delete(root);
+			return "";
+		}
 	  	cJSON_AddItemToObject(root, KEY_FLAME_DIFFERENCE, flame_difference);
 	  	/**<----------------------------------------------------------------*/
 	 	cJSON * heart_beat_time =  cJSON_CreateNumber(GetHeartBeatTime());
-		  		if (heart_beat_time == NULL)
-		  		{
-		  			cJSON_Delete(root);
-		  			return "";
-		  		}
+		if (heart_beat_time == NULL)
+		{
+			cJSON_Delete(root);
+			return "";
+		}
 		cJSON_AddItemToObject(root, KEY_HEART_BEAT_TIME, heart_beat_time);
 		/**<----------------------------------------------------------------*/
 		cJSON * network_check_time =  cJSON_CreateNumber(GetNetworkCheckTime());
-				if (network_check_time == NULL)
-				{
-					cJSON_Delete(root);
-					return "";
-				}
+		if (network_check_time == NULL)
+		{
+			cJSON_Delete(root);
+			return "";
+		}
 		cJSON_AddItemToObject(root, KEY_NETWORK_CHECK_TIME, network_check_time);
 		/**<----------------------------------------------------------------*/
-	  	 cJSON* scar_img_cfg = (cJSON*)AddScarImgCfgItem(root); // 加入图像扫描模式和阈值参数至JSON
-	  		 if (scar_img_cfg == NULL){
-	  			cJSON_Delete(root);
-	  			return "";
-	  		 }
+		cJSON* arm_img_proc = (cJSON*)AddArmImgProcItem(root); // 加入opencv图像处理参数至JSON
+		if (arm_img_proc == NULL){
+			cJSON_Delete(root);
+			return "";
+		}
+		/**<----------------------------------------------------------------*/
+	  	cJSON* scar_img_cfg = (cJSON*)AddScarImgCfgItem(root); // 加入图像扫描模式和阈值参数至JSON
+		if (scar_img_cfg == NULL){
+			cJSON_Delete(root);
+			return "";
+		}
 	    /**<----------------------------------------------------------------*/
-	   	 cJSON* space_used_all = (cJSON*)AddSpaceUsedItem(root);  //加入已用通道数
-	   	    if (space_used_all == NULL){
-	   	    	cJSON_Delete(root);
-	   	    	return "";
-	   	    }
-	   	  /**<----------------------------------------------------------------*/
-	   	   char* string = cJSON_Print(root);  //打印JSON至string
-	    	    if (string == NULL)
-	    	    {
-	    	        fprintf(stderr, "Failed to print monitor.\n");
-	    	    }
+	   	cJSON* space_used_all = (cJSON*)AddSpaceUsedItem(root);  //加入已用通道数
+		if (space_used_all == NULL){
+			cJSON_Delete(root);
+			return "";
+		}
+	   	/**<----------------------------------------------------------------*/
+	   	char* string = cJSON_Print(root);  //打印JSON至string
+		if (string == NULL)
+		{
+			fprintf(stderr, "Failed to print monitor.\n");
+		}
 	   /**<----------------------------------------------------------------*/
 
 	    cJSON_Delete(root);

@@ -44,7 +44,7 @@ int wait4FpgaConvertDone_in()
 
 			if(fpga_is_busy()==TRUE){
 
-				sleep_1ms();
+				sleep_1ms_yield();
 			}else{
 				result_t=TRUE;//now free
 				break;

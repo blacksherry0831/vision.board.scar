@@ -78,8 +78,10 @@ int set_socket_buf_size(int sockfd,int send_buf_size);
  *
  */
 /*-----------------------------------*/
-void sleep_1ms();
+void sleep_1_ms();
+void sleep_1ms_yield();
 void sleepMS(int _ms);
+void sleep_1_ms();
 /*-----------------------------------*/
 int sem_wait_infinite(sem_t  *__sem);
 /*-----------------------------------*/

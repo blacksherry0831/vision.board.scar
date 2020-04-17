@@ -33,7 +33,7 @@ void *inner_transfer_image(void* _pdata)
 				}
 			}
 		}else{
-			sleep_1ms();
+			sleep_1ms_yield();
 		}
 	}
 

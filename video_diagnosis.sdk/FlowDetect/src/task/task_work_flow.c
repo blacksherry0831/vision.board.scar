@@ -23,16 +23,10 @@ int  initFirstMode()
 /*-----------------------------------*/
 void scar_second_sync(int _frame_idx,const int _org,const int _fi)
 {
-	static int FPGA_COUNT=0;
+
 	if(SUCCESS==PL_MEM_48_Lock()){
 
-				TIME_START();
-
-					scar_cvt(_org,_fi);
-
-					PRINTF_DBG_EX("FPGA:%d___",FPGA_COUNT++);
-
-				TIME_END("1> FPGA Convert cost time : ");
+					 scar_cvt_cost_time(_org,_fi);
 
 				if(SUCCESS==PL_MEM_48_Unlock()){
 						post_fpga_cvt_down_sig();

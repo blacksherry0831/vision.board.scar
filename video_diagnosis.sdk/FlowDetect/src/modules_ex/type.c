@@ -536,9 +536,13 @@ int socket_write_1_cmd_release_time_cost(
 {
 		assert(_status!=NULL);
 		*_status=FALSE;
+#if defined(_DEBUG) && defined(_DEBUG_WF)
 		TIME_START();
+#endif
 		*_status=socket_write_1_cmd_release(_socketfd,_cmd_ptr);  //向socket写入一条cmd并释放空间
+#if defined(_DEBUG) && defined(_DEBUG_WF)
 		TIME_END(_msg);
+#endif
 		return *_status;
 
 }
@@ -997,8 +1001,3 @@ int IsCmdCtrl_Debug(const CMD_CTRL* _cmd,const char* msg)
 return result_t;
 
 }
-/*-----------------------------------*/
-/**
- *
- */
-/*-----------------------------------*/

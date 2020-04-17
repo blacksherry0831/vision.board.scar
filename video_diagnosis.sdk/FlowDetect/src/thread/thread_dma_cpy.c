@@ -16,47 +16,66 @@ void ExitDmaThread()
  *
  */
 /*-----------------------------------*/
+void dmac_trans_all_frame_cost_time()
+{
+	static int DMA_COUNT=0;
+#if defined(_DEBUG) && defined(_DEBUG_WF)
+					TIME_START();
+#endif
+					dmac_trans_all_frame();
+#if defined(_DEBUG) && defined(_DEBUG_WF)
+					TIME_END("2> DMA cpy cost time");
+#endif
+#if defined(_DEBUG) && defined(_DEBUG_WF)
+					PRINTF_DBG_EX("DMA:%d___",DMA_COUNT++);
+#endif
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void dmac_trans_all_frame_sync()
+{
+	if(wait_fpga_cvt_down_sig()==SUCCESS){
+
+										if(SUCCESS==PL_MEM_48_Lock()){
+
+																				if(SUCCESS==PS_MEM_04_Lock()){
+
+																					dmac_trans_all_frame_cost_time();
+
+																					if(SUCCESS==PS_MEM_04_Unlock()){
+
+
+																					}
+																				}
+
+											if(SUCCESS==PL_MEM_48_Unlock()){
+
+												post_dma_cpy_down_sig_2_fpga();
+												post_dma_cpy_down_sig_2_memcpy();
+												wait_mem_cpy_down_sig();
+
+											}
+
+										}
+
+	}
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 void *dma_work_server(void* _pdata)
 {
-	int chi=0;
-	//const unsigned time_ms=30*1000;
-	static int DMA_COUNT=0;
 
 	while(IsRun())
 	{
 
-					if(wait_fpga_cvt_down_sig()==SUCCESS)
-					{
-
-									if(SUCCESS==PL_MEM_48_Lock()){
-
-																		if(SUCCESS==PS_MEM_04_Lock()){
-
-																							TIME_START();
-
-																								dmac_trans_all_frame();
-
-																							PRINTF_DBG_EX("DMA:%d___",DMA_COUNT++);
-
-																							TIME_END("2> DMA cpy cost time");
-
-																		if(SUCCESS==PS_MEM_04_Unlock()){
-
-
-																		}
-
-																		}
-										if(SUCCESS==PL_MEM_48_Unlock()){
-
-											post_dma_cpy_down_sig_2_fpga();
-											post_dma_cpy_down_sig_2_memcpy();
-											wait_mem_cpy_down_sig();
-
-										}
-
-									}
-
-					}
+		 dmac_trans_all_frame_sync();
+		 sleep_1ms_yield();
 
 	}
 

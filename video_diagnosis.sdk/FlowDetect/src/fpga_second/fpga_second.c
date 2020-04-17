@@ -55,3 +55,20 @@ void scar_cvt(int _org,const int _fi)
  *
  */
 /*-----------------------------------*/
+void scar_cvt_cost_time(int _org,const int _fi)
+{
+					static int FPGA_COUNT=0;
+#if defined(_DEBUG) && defined(_DEBUG_WF)
+					TIME_START();
+#endif
+
+					scar_cvt(_org,_fi);
+
+#if defined(_DEBUG) && defined(_DEBUG_WF)
+					PRINTF_DBG_EX("FPGA:%d___",FPGA_COUNT++);
+#endif
+
+#if defined(_DEBUG) && defined(_DEBUG_WF)
+					TIME_END("1> FPGA Convert cost time : ");
+#endif
+}

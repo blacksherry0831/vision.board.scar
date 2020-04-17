@@ -10,6 +10,7 @@
 
 /*-----------------------------------*/
 #include "modules_ex/tcp_server.h"
+#include "modules_ex/base.h"
 /*-----------------------------------*/
 #include "msg_queue/msg_sysV_queue.h"
 /*-----------------------------------*/

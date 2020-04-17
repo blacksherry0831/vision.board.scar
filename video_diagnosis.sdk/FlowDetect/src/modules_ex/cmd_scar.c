@@ -248,3 +248,17 @@ CMD_CTRL* CreateImageStart_Scar_DetectSno(
  *
  */
 /*-----------------------------------*/
+/*-----------------------------------*/
+/**
+ *判断工件是否就绪 && 判断是否为检测序列开始命令
+ */
+/*-----------------------------------*/
+int IsImgDetStart(const CMD_CTRL* _cmd_ctrl)
+{
+	return IsCmdCtrlCmd(_cmd_ctrl,CT_IMG,CT_IMG_MASK_DETECT_START_SCAR);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/

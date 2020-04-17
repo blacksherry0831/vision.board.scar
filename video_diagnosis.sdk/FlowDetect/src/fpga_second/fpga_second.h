@@ -19,4 +19,6 @@
 
 #include "module_zynq7000_hi3516/axi_base.h"
 
+void scar_cvt_cost_time(int _org,const int _fi);
+
 #endif

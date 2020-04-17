@@ -13,6 +13,9 @@
 #include "flame/flame_sync.h"
 /*-----------------------------------*/
 void  image_proc(const MESSAGE _msg,const int _draw);
+
+void  other_cmd_proc_project(const MESSAGE _msg,const int _draw);  //其它（非图片）命令的处理
+int IsMessageImageDetStart(const MESSAGE _msg);  //判断是否为检测序列开始命令
 /*-----------------------------------*/
 
 #endif

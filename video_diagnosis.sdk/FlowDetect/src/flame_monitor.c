@@ -30,15 +30,6 @@ static int igniter_status = FALSE;  //点火器是否处于点火状态
 static int fire_on = FALSE;  //是否需要点火操作
 static int fire_off = FALSE;  //是否需要灭火操作
 
-void sleep_1_ms()
-{
-	usleep(1000);
-}
-void sleep_1ms_yield()
-{
-	sleep_1_ms();
-	sched_yield();
-}
 
 void init_fire()
 {
@@ -174,7 +165,7 @@ int init_socket_client(int* _sock_cli)
 		}
 		else
 		{
-			PRINTF_DBG_EX("##############igniter_client connect successfully!  sock_cli:%d\n",*_sock_cli);
+			printf("##############igniter_client connect successfully!  sock_cli:%d\n",*_sock_cli);
 			break;
 		}
 
@@ -191,16 +182,16 @@ int init_socket_client(int* _sock_cli)
 //socket关闭重连
 int reconnect_socket_client(int* _sock_cli)
 {
-	PRINTF_DBG_EX("#########igniter_client reconnect ..........\n");
+	printf("#########igniter_client reconnect ..........\n");
 	close(*_sock_cli);
 	*_sock_cli = -1;
 	init_socket_client(_sock_cli);
 
-	usleep(500000);
+	usleep(5000);
 	gFlameCmdQueue.clear_queue_flame();  //清空队列
 	gFlameCmdQueue.snd_queue_flame(1,0);  //向队列中塞入点火命令，刷新点火器状态
 
-	PRINTF_DBG_EX("#########igniter_client reconnect sucessfully!!!!!!!!\n");
+	printf("#########igniter_client reconnect sucessfully!!!!!!!!\n");
 
 	return 0;
 }
@@ -252,7 +243,7 @@ int SendFlameHearbeat(const int sock_cli,time_t* last_send_time,int* cnt = NULL)
 
 		if(ret < 0)
 		{
-			PRINTF_DBG_EX("#########igniter_client socket send error!\n");
+			printf("#########igniter_client socket send error!\n");
 			close(sock_cli);
 			//init_socket_client(&sock_cli);
 
@@ -260,7 +251,7 @@ int SendFlameHearbeat(const int sock_cli,time_t* last_send_time,int* cnt = NULL)
 		}
 
 		*last_send_time = time(NULL);
-		PRINTF_DBG_EX("#########igniter_client socket heart_beat\n");
+		printf("#########igniter_client socket heart_beat\n");
 
 		if(cnt != NULL)
 		{
@@ -303,7 +294,7 @@ int SendFlameCmd(const int sock_cli,const int _on,const int _off)
 
 		if(ret < 0)
 		{
-			PRINTF_DBG_EX("#########igniter_client socket send error!\n");
+			printf("#########igniter_client socket send error!\n");
 			close(sock_cli);
 			//init_socket_client(&sock_cli);
 
@@ -313,7 +304,7 @@ int SendFlameCmd(const int sock_cli,const int _on,const int _off)
 		//last_send_time = time(NULL);
 		igniter_status = TRUE;
 		fire_on = FALSE;  //不建议连续发
-		PRINTF_DBG_EX("#########igniter_client socket fire_on\n");
+		printf("#########igniter_client socket fire_on\n");
 	}
 
 	//熄火
@@ -325,7 +316,7 @@ int SendFlameCmd(const int sock_cli,const int _on,const int _off)
 
 			if(ret < 0)
 			{
-				PRINTF_DBG_EX("#########igniter_client socket send error!\n");
+				printf("#########igniter_client socket send error!\n");
 				close(sock_cli);
 				//init_socket_client(&sock_cli);
 
@@ -336,7 +327,7 @@ int SendFlameCmd(const int sock_cli,const int _on,const int _off)
 		//last_send_time = time(NULL);
 		igniter_status = FALSE;
 		fire_off = FALSE;  //不建议连续发
-		PRINTF_DBG_EX("#########igniter_client socket fire_off\n");
+		printf("#########igniter_client socket fire_off\n");
 	}
 
 	return ret;
@@ -481,8 +472,8 @@ void *iginter_client_poll(void* _pdata)
 		//长时间未接收到服务器消息（表明socket断开）
 		if(time(NULL) - last_recv_time > 2)
 		{
-			PRINTF_DBG_EX("#########igniter_client timeout!!!!!!!!! wait for reconnect!!\n");
-			PRINTF_DBG_EX("#########igniter_client recv_time %d\n",time(NULL) - last_recv_time);
+			printf("#########igniter_client timeout!!!!!!!!! wait for reconnect!!\n");
+			printf("#########igniter_client recv_time %d\n",time(NULL) - last_recv_time);
 			reconnect_socket_client(&sock_cli);
 			last_recv_time = time(NULL);
 			last_send_time = time(NULL);
@@ -496,7 +487,7 @@ void *iginter_client_poll(void* _pdata)
 
 		if(ret < 0)  //poll出错
 		{
-			PRINTF_DBG_EX("#########igniter_client select出错，socket重连...\n");
+			printf("#########igniter_client select出错，socket重连...\n");
 			reconnect_socket_client(&sock_cli);
 			continue;
 		}
@@ -528,13 +519,13 @@ void *iginter_client_poll(void* _pdata)
 
 					 if(ret <= 0)
 					 {
-						 PRINTF_DBG_EX("#########igniter_client recv error!\n");
+						 printf("#########igniter_client recv error!\n");
 						 close(sock_cli);
 						 //init_socket_client(&sock_cli);
 						 continue;
 					 }
 
-					 PRINTF_DBG_EX("#########igniter_client recv sucess!\n");
+					 printf("#########igniter_client recv sucess!\n");
 					 last_recv_time = time(NULL);
 				 }
 			 }

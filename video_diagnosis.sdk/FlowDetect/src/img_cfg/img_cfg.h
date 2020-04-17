@@ -23,6 +23,7 @@
 #include "img_cfg/img_cfg.h"
 #include "status.h"
 #include "flame_monitor.h"
+#include "img_proc/img_proc.h"
 /*-----------------------------------*/
 struct ViewInfo{
 

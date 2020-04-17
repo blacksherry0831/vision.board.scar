@@ -5,10 +5,11 @@
 #include "def.h"
 #include "base.h"
 #include <modules_ex/opencv_base.h>
+
+#include "modules_ex/type.h"
 /*-----------------------------------*/
 #include <modules/uCOS/mem_pool_fixed.h>
 /*-----------------------------------*/
-#include "type.h"
 /*-----------------------------------*/
 #include "def_frame.h"
 /*-----------------------------------*/
@@ -70,6 +71,7 @@ int IsImageScarSet_Mask(const CMD_CTRL* _cmd_ctrl);
 int IsImageScarClear_Mask(const CMD_CTRL* _cmd_ctrl);
 int IsImageScarSet_SelectMask(const CMD_CTRL* _cmd_ctrl);
 /*-----------------------------------*/
+int IsImgDetStart(const CMD_CTRL* _cmd_ctrl);
 /*-----------------------------------*/
 CMD_CTRL* CreateImageMask_Scar(const int _ch,const int _w,const int _h,unsigned int _seq);
 /*-----------------------------------*/

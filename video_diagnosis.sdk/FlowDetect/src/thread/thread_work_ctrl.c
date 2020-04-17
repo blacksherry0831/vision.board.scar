@@ -9,6 +9,8 @@
 #include "modules_ex/cmd_file.h"
 #include "modules_ex/cmd_flame.h"
 #include "modules_ex/cmd_heart_time.h"
+#include "modules_ex/cmd_img_proc.h"
+#include "img_proc/img_proc.h"
 #include "flame_monitor.h"
 /*-----------------------------------*/
 #include "modules_58/cetc_flash.h"
@@ -245,6 +247,132 @@ int process_cmd_ctrl(CMD_CTRL*  _cmd,int* _resp_cmd_02,unsigned int* _resp_body)
 	}else if(IsNetworkCheckTimeQueryCmd(_cmd)){  //查网络检测时间间隔
 
 		*_resp_body = GetNetworkCheckTime();
+
+	}else if(IsBinarySetCmd(_cmd)){  //设arm图像处理-是否二值化
+
+		set_is_binary(CmdParam_t);
+		StoreImgCfgJson();
+
+	}else if(IsBinaryQueryCmd(_cmd)){  //查arm图像处理-是否二值化
+
+		*_resp_body = get_is_binary();
+
+	}else if(IsDenoiseSetCmd(_cmd)){  //设arm图像处理-是否去噪
+
+		set_is_denoise(CmdParam_t);
+		StoreImgCfgJson();
+
+	}else if(IsDenoiseQueryCmd(_cmd)){  //查arm图像处理-是否去噪
+
+		*_resp_body = get_is_denoise();
+
+	}else if(IsBlackSkinSetCmd(_cmd)){  //设arm图像处理-是否黑皮检测
+
+		set_is_blackSkin(CmdParam_t);
+		StoreImgCfgJson();
+
+	}else if(IsBlackSkinQueryCmd(_cmd)){  //查arm图像处理-是否黑皮检测
+
+		*_resp_body = get_is_blackSkin();
+
+	}else if(IsHoughSetCmd(_cmd)){  //设arm图像处理-是否hough
+
+		set_is_hough(CmdParam_t);
+		StoreImgCfgJson();
+
+	}else if(IsHoughQueryCmd(_cmd)){  //查arm图像处理-是否hough
+
+		*_resp_body = get_is_hough();
+
+	}else if(IsMorphologySetCmd(_cmd)){  //设arm图像处理-是否形态学
+
+		set_is_morphology(CmdParam_t);
+		StoreImgCfgJson();
+
+	}else if(IsMorphologyQueryCmd(_cmd)){  //查arm图像处理-是否形态学
+
+		*_resp_body = get_is_morphology();
+
+	}else if(IsShowResultSetCmd(_cmd)){  //设arm图像处理-是否结果判定
+
+		set_is_showResult(CmdParam_t);
+		StoreImgCfgJson();
+
+	}else if(IsShowResultQueryCmd(_cmd)){  //查arm图像处理-是否结果判定
+
+		*_resp_body = get_is_showResult();
+
+	}else if(IsHoughThresoldSetCmd(_cmd)){  //设arm图像处理-hough点数阈值
+
+		set_hough_thresold(CmdParam_t);
+		StoreImgCfgJson();
+
+	}else if(IsHoughThresoldQueryCmd(_cmd)){  //查arm图像处理-hough点数阈值
+
+		*_resp_body = get_hough_thresold();
+
+	}else if(IsHoughMinLengthSetCmd(_cmd)){  //设arm图像处理-hough线段最小长度
+
+		set_hough_min_length(CmdParam_t);
+		StoreImgCfgJson();
+
+	}else if(IsHoughMinLengthQueryCmd(_cmd)){  //查arm图像处理-hough线段最小长度
+
+		*_resp_body = get_hough_min_length();
+
+	}else if(IsHoughMaxGapSetCmd(_cmd)){  //设arm图像处理-hough线段最大间距
+
+		set_hough_max_gap(CmdParam_t);
+		StoreImgCfgJson();
+
+	}else if(IsHoughMaxGapQueryCmd(_cmd)){  //查arm图像处理-hough线段最大间距
+
+		*_resp_body = get_hough_max_gap();
+
+	}else if(IsHoughMaxAngleSetCmd(_cmd)){  //设arm图像处理-hough线段最大角度
+
+		set_hough_max_angle(CmdParam_t);
+		StoreImgCfgJson();
+
+	}else if(IsHoughMaxAngleQueryCmd(_cmd)){  //查arm图像处理-hough线段最大角度
+
+		*_resp_body = get_hough_max_angle();
+
+	}else if(IsCrackMinAreaSetCmd(_cmd)){  //设arm图像处理-裂纹最小面积
+
+		set_crack_min_area(CmdParam_t);
+		StoreImgCfgJson();
+
+	}else if(IsCrackMinAreaQueryCmd(_cmd)){  //查arm图像处理-裂纹最小面积
+
+		*_resp_body = get_crack_min_area();
+
+	}else if(IsCrackAspectRatioSetCmd(_cmd)){  //设arm图像处理-裂纹长宽比
+
+		set_crack_aspect_ratio(CmdParam_t);
+		StoreImgCfgJson();
+
+	}else if(IsCrackAspectRatioQueryCmd(_cmd)){  //查arm图像处理-裂纹长宽比
+
+		*_resp_body = get_crack_aspect_ratio();
+
+	}else if(IsCrackAreaRatioSetCmd(_cmd)){  //设arm图像处理-裂纹面积比
+
+		set_crack_area_ratio(CmdParam_t);
+		StoreImgCfgJson();
+
+	}else if(IsCrackAreaRatioQueryCmd(_cmd)){  //查arm图像处理-裂纹面积比
+
+		*_resp_body = get_crack_area_ratio();
+
+	}else if(IsBlackSkinMinAreaSetCmd(_cmd)){  //设arm图像处理-黑皮最小面积
+
+		set_blaskSkin_min_area(CmdParam_t);
+		StoreImgCfgJson();
+
+	}else if(IsBlackSkinMinAreaQueryCmd(_cmd)){  //查arm图像处理-黑皮最小面积
+
+		*_resp_body = get_blaskSkin_min_area();
 
 	}else{  //其他未知命令
 

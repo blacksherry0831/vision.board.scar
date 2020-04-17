@@ -10,7 +10,7 @@ void  flame_monitor_proc(const MESSAGE _msg,const int _draw)
 {
 		CMD_CTRL *img_t = (CMD_CTRL *)_msg._data;
 
-		IplImageU* imgU=GetIplImageUx(img_t);
+		//IplImageU* imgU=GetIplImageUx(img_t);
 		IplImage* imgcv=GetIplImage(img_t);
 
 		if(get_flame_monitor_flag())
@@ -61,7 +61,9 @@ void  flame_monitor_proc(const MESSAGE _msg,const int _draw)
 
 						gFlameCmdQueue.snd_queue_flame(0,1);
 
-						//cvCircle(img_temp,cvPoint(100,100), 50,CV_RGB(250,250,250),3);
+						//if(_draw) {
+						//	cvCircle(img_temp,cvPoint(100,100), 50,CV_RGB(250,250,250),3);
+						//}
 					}
 
 					if(_draw) {
@@ -78,8 +80,10 @@ void  flame_monitor_proc(const MESSAGE _msg,const int _draw)
 
 						gFlameCmdQueue.snd_queue_flame(1,0);
 
-						//cvLine(img_temp,cvPoint(0,0),cvPoint(150,150),CV_RGB(250,250,250),3);
-						//cvLine(img_temp,cvPoint(0,150),cvPoint(150,0),CV_RGB(250,250,250),3);
+						//if(_draw) {
+						//	cvLine(img_temp,cvPoint(0,0),cvPoint(150,150),CV_RGB(250,250,250),3);
+						//	cvLine(img_temp,cvPoint(0,150),cvPoint(150,0),CV_RGB(250,250,250),3);
+						//}
 					}
 
 					if(_draw){
@@ -107,7 +111,50 @@ void  flame_monitor_proc(const MESSAGE _msg,const int _draw)
 /*-----------------------------------*/
 void  scar_detect_01_proc(const MESSAGE _msg,const int _draw)
 {
+	int posFlag = 0;  //正样本（有裂纹样本）标识符
 
+	CMD_CTRL *img_cmd = (CMD_CTRL *)_msg._data;
+	IplImage* imgcv=GetIplImage(img_cmd);
+	IplImage* img_temp = cvCreateImageHeader(cvSize(1, 1), 8, 1);   //创建图像头
+	cvInitImageHeader(img_temp,cvSize(imgcv->width,imgcv->height), 8, 1, 0, 4);  //初始化图片头
+	cvSetData(img_temp,imgcv->imageData, img_temp->widthStep);   //连接图片实体数据
+	if(!img_temp)
+		printf("Could not load image file!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
+	//查找黑皮
+	IplImage* img_b = ImgProcessIpl_BlackSkin(img_temp, &posFlag);
+
+	//二值化+去噪
+	ImgProcessIpl_Base(img_temp);
+
+	//hough+形态学分析
+	ImgProcessIpl(img_temp, &posFlag);
+
+	if (get_is_blackSkin())
+	{
+		if (!get_is_hough())
+		{
+			cvSetZero(img_temp);
+		}
+
+		cvAdd(img_b, img_temp, img_temp);
+	}
+
+	//结果判定
+	ImgProcessIpl_PredictResult(posFlag);
+
+	//一轮检测的已检测蒙板图片个数自增加1
+	inc_processed_cnt();
+
+	//判定结果展示
+	if(_draw && get_is_showResult() && (get_processed_cnt() == get_number_of_mask()))
+	{
+		ImgProcessIpl_ShowResult(img_temp);
+	}
+
+	cvReleaseImage(&img_b);
+
+	cvReleaseImageHeader(&img_temp);
 }
 /*-----------------------------------*/
  /* *
@@ -163,6 +210,47 @@ void  image_proc(const MESSAGE _msg,const int _draw)
 #endif
 
 	}
+	else
+	{
+		other_cmd_proc_project(_msg,_draw);
+	}
+}
+/*-----------------------------------*/
+ /* *
+  *其它（非图片）命令的处理
+ */
+/*-----------------------------------*/
+void  other_cmd_proc_project(const MESSAGE _msg,const int _draw)
+{
+	if(IsProjectRun(scar_detect_01))
+	{
+		if(IsMessageImageDetStart(_msg))
+		{
+			CMD_CTRL *img_t = (CMD_CTRL *)_msg._data;
+			IplImageU* imgU=GetIplImageUx(img_t);
+			const int frame = UChar2Int(imgU->frame,ALIGN_SIZE_T);
+
+			img_proc_init(frame);
+		}
+	}
+
+}
+/*-----------------------------------*/
+ /* *
+  *判断是否为检测序列开始命令
+ */
+/*-----------------------------------*/
+int IsMessageImageDetStart(const MESSAGE _msg)
+{
+	CMD_CTRL *img_t = (CMD_CTRL *)_msg._data;
+		if(img_t!=NULL){
+			if(IsCmdCtrlHeader(img_t)){  //验证 cmd的头
+				if(IsImgDetStart(img_t)){  //判断是否为检测序列开始命令
+					return TRUE;
+				}
+			}
+		}
+		return FALSE;
 }
 /*-----------------------------------*/
  /* *

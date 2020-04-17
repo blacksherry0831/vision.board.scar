@@ -111,7 +111,7 @@ void* tcp_data_transfer_image(void *_data)
 
 			}
 
-			sleep_1ms();
+
 		}else if(msg.message_type==EIDRM){  //标识符为msqid的消息队列已被删除
 			break;
 		}else  if(msg.message_type==msgTypeImage()){
@@ -126,6 +126,8 @@ void* tcp_data_transfer_image(void *_data)
 		}else{
 			DEBUG_PRINT("message queue: message_type error\n");
 		}
+
+		sleep_1ms_yield();
 	}
 	/*-----------------------------------*/
 
