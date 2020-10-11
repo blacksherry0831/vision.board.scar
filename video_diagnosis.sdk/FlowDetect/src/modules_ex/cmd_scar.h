@@ -78,6 +78,7 @@ CMD_CTRL* CreateImageMask_Scar(const int _ch,const int _w,const int _h,unsigned 
 int 			ParseMaskSeq_MaskImgNumber(const CMD_CTRL* const _cmd_ctrl);
 int 			ParseMaskSeq_SerialNumber(const CMD_CTRL* const _cmd_ctrl);
 int 			ParseMaskSeq_Loop(const CMD_CTRL* const _cmd_ctrl);
+int 			ParseMaskSeq_Montage(const CMD_CTRL* const _cmd_ctrl);
 unsigned int* 	ParseMaskSeq_Ptr(const CMD_CTRL* const _cmd_ctrl);
 /*-----------------------------------*/
 CMD_CTRL* CreateImageStart_Scar_DetectSno(

@@ -21,12 +21,67 @@
  *
  */
 /*-----------------------------------*/
+int process_cmd_ctrl_file_op(CMD_CTRL*  _cmd)
+{
+
+	if(IsFileGet(_cmd)){
+		sendFile2Queue_filetran(_cmd);
+	}else if(IsFilePut(_cmd)){
+		SaveFile2SdCard_filetran_TimeCost(_cmd);
+	}else if(IsFileDelete(_cmd)){
+		deleteFile_SdCard(_cmd);
+	}else{
+		return FALSE;
+	}
+		return TRUE;
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+int process_cmd_ctrl_img_scar_detect(CMD_CTRL*  _cmd)
+{
+
+
+   if(IsImageScarSet_SelectMask(_cmd)){  //设蒙版
+
+		SetScarCurrentMask_Cmd(_cmd);
+
+	}else{
+		return FALSE;
+	}
+
+	return TRUE;
+
+}
+
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 int process_cmd_ctrl(CMD_CTRL*  _cmd,int* _resp_cmd_02,unsigned int* _resp_body)
 {
+	int result_t=FALSE;
 	const int CMD_BODY_MAX=INT_MAX;
 	const int CmdParam_t=GetCmdParam(_cmd);  //获取cmd控制数据实体
 
 	*_resp_cmd_02=CT_OK;
+
+#if 1
+			 	 	 	 	 	 result_t= process_cmd_ctrl_img_scar_detect(_cmd);
+			 	 	 	 	 	 if(result_t){
+			 	 	 	 	 		 return result_t;
+			 	 	 	 	 	 }
+#endif
+#if 1
+			 	 	 	 	 	 result_t=process_cmd_ctrl_file_op(_cmd);
+								 if(result_t){
+					 	 	 		 return result_t;
+					 	 	 	 }
+#endif
 
 	if(isStartCmd(_cmd)){  //判断是否为start命令
 
@@ -174,10 +229,6 @@ int process_cmd_ctrl(CMD_CTRL*  _cmd,int* _resp_cmd_02,unsigned int* _resp_body)
 
 		Clear_And_Dma_ImageMask_Scar(_cmd);
 
-	}else if(IsImageScarSet_SelectMask(_cmd)){  //设蒙版
-
-		SetScarCurrentMask_Cmd(_cmd);
-
 	}else if(IsImageCrack_Query_Frame_Min(_cmd)){  //查询最小帧数
 
 		*_resp_body=GetFrameIdxMin();
@@ -195,18 +246,6 @@ int process_cmd_ctrl(CMD_CTRL*  _cmd,int* _resp_cmd_02,unsigned int* _resp_body)
 	}else if(IsImageCrack_Query_out_1st_circle_frames(_cmd)){  //获取第一圈采集张数
 
 		*_resp_body=CMD_BODY_MAX;
-
-	}else if(IsFileGet(_cmd)){  //文件下载至arm
-
-		sendFile2Queue_filetran(_cmd);
-
-	}else if(IsFilePut(_cmd)){  //文件传至IPC
-
-		SaveFile2SdCard_filetran_TimeCost(_cmd);
-
-	}else if(IsFileDelete(_cmd)){
-
-		deleteFile_SdCard(_cmd);
 
 	}else if(IsFlameMonitorCmd(_cmd)){  //设是否进行火焰监测
 

@@ -40,16 +40,18 @@ int GetMaskSnoIdx()
 void SetScarCurrentMask(
 		const int _sno,
 		const unsigned int* 	_mask_seq,
-		const int	_num,
-		const int  _loop)
+		const int	            _num,
+		const int               _loop,
+		const int               _montage)
 {
 	const int SZ_INT=sizeof(int);
 	assert(SZ_INT==4);
 
 	G_MASK_SEQ_MULTI.mask_sno=_sno;
 	const int sno_i=GetMaskSnoIdx();
-	G_MASK_SEQ_MULTI.mask_seqs[sno_i].mask_seq_num	=_num;
-	G_MASK_SEQ_MULTI.mask_seqs[sno_i].mask_seq_loop	=_loop;
+	G_MASK_SEQ_MULTI.mask_seqs[sno_i].mask_seq_num		=_num;
+	G_MASK_SEQ_MULTI.mask_seqs[sno_i].mask_seq_loop		=_loop;
+	G_MASK_SEQ_MULTI.mask_seqs[sno_i].mask_seq_montage	=_montage;
 
 	int mi=0;
 
@@ -122,19 +124,36 @@ int GetScarMaskSeqChannel_Is_Loop()
  *
  */
 /*-----------------------------------*/
+int GetScarMaskSeq_Is_Montage()
+{
+	const int sno_i=GetMaskSnoIdx();
+	if(sno_i==0xffffffff){
+		return 0;
+	}else{
+		return G_MASK_SEQ_MULTI.mask_seqs[sno_i].mask_seq_montage;
+	}
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 void SetScarCurrentMask_Cmd(const CMD_CTRL* const  _cmd)
 {
 
-	const unsigned int* seq_ptr				=	ParseMaskSeq_Ptr(_cmd);
-	const int   		mask_img_num		=	ParseMaskSeq_MaskImgNumber(_cmd);
 	const int   		seq_serial_number	=	ParseMaskSeq_SerialNumber(_cmd);
+	const int   		mask_img_num		=	ParseMaskSeq_MaskImgNumber(_cmd);
 	const int   		seq_loop			=	ParseMaskSeq_Loop(_cmd);
+	const int 			seq_montage			=   ParseMaskSeq_Montage(_cmd);
+	const unsigned int* seq_ptr				=	ParseMaskSeq_Ptr(_cmd);
 
 	SetScarCurrentMask(
 			seq_serial_number,
 			seq_ptr,
 			mask_img_num,
-			seq_loop);
+			seq_loop,
+			seq_montage);
 
 }
 /*-----------------------------------*/
@@ -272,6 +291,15 @@ void SetScarWorkMode2FPGA(const int _th)
 {
 	SetScarWorkMode(_th);
 	fpga_img_scar_detect_mode(_th);
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void SetScarMontage2FPGA(const int _en)
+{
+	fpga_img_scar_detect_montage(_en);
 }
 /*-----------------------------------*/
 /**

@@ -182,6 +182,7 @@ void theSecondCircleScar()
 {
 
 
+
 	PRINTF_DBG_EX("FPGA>>wait for start cmd 01 ! \n");
 
 	if(wait4Circle2nd()){
@@ -196,6 +197,7 @@ void theSecondCircleScar()
 														const int  MASK_TOTAL_FRAMES	= GetMaskSeqFrames();
 														const int  MASK_LOOP			= GetScarMaskSeqChannel_Is_Loop();
 														const int  MASK_SNO				= GetScarMaskSeq_SNO();
+														const int  MASK_MONTAGE			= GetScarMaskSeq_Is_Montage();
 
 														if(fi>=MASK_TOTAL_FRAMES){
 															if(MASK_LOOP==FALSE){
@@ -206,6 +208,7 @@ void theSecondCircleScar()
 														}
 
 														if(fi==0){
+															SetScarMontage2FPGA(MASK_MONTAGE);
 															sendImageStart_DetectSno(MASK_TOTAL_FRAMES,MASK_SNO);
 														}else{
 															//normal fpga cvt

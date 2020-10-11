@@ -3,7 +3,8 @@
 #define MASK_SEQ_SNO_OFFSET			(0)
 #define MASK_SEQ_NUM_OFFSET			(1)
 #define MASK_SEQ_LOOP_OFFSET		(2)
-#define MASK_SEQ_DATA_OFFSET		(3)
+#define MASK_SEQ_MONTAGE_OFFSET		(3)
+#define MASK_SEQ_DATA_OFFSET		(4)
 /*-----------------------------------*/
 
 /*-----------------------------------*/
@@ -200,6 +201,21 @@ int ParseMaskSeq_Loop(const CMD_CTRL* const _cmd_ctrl)
  *
  */
 /*-----------------------------------*/
+int ParseMaskSeq_Montage(const CMD_CTRL* const _cmd_ctrl)
+{
+	assert(_cmd_ctrl->f_data_size>=2);
+
+	int* data_t=(int*) _cmd_ctrl->f_data;
+
+	const int param=UChar2Int((unsigned char*) (data_t+MASK_SEQ_MONTAGE_OFFSET),4);
+
+	return param;
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 unsigned int* ParseMaskSeq_Ptr(const CMD_CTRL* const _cmd_ctrl)
 {
 	assert(_cmd_ctrl->f_data_size>=2);
@@ -245,13 +261,8 @@ CMD_CTRL* CreateImageStart_Scar_DetectSno(
 }
 /*-----------------------------------*/
 /**
- *
- */
-/*-----------------------------------*/
-/*-----------------------------------*/
-/**
- *判断工件是否就绪 && 判断是否为检测序列开始命令
- */
+*   判断工件是否就绪 && 判断是否为检测序列开始命令
+*/
 /*-----------------------------------*/
 int IsImgDetStart(const CMD_CTRL* _cmd_ctrl)
 {

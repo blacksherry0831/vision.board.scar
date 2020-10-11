@@ -64,6 +64,17 @@ int fpga_img_scar_detect_set_mask_addr(int _addr_zone,int _addr_idx)
  *
  */
 /*-----------------------------------*/
+int fpga_img_scar_detect_montage(const int _en)
+{
+		assert(_en==0 || _en==1 );
+		return 	FPGA_CTRL_send_int(ADDR_SCAR_DETECT_MONTAGE_EN,_en);
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 int fpga_img_scar_detect_set_g_th_up(int _th)
 {
 	 return FPGA_CTRL_send_int(ADDR_SCAR_DETECT_G_UP_TH,_th);

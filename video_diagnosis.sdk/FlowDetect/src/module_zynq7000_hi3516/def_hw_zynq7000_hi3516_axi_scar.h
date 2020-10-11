@@ -12,16 +12,17 @@
 #define ADDR_SCAR_DETECT_MASK_ADDR_H    			(0x104 * ALIGN4BYTE)
 #define ADDR_SCAR_DETECT_MASK_ADDR_L    			(0x105 * ALIGN4BYTE)
 /*-------------------------------------------------------------------*/
+#if 0
 #define ADDR_SCAR_DETECT_DDR3_BASE    				(0x109 * ALIGN4BYTE)
+#endif
+/*-------------------------------------------------------------------*/
+#define ADDR_SCAR_DETECT_MONTAGE_EN					(0x10A * ALIGN4BYTE )
+/*-------------------------------------------------------------------*/
 #define ADDR_SCAR_DETECT_G_UP_TH    				(0x110 * ALIGN4BYTE)
 #define ADDR_SCAR_DETECT_G_DOWN_TH    				(0x111 * ALIGN4BYTE)
 #define ADDR_SCAR_DETECT_ROW_UP_TH    				(0x112 * ALIGN4BYTE)
 #define ADDR_SCAR_DETECT_ROW_DOWN_TH    			(0x113 * ALIGN4BYTE)
 #define ADDR_SCAR_DETECT_COL_UP_TH    				(0x114 * ALIGN4BYTE)
 #define ADDR_SCAR_DETECT_COL_DOWN_TH    			(0x115 * ALIGN4BYTE)
-/*-------------------------------------------------------------------*/
-
-
-
 /*-------------------------------------------------------------------*/
 #endif
