@@ -208,10 +208,10 @@ void theSecondCircleScar()
 														}
 
 														if(fi==0){
-															SetScarMontage2FPGA(MASK_MONTAGE);
+															SetScarMontage2FPGA(0);
 															sendImageStart_DetectSno(MASK_TOTAL_FRAMES,MASK_SNO);
 														}else{
-															//normal fpga cvt
+															SetScarMontage2FPGA(MASK_MONTAGE);
 														}
 
 														const int is_org=IsScarWorkMode_Org();

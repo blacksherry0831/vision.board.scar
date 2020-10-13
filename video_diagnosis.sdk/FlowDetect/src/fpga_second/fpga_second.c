@@ -55,6 +55,8 @@ void scar_cvt(int _org,const int _fi)
  *
  */
 /*-----------------------------------*/
+#define _DEBUG_WF   1
+
 void scar_cvt_cost_time(int _org,const int _fi)
 {
 					static int FPGA_COUNT=0;

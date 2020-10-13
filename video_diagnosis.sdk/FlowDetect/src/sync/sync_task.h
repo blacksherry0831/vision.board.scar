@@ -12,9 +12,9 @@
 #include "modules_ex/def_frame.h"
 #include "modules_ex/def_work_mode.h"
 /*-----------------------------------*/
-extern int FRAME_IDX_FIRST;
+extern volatile int FRAME_IDX_FIRST;
 /*-----------------------------------*/
-extern int FRAME_IDX_SECOND;
+extern volatile int FRAME_IDX_SECOND;
 /*-----------------------------------*/
 /*-----------------------------------*/
 /**

@@ -4,9 +4,9 @@ static volatile int FRAME_IDX=0;
 static volatile unsigned int FRAME_CIRCLE_SEQ=0;
 static volatile int FPGA_CIRCLE_WORK_MODE=WM_SIZE_FULL|WM_ORG_IMG;
 /*-----------------------------------*/
-int FRAME_IDX_FIRST=0;
+volatile int FRAME_IDX_FIRST=0;
 /*-----------------------------------*/
-int FRAME_IDX_SECOND=0;
+volatile int FRAME_IDX_SECOND=0;
 /*-----------------------------------*/
 /**
  *
@@ -14,7 +14,7 @@ int FRAME_IDX_SECOND=0;
 /*-----------------------------------*/
 void IncFrameIdx()
 {
-	FRAME_IDX++;
+	__sync_fetch_and_add(&FRAME_IDX,1);
 }
 /*-----------------------------------*/
 /**
@@ -32,7 +32,8 @@ int getFrameIdx()
 /*-----------------------------------*/
 int initFrameIdx()
 {
-	return FRAME_IDX=FRAME_IDX_TYPE_FIRST_IMG;
+	 __sync_lock_test_and_set(&FRAME_IDX,FRAME_IDX_TYPE_FIRST_IMG);
+	return  getFrameIdx();
 }
 /*-----------------------------------*/
 /**

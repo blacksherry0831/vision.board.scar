@@ -17,9 +17,9 @@
 #include "module_zynq7000_hi3516/axi_base.h"
 #include "sync/sync_fpga_cvt_circle.h"
 /*-----------------------------------*/
-extern int FRAME_IDX_FIRST;
+extern volatile int FRAME_IDX_FIRST;
 /*-----------------------------------*/
-extern int FRAME_IDX_SECOND;
+extern volatile int FRAME_IDX_SECOND;
 /*-----------------------------------*/
 
 int wait_fpga_start_sig();

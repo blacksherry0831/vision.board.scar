@@ -32,42 +32,51 @@ int memcpyDMA2Mem_send2MsgQ(CMD_CTRL* _img,const  int _space_ch,const int _space
  *
  */
 /*-----------------------------------*/
+void memcpy_once_frame(const int _idx)
+{
+			CMD_CTRL*  image[SPACE_CHANNEL_NUM][SPACE_FRAME_NUM];
+					memset(image,0,sizeof(image));
+
+					const int FPGA_ERR=GetFpgaError();
+					const int CIRCLE_SEQ=GetFrameCircleSeq();
+					const int ViewOutputNum=img_space_frame_output_num();
+
+					MallocImageBuff4ViewOutput(&image[0][0],CIRCLE_SEQ,_idx);
+
+	#if 1
+						int schi=0;
+						int sfri=0;
+
+						for(schi=0; schi <SPACE_CHANNEL_NUM;schi++){
+							for(sfri=0;sfri<SPACE_FRAME_NUM;sfri++){
+									if(image[schi][sfri]!=NULL){
+										 /*****************************/
+												CMD_CTRL* cmd_ctrl_pt=image[schi][sfri];
+												if(cmd_ctrl_pt!=NULL){
+
+														const int view_ch=GetCmdImgViewChannel(cmd_ctrl_pt);
+														SetFpgaStatus(cmd_ctrl_pt,FPGA_ERR,view_ch);
+														memcpyDMA2Mem_send2MsgQ(cmd_ctrl_pt,schi,sfri);
+												}
+										 /*****************************/
+									}
+									image[schi][sfri]=NULL;
+							}
+						}
+	#endif
+
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 void memcpy_once()
 {
-				CMD_CTRL*  image[SPACE_CHANNEL_NUM][SPACE_FRAME_NUM];
-				memset(image,0,sizeof(image));
-
-				IncFrameIdx();
-
-				const unsigned int IMG_FRAME_IDX=getFrameIdx();
-				const int FPGA_ERR=GetFpgaError();
-				const int CIRCLE_SEQ=GetFrameCircleSeq();
-				const int ViewOutputNum=img_space_frame_output_num();
-
-				MallocImageBuff4ViewOutput(&image[0][0],CIRCLE_SEQ,IMG_FRAME_IDX);
-
-#if 1
-					int schi=0;
-					int sfri=0;
-
-					for(schi=0; schi <SPACE_CHANNEL_NUM;schi++){
-						for(sfri=0;sfri<SPACE_FRAME_NUM;sfri++){
-								if(image[schi][sfri]!=NULL){
-									 /*****************************/
-											CMD_CTRL* cmd_ctrl_pt=image[schi][sfri];
-											if(cmd_ctrl_pt!=NULL){
-
-													const int view_ch=GetCmdImgViewChannel(cmd_ctrl_pt);
-													SetFpgaStatus(cmd_ctrl_pt,FPGA_ERR,view_ch);
-													memcpyDMA2Mem_send2MsgQ(cmd_ctrl_pt,schi,sfri);
-											}
-									 /*****************************/
-								}
-								image[schi][sfri]=NULL;
-						}
-					}
-#endif
-
+		const  int IMG_FRAME_IDX=getFrameIdx();
+		memcpy_once_frame(IMG_FRAME_IDX);
+		IncFrameIdx();
 }
 /*-----------------------------------*/
 /**
