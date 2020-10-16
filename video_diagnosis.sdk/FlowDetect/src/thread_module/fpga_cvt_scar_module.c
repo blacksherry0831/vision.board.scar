@@ -146,7 +146,7 @@ void theFirstCircleScar()
 int GetMaskSeqFrames()
 {
 	if(IsWorkMode_OrgImg()){
-
+		return GetScarMaskChannel_Total_Num();
 	}else if(IsWorkMode_DiffImg()){
 		return GetScarMaskChannel_Total_Num();
 	}else{
