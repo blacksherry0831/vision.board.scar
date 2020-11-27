@@ -128,6 +128,8 @@ $$
 | sensor_stat   | 0                         |                  |
 | nChannels     | 1                         | 灰度图           |
 | colorModel    | "gray"                    | 灰度图像         |
+| project       | “”                        |                  |
+| frame_total   |                           | 蒙版个数 NUM     |
 |               |                           |                  |
 
 ### 3.3	设置检测序列
@@ -201,7 +203,9 @@ $$
 | sensor_stat   | 0                                |                         |
 | nChannels     | 1                                | 灰度图                  |
 | colorModel    | "gray"                           | 灰度图像                |
-|               |                                  | 图像数据必须是全白的255 |
+| project       |                                  |                         |
+| frame_total   |                                  |                         |
+| image data    |                                  | 图像数据必须是全白的255 |
 
 ## 四、工作触发
 
@@ -260,4 +264,6 @@ enum WorkMode
 | sensor_stat   | 0              |                |
 | nChannels     | 1              |                |
 | colorModel    | "gray"         |                |
+| project       |                |                |
+| frame_total   |                |                |
 |               |                |                |

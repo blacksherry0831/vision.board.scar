@@ -80,7 +80,14 @@ int GetMaskChannel_Number();
 /*-----------------------------------*/
 
 int img_space_frame_output_num();
-void  MallocImageBuff4ViewOutput(CMD_CTRL** _buff,const int _seq,const int _img_frame);
+
+void  MallocImageBuff4ViewOutput(
+		CMD_CTRL** _buff,
+		const int _seq,
+		const char* _prj,
+		const int _total,
+		const int _idx);
+
 void StoreImgCfgJson();
 
 int image_view_channel(int _space_ch,int _space_frame);

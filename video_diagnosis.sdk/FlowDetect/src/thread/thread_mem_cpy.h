@@ -8,6 +8,8 @@
 #include "module_zynq7000_hi3516/dma_83c0_ex.h"
 #include "msg_queue/msg_sysV_queue.h"
 /*-----------------------------------*/
+
+/*-----------------------------------*/
 #include "sync/sync_global.h"
 #include "sync/sem_sync.h"
 #include "sync/sync_ps_mem_0_4_lock.h"
@@ -18,6 +20,8 @@
 #include "status.h"
 /*-----------------------------------*/
 #include "fpga_base/fpga_base.h"
+/*-----------------------------------*/
+#include "thread_module/fpga_cvt_scar_module.h"
 /*-----------------------------------*/
 pthread_t init_memcpy_server(void *_data);
 #endif

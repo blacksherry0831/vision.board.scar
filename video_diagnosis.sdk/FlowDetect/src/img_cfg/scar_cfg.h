@@ -78,6 +78,8 @@ int GetScarColThresholdDown();
 /*-----------------------------------*/
 void SetScarWorkMode2FPGA(const int _th);
 void SetScarMontage2FPGA(const int _en);
+
+void SetScarMontage2FPGA_Frame(const int _fi,const int _en);
 /*-----------------------------------*/
 void SetScarGlobalThresholdUp2FPGA(const int _th);
 void SetScarGlobalThresholdDown2FPGA(const int _th);
@@ -105,5 +107,7 @@ int GetMaskSeq_row_th_up(const int _idx);
 int GetMaskSeq_row_th_down(const int _idx);
 int GetMaskSeq_col_th_up(const int _idx);
 int GetMaskSeq_col_th_down(const int _idx);
+/*-----------------------------------*/
 
+/*-----------------------------------*/
 #endif

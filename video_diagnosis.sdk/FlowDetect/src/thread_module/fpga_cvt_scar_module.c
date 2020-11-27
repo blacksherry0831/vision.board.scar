@@ -178,10 +178,29 @@ int IsScarWorkMode_Org()
  *
  */
 /*-----------------------------------*/
+void send_scar_detect_frame_snap(const int _fi,const int _SNO,const int _TOTAL)
+{
+	if(_fi<0){
+
+	}else if(_fi==0){
+		sendImageStart_DetectSno(_TOTAL,_SNO);
+	}else if(_fi>0 && _fi<_TOTAL-1){
+
+	}else if(_fi==_TOTAL-1){
+			// the last frame
+	}else if(_fi>_TOTAL-1){
+
+	}else{
+		assert(0);
+	}
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 void theSecondCircleScar()
 {
-
-
 
 	PRINTF_DBG_EX("FPGA>>wait for start cmd 01 ! \n");
 
@@ -207,16 +226,17 @@ void theSecondCircleScar()
 															}
 														}
 
-														if(fi==0){
-															SetScarMontage2FPGA(0);
-															sendImageStart_DetectSno(MASK_TOTAL_FRAMES,MASK_SNO);
-														}else{
-															SetScarMontage2FPGA(MASK_MONTAGE);
-														}
+														send_scar_detect_frame_snap(fi,MASK_SNO,MASK_TOTAL_FRAMES);
+
+														SetScarMontage2FPGA_Frame(fi,MASK_MONTAGE);
 
 														const int is_org=IsScarWorkMode_Org();
 
 														CvtFrameScar(FRAME_IDX_FIRST,FRAME_IDX_SECOND,is_org,fi);
+
+
+
+
 
 								}
 				}

@@ -1,5 +1,5 @@
-#ifndef 	_FPGA_CVT_SYNC_H_
-#define 	_FPGA_CVT_SYNC_H_
+#ifndef 	_FPGA_CVT_SCAR_MODULE_H_
+#define 	_FPGA_CVT_SCAR_MODULE_H_
 /*-----------------------------------*/
 #include <stdio.h>
 #include <time.h>
@@ -32,5 +32,6 @@
 void theFirstCircleScar();
 void theSecondCircleScar();
 
+int GetMaskSeqFrames();
 /*-----------------------------------*/
 #endif

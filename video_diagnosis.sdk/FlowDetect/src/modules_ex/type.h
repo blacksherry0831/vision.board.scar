@@ -143,7 +143,10 @@ typedef struct _IplImageU
 
 	unsigned char fpga_stat[ALIGN_SIZE_T];
 	unsigned char nChannels[ALIGN_SIZE_T];
-	char colorModel[ALIGN_SIZE_T*8];/**<*/
+	char colorModel[ALIGN_SIZE_T];/**<image color*/
+
+	char project[ALIGN_SIZE_T*4];
+	unsigned char frame_total[ALIGN_SIZE_T];
 
 	IplImage  	Iplimg;
 } IplImageU;
@@ -305,6 +308,8 @@ int IsCmdCtrlHeader(const CMD_CTRL* cmd_t);
 
 CMD_CTRL* CreateImageMask(const int _ch,const int _w,const int _h,unsigned int _seq);
 void InitImageColorMode(CMD_CTRL* cmd_t,const char* _color_mode);
+void InitImageProject(CMD_CTRL* cmd_t,const char* _prj);
+void InitImageFramesTotal(CMD_CTRL* cmd_t,const int _total);
 void InitImageRoiRR(CMD_CTRL* cmd_t,int _ch,CvRect _rect_org,CvRect _rect_roi);
 /*-----------------------------------*/
 #endif

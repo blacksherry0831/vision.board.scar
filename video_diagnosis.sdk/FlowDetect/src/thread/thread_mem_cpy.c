@@ -32,7 +32,10 @@ int memcpyDMA2Mem_send2MsgQ(CMD_CTRL* _img,const  int _space_ch,const int _space
  *
  */
 /*-----------------------------------*/
-void memcpy_once_frame(const int _idx)
+void memcpy_once_frame(
+		const char* _prj,
+		const int _total,
+		const int _idx)
 {
 			CMD_CTRL*  image[SPACE_CHANNEL_NUM][SPACE_FRAME_NUM];
 					memset(image,0,sizeof(image));
@@ -41,9 +44,14 @@ void memcpy_once_frame(const int _idx)
 					const int CIRCLE_SEQ=GetFrameCircleSeq();
 					const int ViewOutputNum=img_space_frame_output_num();
 
-					MallocImageBuff4ViewOutput(&image[0][0],CIRCLE_SEQ,_idx);
+					MallocImageBuff4ViewOutput(
+							&image[0][0],
+							CIRCLE_SEQ,
+							_prj,
+							_total,
+							_idx);
 
-	#if 1
+#if 1
 						int schi=0;
 						int sfri=0;
 
@@ -63,7 +71,7 @@ void memcpy_once_frame(const int _idx)
 									image[schi][sfri]=NULL;
 							}
 						}
-	#endif
+#endif
 
 
 }
@@ -74,8 +82,22 @@ void memcpy_once_frame(const int _idx)
 /*-----------------------------------*/
 void memcpy_once()
 {
+		//frame idx from 1 to N;
 		const  int IMG_FRAME_IDX=getFrameIdx();
-		memcpy_once_frame(IMG_FRAME_IDX);
+		{
+				int MASK_TOTAL_FRAMES=INT_MAX;
+				const char *prj=GetProjectRunStr();
+
+				if(IsProjectRun(flame_monitor)){
+
+				}else if(IsProjectRun(scar_detect_01)){
+					MASK_TOTAL_FRAMES	= GetMaskSeqFrames();
+				}else{
+						assert(0);
+				}
+
+				memcpy_once_frame(prj,MASK_TOTAL_FRAMES,IMG_FRAME_IDX);
+		}
 		IncFrameIdx();
 }
 /*-----------------------------------*/

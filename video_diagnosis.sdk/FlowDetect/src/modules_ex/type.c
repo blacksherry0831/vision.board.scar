@@ -674,6 +674,30 @@ void InitImageColorMode(CMD_CTRL* cmd_t,const char* _color_mode)
  *
  */
 /*-----------------------------------*/
+void InitImageFramesTotal(CMD_CTRL* cmd_t,const int _total)
+{
+	IplImageU* imgU=GetIplImageUx(cmd_t);
+	if(imgU!=NULL){
+		SetInt2Char(_total,imgU->frame_total,ALIGN_SIZE_T-1);
+	}
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
+void InitImageProject(CMD_CTRL* cmd_t,const char* _prj)
+{
+	IplImageU* imgU=GetIplImageUx(cmd_t);
+	if(imgU!=NULL){
+		strcpy(imgU->project,_prj);
+	}
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 void InitImageRoiRR(CMD_CTRL* cmd_t,int _ch,CvRect _rect_org,CvRect _rect_roi)
 {
 	if(IsEffectiveRect(&_rect_roi)){

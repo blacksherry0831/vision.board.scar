@@ -346,7 +346,12 @@ CvRect GetRectSpaceChannelFrame(const int _si,const int _fi)
  *
  */
 /*-----------------------------------*/
-void  MallocImageBuff4ViewOutput(CMD_CTRL** _buff,const int _seq,const int _img_frame)
+void  MallocImageBuff4ViewOutput(
+		CMD_CTRL** 	_buff,
+		const int 	_seq,
+		const char* _prj,
+		const int 	_total,
+		const int	_idx)
 {
 
 	int schi=0;
@@ -366,13 +371,14 @@ void  MallocImageBuff4ViewOutput(CMD_CTRL** _buff,const int _seq,const int _img_
 						if((frameOutput==TRUE) &&
 							(viewChannel>=0)	){
 
-							_buff[space_ch_fr_dix]=CreateImageCtrl(viewChannel,_img_frame,rect.width,rect.height,nChannels,_seq);
+							CMD_CTRL*  img_p=CreateImageCtrl(viewChannel,_idx,rect.width,rect.height,nChannels,_seq);
+							_buff[space_ch_fr_dix]=img_p;
 
-							InitImageColorMode(_buff[space_ch_fr_dix],color_model);
+							InitImageColorMode(img_p,color_model);
+							InitImageProject(img_p,_prj);
+							InitImageFramesTotal(img_p,_total);
 
 						}
-
-
 
 		}
 	}

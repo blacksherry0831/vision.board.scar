@@ -297,6 +297,20 @@ void SetScarWorkMode2FPGA(const int _th)
  *
  */
 /*-----------------------------------*/
+void SetScarMontage2FPGA_Frame(const int _fi,const int _en)
+{
+	if(_fi==0){
+		fpga_img_scar_detect_montage(0);
+	}else{
+		fpga_img_scar_detect_montage(_en);
+	}
+
+}
+/*-----------------------------------*/
+/**
+ *
+ */
+/*-----------------------------------*/
 void SetScarMontage2FPGA(const int _en)
 {
 	fpga_img_scar_detect_montage(_en);
